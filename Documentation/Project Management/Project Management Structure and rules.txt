@@ -1,1 +1,8 @@
+This file will describe the project management structure and rules:
 
+Each member of the team will be in charge of 2 roles that we have already selected, so we have our tasks that we must fulfill.
+The roles are:
+    Developing => Cristian, Ignacy, Jan
+    Modelling => Pablo, Michal, Jan
+    Documenting => Ignacy, Mikolaj
+    Unit testing => Cristian, Pablo, Mikolaj
