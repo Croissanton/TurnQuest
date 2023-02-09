@@ -1,0 +1,14 @@
+This file will describe the project management structure and rules:
+
+1. We will use GitHub to have access to all the documents in any time.
+
+2. The language used to write the code of the game will be Java.
+
+3. Each member of the team will be in charge of 2 roles that we have already selected, so we have our tasks that we must fulfill.
+The roles are:
+    Developing    => Cristian, Ignacy, Jan
+    Modelling      => Pablo, Michal, Jan
+    Documenting => Ignacy, Mikolaj, Michal
+    Unit testing    => Cristian, Pablo, Mikolaj
+
+4. Check that all changes are correct before committing in order not to change something you don't want to change.
