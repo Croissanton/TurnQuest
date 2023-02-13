@@ -72,6 +72,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -85,7 +86,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "proofread",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -131,7 +132,7 @@
       <workItem from="1676316337897" duration="155000" />
       <workItem from="1676316506080" duration="579000" />
       <workItem from="1676317098381" duration="1987000" />
-      <workItem from="1676321158626" duration="2654000" />
+      <workItem from="1676321158626" duration="3020000" />
     </task>
     <servers />
   </component>
