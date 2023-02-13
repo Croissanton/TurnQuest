@@ -23,7 +23,7 @@ www-test/
 /android/libs/x86/
 /android/libs/x86_64/
 /android/gen/
-.idea/
+src/.idea/
 *.ipr
 *.iws
 *.iml
