@@ -49,8 +49,6 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
-        api "com.github.MrStahlfelge.gdx-websockets:common:1.1.0"
-        
     }
 }
 
@@ -65,7 +63,5 @@ project(":core") {
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "com.kotcrab.vis:vis-ui:1.4.11"
-        api "com.github.MrStahlfelge.gdx-websockets:core:1.1.0"
-        
     }
 }

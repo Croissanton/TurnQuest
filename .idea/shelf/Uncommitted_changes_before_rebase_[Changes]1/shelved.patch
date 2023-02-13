@@ -1,0 +1,190 @@
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	
++++ b/.idea/.gitignore	
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: src/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>buildscript {\n    \n\n    repositories {\n        mavenLocal()\n        mavenCentral()\n        gradlePluginPortal()\n        maven { url \"https://oss.sonatype.org/content/repositories/snapshots/\" }\n        google()\n    }\n    dependencies {\n        \n\n    }\n}\n\nallprojects {\n    apply plugin: \"eclipse\"\n\n    version = '1.0'\n    ext {\n        appName = \"turn-quest\"\n        gdxVersion = '1.11.0'\n        roboVMVersion = '2.3.16'\n        box2DLightsVersion = '1.5'\n        ashleyVersion = '1.7.4'\n        aiVersion = '1.8.2'\n        gdxControllersVersion = '2.2.1'\n    }\n\n    repositories {\n        mavenLocal()\n        mavenCentral()\n        google()\n        gradlePluginPortal()\n        maven { url \"https://oss.sonatype.org/content/repositories/snapshots/\" }\n        maven { url \"https://oss.sonatype.org/content/repositories/releases/\" }\n        maven { url \"https://jitpack.io\" }\n    }\n}\n\nproject(\":desktop\") {\n    apply plugin: \"java-library\"\n\n\n    dependencies {\n        implementation project(\":core\")\n        api \"com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion\"\n        api \"com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop\"\n        api \"com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop\"\n        api \"com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion\"\n        api \"com.github.MrStahlfelge.gdx-websockets:common:1.1.0\"\n        \n    }\n}\n\nproject(\":core\") {\n    apply plugin: \"java-library\"\n\n\n    dependencies {\n        api \"com.badlogicgames.gdx:gdx:$gdxVersion\"\n        api \"com.badlogicgames.gdx:gdx-freetype:$gdxVersion\"\n        api \"com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion\"\n        api \"com.badlogicgames.ashley:ashley:$ashleyVersion\"\n        api \"com.badlogicgames.gdx:gdx-ai:$aiVersion\"\n        api \"com.kotcrab.vis:vis-ui:1.4.11\"\n        api \"com.github.MrStahlfelge.gdx-websockets:core:1.1.0\"\n        \n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/build.gradle b/src/build.gradle
+--- a/src/build.gradle	(revision da42dda764d850c246aaeb65886e63fec6b7f41d)
++++ b/src/build.gradle	(date 1676317360662)
+@@ -49,7 +49,6 @@
+         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
+-        api "com.github.MrStahlfelge.gdx-websockets:common:1.1.0"
+         
+     }
+ }
+@@ -65,7 +64,6 @@
+         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
+         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+         api "com.kotcrab.vis:vis-ui:1.4.11"
+-        api "com.github.MrStahlfelge.gdx-websockets:core:1.1.0"
+         
+     }
+ }
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/vcs.xml	
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/modules.xml	
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/.idea/TurnQuest.iml" filepath="$PROJECT_DIR$/.idea/TurnQuest.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/gradle.xml	
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
++  <component name="GradleSettings">
++    <option name="linkedExternalProjectsSettings">
++      <GradleProjectSettings>
++        <option name="distributionType" value="DEFAULT_WRAPPED" />
++        <option name="externalProjectPath" value="$PROJECT_DIR$/src" />
++        <option name="gradleJvm" value="17" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$/src" />
++            <option value="$PROJECT_DIR$/src/core" />
++            <option value="$PROJECT_DIR$/src/desktop" />
++          </set>
++        </option>
++      </GradleProjectSettings>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/misc.xml	
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="FrameworkDetectionExcludesConfiguration">
++    <file type="web" url="file://$PROJECT_DIR$/src" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/jarRepositories.xml	
+@@ -0,0 +1,50 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="MavenRepo" />
++      <option name="name" value="MavenRepo" />
++      <option name="url" value="https://repo.maven.apache.org/maven2/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="maven2" />
++      <option name="name" value="maven2" />
++      <option name="url" value="https://oss.sonatype.org/content/repositories/releases/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="MavenLocal" />
++      <option name="name" value="MavenLocal" />
++      <option name="url" value="file:$MAVEN_REPOSITORY$" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="Gradle Central Plugin Repository" />
++      <option name="name" value="Gradle Central Plugin Repository" />
++      <option name="url" value="https://plugins.gradle.org/m2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="maven" />
++      <option name="name" value="maven" />
++      <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="maven3" />
++      <option name="name" value="maven3" />
++      <option name="url" value="https://jitpack.io" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="Google" />
++      <option name="name" value="Google" />
++      <option name="url" value="https://dl.google.com/dl/android/maven2/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
