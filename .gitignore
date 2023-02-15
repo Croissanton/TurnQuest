@@ -31,6 +31,7 @@ src/.idea/
 com_crashlytics_export_strings.xml
 **/.idea/workspace.xml
 **/.idea/tasks.xml
+.idea
 
 ## Eclipse
 
