@@ -1,3 +1,4 @@
 https://libgdx.com/wiki/start/setup   --    libGDX setup tutorial for creating games in java
 https://search.brave.com/images?q=computer+doge&source=web&img=0
-https://adoptium.net/es/temurin/releases/?version=18 (JDK used for the project, which is the one suggested for libGDX, use 18.0.2 version with respective architecture for your OS (x64))
+https://adoptium.net/es/temurin/releases/?version=18 -- JDK used for the project, which is the one suggested for libGDX, use 18.0.2 version with respective architecture for your OS (x64)
+https://libgdx.com/wiki/managing-your-assets -- How to manage your assets in bulk with libGDX
