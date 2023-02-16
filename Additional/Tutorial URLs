@@ -4,4 +4,4 @@ https://adoptium.net/es/temurin/releases/?version=18 -- JDK used for the project
 https://libgdx.com/wiki/managing-your-assets -- How to manage your assets in bulk with libGDX
 https://libgdx.com/wiki/graphics/viewports -- This will be necessary for a better understanding of the code
 https://github.com/kotcrab/vis-ui -- UI extension for GDX
-https://github.com/czyzby/gdx-skins -- Some skins for the UI, specifically the arcade ones seem interesting
+https://github.com/czyzby/gdx-skins -- Some skins for the UI
