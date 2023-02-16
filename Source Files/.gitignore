@@ -96,7 +96,8 @@ nb-configuration.xml
 /local.properties
 .gradle/
 gradle-app.setting
-**/build/
+core/build/
+deskotop/build/
 /android/build/
 /core/build/
 /desktop/build/
@@ -114,3 +115,4 @@ Thumbs.db
 /ios/xcode/native/
 /ios/IOSLauncher.app
 /ios/IOSLauncher.app.dSYM
+/core/build/
