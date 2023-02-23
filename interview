@@ -1,0 +1,46 @@
+1.Who is the target audience for the game?
+	target audience: as big as it can be, without a high difficulty level, more strategy than fast reactions
+
+2.Do you have any specific timeline or deadline for the completion of the Pokemon game?
+  proof of concept asap 
+
+3.What should be the difficulty of the game be like?
+
+4.How should the energy system work like?
+	1 hour of gameplay per day per person (individual gameplay time should be able to be ended in a varied time)
+
+5.What platforms should the game be developed for
+	no preferred platform, start with smth with desktop interface, server in the local machine makes development easier 
+
+6.How long will he game be
+	the gameplay time should be fixed, about 1 week (total gameplay time)
+
+7.How is the Control of the UI implemented
+
+8.Should any user data be collected
+
+9.How should the game progress be saved 
+
+10. How will you implement the cooperative experience?
+	cooperative experience should update at the end of each fight so that the xp and gold pools are merged if two players are playing at the same time
+
+11.How do we implement the NPC enemies?
+
+12.Do we implement any monetisation features?
+
+13.How will the combat system work
+
+14.Should there be music in the game?
+
+
+
+
+
+
+
+
+
+
+
+
+
