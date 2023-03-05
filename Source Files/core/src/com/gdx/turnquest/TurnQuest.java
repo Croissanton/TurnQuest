@@ -11,15 +11,37 @@ public class TurnQuest extends Game {
 
 	public BitmapFont font;
 
+	public void show(){
+
+	}
+
+	public void render() {
+		super.render(); // important!
+	}
+
+	public void resize(int width, int height){
+
+	}
+
+	public void pause(){
+
+	}
+
+	public void resume(){
+
+	}
+
+	public void hide(){
+
+	}
+
+
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont(); // use libGDX's default Arial font
 		this.setScreen(new MainMenuScreen(this));
 	}
 
-	public void render() {
-		super.render(); // important!
-	}
 
 	public void dispose() {
 		batch.dispose();
