@@ -1,6 +1,8 @@
 package com.gdx.turnquest;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,11 +21,15 @@ public class MainMenuScreen implements Screen {
 
     OrthographicCamera camera;
 
-    public static final int VIRTUAL_WIDTH = 480;
+    public static final Graphics.DisplayMode dm = Gdx.graphics.getDisplayMode();
 
-    public static final int VIRTUAL_HEIGHT = 800;
+    public static final int VIRTUAL_WIDTH = dm.width;
+
+    public static final int VIRTUAL_HEIGHT = dm.height;
 
     Viewport viewport;
+
+
 
     public MainMenuScreen(final TurnQuest game) {
 
@@ -85,7 +91,13 @@ public class MainMenuScreen implements Screen {
         game.font.getData().setScale(2); //Changes font size.
         game.font.draw(game.batch, "Welcome to TurnQuest! ", 100, 400);
         game.font.draw(game.batch, "Click anywhere to begin! ", 100, 350);
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(dm.width / 2, dm.height / 2);
+            } else {
+                Gdx.graphics.setFullscreenMode(dm);
+            }
+        }
         game.batch.end();
 
 //        if (Gdx.input.isTouched()) {
