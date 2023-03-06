@@ -50,7 +50,7 @@ public class MainMenuScreen implements Screen {
         table.setDebug(true);
         stage.addActor(table);
 
-        Skin skin = new Skin(Gdx.files.internal("Glassy_UI_Skin\\glassyui\\glassy-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
 
         TextButton newGame = new TextButton("New Game", skin);
         TextButton preferences = new TextButton("Preferences", skin);
