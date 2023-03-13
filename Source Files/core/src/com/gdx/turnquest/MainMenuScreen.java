@@ -5,6 +5,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -18,6 +19,7 @@ public class MainMenuScreen implements Screen {
 
 
     final TurnQuest game;
+    private Texture backgroundTexture;
 
     OrthographicCamera camera;
 
@@ -35,6 +37,7 @@ public class MainMenuScreen implements Screen {
 
 
         this.game = game;
+        backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
@@ -69,7 +72,9 @@ public class MainMenuScreen implements Screen {
         table.row();
         table.add(exit).fillX().uniformX();
 
+        viewport = new ScreenViewport();
 
+        viewport.apply();
 
 
 
@@ -88,6 +93,9 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+
+
+        game.batch.draw(backgroundTexture,0,0);
         game.font.getData().setScale(2); //Changes font size.
         game.font.draw(game.batch, "Welcome to TurnQuest! ", 100, 400);
         game.font.draw(game.batch, "Click anywhere to begin! ", 100, 350);
@@ -104,6 +112,7 @@ public class MainMenuScreen implements Screen {
 //            game.setScreen(new GameScreen(game));
 //            dispose();
 //        }
+
     }
 
     @Override
