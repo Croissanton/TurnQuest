@@ -34,6 +34,8 @@ public class MainMenuScreen implements Screen {
 
     public Stage stage;
 
+    public Skin skin;
+
     Viewport viewport;
 
 
@@ -49,28 +51,43 @@ public class MainMenuScreen implements Screen {
 
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
 
-        //ATTEMPT OF CREATING A MAIN MENU WITH A TABLE W/ BUTTONS (failed)
-        //does not show but it causes no errors, suspected bad position in code
+        skin = new Skin(Gdx.files.internal("glassy-ui.json"));
 
+        TextButton bStart = new TextButton("Start", skin);
+        TextButton bOptions = new TextButton("Options", skin);
+        TextButton bQuit = new TextButton("Quit", skin);
+        //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
 
-        Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
-
-        TextButton button = new TextButton("Click me!", skin);
-        button.setSize(1000, 500); // set the size of the button to 100 pixels wide and 50 pixels tall
-        button.addListener(new ClickListener() {
+        bStart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Handle button click here
             }
         });
+        bOptions.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click here
+            }
+        });
+        bQuit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit(); // exit the game
+            }
+        });
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(button).center().padBottom(50f);
+        table.add(bStart).center().padBottom(50f).row();
+        table.add(bOptions).center().padBottom(50f).row();
+        table.add(bQuit).center().padBottom(50f);
+
+        table.padTop(100f); // add some padding at the top
 
         stage.addActor(table);
 
@@ -95,23 +112,26 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-
-
         game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
         game.font.getData().setScale(2); //Changes font size.
         game.font.draw(game.batch, "Welcome to TurnQuest! ", 100, 400);
         game.font.draw(game.batch, "Click anywhere to begin! ", 100, 350);
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(dm.width / 2, dm.height / 2);
-            } else {
-                Gdx.graphics.setFullscreenMode(dm);
-            }
-        }
         game.batch.end();
 
         stage.act();
         stage.draw();
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
+            } else {
+                Gdx.graphics.setFullscreenMode(dm);
+            }
+
+        }
+
+
+
 
     }
 
@@ -137,6 +157,8 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
+        backgroundTexture.dispose();
     }
 }
