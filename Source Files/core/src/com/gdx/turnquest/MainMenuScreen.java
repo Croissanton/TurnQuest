@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -77,7 +78,7 @@ public class MainMenuScreen implements Screen {
         bQuit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit(); // exit the game
+                showQuitConfirmationDialog();
             }
         });
 
@@ -160,5 +161,16 @@ public class MainMenuScreen implements Screen {
         stage.dispose();
         skin.dispose();
         backgroundTexture.dispose();
+    }
+
+    private void showQuitConfirmationDialog() {
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", new Runnable() {
+            @Override
+            public void run() {
+                Gdx.app.exit();
+            }
+        }, skin);
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(stage);
     }
 }
