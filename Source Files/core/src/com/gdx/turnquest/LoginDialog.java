@@ -8,7 +8,7 @@ public class LoginDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
 
-    public LoginDialog(String title, Skin skin) {
+    public LoginDialog(String title, Runnable runnable, Skin skin) {
         super(title, skin);
 
         getContentTable().defaults().pad(10);
@@ -31,12 +31,12 @@ public class LoginDialog extends Dialog {
     @Override
     public float getPrefWidth() {
         // Set the preferred width of the dialog
-        return 300f;
+        return 800f;
     }
 
     @Override
     public float getPrefHeight() {
         // Set the preferred height of the dialog
-        return 200f;
+        return 500f;
     }
 }

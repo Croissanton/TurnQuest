@@ -66,7 +66,7 @@ public class MainMenuScreen implements Screen {
         bStart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Handle button click here
+                showLoginDialog();
             }
         });
         bOptions.addListener(new ClickListener() {
@@ -182,6 +182,16 @@ public class MainMenuScreen implements Screen {
             @Override
             public void run() {
                 
+            }
+        }, skin);
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(stage);
+    }
+    private void showLoginDialog() {
+        LoginDialog dialog = new LoginDialog("Login", new Runnable() {
+            @Override
+            public void run() {
+                // Handle login here
             }
         }, skin);
         dialog.setColor(Color.LIGHT_GRAY);
