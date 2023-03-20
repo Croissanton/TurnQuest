@@ -177,7 +177,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void showPreferencesDialog() {
-        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", new Runnable() {
+        PreferencesDialog dialog = new PreferencesDialog("Options", "", new Runnable() {
             @Override
             public void run() {
                 
