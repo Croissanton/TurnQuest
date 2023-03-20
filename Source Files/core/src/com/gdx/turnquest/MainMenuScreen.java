@@ -92,7 +92,6 @@ public class MainMenuScreen implements Screen {
 
         stage.addActor(table);
 
-        viewport = new ScreenViewport();
 
         viewport.apply();
 
