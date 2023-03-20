@@ -125,8 +125,10 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             if (Gdx.graphics.isFullscreen()) {
                 Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
+                resize(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
             } else {
                 Gdx.graphics.setFullscreenMode(dm);
+                resize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
             }
 
         }
