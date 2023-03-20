@@ -1,6 +1,7 @@
 package com.gdx.turnquest;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,6 +12,8 @@ public class TurnQuest extends Game {
 	public SpriteBatch batch;
 
 	public BitmapFont font;
+
+	public AssetManager manager;
 
 
 	public void show(){
@@ -41,6 +44,8 @@ public class TurnQuest extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont(); // use libGDX's default Arial font
+		manager = new AssetManager();
+
 		FitViewport fitViewport = new FitViewport(800,800);
 		this.setScreen(new MainMenuScreen(this));
 	}

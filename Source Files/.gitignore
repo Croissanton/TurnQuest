@@ -23,7 +23,7 @@ www-test/
 /android/libs/x86/
 /android/libs/x86_64/
 /android/gen/
-src/.idea/
+/.idea/
 *.ipr
 *.iws
 *.iml
@@ -94,15 +94,11 @@ nb-configuration.xml
 ## Gradle
 
 /local.properties
-.gradle/
+/.gradle/
 gradle-app.setting
 core/build/
 deskotop/build/
-/android/build/
-/core/build/
-/desktop/build/
-/html/build/
-/ios/build/
+
 
 ## OS Specific
 .DS_Store
@@ -115,4 +111,5 @@ Thumbs.db
 /ios/xcode/native/
 /ios/IOSLauncher.app
 /ios/IOSLauncher.app.dSYM
-/core/build/
+
+/.idea/
