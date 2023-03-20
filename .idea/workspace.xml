@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d5da55b1-235a-4f43-8650-e2e12268b474" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Source Files/core/build/libs/core-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Source Files/core/build/libs/core-1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source Files/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Source Files/core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source Files/core/src/com/gdx/turnquest/MainMenuScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source Files/core/src/com/gdx/turnquest/MainMenuScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source Files/core/src/com/gdx/turnquest/TurnQuest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Source Files/core/src/com/gdx/turnquest/TurnQuest.java" afterDir="false" />
-    </list>
+    <list default="true" id="d5da55b1-235a-4f43-8650-e2e12268b474" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,7 +43,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/nuxte/OneDrive - Universidad de Málaga/Sotware Engineering/clones/TurnQuest/Source Files",
+    "last_opened_file_path": "G:/My Drive/clase/año2/software/GIT/TurnQuest",
     "settings.editor.selected.configurable": "project.propCompiler"
   }
 }]]></component>
