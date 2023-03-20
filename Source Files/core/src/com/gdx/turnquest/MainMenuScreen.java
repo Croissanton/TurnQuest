@@ -33,7 +33,7 @@ public class MainMenuScreen implements Screen {
 
     public static final int VIRTUAL_HEIGHT = dm.height;
 
-    public Stage stage;
+    public static Stage stage;
 
     public Skin skin;
 
@@ -122,19 +122,23 @@ public class MainMenuScreen implements Screen {
         stage.draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
-                stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
-            } else {
-                Gdx.graphics.setFullscreenMode(dm);
-                stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
-            }
+            toggleFullscreen();
 
         }
 
 
 
 
+    }
+
+    public static void toggleFullscreen(){
+        if (Gdx.graphics.isFullscreen()) {
+            Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
+            stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
+        } else {
+            Gdx.graphics.setFullscreenMode(dm);
+            stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
+        }
     }
 
     @Override

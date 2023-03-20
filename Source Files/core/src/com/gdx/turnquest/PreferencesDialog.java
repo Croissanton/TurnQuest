@@ -43,11 +43,7 @@ public class PreferencesDialog extends Dialog {
         fullscreen.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                if(fullscreen.isChecked()){
-                    Gdx.graphics.setFullscreenMode(dm);
-                }else {
-                    Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
-                }
+                MainMenuScreen.toggleFullscreen();
             }
         });
 
