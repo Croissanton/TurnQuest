@@ -4,11 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -18,6 +23,7 @@ public class MainMenuScreen implements Screen {
 
 
     final TurnQuest game;
+    private Texture backgroundTexture;
 
     OrthographicCamera camera;
 
@@ -27,6 +33,10 @@ public class MainMenuScreen implements Screen {
 
     public static final int VIRTUAL_HEIGHT = dm.height;
 
+    public Stage stage;
+
+    public Skin skin;
+
     Viewport viewport;
 
 
@@ -35,41 +45,56 @@ public class MainMenuScreen implements Screen {
 
 
         this.game = game;
+        backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 
-        Stage stage = new Stage(new ScreenViewport());
+        stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
 
-        //ATTEMPT OF CREATING A MAIN MENU WITH A TABLE W/ BUTTONS (failed)
-        //does not show but it causes no errors, suspected bad position in code
+        skin = new Skin(Gdx.files.internal("glassy-ui.json"));
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        TextButton bStart = new TextButton("Start", skin);
+        TextButton bOptions = new TextButton("Options", skin);
+        TextButton bQuit = new TextButton("Quit", skin);
+        //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
+
+        bStart.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Handle button click here
+            }
+        });
+        bOptions.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showPreferencesDialog();
+            }
+        });
+        bQuit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showQuitConfirmationDialog();
+            }
+        });
 
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
+        table.add(bStart).center().padBottom(50f).row();
+        table.add(bOptions).center().padBottom(50f).row();
+        table.add(bQuit).center().padBottom(50f);
+
+        table.padTop(100f); // add some padding at the top
+
         stage.addActor(table);
 
-        Skin skin = new Skin(Gdx.files.internal("glassy-ui.json"));
+        viewport = new ScreenViewport();
 
-        TextButton newGame = new TextButton("New Game", skin);
-        TextButton preferences = new TextButton("Preferences", skin);
-        TextButton exit = new TextButton("Exit", skin);
-
-
-        table.add(newGame).fillX().uniformX();
-        table.row().pad(10, 0, 10, 0);
-        table.add(preferences).fillX().uniformX();
-        table.row();
-        table.add(exit).fillX().uniformX();
-
-
+        viewport.apply();
 
 
 
@@ -88,27 +113,34 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+        game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
         game.font.getData().setScale(2); //Changes font size.
         game.font.draw(game.batch, "Welcome to TurnQuest! ", 100, 400);
         game.font.draw(game.batch, "Click anywhere to begin! ", 100, 350);
+        game.batch.end();
+
+        stage.act();
+        stage.draw();
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(dm.width / 2, dm.height / 2);
+                Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
             } else {
                 Gdx.graphics.setFullscreenMode(dm);
             }
-        }
-        game.batch.end();
 
-//        if (Gdx.input.isTouched()) {
-//            game.setScreen(new GameScreen(game));
-//            dispose();
-//        }
+        }
+
+
+
+
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+
+
     }
 
     @Override
@@ -128,6 +160,30 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        skin.dispose();
+        backgroundTexture.dispose();
+    }
 
+    private void showQuitConfirmationDialog() {
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", new Runnable() {
+            @Override
+            public void run() {
+                Gdx.app.exit();
+            }
+        }, skin);
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(stage);
+    }
+
+    private void showPreferencesDialog() {
+        PreferencesDialog dialog = new PreferencesDialog("Options", "", new Runnable() {
+            @Override
+            public void run() {
+                
+            }
+        }, skin);
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(stage);
     }
 }
