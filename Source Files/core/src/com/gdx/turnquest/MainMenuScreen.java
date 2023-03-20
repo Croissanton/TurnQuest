@@ -75,10 +75,18 @@ public class MainMenuScreen implements Screen {
                 showPreferencesDialog();
             }
         });
+
         bQuit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showQuitConfirmationDialog();
+            }
+        });
+
+        bQuit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showLoginDialog();
             }
         });
 
@@ -113,9 +121,8 @@ public class MainMenuScreen implements Screen {
 
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-        game.font.getData().setScale(2); //Changes font size.
-        game.font.draw(game.batch, "Welcome to TurnQuest! ", 100, 400);
-        game.font.draw(game.batch, "Click anywhere to begin! ", 100, 350);
+        game.font.getData().setScale(4); //Changes font size.
+        game.font.draw(game.batch, "Welcome to TurnQuest!", VIRTUAL_WIDTH*35/100, VIRTUAL_HEIGHT*85/100);
         game.batch.end();
 
         stage.act();
