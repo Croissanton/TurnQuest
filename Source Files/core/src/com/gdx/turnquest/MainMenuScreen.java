@@ -124,11 +124,11 @@ public class MainMenuScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
-                resize(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
+                Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
+                stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
             } else {
                 Gdx.graphics.setFullscreenMode(dm);
-                resize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+                stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
             }
 
         }
@@ -140,7 +140,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.update(width, height, true);
 
 
     }
