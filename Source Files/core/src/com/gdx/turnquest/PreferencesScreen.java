@@ -55,7 +55,7 @@ public class PreferencesScreen implements Screen {
         skin = new Skin(Gdx.files.internal("glassy-ui.json"));
 
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
-        final Slider mainVolume = new Slider(0,100,1,false,skin);
+        Slider mainVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
 
         fullscreen.addListener(new ChangeListener() {
