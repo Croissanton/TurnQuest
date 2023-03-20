@@ -72,7 +72,7 @@ public class MainMenuScreen implements Screen {
         bOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Handle button click here
+                showPreferencesDialog();
             }
         });
         bQuit.addListener(new ClickListener() {
@@ -170,6 +170,17 @@ public class MainMenuScreen implements Screen {
             @Override
             public void run() {
                 Gdx.app.exit();
+            }
+        }, skin);
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(stage);
+    }
+
+    private void showPreferencesDialog() {
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", new Runnable() {
+            @Override
+            public void run() {
+                
             }
         }, skin);
         dialog.setColor(Color.LIGHT_GRAY);
