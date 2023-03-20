@@ -2,17 +2,16 @@ package com.gdx.turnquest;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import static com.gdx.turnquest.MainMenuScreen.*;
 
 public class PreferencesDialog extends Dialog {
 
-    public int VOLUME = 30;
+    public int MAINVOLUME = 30;
     private Runnable yesRunnable;
 
     public PreferencesDialog(String title, String message, Runnable yesRunnable, Skin skin) {
@@ -21,6 +20,7 @@ public class PreferencesDialog extends Dialog {
         text(message);
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
         final Slider mainVolume = new Slider(0,100,1,false,skin);
+        TextButton bBack = new TextButton("Back", skin);
 
         fullscreen.addListener(new ChangeListener() {
             @Override
@@ -33,10 +33,16 @@ public class PreferencesDialog extends Dialog {
             }
         });
 
+        bBack.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                hide();
+            }
+        });
+
         mainVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                VOLUME=(int) mainVolume.getPercent();
+                MAINVOLUME=(int) mainVolume.getPercent();
 
             }
         });
