@@ -21,11 +21,22 @@ public class LoginDialog extends Dialog {
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
         getContentTable().add(passwordField).width(200);
+        button("Login", true);
+        button("Cancel", false);
     }
 
     @Override
     protected void result(Object object) {
         // Handle the result of the dialog
+        boolean result = (boolean) object;
+        if(result) {
+            // Check credentials
+            // If correct, change screen
+            // If incorrect, show error message
+
+        } else {
+            hide();
+        }
     }
 
     @Override
