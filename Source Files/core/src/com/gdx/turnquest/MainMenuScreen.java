@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,7 +24,7 @@ public class MainMenuScreen implements Screen {
 
 
     final TurnQuest game;
-    private Texture backgroundTexture;
+    private final Texture backgroundTexture;
 
     OrthographicCamera camera;
 
@@ -33,7 +34,7 @@ public class MainMenuScreen implements Screen {
 
     public static final int VIRTUAL_HEIGHT = dm.height;
 
-    public Stage stage;
+    public static Stage stage;
 
     public Skin skin;
 
@@ -56,7 +57,11 @@ public class MainMenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
 
-        skin = new Skin(Gdx.files.internal("glassy-ui.json"));
+        AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<Skin>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
+        game.manager.load(skinAssetDescriptor);
+        game.manager.finishLoading();
+
+        skin = game.manager.get(skinAssetDescriptor);
 
         TextButton bStart = new TextButton("Start", skin);
         TextButton bOptions = new TextButton("Options", skin);
@@ -129,19 +134,23 @@ public class MainMenuScreen implements Screen {
         stage.draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
-                stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
-            } else {
-                Gdx.graphics.setFullscreenMode(dm);
-                stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
-            }
+            toggleFullscreen();
 
         }
 
 
 
 
+    }
+
+    public static void toggleFullscreen(){
+        if (Gdx.graphics.isFullscreen()) {
+            Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
+            stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
+        } else {
+            Gdx.graphics.setFullscreenMode(dm);
+            stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
+        }
     }
 
     @Override
