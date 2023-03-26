@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="LibGDXSkins">
+    <file url="file://$PROJECT_DIR$/Glassy_UI_Skin/glassyui/glassy-ui.json" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="temurin-18" project-jdk-type="JavaSDK" />
 </project>
