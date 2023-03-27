@@ -19,7 +19,7 @@ public class PreferencesDialog extends Dialog {
 
 
 
-    public int MAINVOLUME = 30;
+    public int MAINVOLUME = 50;
     private Runnable yesRunnable;
 
 
@@ -33,9 +33,9 @@ public class PreferencesDialog extends Dialog {
 
 
         getContentTable().defaults().pad(10);
-        getContentTable().add(fullscreen).width(200);
+        getContentTable().add(fullscreen).width(400);
         getContentTable().row();
-        getContentTable().add(mainVolume).width(200);
+        getContentTable().add(mainVolume).width(400);
         getContentTable().add(bBack).width(200);
 
 
