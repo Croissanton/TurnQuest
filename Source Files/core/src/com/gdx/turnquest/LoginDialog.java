@@ -47,7 +47,7 @@ public class LoginDialog extends Dialog {
             String password = passwordField.getText();
             // If correct, change screen
             // Check if the credentials are valid
-            if (!isValidCredentials(username, password) && false) {
+            if (!isValidCredentials(username, password)) {
                 // If the credentials are not valid, display an error message
                 errorLabel.setText("Invalid username or password.");
             } else {
@@ -75,7 +75,7 @@ public class LoginDialog extends Dialog {
     // Helper method to check if the credentials are valid
     private boolean isValidCredentials(String username, String password) {
         try {
-            Scanner file = new Scanner(new FileReader(username + ".txt"));
+            Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
             if (file.nextLine().equals(username) && file.nextLine().equals(password)) {
                 return true;
             }
@@ -83,7 +83,6 @@ public class LoginDialog extends Dialog {
                 return false;
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
             return false;
         }
     }
