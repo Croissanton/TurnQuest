@@ -139,10 +139,6 @@ public class MainMenuScreen implements Screen {
             toggleFullscreen();
 
         }
-
-
-
-
     }
 
     public static void toggleFullscreen(){

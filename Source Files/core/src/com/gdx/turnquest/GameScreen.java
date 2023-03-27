@@ -110,7 +110,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
         game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Game Menu", VIRTUAL_WIDTH*35/100, VIRTUAL_HEIGHT*85/100);
+        game.font.draw(game.batch, "Game Menu", VIRTUAL_WIDTH*40/100, VIRTUAL_HEIGHT*85/100);
         game.batch.end();
 
         stage.act();
@@ -120,7 +120,6 @@ public class GameScreen implements Screen {
             toggleFullscreen();
 
         }
-
     }
 
     public static void toggleFullscreen(){
