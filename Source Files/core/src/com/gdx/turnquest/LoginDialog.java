@@ -52,7 +52,6 @@ public class LoginDialog extends Dialog {
             } else {
                 // If the credentials are valid, proceed with the login process
                 hide();
-                game.setScreen(new GameScreen((TurnQuest) game));
                 game.setScreen(new GameScreen(game));
             }
 
