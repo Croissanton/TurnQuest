@@ -83,7 +83,6 @@ public class LoginDialog extends Dialog {
                 return false;
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
             return false;
         }
     }
