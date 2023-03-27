@@ -1,5 +1,6 @@
 package com.gdx.turnquest;
 
+import com.gdx.turnquest.TurnQuest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
