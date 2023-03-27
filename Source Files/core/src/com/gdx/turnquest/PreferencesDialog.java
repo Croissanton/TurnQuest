@@ -1,5 +1,6 @@
 package com.gdx.turnquest;
 
+import com.gdx.turnquest.TurnQuest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,7 +20,7 @@ public class PreferencesDialog extends Dialog {
 
 
 
-    public int MAINVOLUME = 50;
+
     private Runnable yesRunnable;
 
 
@@ -30,6 +31,7 @@ public class PreferencesDialog extends Dialog {
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
         final Slider mainVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
+        TextField tTest = new TextField("volume:"+TurnQuest.getMAINVOLUME(), skin);
 
 
         getContentTable().defaults().pad(10);
@@ -37,6 +39,8 @@ public class PreferencesDialog extends Dialog {
         getContentTable().row();
         getContentTable().add(mainVolume).width(400);
         getContentTable().add(bBack).width(200);
+        getContentTable().add(tTest).width(200);
+
 
 
         fullscreen.addListener(new ChangeListener() {
@@ -55,7 +59,7 @@ public class PreferencesDialog extends Dialog {
         mainVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                MAINVOLUME=(int) mainVolume.getPercent();
+                TurnQuest.setMAINVOLUME((int) mainVolume.getPercent());
 
             }
         });
