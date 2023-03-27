@@ -1,6 +1,5 @@
 package com.gdx.turnquest;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
