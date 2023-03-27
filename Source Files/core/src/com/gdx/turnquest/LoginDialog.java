@@ -14,9 +14,9 @@ public class LoginDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
     private final Label errorLabel;
-    private final Game game;
+    private final TurnQuest game;
 
-    public LoginDialog(String title, Runnable runnable, Skin skin, Game game) {
+    public LoginDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
         this.game = game;
         getContentTable().defaults().pad(10);
@@ -53,7 +53,11 @@ public class LoginDialog extends Dialog {
             } else {
                 // If the credentials are valid, proceed with the login process
                 hide();
+<<<<<<< Updated upstream
                 game.setScreen(new GameScreen((TurnQuest) game));
+=======
+                game.setScreen(new GameScreen(game));
+>>>>>>> Stashed changes
             }
 
         }
