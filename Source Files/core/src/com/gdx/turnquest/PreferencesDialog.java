@@ -1,17 +1,16 @@
 package com.gdx.turnquest;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import static com.gdx.turnquest.MainMenuScreen.*;
 public class PreferencesDialog extends Dialog {
 
+
+    private static Graphics.DisplayMode dm = Gdx.graphics.getDisplayMode();
 
     public static final int VIRTUAL_WIDTH = dm.width;
 
