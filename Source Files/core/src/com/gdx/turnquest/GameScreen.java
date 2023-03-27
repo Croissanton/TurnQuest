@@ -2,6 +2,7 @@ package com.gdx.turnquest;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -100,7 +102,35 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
+
+        game.batch.begin();
+        game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        game.font.getData().setScale(4); //Changes font size.
+        game.font.draw(game.batch, "Game Menu", VIRTUAL_WIDTH*35/100, VIRTUAL_HEIGHT*85/100);
+        game.batch.end();
+
+        stage.act();
+        stage.draw();
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
+            toggleFullscreen();
+
+        }
+
+    }
+
+    public static void toggleFullscreen(){
+        if (Gdx.graphics.isFullscreen()) {
+            Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
+            stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
+        } else {
+            Gdx.graphics.setFullscreenMode(dm);
+            stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
+        }
     }
 
     @Override
