@@ -211,7 +211,7 @@ public class MainMenuScreen implements Screen {
             public void run() {
                 // Handle login here
             }
-        }, skin);
+        }, skin, game);
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(stage);
     }
