@@ -158,8 +158,6 @@ public class MainMenuScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-
-
     }
 
     @Override
@@ -211,7 +209,7 @@ public class MainMenuScreen implements Screen {
             public void run() {
                 // Handle login here
             }
-        }, skin);
+        }, skin, game);
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(stage);
     }
