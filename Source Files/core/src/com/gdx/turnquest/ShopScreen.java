@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static com.gdx.turnquest.MainMenuScreen.dm;
 
-public class GameScreen implements Screen {
+public class ShopScreen implements Screen {
     final TurnQuest game;
 
     private final Texture backgroundTexture;
@@ -33,13 +33,10 @@ public class GameScreen implements Screen {
 
     public static Stage stage;
 
-    public static float bHeight = VIRTUAL_HEIGHT * 10 / 100;
-    public static float bWidth = VIRTUAL_WIDTH * 15 / 100;
-
     public Skin skin;
 
     Viewport viewport;
-    public GameScreen(final TurnQuest game) {
+    public ShopScreen(final TurnQuest game) {
         this.game = game;
         backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
 
@@ -58,76 +55,22 @@ public class GameScreen implements Screen {
 
         skin = game.manager.get(skinAssetDescriptor);
 
-        // create the table
-        Table table = new Table();
-        table.defaults().expand().size(bWidth, bHeight);
-        table.setFillParent(true);
-
-        // play button
-        TextButton bPlay = new TextButton("Play", skin);
-        table.add(bPlay);
-
-        // inventory button
-        TextButton bInventory = new TextButton("Inventory", skin);
-        table.add();
-        table.add(bInventory);
-
-        // add another row
-        table.row();
-
-        // abilities button
-        TextButton bAbilities = new TextButton("Abilities", skin);
-        table.add(bAbilities);
-
-        //return button
         TextButton bReturn = new TextButton("Return", skin);
-        table.add(bReturn);
-
-        // shop button
-        TextButton bShop = new TextButton("Shop", skin);
-        table.add(bShop);
-
-        // table padding
-        table.padTop(20);
-        table.padBottom(20);
-        table.padLeft(20);
-        table.padRight(20);
-
-        stage.addActor(table);
-
-        bPlay.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-        bInventory.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new InventoryScreen(game));
-            }
-        });
-
-        bAbilities.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game));
-            }
-        });
-
-        bShop.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ShopScreen(game));
-            }
-        });
 
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showQuitConfirmationDialog();
+                game.setScreen(new GameScreen(game));
             }
         });
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.add(bReturn).center().padBottom(50f).row();
+
+        table.padTop(100f); // add some padding at the top
+
+        stage.addActor(table);
 
         viewport.apply();
     }
@@ -147,7 +90,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
         game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Game Menu", VIRTUAL_WIDTH * 42 / 100, VIRTUAL_HEIGHT * 77 / 100);
+        game.font.draw(game.batch, "Shop", VIRTUAL_WIDTH*45/100, VIRTUAL_HEIGHT*85/100);
         game.batch.end();
 
         stage.act();
@@ -193,17 +136,5 @@ public class GameScreen implements Screen {
         stage.dispose();
         skin.dispose();
         backgroundTexture.dispose();
-    }
-
-    private void showQuitConfirmationDialog() {
-        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", new Runnable() {
-            @Override
-            public void run() {
-                game.setScreen(new MainMenuScreen(game));
-            }
-        }, skin);
-        dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(stage);
     }
 }
