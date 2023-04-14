@@ -1,26 +1,12 @@
 package com.gdx.turnquest;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import static com.gdx.turnquest.MainMenuScreen.*;
 public class PreferencesDialog extends Dialog {
-
-
-    public static final int VIRTUAL_WIDTH = dm.width;
-
-    public static final int VIRTUAL_HEIGHT = dm.height;
-
-
-
-
-    public int MAINVOLUME = 30;
     private Runnable yesRunnable;
 
 
@@ -29,21 +15,29 @@ public class PreferencesDialog extends Dialog {
         this.yesRunnable = yesRunnable;
         text(message);
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
-        final Slider mainVolume = new Slider(0,100,1,false,skin);
+        final Slider sliderVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
 
+        final TextField tTest = new TextField(" VOLUME: "+TurnQuest.getGeneralVolume(), skin);
+        tTest.setDisabled(true);
+
+        // Set initial value of mainVolume slider
+        sliderVolume.setValue(TurnQuest.getGeneralVolume());
+
+        // Set initial state of fullscreen checkbox based on current full screen state
+        fullscreen.setChecked(Gdx.graphics.isFullscreen());
 
         getContentTable().defaults().pad(10);
-        getContentTable().add(fullscreen).width(200);
+        getContentTable().add(fullscreen).width(400);
         getContentTable().row();
-        getContentTable().add(mainVolume).width(200);
+        getContentTable().add(sliderVolume).width(400);
         getContentTable().add(bBack).width(200);
-
+        getContentTable().add(tTest).width(235);
 
         fullscreen.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                MainMenuScreen.toggleFullscreen();
+                TurnQuest.toggleFullscreen();
             }
         });
 
@@ -53,11 +47,11 @@ public class PreferencesDialog extends Dialog {
             }
         });
 
-        mainVolume.addListener(new ChangeListener() {
+        sliderVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                MAINVOLUME=(int) mainVolume.getPercent();
-
+                TurnQuest.setGeneralVolume((int) sliderVolume.getValue());
+                tTest.setText(" VOLUME: " + (int)sliderVolume.getValue());
             }
         });
     }

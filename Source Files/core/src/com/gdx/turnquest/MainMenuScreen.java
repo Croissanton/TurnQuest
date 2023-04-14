@@ -1,71 +1,36 @@
 package com.gdx.turnquest;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import static com.gdx.turnquest.TurnQuest.*;
 
 public class MainMenuScreen implements Screen {
 
 
-    final TurnQuest game;
-    private final Texture backgroundTexture;
-
-    OrthographicCamera camera;
-
-    public static final Graphics.DisplayMode dm = Gdx.graphics.getDisplayMode();
-
-    public static final int VIRTUAL_WIDTH = dm.width;
-
-    public static final int VIRTUAL_HEIGHT = dm.height;
-
-    public static Stage stage;
-
-    public Skin skin;
-
-    Viewport viewport;
+    private final TurnQuest game;
 
 
 
     public MainMenuScreen(final TurnQuest game) {
-
-
         this.game = game;
-        backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
+        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-
-        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
-
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
+        setStage(new Stage(getViewport()));
+        Gdx.input.setInputProcessor(getStage());
 
 
-        AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<Skin>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
-        game.manager.load(skinAssetDescriptor);
-        game.manager.finishLoading();
-
-        skin = game.manager.get(skinAssetDescriptor);
-
-        TextButton bStart = new TextButton("Start", skin);
-        TextButton bOptions = new TextButton("Options", skin);
-        TextButton bQuit = new TextButton("Quit", skin);
+        TextButton bStart = new TextButton("Start", getSkin());
+        TextButton bOptions = new TextButton("Options", getSkin());
+        TextButton bQuit = new TextButton("Quit", getSkin());
         //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
 
         bStart.addListener(new ClickListener() {
@@ -103,13 +68,9 @@ public class MainMenuScreen implements Screen {
 
         table.padTop(100f); // add some padding at the top
 
-        stage.addActor(table);
+        getStage().addActor(table);
 
-
-        viewport.apply();
-
-
-
+        getViewport().apply();
     }
 
     @Override
@@ -121,43 +82,27 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        getCamera().update();
+        getBatch().setProjectionMatrix(getCamera().combined);
 
-        game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-        game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Welcome to TurnQuest!", VIRTUAL_WIDTH*35/100, VIRTUAL_HEIGHT*85/100);
-        game.batch.end();
+        getBatch().begin();
+        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        getFont().getData().setScale(4); //Changes font size.
+        getFont().draw(getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
+        getBatch().end();
 
-        stage.act();
-        stage.draw();
+        getStage().act();
+        getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
 
         }
-
-
-
-
-    }
-
-    public static void toggleFullscreen(){
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
-            stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
-        } else {
-            Gdx.graphics.setFullscreenMode(dm);
-            stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
-        }
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
-
-
+        getViewport().update(width, height, true);
     }
 
     @Override
@@ -177,9 +122,8 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
-        skin.dispose();
-        backgroundTexture.dispose();
+        getStage().dispose();
+        getBackgroundTexture().dispose();
     }
 
     private void showQuitConfirmationDialog() {
@@ -188,9 +132,9 @@ public class MainMenuScreen implements Screen {
             public void run() {
                 Gdx.app.exit();
             }
-        }, skin);
+        }, getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(stage);
+        dialog.show(getStage());
     }
 
     private void showPreferencesDialog() {
@@ -199,9 +143,9 @@ public class MainMenuScreen implements Screen {
             public void run() {
                 
             }
-        }, skin);
+        }, getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(stage);
+        dialog.show(getStage());
     }
     private void showLoginDialog() {
         LoginDialog dialog = new LoginDialog("Login", new Runnable() {
@@ -209,8 +153,7 @@ public class MainMenuScreen implements Screen {
             public void run() {
                 // Handle login here
             }
-        }, skin);
-        dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(stage);
+        }, getSkin(), game);
+        dialog.show(getStage());
     }
 }
