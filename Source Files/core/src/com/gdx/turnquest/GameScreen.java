@@ -47,10 +47,10 @@ public class GameScreen implements Screen {
 
 
         AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<Skin>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
-        game.manager.load(skinAssetDescriptor);
-        game.manager.finishLoading();
+        game.getManager().load(skinAssetDescriptor);
+        game.getManager().finishLoading();
 
-        skin = game.manager.get(skinAssetDescriptor);
+        skin = game.getManager().get(skinAssetDescriptor);
 
         // create the table
         Table table = new Table();
@@ -136,13 +136,13 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        game.getBatch().setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Game Menu", TurnQuest.getVirtualWidth() * 42 / 100, TurnQuest.getVirtualWidth() * 77 / 100);
-        game.batch.end();
+        game.getBatch().begin();
+        game.getBatch().draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Game Menu", TurnQuest.getVirtualWidth() * 42 / 100, TurnQuest.getVirtualWidth() * 77 / 100);
+        game.getBatch().end();
 
         stage.act();
         stage.draw();

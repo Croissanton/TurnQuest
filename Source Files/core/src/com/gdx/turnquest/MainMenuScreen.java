@@ -54,10 +54,10 @@ public class MainMenuScreen implements Screen {
 
 
         AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<Skin>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
-        game.manager.load(skinAssetDescriptor);
-        game.manager.finishLoading();
+        game.getManager().load(skinAssetDescriptor);
+        game.getManager().finishLoading();
 
-        skin = game.manager.get(skinAssetDescriptor);
+        skin = game.getManager().get(skinAssetDescriptor);
 
         TextButton bStart = new TextButton("Start", skin);
         TextButton bOptions = new TextButton("Options", skin);
@@ -114,13 +114,13 @@ public class MainMenuScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
+        game.getBatch().setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Welcome to TurnQuest!", TurnQuest.getVirtualWidth()*35/100, TurnQuest.getVirtualHeight()*85/100);
-        game.batch.end();
+        game.getBatch().begin();
+        game.getBatch().draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Welcome to TurnQuest!", TurnQuest.getVirtualWidth()*35/100, TurnQuest.getVirtualHeight()*85/100);
+        game.getBatch().end();
 
         stage.act();
         stage.draw();

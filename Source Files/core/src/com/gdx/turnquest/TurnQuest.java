@@ -10,13 +10,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class TurnQuest extends Game {
 
-	public SpriteBatch batch;
+	private static SpriteBatch batch;
 
-	public BitmapFont font;
+	private static BitmapFont font;
 
-	public BitmapFont fontSmall;
+	private static BitmapFont fontSmall;
 
-	public AssetManager manager;
+	private static AssetManager manager;
 
 	private static int generalVolume = 50;
 
@@ -63,5 +63,21 @@ public class TurnQuest extends Game {
 
 	public static int getVirtualHeight(){
 		return dm.height;
+	}
+
+	public static SpriteBatch getBatch(){
+		return batch;
+	}
+
+	public static BitmapFont getFont(){
+		return font;
+	}
+
+	public static BitmapFont getFontSmall(){
+		return fontSmall;
+	}
+
+	public static AssetManager getManager(){
+		return manager;
 	}
 }
