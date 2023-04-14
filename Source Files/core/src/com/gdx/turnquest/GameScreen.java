@@ -28,27 +28,27 @@ public class GameScreen implements Screen {
 
         // play button
         TextButton bPlay = new TextButton("Play", getSkin());
-        table.add(bPlay);
+        table.add(bPlay).right();
 
         // inventory button
         TextButton bInventory = new TextButton("Inventory", getSkin());
         table.add();
-        table.add(bInventory);
+        table.add(bInventory).left();
 
         // add another row
         table.row();
 
         // abilities button
         TextButton bAbilities = new TextButton("Abilities", getSkin());
-        table.add(bAbilities);
+        table.add(bAbilities).right();
 
         //return button
         TextButton bReturn = new TextButton("Return", getSkin());
-        table.add(bReturn);
+        table.add(bReturn).bottom();
 
         // shop button
         TextButton bShop = new TextButton("Shop", getSkin());
-        table.add(bShop);
+        table.add(bShop).left();
 
         // table padding
         table.padTop(20);
