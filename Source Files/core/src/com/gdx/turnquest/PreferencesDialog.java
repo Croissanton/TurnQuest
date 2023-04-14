@@ -31,8 +31,12 @@ public class PreferencesDialog extends Dialog {
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
         final Slider mainVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
-        TextField tTest = new TextField("volume:"+TurnQuest.getMAINVOLUME(), skin);
 
+        final TextField tTest = new TextField("volume:"+TurnQuest.getMAINVOLUME(), skin);
+        tTest.setDisabled(true);
+
+        // Set initial value of mainVolume slider
+        mainVolume.setValue(50);
 
         getContentTable().defaults().pad(10);
         getContentTable().add(fullscreen).width(400);
@@ -40,8 +44,6 @@ public class PreferencesDialog extends Dialog {
         getContentTable().add(mainVolume).width(400);
         getContentTable().add(bBack).width(200);
         getContentTable().add(tTest).width(200);
-
-
 
         fullscreen.addListener(new ChangeListener() {
             @Override
@@ -60,7 +62,7 @@ public class PreferencesDialog extends Dialog {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 TurnQuest.setMAINVOLUME((int) mainVolume.getPercent());
-
+                tTest.setText("volume:" + (int)mainVolume.getValue());
             }
         });
     }
