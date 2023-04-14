@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
     Viewport viewport;
     public GameScreen(final TurnQuest game) {
         this.game = game;
-        backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("skies/Free DEMO Pixel Skies Background pack by Digital Moons/Pixel Skies 1920x1080px (Full HD)/demo03_PixelSky_1920x1080.png"));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
