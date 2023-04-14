@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,18 +17,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import static com.gdx.turnquest.MainMenuScreen.dm;
-
 public class ShopScreen implements Screen {
     final TurnQuest game;
 
     private final Texture backgroundTexture;
 
     OrthographicCamera camera;
-
-    public static final int VIRTUAL_WIDTH = dm.width;
-
-    public static final int VIRTUAL_HEIGHT = dm.height;
 
     public static Stage stage;
 
@@ -41,9 +34,9 @@ public class ShopScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        camera.setToOrtho(false, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
 
-        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+        viewport = new FitViewport(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), camera);
 
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
@@ -88,26 +81,16 @@ public class ShopScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        game.batch.draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Shop", VIRTUAL_WIDTH*45/100, VIRTUAL_HEIGHT*85/100);
+        game.font.draw(game.batch, "Shop", TurnQuest.getVirtualWidth()*45/100, TurnQuest.getVirtualHeight()*85/100);
         game.batch.end();
 
         stage.act();
         stage.draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
-    }
 
-    public static void toggleFullscreen(){
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
-            stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
-        } else {
-            Gdx.graphics.setFullscreenMode(dm);
-            stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
         }
     }
 

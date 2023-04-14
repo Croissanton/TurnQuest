@@ -25,22 +25,16 @@ import com.gdx.turnquest.TurnQuest;
 public class MainMenuScreen implements Screen {
 
 
-    final TurnQuest game;
+    private final TurnQuest game;
     private final Texture backgroundTexture;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
-    public static final Graphics.DisplayMode dm = Gdx.graphics.getDisplayMode();
+    private static Stage stage;
 
-    public static final int VIRTUAL_WIDTH = dm.width;
+    private Skin skin;
 
-    public static final int VIRTUAL_HEIGHT = dm.height;
-
-    public static Stage stage;
-
-    public Skin skin;
-
-    Viewport viewport;
+    private Viewport viewport;
 
 
 
@@ -51,9 +45,9 @@ public class MainMenuScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        camera.setToOrtho(false, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
 
-        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+        viewport = new FitViewport(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), camera);
 
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
@@ -123,9 +117,9 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        game.batch.draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Welcome to TurnQuest!", VIRTUAL_WIDTH*35/100, VIRTUAL_HEIGHT*85/100);
+        game.font.draw(game.batch, "Welcome to TurnQuest!", TurnQuest.getVirtualWidth()*35/100, TurnQuest.getVirtualHeight()*85/100);
         game.batch.end();
 
         stage.act();
@@ -139,11 +133,11 @@ public class MainMenuScreen implements Screen {
 
     public static void toggleFullscreen(){
         if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
-            stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
+            Gdx.graphics.setWindowedMode(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2);
+            stage.getViewport().update(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2, true);
         } else {
-            Gdx.graphics.setFullscreenMode(dm);
-            stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
+            Gdx.graphics.setFullscreenMode(TurnQuest.getDisplayMode());
+            stage.getViewport().update(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), true);
         }
     }
 

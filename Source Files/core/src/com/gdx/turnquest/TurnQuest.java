@@ -1,6 +1,8 @@
 package com.gdx.turnquest;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,16 +20,25 @@ public class TurnQuest extends Game {
 
 	private static int generalVolume = 50;
 
-	public void show(){
+	private static final Graphics.DisplayMode dm = Gdx.graphics.getDisplayMode();
 
-	}
 
 	public void render() {
 		super.render(); // important!
 	}
 
-	public void resize(int width, int height){
+	public void create() {
+		batch = new SpriteBatch();
+		font = new BitmapFont(); // use libGDX's default Arial font
+		fontSmall = new BitmapFont();
+		manager = new AssetManager();
 
+		this.setScreen(new MainMenuScreen(this));
+	}
+
+	public void dispose() {
+		batch.dispose();
+		font.dispose();
 	}
 
 	public static int getGeneralVolume(){
@@ -38,33 +49,15 @@ public class TurnQuest extends Game {
 		generalVolume=vol;
 	}
 
-	public void pause(){
-
+	public static Graphics.DisplayMode getDisplayMode(){
+		return dm;
 	}
 
-	public void resume(){
-
+	public static int getVirtualWidth(){
+		return dm.width;
 	}
 
-	public void hide(){
-
+	public static int getVirtualHeight(){
+		return dm.height;
 	}
-
-
-	public void create() {
-		batch = new SpriteBatch();
-		font = new BitmapFont(); // use libGDX's default Arial font
-		fontSmall = new BitmapFont();
-		manager = new AssetManager();
-
-		FitViewport fitViewport = new FitViewport(800,800);
-		this.setScreen(new MainMenuScreen(this));
-	}
-
-
-	public void dispose() {
-		batch.dispose();
-		font.dispose();
-	}
-
 }
