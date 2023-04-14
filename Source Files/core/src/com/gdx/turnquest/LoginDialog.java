@@ -54,7 +54,17 @@ public class LoginDialog extends Dialog {
                 hide();
                 game.setScreen(new GameScreen(game));
             }
+        }
+        else{
+            super.hide();
+        }
+    }
 
+    @Override
+    public void hide() {
+        // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
+        if (isValidCredentials(usernameField.getText(), passwordField.getText())) {
+            super.hide();
         }
     }
 

@@ -95,7 +95,7 @@ public class MainMenuScreen implements Screen {
         getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            game.toggleFullscreen();
+            toggleFullscreen();
 
         }
     }
