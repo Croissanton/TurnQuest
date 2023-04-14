@@ -32,7 +32,7 @@ public class PreferencesDialog extends Dialog {
         final Slider mainVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
 
-        final TextField tTest = new TextField("volume:"+TurnQuest.getMAINVOLUME(), skin);
+        final TextField tTest = new TextField(" VOLUME: "+TurnQuest.getMAINVOLUME(), skin);
         tTest.setDisabled(true);
 
         // Set initial value of mainVolume slider
@@ -43,7 +43,7 @@ public class PreferencesDialog extends Dialog {
         getContentTable().row();
         getContentTable().add(mainVolume).width(400);
         getContentTable().add(bBack).width(200);
-        getContentTable().add(tTest).width(200);
+        getContentTable().add(tTest).width(235);
 
         fullscreen.addListener(new ChangeListener() {
             @Override
@@ -62,7 +62,7 @@ public class PreferencesDialog extends Dialog {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 TurnQuest.setMAINVOLUME((int) mainVolume.getPercent());
-                tTest.setText("volume:" + (int)mainVolume.getValue());
+                tTest.setText(" VOLUME: " + (int)mainVolume.getValue());
             }
         });
     }
