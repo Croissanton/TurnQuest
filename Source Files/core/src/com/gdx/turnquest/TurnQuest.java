@@ -20,7 +20,7 @@ public class TurnQuest extends Game {
 
 	private static int generalVolume = 50;
 
-	private static final Graphics.DisplayMode dm = Gdx.graphics.getDisplayMode();
+	private static Graphics.DisplayMode dm;
 
 
 	public void render() {
@@ -51,6 +51,10 @@ public class TurnQuest extends Game {
 
 	public static Graphics.DisplayMode getDisplayMode(){
 		return dm;
+	}
+
+	public static void setDisplayMode(Graphics.DisplayMode displayMode){
+		dm = displayMode;
 	}
 
 	public static int getVirtualWidth(){

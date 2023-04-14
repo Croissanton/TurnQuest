@@ -18,8 +18,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import static com.gdx.turnquest.MainMenuScreen.dm;
-
 public class GameScreen implements Screen {
     final TurnQuest game;
 
@@ -27,14 +25,10 @@ public class GameScreen implements Screen {
 
     OrthographicCamera camera;
 
-    public static final int VIRTUAL_WIDTH = dm.width;
-
-    public static final int VIRTUAL_HEIGHT = dm.height;
-
     public static Stage stage;
 
-    public static float bHeight = VIRTUAL_HEIGHT * 10 / 100;
-    public static float bWidth = VIRTUAL_WIDTH * 15 / 100;
+    private static float bHeight = TurnQuest.getVirtualHeight() * 10 / 100;
+    private static float bWidth = TurnQuest.getVirtualWidth() * 15 / 100;
 
     public Skin skin;
 
@@ -44,9 +38,9 @@ public class GameScreen implements Screen {
         backgroundTexture = new Texture(Gdx.files.internal("skies/Free DEMO Pixel Skies Background pack by Digital Moons/Pixel Skies 1920x1080px (Full HD)/demo03_PixelSky_1920x1080.png"));
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        camera.setToOrtho(false, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
 
-        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+        viewport = new FitViewport(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), camera);
 
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
@@ -145,26 +139,16 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.batch.draw(backgroundTexture, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        game.batch.draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         game.font.getData().setScale(4); //Changes font size.
-        game.font.draw(game.batch, "Game Menu", VIRTUAL_WIDTH * 42 / 100, VIRTUAL_HEIGHT * 77 / 100);
+        game.font.draw(game.batch, "Game Menu", TurnQuest.getVirtualWidth() * 42 / 100, TurnQuest.getVirtualWidth() * 77 / 100);
         game.batch.end();
 
         stage.act();
         stage.draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
-    }
-
-    public static void toggleFullscreen(){
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2);
-            stage.getViewport().update(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, true);
-        } else {
-            Gdx.graphics.setFullscreenMode(dm);
-            stage.getViewport().update(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
+            //toggleFullscreen();
         }
     }
 

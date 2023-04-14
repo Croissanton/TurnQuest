@@ -40,7 +40,7 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(final TurnQuest game) {
 
-
+        TurnQuest.setDisplayMode(Gdx.graphics.getDisplayMode());
         this.game = game;
         backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
 
