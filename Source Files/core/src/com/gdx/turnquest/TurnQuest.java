@@ -16,7 +16,7 @@ public class TurnQuest extends Game {
 
 	public AssetManager manager;
 
-	public static int MAINVOLUME = 50;
+	private static int generalVolume = 50;
 
 	public void show(){
 
@@ -30,12 +30,12 @@ public class TurnQuest extends Game {
 
 	}
 
-	public static int getMAINVOLUME(){
-		return MAINVOLUME;
+	public static int getGeneralVolume(){
+		return generalVolume;
 	}
 
-	public static void setMAINVOLUME(int vol){
-		MAINVOLUME=vol;
+	public static void setGeneralVolume(int vol){
+		generalVolume=vol;
 	}
 
 	public void pause(){
