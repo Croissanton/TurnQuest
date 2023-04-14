@@ -1,54 +1,26 @@
 package com.gdx.turnquest;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import static com.gdx.turnquest.TurnQuest.*;
 
 public class InventoryScreen implements Screen {
     final TurnQuest game;
 
-    private final Texture backgroundTexture;
-
-    OrthographicCamera camera;
-
-    public static Stage stage;
-
-    public Skin skin;
-
-    Viewport viewport;
     public InventoryScreen(final TurnQuest game) {
         this.game = game;
-        backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        setStage(new Stage(getViewport()));
+        Gdx.input.setInputProcessor(getStage());
 
-        viewport = new FitViewport(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), camera);
-
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
-
-
-        AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<Skin>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
-        game.getManager().load(skinAssetDescriptor);
-        game.getManager().finishLoading();
-
-        skin = game.getManager().get(skinAssetDescriptor);
-
-        TextButton bReturn = new TextButton("Return", skin);
+        TextButton bReturn = new TextButton("Return", getSkin());
 
         bReturn.addListener(new ClickListener() {
             @Override
@@ -63,9 +35,9 @@ public class InventoryScreen implements Screen {
 
         table.padTop(100f); // add some padding at the top
 
-        stage.addActor(table);
+        getStage().addActor(table);
 
-        viewport.apply();
+        getViewport().apply();
     }
 
     @Override
@@ -77,17 +49,17 @@ public class InventoryScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
-        camera.update();
-        game.getBatch().setProjectionMatrix(camera.combined);
+        getCamera().update();
+        getBatch().setProjectionMatrix(getCamera().combined);
 
-        game.getBatch().begin();
-        game.getBatch().draw(backgroundTexture, 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        game.getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "Inventory", TurnQuest.getVirtualWidth()*45/100, TurnQuest.getVirtualHeight()*85/100);
-        game.getBatch().end();
+        getBatch().begin();
+        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        getFont().getData().setScale(4); //Changes font size.
+        getFont().draw(getBatch(), "Inventory", getVirtualWidth()*45/100, getVirtualHeight()*85/100);
+        getBatch().end();
 
-        stage.act();
-        stage.draw();
+        getStage().act();
+        getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -97,16 +69,16 @@ public class InventoryScreen implements Screen {
     public static void toggleFullscreen(){
         if (Gdx.graphics.isFullscreen()) {
             Gdx.graphics.setWindowedMode(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2);
-            stage.getViewport().update(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2, true);
+            getStage().getViewport().update(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2, true);
         } else {
             Gdx.graphics.setFullscreenMode(TurnQuest.getDisplayMode());
-            stage.getViewport().update(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), true);
+            getStage().getViewport().update(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), true);
         }
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        getViewport().update(width, height, true);
     }
 
     @Override
@@ -126,8 +98,7 @@ public class InventoryScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
-        skin.dispose();
-        backgroundTexture.dispose();
+        getStage().dispose();
+        getBackgroundTexture().dispose();
     }
 }

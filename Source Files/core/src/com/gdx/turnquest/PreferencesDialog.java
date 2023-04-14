@@ -1,7 +1,6 @@
 package com.gdx.turnquest;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -38,7 +37,7 @@ public class PreferencesDialog extends Dialog {
         fullscreen.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                MainMenuScreen.toggleFullscreen();
+                TurnQuest.toggleFullscreen();
             }
         });
 
