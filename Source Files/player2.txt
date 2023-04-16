@@ -1,2 +1,3 @@
 player2
 password
+Archer

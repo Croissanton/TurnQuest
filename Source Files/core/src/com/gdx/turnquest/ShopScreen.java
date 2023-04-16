@@ -14,8 +14,11 @@ import static com.gdx.turnquest.TurnQuest.*;
 public class ShopScreen implements Screen {
     final TurnQuest game;
 
-    public ShopScreen(final TurnQuest game) {
+    final Player player;
+
+    public ShopScreen(final TurnQuest game, final Player player) {
         this.game = game;
+        this.player = player;
 
         setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(getStage());
@@ -26,7 +29,7 @@ public class ShopScreen implements Screen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, player));
             }
         });
 

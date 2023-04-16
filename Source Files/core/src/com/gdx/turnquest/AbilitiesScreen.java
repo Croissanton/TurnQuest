@@ -11,18 +11,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import static com.gdx.turnquest.TurnQuest.*;
+import static com.gdx.turnquest.Player.*;
 
 public class AbilitiesScreen implements Screen {
+
     final TurnQuest game;
-    public AbilitiesScreen(final TurnQuest game) {
+
+    final Player player;
+    public AbilitiesScreen(final TurnQuest game, final Player player) {
         this.game = game;
+        this.player = player;
+
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(getStage());
 
-        // buttons
-        TextButton bReturn = new TextButton("Return", getSkin());
+        // abilities buttons
         TextButton bAb1 = new TextButton("", getSkin());
         TextButton bAb2 = new TextButton("", getSkin());
         TextButton bAb3 = new TextButton("", getSkin());
@@ -40,17 +45,11 @@ public class AbilitiesScreen implements Screen {
         TextButton bAb15 = new TextButton("", getSkin());
         TextButton bAb16 = new TextButton("", getSkin());
 
-        bReturn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
-            }
-        });
-
         // Abilities table
         Table abilitiesTable = new Table();
         abilitiesTable.setFillParent(true);
 
+        // order the buttons of the table
         abilitiesTable.add(bAb1);
         abilitiesTable.add(bAb2);
         abilitiesTable.add(bAb3);
@@ -72,17 +71,43 @@ public class AbilitiesScreen implements Screen {
 
         getStage().addActor(abilitiesTable);
 
+        // table buttons
+        TextButton bReturn = new TextButton("Return", getSkin());
+        TextButton bLeftArrow = new TextButton("<-", getSkin());
+        TextButton bRightArrow = new TextButton("->", getSkin());
+
         // table for return
         Table table = new Table();
+        // add some padding
+        table.defaults().pad(50);
+        // make each cell expand
+        table.defaults().expand();
         table.setFillParent(true);
 
-        table.add(bReturn).bottom().expand();
-
-        table.padTop(100f); // add some padding at the top
+        // order the buttons of the table
+        table.add(bLeftArrow).left();
+        table.add();
+        table.add(bRightArrow).right();
+        table.row();
+        table.add();
+        table.add(bReturn).bottom();
 
         getStage().addActor(table);
 
+        bRightArrow.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new AbilitiesScreen(game, player));
+            }
+        });
 
+        // return to GameScreen when pressed return button
+        bReturn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameScreen(game, player));
+            }
+        });
 
         getViewport().apply();
     }
@@ -103,6 +128,7 @@ public class AbilitiesScreen implements Screen {
         getBatch().draw(getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
         getFont().draw(getBatch(), "Abilities", getVirtualWidth()*45/100, getVirtualHeight()*85/100);
+        getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth()*45/100, getVirtualHeight()*75/100);
         getBatch().end();
 
         getStage().act();
