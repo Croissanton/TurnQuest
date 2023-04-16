@@ -1,2 +1,3 @@
 player1
 password
+Warrior

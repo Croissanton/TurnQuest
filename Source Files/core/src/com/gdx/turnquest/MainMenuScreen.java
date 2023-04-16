@@ -19,9 +19,9 @@ public class MainMenuScreen implements Screen {
     private final TurnQuest game;
 
 
-
     public MainMenuScreen(final TurnQuest game) {
         this.game = game;
+
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         setStage(new Stage(getViewport()));
@@ -36,7 +36,7 @@ public class MainMenuScreen implements Screen {
         bStart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showLoginDialog();
+                showGameSelectionDialog();
             }
         });
         bOptions.addListener(new ClickListener() {
@@ -56,7 +56,7 @@ public class MainMenuScreen implements Screen {
         bQuit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showLoginDialog();
+                showQuitConfirmationDialog();
             }
         });
 
@@ -146,8 +146,9 @@ public class MainMenuScreen implements Screen {
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(getStage());
     }
-    private void showLoginDialog() {
-        LoginDialog dialog = new LoginDialog("Login", new Runnable() {
+
+    private void showGameSelectionDialog() {
+        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", new Runnable() {
             @Override
             public void run() {
                 // Handle login here

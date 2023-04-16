@@ -14,8 +14,11 @@ import static com.gdx.turnquest.TurnQuest.*;
 public class InventoryScreen implements Screen {
     final TurnQuest game;
 
-    public InventoryScreen(final TurnQuest game) {
+    final Player player;
+
+    public InventoryScreen(final TurnQuest game, final Player player) {
         this.game = game;
+        this.player = player;
 
         setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(getStage());
@@ -25,7 +28,7 @@ public class InventoryScreen implements Screen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, player));
             }
         });
 

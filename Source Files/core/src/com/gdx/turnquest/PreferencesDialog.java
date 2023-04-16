@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class PreferencesDialog extends Dialog {
     private Runnable yesRunnable;
 
-
     public PreferencesDialog(String title, String message, Runnable yesRunnable, Skin skin) {
         super(title, skin);
         this.yesRunnable = yesRunnable;
@@ -55,8 +54,6 @@ public class PreferencesDialog extends Dialog {
             }
         });
     }
-
-
 
     @Override
     protected void result(Object object) {

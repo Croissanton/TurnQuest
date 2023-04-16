@@ -18,6 +18,7 @@ public class LoginDialog extends Dialog {
     public LoginDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
         this.game = game;
+
         getContentTable().defaults().pad(10);
         getContentTable().add("Username:");
         usernameField = new TextField("", skin);
@@ -52,10 +53,9 @@ public class LoginDialog extends Dialog {
             } else {
                 // If the credentials are valid, proceed with the login process
                 hide();
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, new Player(username)));
             }
-        }
-        else{
+        } else {
             super.hide();
         }
     }
