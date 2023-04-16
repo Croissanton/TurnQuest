@@ -21,7 +21,24 @@ public class AbilitiesScreen implements Screen {
         setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(getStage());
 
+        // buttons
         TextButton bReturn = new TextButton("Return", getSkin());
+        TextButton bAb1 = new TextButton("", getSkin());
+        TextButton bAb2 = new TextButton("", getSkin());
+        TextButton bAb3 = new TextButton("", getSkin());
+        TextButton bAb4 = new TextButton("", getSkin());
+        TextButton bAb5 = new TextButton("", getSkin());
+        TextButton bAb6 = new TextButton("", getSkin());
+        TextButton bAb7 = new TextButton("", getSkin());
+        TextButton bAb8 = new TextButton("", getSkin());
+        TextButton bAb9 = new TextButton("", getSkin());
+        TextButton bAb10 = new TextButton("", getSkin());
+        TextButton bAb11 = new TextButton("", getSkin());
+        TextButton bAb12 = new TextButton("", getSkin());
+        TextButton bAb13 = new TextButton("", getSkin());
+        TextButton bAb14 = new TextButton("", getSkin());
+        TextButton bAb15 = new TextButton("", getSkin());
+        TextButton bAb16 = new TextButton("", getSkin());
 
         bReturn.addListener(new ClickListener() {
             @Override
@@ -30,13 +47,42 @@ public class AbilitiesScreen implements Screen {
             }
         });
 
+        // Abilities table
+        Table abilitiesTable = new Table();
+        abilitiesTable.setFillParent(true);
+
+        abilitiesTable.add(bAb1);
+        abilitiesTable.add(bAb2);
+        abilitiesTable.add(bAb3);
+        abilitiesTable.add(bAb4).row();
+        abilitiesTable.add(bAb5);
+        abilitiesTable.add(bAb6);
+        abilitiesTable.add(bAb7);
+        abilitiesTable.add(bAb8).row();
+        abilitiesTable.add(bAb9);
+        abilitiesTable.add(bAb10);
+        abilitiesTable.add(bAb11);
+        abilitiesTable.add(bAb12).row();
+        abilitiesTable.add(bAb13);
+        abilitiesTable.add(bAb14);
+        abilitiesTable.add(bAb15);
+        abilitiesTable.add(bAb16).row();
+
+        abilitiesTable.padTop(100f); // add some padding at the top
+
+        getStage().addActor(abilitiesTable);
+
+        // table for return
         Table table = new Table();
         table.setFillParent(true);
-        table.add(bReturn).center().padBottom(50f).row();
+
+        table.add(bReturn).bottom().expand();
 
         table.padTop(100f); // add some padding at the top
 
         getStage().addActor(table);
+
+
 
         getViewport().apply();
     }

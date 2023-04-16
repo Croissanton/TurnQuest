@@ -96,7 +96,6 @@ public class MainMenuScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
-
         }
     }
 
