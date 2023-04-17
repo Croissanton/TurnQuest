@@ -2,49 +2,51 @@
   "players": [
     {
       "username": "player1",
-      "exp": 0,
-      "level": 1,
-      "gold": 100,
+      "password": "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=",
+      "exp": 1500,
+      "level": 10,
+      "gold": 500,
+      "class": "warrior",
       "stats": {
-        "health": 100,
-        "mana": 50,
-        "attack": 10,
-        "defense": 5
+        "MAX_HP": 100,
+        "MAX_MP": 50,
+        "strength": 20,
+        "defense": 15,
+        "agility": 10
       },
       "inventory": [
         {
-          "itemId": 1,
+          "itemID": 1,
           "quantity": 3
         },
         {
-          "itemId": 2,
+          "itemID": 2,
           "quantity": 1
         }
       ]
     },
     {
       "username": "player2",
-      "exp": 250,
-      "level": 3,
-      "gold": 500,
+      "password": "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=",
+      "exp": 500,
+      "level": 5,
+      "gold": 200,
+      "class": "archer",
       "stats": {
-        "health": 150,
-        "mana": 75,
-        "attack": 20,
-        "defense": 10
+        "MAX_HP": 50,
+        "MAX_MP": 100,
+        "strength": 10,
+        "defense": 5,
+        "agility": 20
       },
       "inventory": [
         {
-          "itemId": 3,
-          "quantity": 1
-        },
-        {
-          "itemId": 4,
-          "quantity": 2
-        },
-        {
-          "itemId": 1,
+          "itemID": 3,
           "quantity": 5
+        },
+        {
+          "itemID": 4,
+          "quantity": 2
         }
       ]
     }
