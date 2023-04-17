@@ -13,20 +13,22 @@ import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
+    final CheckBox Warrior;
+    final CheckBox Archer;
+    final CheckBox Assassin;
     private Label errorLabel;
     private final TurnQuest game;
     private String username;
     private String password;
-    private String c;
 
     public SignUpDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
         this.game = game;
 
         // create check boxes
-        final CheckBox Warrior = new CheckBox("Warrior", skin);
-        final CheckBox Archer = new CheckBox("Archer", skin);
-        final CheckBox Assassin = new CheckBox("Assassin", skin);
+        Warrior = new CheckBox("Warrior", skin);
+        Archer = new CheckBox("Archer", skin);
+        Assassin = new CheckBox("Assassin", skin);
 
         // table
         getContentTable().defaults().expand().pad(10);
@@ -55,23 +57,25 @@ public class SignUpDialog extends Dialog {
         button("Create", true);
         button("Cancel", false);
 
-
         Warrior.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                c = "Warrior";
+                if (Archer.isChecked()) Archer.setChecked(false);
+                if (Assassin.isChecked()) Assassin.setChecked(false);
             }
         });
         Archer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                c = "Archer";
+                if (Warrior.isChecked()) Warrior.setChecked(false);
+                if (Assassin.isChecked()) Assassin.setChecked(false);
             }
         });
         Assassin.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                c = "Assassin";
+                if (Archer.isChecked()) Archer.setChecked(false);
+                if (Warrior.isChecked()) Warrior.setChecked(false);
             }
         });
     }
@@ -144,9 +148,9 @@ public class SignUpDialog extends Dialog {
             writer.write(username + "\n");
             writer.write(hashPassword(password) + "\n");
 
-            if (c.equals("Warrior")) {
+            if (true == Warrior.isChecked()) {
                 writer.write("Warrior\n");
-            } else if (c.equals("Archer")) {
+            } else if (true == Archer.isChecked()) {
                 writer.write("Archer\n");
             } else {
                 writer.write("Assassin\n");
