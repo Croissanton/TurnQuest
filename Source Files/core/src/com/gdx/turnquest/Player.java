@@ -45,7 +45,7 @@ public class Player {
         return exp;
     }
 
-    public static int setLevel(int l) {level = l;}
+    public static void setLevel(int l) {level = l;}
 
     public static int getLevel() {return level;}
 }
