@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import static com.gdx.turnquest.LoginDialog.hashPassword;
 
 import java.io.*;
 import java.util.Scanner;
@@ -106,7 +107,7 @@ public class SignUpDialog extends Dialog {
             FileWriter writer = new FileWriter(file);
 
             writer.write(username + "\n");
-            writer.write(password + "\n");
+            writer.write(hashPassword(password) + "\n");
 
             writer.close();
 

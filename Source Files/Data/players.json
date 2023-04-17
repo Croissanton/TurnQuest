@@ -1,0 +1,52 @@
+{
+  "players": [
+    {
+      "username": "player1",
+      "exp": 0,
+      "level": 1,
+      "gold": 100,
+      "stats": {
+        "health": 100,
+        "mana": 50,
+        "attack": 10,
+        "defense": 5
+      },
+      "inventory": [
+        {
+          "itemId": 1,
+          "quantity": 3
+        },
+        {
+          "itemId": 2,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "username": "player2",
+      "exp": 250,
+      "level": 3,
+      "gold": 500,
+      "stats": {
+        "health": 150,
+        "mana": 75,
+        "attack": 20,
+        "defense": 10
+      },
+      "inventory": [
+        {
+          "itemId": 3,
+          "quantity": 1
+        },
+        {
+          "itemId": 4,
+          "quantity": 2
+        },
+        {
+          "itemId": 1,
+          "quantity": 5
+        }
+      ]
+    }
+  ]
+}

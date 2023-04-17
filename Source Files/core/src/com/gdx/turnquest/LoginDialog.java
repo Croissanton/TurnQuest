@@ -7,6 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Scanner;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
@@ -91,7 +95,7 @@ public class LoginDialog extends Dialog {
     private boolean isValidCredentials(String username, String password) {
         try {
             Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
-            if (file.nextLine().equals(username) && file.nextLine().equals(password)) {
+            if (file.nextLine().equals(username) && file.nextLine().equals(hashPassword(password))) {
                 return true;
             }
             else{
@@ -100,5 +104,15 @@ public class LoginDialog extends Dialog {
         } catch (FileNotFoundException e) {
             return false;
         }
+    }
+    protected static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
