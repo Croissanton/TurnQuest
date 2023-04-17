@@ -21,16 +21,16 @@ public class LoginDialog extends Dialog {
         super(title, skin);
         this.game = game;
 
-        getContentTable().defaults().pad(10);
+        getContentTable().defaults().expand().pad(10);
         getContentTable().add("Username:");
         usernameField = new TextField("", skin);
-        getContentTable().add(usernameField).width(200);
+        getContentTable().add(usernameField).width(400);
         getContentTable().row();
         getContentTable().add("Password:");
         passwordField = new TextField("", skin);
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
-        getContentTable().add(passwordField).width(200);
+        getContentTable().add(passwordField).width(400);
         getContentTable().row();
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
