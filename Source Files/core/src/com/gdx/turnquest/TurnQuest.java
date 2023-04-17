@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -161,5 +162,16 @@ public class TurnQuest extends Game {
 			return false;
 		}
 		return true;
+	}
+
+	public static void showPreferencesDialog() {
+		PreferencesDialog dialog = new PreferencesDialog("Options", "", new Runnable() {
+			@Override
+			public void run() {
+
+			}
+		}, getSkin());
+		dialog.setColor(Color.LIGHT_GRAY);
+		dialog.show(getStage());
 	}
 }

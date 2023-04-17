@@ -9,6 +9,8 @@ import static com.gdx.turnquest.LoginDialog.*;
 public class Player {
 
     private static String characterClass = "";
+    private static int gold;
+    private static int exp;
 
     public Player(String fileName) {
         try {
@@ -23,5 +25,21 @@ public class Player {
 
     public static String getCharacterClass() {
         return characterClass;
+    }
+
+    public static void setGold(int g) {
+        gold = g;
+    }
+
+    public static int getGold() {
+        return gold;
+    }
+
+    public static void setExp(int e) {
+        exp = e;
+    }
+
+    public static int getExp() {
+        return exp;
     }
 }

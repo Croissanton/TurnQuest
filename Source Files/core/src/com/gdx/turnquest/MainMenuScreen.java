@@ -136,17 +136,6 @@ public class MainMenuScreen implements Screen {
         dialog.show(getStage());
     }
 
-    private void showPreferencesDialog() {
-        PreferencesDialog dialog = new PreferencesDialog("Options", "", new Runnable() {
-            @Override
-            public void run() {
-                
-            }
-        }, getSkin());
-        dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(getStage());
-    }
-
     private void showGameSelectionDialog() {
         GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", new Runnable() {
             @Override

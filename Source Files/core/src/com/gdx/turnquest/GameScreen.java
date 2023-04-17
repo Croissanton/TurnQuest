@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import static com.gdx.turnquest.TurnQuest.*;
+import static com.gdx.turnquest.MainMenuScreen.*;
 
 public class GameScreen implements Screen {
     final TurnQuest game;
@@ -26,21 +27,36 @@ public class GameScreen implements Screen {
         table.defaults().expand().size(getVirtualWidth() * 15 / 100, getVirtualHeight() * 10 / 100);
         table.setFillParent(true);
 
-        // play button
-        TextButton bPlay = new TextButton("Play", getSkin());
-        table.add(bPlay).right();
+        // options button
+        TextButton bOptions = new TextButton("Options", getSkin());
+        table.add(bOptions).right();
+
+        // add another column
+        table.add();
 
         // inventory button
         TextButton bInventory = new TextButton("Inventory", getSkin());
-        table.add();
         table.add(bInventory).left();
 
         // add another row
         table.row();
 
+        // add another column
+        table.add();
+
+        // play button
+        TextButton bPlay = new TextButton("Play", getSkin());
+        table.add(bPlay).center();
+
+        // add another column
+        table.add();
+
+        // add another row
+        table.row();
+
         // abilities button
-        TextButton bAbilities = new TextButton("Abilities", getSkin());
-        table.add(bAbilities).right();
+        TextButton bClan = new TextButton("Clan", getSkin());
+        table.add(bClan).right();
 
         //return button
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -64,6 +80,7 @@ public class GameScreen implements Screen {
 
             }
         });
+
         bInventory.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -71,10 +88,10 @@ public class GameScreen implements Screen {
             }
         });
 
-        bAbilities.addListener(new ClickListener() {
+        bClan.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game));
+                game.setScreen(new ClanScreen(game));
             }
         });
 
@@ -89,6 +106,13 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showQuitConfirmationDialog();
+            }
+        });
+
+        bOptions.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showPreferencesDialog();
             }
         });
 
