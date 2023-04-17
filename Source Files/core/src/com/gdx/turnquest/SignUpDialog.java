@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import java.io.*;
 import java.util.Scanner;
 
+import static com.gdx.turnquest.LoginDialog.hashPassword;
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
 public class SignUpDialog extends Dialog {
@@ -22,31 +23,38 @@ public class SignUpDialog extends Dialog {
         super(title, skin);
         this.game = game;
 
+        // create check boxes
         final CheckBox Warrior = new CheckBox("Warrior", skin);
-
         final CheckBox Archer = new CheckBox("Archer", skin);
-
         final CheckBox Assassin = new CheckBox("Assassin", skin);
 
+        // table
         getContentTable().defaults().expand().pad(10);
+
+        // username field
         getContentTable().add("Username:");
         usernameField = new TextField("", skin);
-        getContentTable().add(usernameField).width(400);
-        getContentTable().row();
+        getContentTable().add(usernameField).width(400).right().row();
+
+        // password field
         getContentTable().add("Password:");
         passwordField = new TextField("", skin);
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
-        getContentTable().add(passwordField).width(400);
-        getContentTable().row();
+        getContentTable().add(passwordField).width(400).right().row();
+
+        // checkboxes
+        getContentTable().add(Warrior);
+        getContentTable().add(Archer);
+        getContentTable().add(Assassin);
+
+        // errors
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
         getContentTable().add(errorLabel).colspan(2);
         button("Create", true);
         button("Cancel", false);
-        getContentTable().add(Warrior).width(400).row();
-        getContentTable().add(Archer).width(400).row();
-        getContentTable().add(Assassin).width(400);
+
 
         Warrior.addListener(new ChangeListener() {
             @Override
@@ -112,13 +120,13 @@ public class SignUpDialog extends Dialog {
     @Override
     public float getPrefWidth() {
         // Set the preferred width of the dialog
-        return 800f;
+        return 1000f;
     }
 
     @Override
     public float getPrefHeight() {
         // Set the preferred height of the dialog
-        return 500f;
+        return 600f;
     }
 
     // to create the file
@@ -137,11 +145,11 @@ public class SignUpDialog extends Dialog {
             writer.write(hashPassword(password) + "\n");
 
             if (c.equals("Warrior")) {
-                
+                writer.write("Warrior\n");
             } else if (c.equals("Archer")) {
-
+                writer.write("Archer\n");
             } else {
-
+                writer.write("Assassin\n");
             }
 
             writer.close();
@@ -157,7 +165,6 @@ public class SignUpDialog extends Dialog {
             Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
             return false;
         } catch (FileNotFoundException e) {
-            System.err.println("ERROR: username has not been searched");
             return true;
         }
     }
