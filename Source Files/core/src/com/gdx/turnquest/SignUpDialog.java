@@ -5,8 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.Scanner;
 
 public class SignUpDialog extends Dialog {
@@ -33,7 +32,7 @@ public class SignUpDialog extends Dialog {
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
         getContentTable().add(errorLabel).colspan(2);
-        button("Login", true);
+        button("Create", true);
         button("Cancel", false);
     }
 
@@ -42,19 +41,13 @@ public class SignUpDialog extends Dialog {
         // Handle the result of the dialog
         boolean result = (boolean) object;
         if (result) {
-            // Check credentials
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            // If correct, change screen
-            // Check if the credentials are valid
-            if (!isValidCredentials(username, password)) {
-                // If the credentials are not valid, display an error message
-                errorLabel.setText("Invalid username or password.");
-            } else {
-                // If the credentials are valid, proceed with the login process
-                hide();
-                game.setScreen(new GameScreen(game));
-            }
+            // create the new file
+            createFile();
+
+            // hide te sign up dialog and go to game screen
+            hide();
+            game.setScreen(new GameScreen(game));
+
         } else {
             super.hide();
         }
@@ -62,10 +55,7 @@ public class SignUpDialog extends Dialog {
 
     @Override
     public void hide() {
-        // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (isValidCredentials(usernameField.getText(), passwordField.getText())) {
-            super.hide();
-        }
+
     }
 
     @Override
@@ -80,18 +70,28 @@ public class SignUpDialog extends Dialog {
         return 500f;
     }
 
-    // Helper method to check if the credentials are valid
-    private boolean isValidCredentials(String username, String password) {
+    // to create the file
+    private void createFile() {
+        String userName = usernameField.getText();
+        String password = passwordField.getText();
+        String fileName = userName + ".txt";
+        String filePath = "../";
+
+        //create the file
+        File file = new File(filePath + fileName);
+
         try {
-            Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
-            if (file.nextLine().equals(username) && file.nextLine().equals(password)) {
-                return true;
-            }
-            else{
-                return false;
-            }
-        } catch (FileNotFoundException e) {
-            return false;
+            // write the user and password
+            FileWriter writer = new FileWriter(file);
+
+            writer.write(userName + "\n");
+            writer.write(password + "\n");
+
+            writer.close();
+
+        } catch (IOException e) {
+            System.err.println("ERROR: no text written");
+            System.err.println("ERROR: no text written");
         }
     }
 }

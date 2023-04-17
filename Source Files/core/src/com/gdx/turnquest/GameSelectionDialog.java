@@ -24,10 +24,20 @@ public class GameSelectionDialog extends Dialog {
         boolean result = (boolean) object;
 
         if (result) {
-            showLoginDialog();
+            showSignUpDialog();
         } else {
             showLoginDialog();
         }
+    }
+
+    private void showSignUpDialog() {
+        SignUpDialog dialog = new SignUpDialog("SignUp", new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, getSkin(), game);
+        dialog.show(getStage());
     }
 
     private void showLoginDialog() {
