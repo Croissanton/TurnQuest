@@ -5,12 +5,20 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class ShopScreen implements Screen {
@@ -18,7 +26,7 @@ public class ShopScreen implements Screen {
     private ScrollPane scrollPane;
 
     private int CellWidth=100;
-    private int CellHeight=50;
+    private int CellHeight=80;
 
     public ShopScreen(final TurnQuest game) {
         this.game = game;
@@ -34,8 +42,8 @@ public class ShopScreen implements Screen {
         itemTable.defaults().pad(30).width(CellWidth).height(CellHeight);
         itemTable.columnDefaults(0).align(Align.center).width(CellWidth);
         itemTable.columnDefaults(1).width(CellWidth);
-        itemTable.columnDefaults(2).padLeft(50).padRight(CellWidth/2).width(CellWidth);
-        itemTable.columnDefaults(3).padLeft(50).padRight(CellWidth/2).width(CellWidth);
+        itemTable.columnDefaults(2).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
+        itemTable.columnDefaults(3).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
 
         //DEBUG
         itemTable.add("priceLabel");
@@ -45,16 +53,22 @@ public class ShopScreen implements Screen {
         itemTable.row();
 
         // Add items to the table
+        ImageButton itemButton = null;
         for (int i = 1; i <= 24; i++) {
             // Create label for item price
-            Label priceLabel = new Label(String.valueOf(i),getSkin());
+            Label priceLabel = new Label(String.valueOf(i), getSkin());
 
             // Load item texture
             Texture itemTexture = new Texture(Gdx.files.internal("items/Icons_no_background/rings_and_necklaces/rpg_icons" + i + ".png"));
-            double aspectRatio = itemTexture.getWidth()/itemTexture.getHeight();
-            int newWidth = (int) (aspectRatio*itemTexture.getWidth());
-            TextureRegion itemRegion = new TextureRegion(itemTexture,newWidth,CellHeight);
-            Image itemImage = new Image(itemTexture);
+            double aspectRatio = itemTexture.getWidth() / itemTexture.getHeight();
+            int newWidth = (int) (aspectRatio * itemTexture.getWidth());
+            TextureRegion itemRegion = new TextureRegion(itemTexture, newWidth, CellHeight);
+            TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
+
+            //create button with item image
+            itemButton = new ImageButton(drawable);
+            itemButton.setWidth(CellWidth);
+            itemButton.setHeight(CellHeight);
 
 
             // Create buy/sell buttons for item
@@ -63,7 +77,7 @@ public class ShopScreen implements Screen {
 
             // Add item components to the item table
             itemTable.add(priceLabel);
-            itemTable.add(itemImage);
+            itemTable.add(itemButton);
             itemTable.add(buyButton);
             itemTable.add(sellButton);
             itemTable.row();
@@ -88,7 +102,15 @@ public class ShopScreen implements Screen {
                 game.setScreen(new GameScreen(game));
             }
         });
+
+        itemButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                
+            }
+        });
         // Add back button to a separate table
+        Table descriptionTable = new Table(getSkin());  //this will be the table for the description of the stats of each item, after being clicked
         Table backButtonTable = new Table(getSkin());
         backButtonTable.add(backButton).pad(40);
         // Add back button table to the root table
