@@ -1,0 +1,42 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Iron Sword",
+      "description": "A basic sword made of iron",
+      "value": 50,
+      "stats": {
+        "attack": 20,
+        "agility": 5
+      }
+    },
+    {
+      "id": 2,
+      "name": "Leather Armor",
+      "description": "A simple armor made of leather",
+      "value": 30,
+      "stats": {
+        "defense": 10,
+        "agility": 5
+      }
+    },
+    {
+      "id": 3,
+      "name": "Health Potion",
+      "description": "A potion that restores some health",
+      "value": 20,
+      "stats": {
+        "healing": 50
+      }
+    },
+    {
+      "id": 4,
+      "name": "Mana Potion",
+      "description": "A potion that restores some mana",
+      "value": 15,
+      "stats": {
+        "manaRestore": 30
+      }
+    }
+  ]
+}
