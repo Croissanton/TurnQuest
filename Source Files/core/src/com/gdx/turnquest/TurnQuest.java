@@ -14,6 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class TurnQuest extends Game {
 
 	private static SpriteBatch batch;
@@ -147,5 +151,15 @@ public class TurnQuest extends Game {
 			Gdx.graphics.setFullscreenMode(getDisplayMode());
 			getViewport().update(getVirtualWidth(), getVirtualHeight(), true);
 		}
+	}
+	public static boolean hasInternetConnection() {
+		try {
+			URL url = new URL("https://www.google.com");
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.connect();
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
+import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+
 public class LoginDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
@@ -47,17 +49,22 @@ public class LoginDialog extends Dialog {
             String password = passwordField.getText();
             // If correct, change screen
             // Check if the credentials are valid
-            if (!isValidCredentials(username, password)) {
-                // If the credentials are not valid, display an error message
-                errorLabel.setText("Invalid username or password.");
+            if (!hasInternetConnection()) {
+                Dialog dialog = new Dialog("ERROR", getSkin());
+                dialog.text("No internet connection.");
+                dialog.show(getStage());
             } else {
-                // If the credentials are valid, proceed with the login process
-                hide();
-                game.setScreen(new GameScreen(game));
+                if (!isValidCredentials(username, password)) {
+                    // If the credentials are not valid, display an error message
+                    errorLabel.setText("Invalid username or password.");
+                } else {
+                    // If the credentials are valid, proceed with the login process
+                    hide();
+                    game.setScreen(new GameScreen(game));
+                }
             }
-        } else {
-            super.hide();
         }
+        else super.hide();
     }
 
     @Override
