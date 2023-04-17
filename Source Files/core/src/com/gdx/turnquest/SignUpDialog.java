@@ -1,10 +1,8 @@
 package com.gdx.turnquest;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import static com.gdx.turnquest.LoginDialog.hashPassword;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.io.*;
 import java.util.Scanner;
@@ -18,10 +16,17 @@ public class SignUpDialog extends Dialog {
     private final TurnQuest game;
     private String username;
     private String password;
+    private String c;
 
     public SignUpDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
         this.game = game;
+
+        final CheckBox Warrior = new CheckBox("Warrior", skin);
+
+        final CheckBox Archer = new CheckBox("Archer", skin);
+
+        final CheckBox Assassin = new CheckBox("Assassin", skin);
 
         getContentTable().defaults().expand().pad(10);
         getContentTable().add("Username:");
@@ -39,6 +44,28 @@ public class SignUpDialog extends Dialog {
         getContentTable().add(errorLabel).colspan(2);
         button("Create", true);
         button("Cancel", false);
+        getContentTable().add(Warrior).width(400).row();
+        getContentTable().add(Archer).width(400).row();
+        getContentTable().add(Assassin).width(400);
+
+        Warrior.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                c = "Warrior";
+            }
+        });
+        Archer.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                c = "Archer";
+            }
+        });
+        Assassin.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                c = "Assassin";
+            }
+        });
     }
 
     @Override
@@ -108,6 +135,14 @@ public class SignUpDialog extends Dialog {
 
             writer.write(username + "\n");
             writer.write(hashPassword(password) + "\n");
+
+            if (c.equals("Warrior")) {
+                
+            } else if (c.equals("Archer")) {
+
+            } else {
+
+            }
 
             writer.close();
 
