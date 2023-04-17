@@ -4,13 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-import static com.gdx.turnquest.LoginDialog.*;
-
 public class Player {
 
     private static String characterClass = "";
     private static int gold;
     private static int exp;
+    private static int level;
 
     public Player(String fileName) {
         try {
@@ -18,6 +17,9 @@ public class Player {
             file.nextLine();
             file.nextLine();
             characterClass = file.nextLine();
+            gold = Integer.parseInt(file.nextLine());
+            exp = Integer.parseInt(file.nextLine());
+            level = Integer.parseInt(file.nextLine());
         } catch (FileNotFoundException e) {
             System.err.println("ERROR: File not found.");
         }
@@ -42,4 +44,8 @@ public class Player {
     public static int getExp() {
         return exp;
     }
+
+    public static int setLevel(int l) {level = l;}
+
+    public static int getLevel() {return level;}
 }
