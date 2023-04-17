@@ -57,11 +57,9 @@ public class Player {
         return exp;
     }
 
-<<<<<<< HEAD
     public static void setLevel(int l) {level = l;}
-=======
+
     public static void increaseLevel(int l) {level += l;}
->>>>>>> MenuwButtons
 
     public static int getLevel() {return level;}
 }
