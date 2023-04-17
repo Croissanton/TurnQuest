@@ -37,6 +37,8 @@ public class TurnQuest extends Game {
 	private static Skin skin;
 
 	private static Viewport viewport;
+	private static Player player;
+
 	public void render() {
 		super.render(); // important!
 	}
@@ -132,6 +134,10 @@ public class TurnQuest extends Game {
 	public static void setViewport(Viewport viewport) {
 		TurnQuest.viewport = viewport;
 	}
+
+	public static Player getPlayer() { return player; }
+
+	public static void setPlayer(Player player) { TurnQuest.player = player; }
 
 	public static void toggleFullscreen(){
 		if (Gdx.graphics.isFullscreen()) {

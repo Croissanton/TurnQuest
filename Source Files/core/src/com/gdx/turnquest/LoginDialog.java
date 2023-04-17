@@ -53,7 +53,7 @@ public class LoginDialog extends Dialog {
             } else {
                 // If the credentials are valid, proceed with the login process
                 hide();
-                game.setScreen(new GameScreen(game, new Player(username)));
+                game.setScreen(new GameScreen(game));
             }
         } else {
             super.hide();

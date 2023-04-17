@@ -17,10 +17,8 @@ public class AbilitiesScreen implements Screen {
 
     final TurnQuest game;
 
-    final Player player;
-    public AbilitiesScreen(final TurnQuest game, final Player player) {
+    public AbilitiesScreen(final TurnQuest game) {
         this.game = game;
-        this.player = player;
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -97,7 +95,7 @@ public class AbilitiesScreen implements Screen {
         bRightArrow.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game, player));
+                game.setScreen(new AbilitiesScreen(game));
             }
         });
 
@@ -105,7 +103,7 @@ public class AbilitiesScreen implements Screen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, player));
+                game.setScreen(new GameScreen(game));
             }
         });
 

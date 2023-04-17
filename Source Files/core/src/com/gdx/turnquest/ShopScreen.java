@@ -20,13 +20,8 @@ public class ShopScreen implements Screen {
     private int CellWidth=100;
     private int CellHeight=50;
 
-
-
-    final Player player;
-
-    public ShopScreen(final TurnQuest game, final Player player) {
+    public ShopScreen(final TurnQuest game) {
         this.game = game;
-        this.player = player;
 
         setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(getStage());
@@ -90,7 +85,7 @@ public class ShopScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, player));
+                game.setScreen(new GameScreen(game));
             }
         });
         // Add back button to a separate table
