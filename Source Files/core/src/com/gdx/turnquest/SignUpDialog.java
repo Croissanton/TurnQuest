@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import java.io.*;
 import java.util.Scanner;
 
+import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
@@ -47,18 +49,24 @@ public class SignUpDialog extends Dialog {
         boolean result = (boolean) object;
 
         if (result) {
-            // check username
-            if (!freeUsername(username)) {
-                errorLabel.setText("Invalid username, it already exists.");
-            } else if (4 > password.length()) {
-                errorLabel.setText("Invalid password, it needs to have 4 characters.");
+            if (!hasInternetConnection()) {
+                Dialog dialog = new Dialog("ERROR", getSkin());
+                dialog.text("No internet connection.");
+                dialog.show(getStage());
             } else {
-                // create the new file
-                createFile();
+                // check username
+                if (!freeUsername(username)) {
+                    errorLabel.setText("Invalid username, it already exists.");
+                } else if (4 > password.length()) {
+                    errorLabel.setText("Invalid password, it needs to have 4 characters.");
+                } else {
+                    // create the new file
+                    createFile();
 
-                // hide te sign up dialog and go to game screen
-                hide();
-                game.setScreen(new GameScreen(game));
+                    // hide te sign up dialog and go to game screen
+                    hide();
+                    game.setScreen(new GameScreen(game));
+                }
             }
         } else {
             super.hide();
