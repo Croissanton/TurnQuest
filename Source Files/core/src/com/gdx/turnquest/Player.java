@@ -6,10 +6,13 @@ import java.util.Scanner;
 
 public class Player {
 
+    private static final int N_STATS = 6; // Number of stats, TO BE CHANGED WHEN WE CONCLUDE THE NUMBER OF STATS.
     private static String characterClass = "";
     private static int gold;
     private static int exp;
     private static int level;
+
+    private static int stats[] = new int[N_STATS];
 
     public Player(String fileName) {
         try {
