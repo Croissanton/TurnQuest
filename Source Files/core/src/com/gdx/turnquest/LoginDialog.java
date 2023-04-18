@@ -56,9 +56,7 @@ public class LoginDialog extends Dialog {
             // If correct, change screen
             // Check if the credentials are valid
             if (!hasInternetConnection()) {
-                Dialog dialog = new Dialog("ERROR", getSkin());
-                dialog.text("No internet connection.");
-                dialog.show(getStage());
+                errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
                 if (!isValidCredentials(username, password)) {
                     // If the credentials are not valid, display an error message

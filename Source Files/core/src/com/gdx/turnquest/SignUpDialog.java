@@ -90,9 +90,7 @@ public class SignUpDialog extends Dialog {
 
         if (result) {
             if (!hasInternetConnection()) {
-                Dialog dialog = new Dialog("ERROR", getSkin());
-                dialog.text("No internet connection.");
-                dialog.show(getStage());
+                errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
                 // check username
                 if (!freeUsername(username)) {
