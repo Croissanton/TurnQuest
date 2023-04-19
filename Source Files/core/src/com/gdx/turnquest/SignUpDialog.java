@@ -8,7 +8,8 @@ import java.io.*;
 import java.util.Scanner;
 
 import static com.gdx.turnquest.LoginDialog.hashPassword;
-import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+import static com.gdx.turnquest.TurnQuest.*;
+import static com.gdx.turnquest.Player.setCharacterClass;
 
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;
@@ -20,6 +21,7 @@ public class SignUpDialog extends Dialog {
     private final TurnQuest game;
     private String username;
     private String password;
+    private boolean espabilado = false;
 
     public SignUpDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
@@ -48,7 +50,7 @@ public class SignUpDialog extends Dialog {
         // checkboxes
         getContentTable().add(Warrior);
         getContentTable().add(Archer);
-        getContentTable().add(Assassin);
+        getContentTable().add(Assassin).row();
 
         // errors
         errorLabel = new Label("", skin);
@@ -64,6 +66,7 @@ public class SignUpDialog extends Dialog {
                 if (Assassin.isChecked()) Assassin.setChecked(false);
             }
         });
+
         Archer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -71,6 +74,7 @@ public class SignUpDialog extends Dialog {
                 if (Assassin.isChecked()) Assassin.setChecked(false);
             }
         });
+
         Assassin.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
@@ -82,6 +86,8 @@ public class SignUpDialog extends Dialog {
 
     @Override
     protected void result(Object object) {
+        setCharacterClass("p");
+
         username = usernameField.getText();
         password = passwordField.getText();
 
@@ -97,6 +103,9 @@ public class SignUpDialog extends Dialog {
                     errorLabel.setText("Invalid username, it already exists.");
                 } else if (4 > password.length()) {
                     errorLabel.setText("Invalid password, it needs to have 4 characters.");
+                } else if (!Warrior.isChecked() && !Archer.isChecked() && !Assassin.isChecked()) {
+                    errorLabel.setText("Espabila.");
+                    espabilado = false;
                 } else {
                     // create the new file
                     createFile();
@@ -114,7 +123,7 @@ public class SignUpDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (freeUsername(usernameField.getText()) && password.length() >= 4) {
+        if (freeUsername(usernameField.getText()) && password.length() >= 4 && espabilado) {
             super.hide();
         }
     }
@@ -146,11 +155,11 @@ public class SignUpDialog extends Dialog {
             writer.write(username + "\n");
             writer.write(hashPassword(password) + "\n");
 
-            if (true == Warrior.isChecked()) {
+            if (Warrior.isChecked()) {
                 writer.write("Warrior\n");
-            } else if (true == Archer.isChecked()) {
+            } else if (Archer.isChecked()) {
                 writer.write("Archer\n");
-            } else {
+            } else if (Assassin.isChecked()) {
                 writer.write("Assassin\n");
             }
 

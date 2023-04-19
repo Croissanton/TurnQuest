@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import static com.gdx.turnquest.TurnQuest.*;
+import static com.gdx.turnquest.Player.*;
 
 public class AbilitiesScreen implements Screen {
 
@@ -132,6 +133,7 @@ public class AbilitiesScreen implements Screen {
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
         getFont().draw(getBatch(), "Abilities", getVirtualWidth()*45/100, getVirtualHeight()*85/100);
+        getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth()*45/100, getVirtualHeight()*80/100);
         getBatch().end();
 
         getStage().act();
