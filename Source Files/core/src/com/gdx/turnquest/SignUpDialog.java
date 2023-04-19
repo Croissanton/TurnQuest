@@ -1,8 +1,12 @@
 package com.gdx.turnquest;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.io.*;
 import java.util.Scanner;
@@ -99,8 +103,7 @@ public class SignUpDialog extends Dialog {
                     errorLabel.setText("Invalid password, it needs to have 4 characters.");
                 } else {
                     // create the new file
-                    createFile();
-
+                    addPlayer();
                     // hide te sign up dialog and go to game screen
                     hide();
                     game.setScreen(new GameScreen(game));
@@ -132,7 +135,20 @@ public class SignUpDialog extends Dialog {
     }
 
     // to create the file
-    private void createFile() {
+    private void addPlayer() {
+
+        try {
+            FileHandle file = Gdx.files.internal("../Data/" + "players.json");
+            String json = file.readString();
+            JsonReader reader = new JsonReader();
+            JsonValue root = reader.parse(json);
+            JsonValue players = root.get("players");
+
+        } catch (Exception e) {
+
+        }
+
+        /*
         String fileName = username + ".txt";
         String filePath = "../";
 
@@ -160,14 +176,26 @@ public class SignUpDialog extends Dialog {
             System.err.println("ERROR: no text written");
             System.err.println("ERROR: no text written");
         }
+        */
     }
 
     private boolean freeUsername(String username) {
         try {
-            Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
-            return false;
-        } catch (FileNotFoundException e) {
+            FileHandle file = Gdx.files.internal("../Data/" + "players.json");
+            String json = file.readString();
+            JsonReader reader = new JsonReader();
+            JsonValue root = reader.parse(json);
+            JsonValue players = root.get("players");
+
+            for (JsonValue player : players) {
+                if (username.equals(player.getString("username"))) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
             return true;
         }
+
+        return true;
     }
 }
