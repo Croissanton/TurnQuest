@@ -86,8 +86,6 @@ public class SignUpDialog extends Dialog {
 
     @Override
     protected void result(Object object) {
-        setCharacterClass("p");
-
         username = usernameField.getText();
         password = passwordField.getText();
 
@@ -157,10 +155,13 @@ public class SignUpDialog extends Dialog {
 
             if (Warrior.isChecked()) {
                 writer.write("Warrior\n");
+                setCharacterClass("Warrior");
             } else if (Archer.isChecked()) {
                 writer.write("Archer\n");
+                setCharacterClass("Archer");
             } else if (Assassin.isChecked()) {
                 writer.write("Assassin\n");
+                setCharacterClass("Assassin");
             }
 
             writer.close();
