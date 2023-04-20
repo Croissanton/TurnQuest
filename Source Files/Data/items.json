@@ -16,7 +16,7 @@
       "description": "A simple armor made of leather",
       "value": 30,
       "stats": {
-        "defense": 10,
+        "defence": 10,
         "agility": 5
       }
     },

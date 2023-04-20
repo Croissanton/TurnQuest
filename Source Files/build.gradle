@@ -62,5 +62,6 @@ project(":core") {
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "com.kotcrab.vis:vis-ui:1.4.11"
+        api "com.googlecode.json-simple:json-simple:1.1.1"
     }
 }
