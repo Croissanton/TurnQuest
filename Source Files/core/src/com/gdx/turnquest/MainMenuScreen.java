@@ -31,6 +31,7 @@ public class MainMenuScreen implements Screen {
         TextButton bStart = new TextButton("Start", getSkin());
         TextButton bOptions = new TextButton("Options", getSkin());
         TextButton bQuit = new TextButton("Quit", getSkin());
+
         //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
 
         bStart.addListener(new ClickListener() {
@@ -45,14 +46,6 @@ public class MainMenuScreen implements Screen {
                 showPreferencesDialog();
             }
         });
-
-        bQuit.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showQuitConfirmationDialog();
-            }
-        });
-
         bQuit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
