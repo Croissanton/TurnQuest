@@ -22,7 +22,6 @@ public class ClanScreen implements Screen {
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
         // return button
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -51,7 +50,7 @@ public class ClanScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(getStage());
     }
 
     @Override
@@ -72,7 +71,7 @@ public class ClanScreen implements Screen {
         getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            game.toggleFullscreen();
+            toggleFullscreen();
         }
     }
 

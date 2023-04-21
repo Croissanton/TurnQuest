@@ -38,7 +38,6 @@ public class ShopScreen implements Screen {
         this.game = game;
 
         setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -156,7 +155,7 @@ public class ShopScreen implements Screen {
 
     @Override
     public void show() {
-
+        setStage(new Stage(getViewport()));
     }
 
     @Override

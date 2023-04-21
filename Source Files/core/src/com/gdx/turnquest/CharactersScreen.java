@@ -28,16 +28,12 @@ public class CharactersScreen implements Screen{
     private Texture spriteSheet;
     private TextureRegion[] frames;
     private Animation<TextureRegion> animation;
-    private SpriteBatch batch;
     private float stateTime;
 
     public CharactersScreen(final TurnQuest game) {
         this.game = game;
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
-        setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
         setStage(new Stage(getViewport()));
 
@@ -65,6 +61,7 @@ public class CharactersScreen implements Screen{
 
         @Override
     public void show() {
+        Gdx.input.setInputProcessor(getStage());
 
         spriteSheet= new Texture(Gdx.files.internal("Necromancer_creativekind-Sheet.png"));
           //attempt to resize texture
@@ -92,7 +89,6 @@ public class CharactersScreen implements Screen{
             }
         }
         animation = new Animation<>(FRAME_DURATION, frames);
-        batch = new SpriteBatch();
     }
 
     @Override
@@ -108,7 +104,7 @@ public class CharactersScreen implements Screen{
 
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getBatch().draw(currentFrame, getDisplayMode().width/3, getDisplayMode().height/2);
+        getBatch().draw(currentFrame, getVirtualWidth()/3, getVirtualHeight()/2);
         getFont().getData().setScale(4); //Changes font size.
         getFont().draw(getBatch(), "The button doesnt work! :D", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
         getBatch().end();
@@ -118,16 +114,6 @@ public class CharactersScreen implements Screen{
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
-        }
-    }
-
-    public static void toggleFullscreen(){
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2);
-            getStage().getViewport().update(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2, true);
-        } else {
-            Gdx.graphics.setFullscreenMode(TurnQuest.getDisplayMode());
-            getStage().getViewport().update(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), true);
         }
     }
 

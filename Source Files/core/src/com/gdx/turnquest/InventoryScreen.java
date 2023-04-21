@@ -21,7 +21,6 @@ public class InventoryScreen implements Screen {
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
         // table buttons
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -72,7 +71,7 @@ public class InventoryScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(getStage());
     }
 
     @Override
@@ -93,16 +92,6 @@ public class InventoryScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
-        }
-    }
-
-    public static void toggleFullscreen(){
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2);
-            getStage().getViewport().update(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2, true);
-        } else {
-            Gdx.graphics.setFullscreenMode(TurnQuest.getDisplayMode());
-            getStage().getViewport().update(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), true);
         }
     }
 

@@ -23,9 +23,7 @@ public class MainMenuScreen implements Screen {
         this.game = game;
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
         setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
 
         TextButton bStart = new TextButton("Start", getSkin());
@@ -68,7 +66,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(getStage());
     }
 
     @Override
