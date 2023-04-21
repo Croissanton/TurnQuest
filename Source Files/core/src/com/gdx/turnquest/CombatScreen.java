@@ -34,11 +34,11 @@ public class CombatScreen implements Screen {
 
         // Create the player and enemy sprites
         playerSprite = new Sprite(playerTexture);
-        playerSprite.setPosition(getVirtualWidth()/4, getVirtualHeight()/2); // Set the position of the player sprite
+        playerSprite.setPosition(getVirtualWidth()*2/8f, getVirtualHeight()/2f); // Set the position of the player sprite
         playerSprite.setScale(2); // Scale the player sprite
 
         enemySprite = new Sprite(enemyTexture);
-        enemySprite.setPosition(getVirtualWidth()*3/4, getVirtualHeight()/2); // Set the position of the enemy sprite
+        enemySprite.setPosition(getVirtualWidth()*6/8f, getVirtualHeight()/2f); // Set the position of the enemy sprite
         enemySprite.setScale(2); // Scale the enemy sprite
 
         TextButton attackButton = new TextButton("Attack", getSkin());
@@ -48,12 +48,15 @@ public class CombatScreen implements Screen {
 
         // Create the table
         Table optionsTable = new Table(getSkin());
-        optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 50f, Align.center);
+        optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 200f, Align.center);
         optionsTable.defaults().space(20f);
-        optionsTable.add(attackButton).row();
-        optionsTable.add(magicButton).row();
-        optionsTable.add(itemButton).row();
-        optionsTable.add(runButton).row();
+        optionsTable.add(attackButton);
+        optionsTable.add(itemButton);
+        optionsTable.row();
+        optionsTable.add(magicButton);
+        optionsTable.add(runButton);
+
+
 
         // Add the table to the stage
         getStage().addActor(optionsTable);
