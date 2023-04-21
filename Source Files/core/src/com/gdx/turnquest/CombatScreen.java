@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import static com.gdx.turnquest.TurnQuest.*;
+import static com.gdx.turnquest.Player.*;
 
 public class CombatScreen implements Screen {
     final TurnQuest game;
@@ -20,6 +20,11 @@ public class CombatScreen implements Screen {
     private static Texture enemyTexture;
     private static Sprite playerSprite;
     private static Sprite enemySprite;
+
+    private static Label playerHpLabel;
+    private static Label playerMpLabel;
+    private static Label enemyMpLabel;
+    private static Label enemyHpLabel;
 
     public CombatScreen(final TurnQuest game) {
         this.game = game;
@@ -55,6 +60,43 @@ public class CombatScreen implements Screen {
         optionsTable.row();
         optionsTable.add(magicButton);
         optionsTable.add(runButton);
+
+        playerHpLabel = new Label("HP: " + getHP(), getSkin());
+        playerMpLabel = new Label("MP: " + getMP(), getSkin());
+        enemyHpLabel = new Label("HP: " + 0, getSkin());
+        enemyMpLabel = new Label("MP: " + 0, getSkin());
+
+        ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
+        ProgressBar.ProgressBarStyle progressBarStyleMP = new ProgressBar.ProgressBarStyle();
+
+        progressBarStyleHP.background = getSkin().getDrawable("progress-bar-health");
+        progressBarStyleHP.knobBefore = getSkin().getDrawable("progress-bar-health-knob");
+
+        progressBarStyleMP.background = getSkin().getDrawable("progress-bar-mana");
+        progressBarStyleMP.knobBefore = getSkin().getDrawable("progress-bar-mana-knob");
+
+        ProgressBar hpBar = new ProgressBar(0, getHP(), 1, false, progressBarStyleHP);
+        hpBar.setValue(getHP()); // Set the initial value of the bar to getHP() (full)
+
+        ProgressBar mpBar = new ProgressBar(0, getMP(), 1, false, progressBarStyleMP);
+        hpBar.setValue(getMP()); // Set the initial value of the bar to getHP() (full)
+
+
+        Table statusTable = new Table(getSkin());
+        statusTable.setPosition(315f, TurnQuest.getVirtualHeight()/10f);
+        statusTable.defaults().space(10f);
+        statusTable.add(playerHpLabel).row();
+        statusTable.add(hpBar).width(400f).row();
+        statusTable.add(playerMpLabel).row();
+        statusTable.add(mpBar).width(400f).row();
+
+        //Space these two out in the X axis (I didn't manage to do that, if you can, please do)
+
+        statusTable.add(enemyHpLabel).right().row();
+        statusTable.add(enemyMpLabel).right();
+        statusTable.pack();
+
+        getStage().addActor(statusTable);
 
 
 
@@ -110,6 +152,11 @@ public class CombatScreen implements Screen {
 
         getCamera().update();
         getBatch().setProjectionMatrix(getCamera().combined);
+
+        playerHpLabel.setText("HP: " + getHP());
+        playerMpLabel.setText("MP: " + getMP());
+        enemyHpLabel.setText("HP: " + 0);
+        enemyMpLabel.setText("MP: " + 0);
 
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
