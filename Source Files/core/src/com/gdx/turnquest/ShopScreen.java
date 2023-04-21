@@ -5,44 +5,33 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Map;
-import java.util.Scanner;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import com.sun.tools.javac.util.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
+
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class ShopScreen implements Screen {
     final TurnQuest game;
-    private ScrollPane scrollPane;
 
-    private int CellWidth=100;
-    private int CellHeight=80;
+    private static final int CellWidth=100;
+    private static final int CellHeight=80;
 
 
-    private Hashtable<String, Hashtable<String, String>> invetory;
+    private static Hashtable<String, Hashtable<String, String>> inventory;
 
 
     public ShopScreen(final TurnQuest game) {
@@ -53,7 +42,7 @@ public class ShopScreen implements Screen {
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        invetory = new Hashtable<>();
+        inventory = new Hashtable<>();
         readInventory();
         // Create the table to hold the items
         Table itemTable = new Table(getSkin());
@@ -62,7 +51,7 @@ public class ShopScreen implements Screen {
         ImageButton itemButton = null;
 
         // Create a scroll pane to hold the item table
-        scrollPane = new ScrollPane(itemTable, getSkin());
+        ScrollPane scrollPane = new ScrollPane(itemTable, getSkin());
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setSmoothScrolling(true);
 
@@ -120,7 +109,7 @@ public class ShopScreen implements Screen {
         // Add items to the table
         ImageButton itemButton = null;
 
-        for (Map.Entry<String, Hashtable<String, String>> set : this.invetory.entrySet())
+        for (Map.Entry<String, Hashtable<String, String>> set : inventory.entrySet())
         {
 
             String name = set.getKey();
@@ -205,15 +194,11 @@ public class ShopScreen implements Screen {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
 
-            final JSONArray invetory = (JSONArray) obj;
+            final JSONArray inventory = (JSONArray) obj;
 
-            invetory.forEach( thing -> this.parseInventory( (JSONObject) thing ) );
+            inventory.forEach( thing -> this.parseInventory( (JSONObject) thing ) );
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -230,7 +215,7 @@ public class ShopScreen implements Screen {
         stats.put("defence", defence);
         stats.put("price", price);
         stats.put("imagePath", path);
-        this.invetory.put(name, stats);
+        ShopScreen.inventory.put(name, stats);
     }
     @Override
     public void pause() {
