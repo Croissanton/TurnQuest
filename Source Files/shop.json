@@ -1,0 +1,86 @@
+[
+  {
+    "name": "sword1",
+    "price": "100",
+    "attack": "30",
+    "defence": "20",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons1.png"
+  },
+  {
+    "name": "shield2",
+    "price": "200",
+    "attack": "5",
+    "defence": "60",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons2.png"
+  },
+  {
+    "name": "sword3",
+    "price": "100",
+    "attack": "30",
+    "defence": "20",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons3.png"
+  },
+  {
+    "name": "shield4",
+    "price": "200",
+    "attack": "5",
+    "defence": "60",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons4.png"
+  },
+  {
+    "name": "sword5",
+    "price": "100",
+    "attack": "30",
+    "defence": "20",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons5.png"
+  },
+  {
+    "name": "shield6",
+    "price": "200",
+    "attack": "5",
+    "defence": "60",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons6.png"
+  },
+  {
+    "name": "sword7",
+    "price": "100",
+    "attack": "30",
+    "defence": "20",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons7.png"
+  },
+  {
+    "name": "shield8",
+    "price": "200",
+    "attack": "5",
+    "defence": "60",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons8.png"
+  },
+  {
+    "name": "sword9",
+    "price": "100",
+    "attack": "30",
+    "defence": "20",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons9.png"
+  },
+  {
+    "name": "shield10",
+    "price": "200",
+    "attack": "5",
+    "defence": "60",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons10.png"
+  },
+  {
+    "name": "sword11",
+    "price": "100",
+    "attack": "30",
+    "defence": "20",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons11.png"
+  },
+  {
+    "name": "shield12",
+    "price": "200",
+    "attack": "5",
+    "defence": "60",
+    "image_path": "items/Icons_no_background/rings_and_necklaces/rpg_icons12.png"
+  }
+]

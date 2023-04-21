@@ -18,7 +18,20 @@ import com.gdx.turnquest.TurnQuest;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Map;
 import java.util.Scanner;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+import com.sun.tools.javac.util.Pair;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -29,6 +42,10 @@ public class ShopScreen implements Screen {
     private int CellWidth=100;
     private int CellHeight=80;
 
+
+    private Hashtable<String, Hashtable<String, String>> invetory;
+
+
     public ShopScreen(final TurnQuest game) {
         this.game = game;
 
@@ -37,52 +54,13 @@ public class ShopScreen implements Screen {
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-
+        invetory = new Hashtable<>();
+        readInventory();
         // Create the table to hold the items
         Table itemTable = new Table(getSkin());
-        itemTable.defaults().pad(30).width(CellWidth).height(CellHeight);
-        itemTable.columnDefaults(0).align(Align.center).width(CellWidth);
-        itemTable.columnDefaults(1).width(CellWidth);
-        itemTable.columnDefaults(2).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
-        itemTable.columnDefaults(3).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
+        setItemTable(itemTable);
 
-        //DEBUG
-        itemTable.add("priceLabel");
-        itemTable.add("itemImage");
-        itemTable.add("buyButton");
-        itemTable.add("sellButton");
-        itemTable.row();
-
-        // Add items to the table
         ImageButton itemButton = null;
-        for (int i = 1; i <= 24; i++) {
-            // Create label for item price
-            Label priceLabel = new Label(String.valueOf(i), getSkin());
-
-            // Load item texture
-            Texture itemTexture = new Texture(Gdx.files.internal("items/Icons_no_background/rings_and_necklaces/rpg_icons" + i + ".png"));
-            double aspectRatio = itemTexture.getWidth() / itemTexture.getHeight();
-            int newWidth = (int) (aspectRatio * itemTexture.getWidth());
-            TextureRegion itemRegion = new TextureRegion(itemTexture, newWidth, CellHeight);
-            TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
-
-            //create button with item image
-            itemButton = new ImageButton(drawable);
-            itemButton.setWidth(CellWidth);
-            itemButton.setHeight(CellHeight);
-
-
-            // Create buy/sell buttons for item
-            TextButton buyButton = new TextButton("Buy", getSkin());
-            TextButton sellButton = new TextButton("Sell", getSkin());
-
-            // Add item components to the item table
-            itemTable.add(priceLabel);
-            itemTable.add(itemButton);
-            itemTable.add(buyButton);
-            itemTable.add(sellButton);
-            itemTable.row();
-        }
 
         // Create a scroll pane to hold the item table
         scrollPane = new ScrollPane(itemTable, getSkin());
@@ -104,18 +82,88 @@ public class ShopScreen implements Screen {
             }
         });
 
-        itemButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                
-            }
-        });
+
+
+//        itemButton.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//
+//            }
+//        });
         // Add back button to a separate table
         Table descriptionTable = new Table(getSkin());  //this will be the table for the description of the stats of each item, after being clicked
         Table backButtonTable = new Table(getSkin());
         backButtonTable.add(backButton).pad(40);
         // Add back button table to the root table
         rootTable.add(backButtonTable).top().left().expandX();
+    }
+
+    private void setItemTable(Table itemTable)
+    {
+        itemTable.defaults().pad(30).width(CellWidth).height(CellHeight);
+        itemTable.columnDefaults(0).align(Align.center).width(CellWidth);
+        itemTable.columnDefaults(1).width(CellWidth);
+        itemTable.columnDefaults(2).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
+        itemTable.columnDefaults(3).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
+
+        //DEBUG
+        itemTable.add("priceLabel");
+        itemTable.add("itemImage");
+        itemTable.add("buyButton");
+        itemTable.add("sellButton");
+        itemTable.row();
+
+        addItems(itemTable);
+    }
+
+    private void addItems(Table itemTable)
+    {
+        // Add items to the table
+        ImageButton itemButton = null;
+
+        for (Map.Entry<String, Hashtable<String, String>> set : this.invetory.entrySet())
+        {
+
+            String name = set.getKey();
+            String price = set.getValue().get("price");
+            String attack = set.getValue().get("attack");
+            String defence = set.getValue().get("defence");
+            String imagePath = set.getValue().get("imagePath");
+
+            // Create label for item price
+
+            Label priceLabel = new Label(price, getSkin());
+
+            // Load item texture
+            Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
+            double aspectRatio = itemTexture.getWidth() / itemTexture.getHeight();
+            int newWidth = (int) (aspectRatio * itemTexture.getWidth());
+            TextureRegion itemRegion = new TextureRegion(itemTexture, newWidth, CellHeight);
+            TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
+
+            //create button with item image
+            itemButton = new ImageButton(drawable);
+            itemButton.setWidth(CellWidth);
+            itemButton.setHeight(CellHeight);
+
+            itemButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y){
+                    showStats(name, price, attack, defence);
+                }
+            });
+
+            // Create buy/sell buttons for item
+            TextButton buyButton = new TextButton("Buy", getSkin());
+            TextButton sellButton = new TextButton("Sell", getSkin());
+
+            // Add item components to the item table
+            itemTable.add(priceLabel);
+            itemTable.add(itemButton);
+            itemTable.add(buyButton);
+            itemTable.add(sellButton);
+            itemTable.row();
+        }
     }
 
     @Override
@@ -144,6 +192,47 @@ public class ShopScreen implements Screen {
         TurnQuest.getViewport().update(width, height, true);
     }
 
+    private void showStats(String name, String price, String attack, String defence)
+    {
+
+    }
+
+    private void readInventory()
+    {
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader("../shop.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+
+            final JSONArray invetory = (JSONArray) obj;
+
+            invetory.forEach( thing -> this.parseInventory( (JSONObject) thing ) );
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseInventory(JSONObject inventory)
+    {
+        String name = (String) inventory.get("name");
+        String price = (String) inventory.get("price");
+        String attack = (String) inventory.get("attack");
+        String defence = (String) inventory.get("defence");
+        String path = (String) inventory.get("image_path");
+        Hashtable<String, String> stats = new Hashtable<>();
+        stats.put("attack", attack);
+        stats.put("defence", defence);
+        stats.put("price", price);
+        stats.put("imagePath", path);
+        this.invetory.put(name, stats);
+    }
     @Override
     public void pause() {
 

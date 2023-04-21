@@ -28,6 +28,10 @@ public class Player {
         }
     }
 
+    public static void setCharacterClass(String cc) {
+        characterClass = cc;
+    }
+
     public static String getCharacterClass() {
         return characterClass;
     }
