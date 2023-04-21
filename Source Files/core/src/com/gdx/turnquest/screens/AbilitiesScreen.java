@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -139,16 +140,6 @@ public class AbilitiesScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
-        }
-    }
-
-    public static void toggleFullscreen(){
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2);
-            getStage().getViewport().update(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2, true);
-        } else {
-            Gdx.graphics.setFullscreenMode(TurnQuest.getDisplayMode());
-            getStage().getViewport().update(TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight(), true);
         }
     }
 

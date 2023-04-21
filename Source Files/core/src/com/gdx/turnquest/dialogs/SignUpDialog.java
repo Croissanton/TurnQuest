@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.dialogs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -7,11 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.screens.GameScreen;
 
-import java.io.*;
-import java.util.Scanner;
-
-import static com.gdx.turnquest.LoginDialog.hashPassword;
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
 public class SignUpDialog extends Dialog {
@@ -100,8 +98,11 @@ public class SignUpDialog extends Dialog {
                 if (!freeUsername(username)) {
                     errorLabel.setText("Invalid username, it already exists.");
                 } else if (4 > password.length()) {
-                    errorLabel.setText("Invalid password, it needs to have 4 characters.");
-                } else {
+                    errorLabel.setText("Invalid password, it needs to have at least 4 characters.");
+                } else if (!Archer.isChecked() && !Warrior.isChecked() && !Assassin.isChecked()) {
+                    errorLabel.setText("Invalid class, you need to select one.");
+                }
+                else {
                     // create the new file
                     addPlayer();
                     // hide te sign up dialog and go to game screen
@@ -143,6 +144,8 @@ public class SignUpDialog extends Dialog {
             JsonReader reader = new JsonReader();
             JsonValue root = reader.parse(json);
             JsonValue players = root.get("players");
+
+
 
         } catch (Exception e) {
 

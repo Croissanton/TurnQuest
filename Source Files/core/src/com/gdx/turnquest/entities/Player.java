@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.entities;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

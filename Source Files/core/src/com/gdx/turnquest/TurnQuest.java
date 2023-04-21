@@ -14,6 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gdx.turnquest.dialogs.PreferencesDialog;
+import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.screens.MainMenuScreen;
+import com.gdx.turnquest.assets.Assets;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -49,25 +53,25 @@ public class TurnQuest extends Game {
 	}
 
 	public void create() {
+		Assets assets = new Assets();
+		assets.load();
+		assets.getManager().finishLoading();
 		batch = new SpriteBatch();
 		font = new BitmapFont(); // use libGDX's default Arial font
 		fontSmall = new BitmapFont();
-		manager = new AssetManager();
-		AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<Skin>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
-		manager.load(skinAssetDescriptor);
-		manager.finishLoading();
-		skin = TurnQuest.getManager().get(skinAssetDescriptor);
+		skin = assets.getManager().get("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
 		camera = new OrthographicCamera();
 		setDisplayMode(Gdx.graphics.getDisplayMode());
 		getCamera().setToOrtho(false, getVirtualWidth(), getVirtualHeight());
 		setViewport(new FitViewport(getVirtualWidth(), getVirtualHeight(), getCamera()));
 
-		this.setScreen(new MainMenuScreen(this));
+		setScreen(new MainMenuScreen(this));
 	}
-
+	@Override
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
+		super.dispose();
 	}
 
 	public static int getGeneralVolume(){
@@ -106,9 +110,6 @@ public class TurnQuest extends Game {
 		return fontSmall;
 	}
 
-	public static AssetManager getManager(){
-		return manager;
-	}
 	public static Texture getBackgroundTexture() {
 		return backgroundTexture;
 	}

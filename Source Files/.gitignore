@@ -112,4 +112,6 @@ Thumbs.db
 /ios/IOSLauncher.app
 /ios/IOSLauncher.app.dSYM
 
-/.idea/
+/core/build/*
+/desktop/build/*
+

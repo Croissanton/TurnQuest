@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.dialogs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.gdx.turnquest.TurnQuest;
+
 public class PreferencesDialog extends Dialog {
     private Runnable yesRunnable;
 
@@ -17,7 +19,7 @@ public class PreferencesDialog extends Dialog {
         final Slider sliderVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
 
-        final TextField tTest = new TextField(" VOLUME: "+TurnQuest.getGeneralVolume(), skin);
+        final TextField tTest = new TextField(" VOLUME: "+ TurnQuest.getGeneralVolume(), skin);
         tTest.setDisabled(true);
 
         // Set initial value of mainVolume slider

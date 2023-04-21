@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.dialogs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -8,12 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.screens.GameScreen;
 
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Objects;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
@@ -101,10 +104,7 @@ public class LoginDialog extends Dialog {
             JsonValue players = root.get("players");
             for (JsonValue player : players) {
                 if(username.equals(player.getString("username"))){
-                    if (hashPassword(password).equals(player.getString("password"))) {
-                        return true;
-                    }
-                    else return false;
+                    return Objects.equals(hashPassword(password), player.getString("password"));
                 }
             }
         } catch (Exception e) {

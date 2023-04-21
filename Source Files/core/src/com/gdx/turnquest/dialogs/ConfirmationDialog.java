@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.dialogs;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
