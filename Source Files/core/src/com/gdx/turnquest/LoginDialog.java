@@ -1,17 +1,19 @@
 package com.gdx.turnquest;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import java.util.Scanner;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
@@ -54,9 +56,7 @@ public class LoginDialog extends Dialog {
             // If correct, change screen
             // Check if the credentials are valid
             if (!hasInternetConnection()) {
-                Dialog dialog = new Dialog("ERROR", getSkin());
-                dialog.text("No internet connection.");
-                dialog.show(getStage());
+                errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
                 if (!isValidCredentials(username, password)) {
                     // If the credentials are not valid, display an error message
@@ -94,17 +94,26 @@ public class LoginDialog extends Dialog {
     // Helper method to check if the credentials are valid
     private boolean isValidCredentials(String username, String password) {
         try {
-            Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
-            if (file.nextLine().equals(username) && file.nextLine().equals(hashPassword(password))) {
-                return true;
+            FileHandle file = Gdx.files.internal("../Data/" + "players.json");
+            String json = file.readString();
+            JsonReader reader = new JsonReader();
+            JsonValue root = reader.parse(json);
+            JsonValue players = root.get("players");
+            for (JsonValue player : players) {
+                if(username.equals(player.getString("username"))){
+                    if (hashPassword(password).equals(player.getString("password"))) {
+                        return true;
+                    }
+                    else return false;
+                }
             }
-            else{
-                return false;
-            }
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             return false;
         }
+        return false;
     }
+
+
     protected static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

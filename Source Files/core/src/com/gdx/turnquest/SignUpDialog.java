@@ -1,44 +1,87 @@
 package com.gdx.turnquest;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import static com.gdx.turnquest.LoginDialog.hashPassword;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.io.*;
 import java.util.Scanner;
 
-import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+import static com.gdx.turnquest.LoginDialog.hashPassword;
+import static com.gdx.turnquest.TurnQuest.*;
+import static com.gdx.turnquest.Player.setCharacterClass;
 
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
+    final CheckBox Warrior;
+    final CheckBox Archer;
+    final CheckBox Assassin;
     private Label errorLabel;
     private final TurnQuest game;
     private String username;
     private String password;
+    private boolean espabilado = false;
 
     public SignUpDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
         this.game = game;
 
+        // create check boxes
+        Warrior = new CheckBox("Warrior", skin);
+        Archer = new CheckBox("Archer", skin);
+        Assassin = new CheckBox("Assassin", skin);
+
+        // table
         getContentTable().defaults().expand().pad(10);
+
+        // username field
         getContentTable().add("Username:");
         usernameField = new TextField("", skin);
-        getContentTable().add(usernameField).width(400);
-        getContentTable().row();
+        getContentTable().add(usernameField).width(400).right().row();
+
+        // password field
         getContentTable().add("Password:");
         passwordField = new TextField("", skin);
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
-        getContentTable().add(passwordField).width(400);
-        getContentTable().row();
+        getContentTable().add(passwordField).width(400).right().row();
+
+        // checkboxes
+        getContentTable().add(Warrior);
+        getContentTable().add(Archer);
+        getContentTable().add(Assassin).row();
+
+        // errors
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
         getContentTable().add(errorLabel).colspan(2);
         button("Create", true);
         button("Cancel", false);
+
+        Warrior.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                if (Archer.isChecked()) Archer.setChecked(false);
+                if (Assassin.isChecked()) Assassin.setChecked(false);
+            }
+        });
+
+        Archer.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                if (Warrior.isChecked()) Warrior.setChecked(false);
+                if (Assassin.isChecked()) Assassin.setChecked(false);
+            }
+        });
+
+        Assassin.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                if (Archer.isChecked()) Archer.setChecked(false);
+                if (Warrior.isChecked()) Warrior.setChecked(false);
+            }
+        });
     }
 
     @Override
@@ -51,15 +94,16 @@ public class SignUpDialog extends Dialog {
 
         if (result) {
             if (!hasInternetConnection()) {
-                Dialog dialog = new Dialog("ERROR", getSkin());
-                dialog.text("No internet connection.");
-                dialog.show(getStage());
+                errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
                 // check username
                 if (!freeUsername(username)) {
                     errorLabel.setText("Invalid username, it already exists.");
                 } else if (4 > password.length()) {
                     errorLabel.setText("Invalid password, it needs to have 4 characters.");
+                } else if (!Warrior.isChecked() && !Archer.isChecked() && !Assassin.isChecked()) {
+                    errorLabel.setText("Espabila.");
+                    espabilado = false;
                 } else {
                     // create the new file
                     createFile();
@@ -77,7 +121,7 @@ public class SignUpDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (freeUsername(usernameField.getText()) && password.length() >= 4) {
+        if (freeUsername(usernameField.getText()) && password.length() >= 4 && espabilado) {
             super.hide();
         }
     }
@@ -85,13 +129,13 @@ public class SignUpDialog extends Dialog {
     @Override
     public float getPrefWidth() {
         // Set the preferred width of the dialog
-        return 800f;
+        return 1000f;
     }
 
     @Override
     public float getPrefHeight() {
         // Set the preferred height of the dialog
-        return 500f;
+        return 600f;
     }
 
     // to create the file
@@ -109,6 +153,17 @@ public class SignUpDialog extends Dialog {
             writer.write(username + "\n");
             writer.write(hashPassword(password) + "\n");
 
+            if (Warrior.isChecked()) {
+                writer.write("Warrior\n");
+                setCharacterClass("Warrior");
+            } else if (Archer.isChecked()) {
+                writer.write("Archer\n");
+                setCharacterClass("Archer");
+            } else if (Assassin.isChecked()) {
+                writer.write("Assassin\n");
+                setCharacterClass("Assassin");
+            }
+
             writer.close();
 
         } catch (IOException e) {
@@ -122,7 +177,6 @@ public class SignUpDialog extends Dialog {
             Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
             return false;
         } catch (FileNotFoundException e) {
-            System.err.println("ERROR: username has not been searched");
             return true;
         }
     }
