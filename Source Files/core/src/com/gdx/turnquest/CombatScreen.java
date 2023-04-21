@@ -123,6 +123,10 @@ public class CombatScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F5)) {
+            dispose();
+            game.setScreen(new CombatScreen(game));
+        }
     }
 
     @Override
