@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.TurnQuest;
+
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.Player.*;
+import static com.gdx.turnquest.entities.Player.*;
 
 public class CombatScreen implements Screen {
     final TurnQuest game;

@@ -1,8 +1,7 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.dialogs;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-
-import static com.gdx.turnquest.TurnQuest.*;
+import com.gdx.turnquest.TurnQuest;
 
 public class GameSelectionDialog extends Dialog {
 

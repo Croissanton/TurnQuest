@@ -1,4 +1,4 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.TurnQuest;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -90,8 +91,8 @@ public class ShopScreen implements Screen {
         itemTable.defaults().pad(30).width(CellWidth).height(CellHeight);
         itemTable.columnDefaults(0).align(Align.center).width(CellWidth);
         itemTable.columnDefaults(1).width(CellWidth);
-        itemTable.columnDefaults(2).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
-        itemTable.columnDefaults(3).padLeft(50).padRight(CellWidth / 2).width(CellWidth);
+        itemTable.columnDefaults(2).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
+        itemTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
 
         //DEBUG
         itemTable.add("priceLabel");
@@ -123,7 +124,7 @@ public class ShopScreen implements Screen {
 
             // Load item texture
             Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
-            double aspectRatio = itemTexture.getWidth() / itemTexture.getHeight();
+            double aspectRatio = (double) itemTexture.getWidth() / itemTexture.getHeight();
             int newWidth = (int) (aspectRatio * itemTexture.getWidth());
             TextureRegion itemRegion = new TextureRegion(itemTexture, newWidth, CellHeight);
             TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
@@ -195,7 +196,9 @@ public class ShopScreen implements Screen {
 
             final JSONArray inventory = (JSONArray) obj;
 
-            inventory.forEach( thing -> this.parseInventory( (JSONObject) thing ) );
+            for (Object thing : inventory) {
+                this.parseInventory( (JSONObject) thing );
+            }
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();

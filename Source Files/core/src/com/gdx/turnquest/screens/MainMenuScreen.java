@@ -1,8 +1,9 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,61 +11,59 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.dialogs.ConfirmationDialog;
+import com.gdx.turnquest.dialogs.GameSelectionDialog;
+import com.gdx.turnquest.TurnQuest;
+
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class InventoryScreen implements Screen {
-    final TurnQuest game;
+public class MainMenuScreen implements Screen {
 
-    public InventoryScreen(final TurnQuest game) {
+
+    private final TurnQuest game;
+
+
+    public MainMenuScreen(final TurnQuest game) {
         this.game = game;
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
         setStage(new Stage(getViewport()));
 
-        // table buttons
-        TextButton bReturn = new TextButton("Return", getSkin());
-        TextButton bLeftArrow = new TextButton("<-", getSkin());
-        TextButton bRightArrow = new TextButton("->", getSkin());
 
-        // table for return
+        TextButton bStart = new TextButton("Start", getSkin());
+        TextButton bOptions = new TextButton("Options", getSkin());
+        TextButton bQuit = new TextButton("Quit", getSkin());
+
+        //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
+
+        bStart.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showGameSelectionDialog();
+            }
+        });
+        bOptions.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showPreferencesDialog();
+            }
+        });
+        bQuit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showQuitConfirmationDialog();
+            }
+        });
+
         Table table = new Table();
-        // add some padding and expand each cell
-        table.defaults().expand().pad(50);
         table.setFillParent(true);
+        table.add(bStart).center().padBottom(50f).row();
+        table.add(bOptions).center().padBottom(50f).row();
+        table.add(bQuit).center().padBottom(50f);
 
-        // order the buttons of the table
-        table.add(bLeftArrow).left();
-        table.add();
-        table.add(bRightArrow).right();
-        table.row();
-        table.add();
-        table.add(bReturn).bottom();
+        table.padTop(100f); // add some padding at the top
 
         getStage().addActor(table);
-
-        // if an arrow is clicked, go to abilities screen
-        bRightArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game));
-            }
-        });
-
-        bLeftArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game));
-            }
-        });
-
-        // return to GameScreen when pressed return button
-        bReturn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
-            }
-        });
 
         getViewport().apply();
     }
@@ -84,7 +83,7 @@ public class InventoryScreen implements Screen {
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Inventory", getVirtualWidth()*45/100, getVirtualHeight()*85/100);
+        getFont().draw(getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
         getBatch().end();
 
         getStage().act();
@@ -119,5 +118,26 @@ public class InventoryScreen implements Screen {
     public void dispose() {
         getStage().dispose();
         getBackgroundTexture().dispose();
+    }
+
+    private void showQuitConfirmationDialog() {
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", new Runnable() {
+            @Override
+            public void run() {
+                Gdx.app.exit();
+            }
+        }, getSkin());
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(getStage());
+    }
+
+    private void showGameSelectionDialog() {
+        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", new Runnable() {
+            @Override
+            public void run() {
+                // Handle login here
+            }
+        }, getSkin(), game);
+        dialog.show(getStage());
     }
 }

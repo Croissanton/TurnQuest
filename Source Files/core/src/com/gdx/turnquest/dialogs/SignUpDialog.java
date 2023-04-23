@@ -1,15 +1,17 @@
-package com.gdx.turnquest;
+package com.gdx.turnquest.dialogs;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.screens.GameScreen;
 
 import java.io.*;
 import java.util.Scanner;
 
-import static com.gdx.turnquest.LoginDialog.hashPassword;
+import static com.gdx.turnquest.dialogs.LoginDialog.hashPassword;
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.Player.setCharacterClass;
+import static com.gdx.turnquest.entities.Player.setCharacterClass;
 
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;
