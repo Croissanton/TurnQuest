@@ -104,9 +104,9 @@ public class CharactersScreen implements Screen{
 
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getBatch().draw(currentFrame, getVirtualWidth()/3, getVirtualHeight()/2);
+        getBatch().draw(currentFrame, getVirtualWidth()/3, getVirtualHeight()/2,currentFrame.getRegionWidth()*2,currentFrame.getRegionHeight()*2);
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "The button doesnt work! :D", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
+        getFont().draw(getBatch(), "The button `DOES!!!` work! :DDD", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
         getBatch().end();
 
         getStage().act();
