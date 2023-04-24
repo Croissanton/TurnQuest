@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class Player {
 
+    private static String playerName;
+
     private static final int N_STATS = 7; // Number of stats, TO BE CHANGED WHEN WE CONCLUDE THE NUMBER OF STATS.
     private static String characterClass = "";
     private static int gold;
@@ -16,7 +18,7 @@ public class Player {
     public Player(String fileName) {
         try {
             Scanner file = new Scanner(new FileReader("../" + fileName + ".txt"));
-            file.nextLine();
+            playerName=file.nextLine();
             file.nextLine();
             characterClass = file.nextLine();
             gold = Integer.parseInt(file.nextLine());
@@ -100,5 +102,9 @@ public class Player {
 
     public static int getLUK(){
         return stats[6];
+    }
+
+    public String getUsername() {
+        return playerName;
     }
 }
