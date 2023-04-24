@@ -63,6 +63,9 @@ public class CombatScreen implements Screen {
         optionsTable.add(magicButton);
         optionsTable.add(runButton);
 
+        // Add the table to the stage
+        getStage().addActor(optionsTable);
+
         playerHpLabel = new Label("HP: " + getHP(), getSkin());
         playerMpLabel = new Label("MP: " + getMP(), getSkin());
         enemyHpLabel = new Label("HP: " + 0, getSkin());
@@ -77,33 +80,40 @@ public class CombatScreen implements Screen {
         progressBarStyleMP.background = getSkin().getDrawable("progress-bar-mana");
         progressBarStyleMP.knobBefore = getSkin().getDrawable("progress-bar-mana-knob");
 
-        ProgressBar hpBar = new ProgressBar(0, getHP(), 1, false, progressBarStyleHP);
-        hpBar.setValue(getHP()); // Set the initial value of the bar to getHP() (full)
+        ProgressBar playerHpBar = new ProgressBar(0, getHP(), 1, false, progressBarStyleHP);
+        playerHpBar.setValue(getHP()); // Set the initial value of the bar to getHP() (full)
 
-        ProgressBar mpBar = new ProgressBar(0, getMP(), 1, false, progressBarStyleMP);
-        hpBar.setValue(getMP()); // Set the initial value of the bar to getHP() (full)
+        ProgressBar playerMpBar = new ProgressBar(0, getMP(), 1, false, progressBarStyleMP);
+        playerMpBar.setValue(getMP()); // Set the initial value of the bar to getHP() (full)
+
+        ProgressBar enemyHpBar = new ProgressBar(0, getHP(), 1, false, progressBarStyleHP);
+        enemyHpBar.setValue(getHP()); // Set the initial value of the bar to getHP() (full)
+
+        ProgressBar enemyMpBar = new ProgressBar(0, getMP(), 1, false, progressBarStyleMP);
+        enemyMpBar.setValue(getMP()); // Set the initial value of the bar to getHP() (full)
 
 
-        Table statusTable = new Table(getSkin());
-        statusTable.setPosition(315f, TurnQuest.getVirtualHeight()/10f);
-        statusTable.defaults().space(10f);
-        statusTable.add(playerHpLabel).row();
-        statusTable.add(hpBar).width(400f).row();
-        statusTable.add(playerMpLabel).row();
-        statusTable.add(mpBar).width(400f).row();
+        Table playerTable = new Table(getSkin());
+        playerTable.setPosition(getVirtualWidth() * 25 / 100, getVirtualHeight() * 25 / 100);
+        playerTable.defaults().space(10f);
+        playerTable.add(playerHpLabel).row();
+        playerTable.add(playerHpBar).width(400f).row();
+        playerTable.add(playerMpLabel).row();
+        playerTable.add(playerMpBar).width(400f).row();
+
+        getStage().addActor(playerTable);
 
         //Space these two out in the X axis (I didn't manage to do that, if you can, please do)
 
-        statusTable.add(enemyHpLabel).right().row();
-        statusTable.add(enemyMpLabel).right();
-        statusTable.pack();
+        Table enemyTable = new Table(getSkin());
+        enemyTable.setPosition(getVirtualWidth() * 80 / 100, getVirtualHeight() * 25 / 100);
+        enemyTable.defaults().space(10f);
+        enemyTable.add(enemyHpLabel).row();
+        enemyTable.add(enemyHpBar).width(400f).row();
+        enemyTable.add(enemyMpLabel).row();
+        enemyTable.add(enemyMpBar).width(400f).row();
 
-        getStage().addActor(statusTable);
-
-
-
-        // Add the table to the stage
-        getStage().addActor(optionsTable);
+        getStage().addActor(enemyTable);
 
         //create the table
         Table table = new Table();
