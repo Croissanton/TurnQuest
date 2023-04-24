@@ -18,7 +18,7 @@ public class Player {
     public Player(String fileName) {
         try {
             Scanner file = new Scanner(new FileReader("../" + fileName + ".txt"));
-            playerName=file.nextLine();
+            playerName = file.nextLine();
             file.nextLine();
             characterClass = file.nextLine();
             gold = Integer.parseInt(file.nextLine());
