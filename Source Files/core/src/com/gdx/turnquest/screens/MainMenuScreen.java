@@ -1,6 +1,5 @@
 package com.gdx.turnquest.screens;
 
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -11,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.gdx.turnquest.TurnQuest;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.dialogs.GameSelectionDialog;
+import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.TurnQuest.getVirtualWidth;
 
 public class MainMenuScreen implements Screen {
 
@@ -28,14 +27,13 @@ public class MainMenuScreen implements Screen {
         this.game = game;
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
         setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
 
         TextButton bStart = new TextButton("Start", getSkin());
         TextButton bOptions = new TextButton("Options", getSkin());
         TextButton bQuit = new TextButton("Quit", getSkin());
+
         //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
 
         bStart.addListener(new ClickListener() {
@@ -50,14 +48,6 @@ public class MainMenuScreen implements Screen {
                 showPreferencesDialog();
             }
         });
-
-        bQuit.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showQuitConfirmationDialog();
-            }
-        });
-
         bQuit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -80,13 +70,12 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(getStage());
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
         getBatch().setProjectionMatrix(getCamera().combined);
@@ -102,7 +91,6 @@ public class MainMenuScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
-
         }
     }
 

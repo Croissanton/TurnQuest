@@ -79,7 +79,8 @@ public class GameScreen implements Screen {
         bPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                game.setScreen(new CombatScreen(game));
+                //game.setScreen(new CharactersScreen(game));
             }
         });
 

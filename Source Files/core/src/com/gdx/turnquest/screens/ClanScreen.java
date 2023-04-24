@@ -24,7 +24,6 @@ public class ClanScreen implements Screen {
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
         // return button
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -53,7 +52,7 @@ public class ClanScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(getStage());
     }
 
     @Override

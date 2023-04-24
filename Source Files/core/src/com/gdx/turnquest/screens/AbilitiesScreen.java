@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.Player.*;
+import static com.gdx.turnquest.entities.Player.*;
 
 public class AbilitiesScreen implements Screen {
 
@@ -25,51 +25,87 @@ public class AbilitiesScreen implements Screen {
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
 
         // abilities buttons
-        TextButton bAb1 = new TextButton("", getSkin());
-        TextButton bAb2 = new TextButton("", getSkin());
-        TextButton bAb3 = new TextButton("", getSkin());
-        TextButton bAb4 = new TextButton("", getSkin());
-        TextButton bAb5 = new TextButton("", getSkin());
-        TextButton bAb6 = new TextButton("", getSkin());
-        TextButton bAb7 = new TextButton("", getSkin());
-        TextButton bAb8 = new TextButton("", getSkin());
-        TextButton bAb9 = new TextButton("", getSkin());
-        TextButton bAb10 = new TextButton("", getSkin());
-        TextButton bAb11 = new TextButton("", getSkin());
-        TextButton bAb12 = new TextButton("", getSkin());
-        TextButton bAb13 = new TextButton("", getSkin());
-        TextButton bAb14 = new TextButton("", getSkin());
-        TextButton bAb15 = new TextButton("", getSkin());
-        TextButton bAb16 = new TextButton("", getSkin());
+        TextButton bAb1 = new TextButton("Ab1", getSkin());
+        TextButton bAb2 = new TextButton("Ab2", getSkin());
+        TextButton bAb3 = new TextButton("Ab3", getSkin());
+        TextButton bAb4 = new TextButton("Ab4", getSkin());
+        TextButton bAb5 = new TextButton("Ab5", getSkin());
+        TextButton bAb6 = new TextButton("Ab6", getSkin());
+
+        // set color to locked
+        bAb1.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        bAb2.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        bAb3.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        bAb4.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        bAb5.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        bAb6.setColor(0.3f, 0.7f, 0.8f, 0.5f);
 
         // Abilities table
         Table abilitiesTable = new Table();
+        abilitiesTable.defaults().size(getVirtualWidth() * 12 / 100, getVirtualHeight() * 10 / 100).pad(20);
         abilitiesTable.setFillParent(true);
 
         // order the buttons of the table
         abilitiesTable.add(bAb1);
-        abilitiesTable.add(bAb2);
+        abilitiesTable.add(bAb2).row();
         abilitiesTable.add(bAb3);
         abilitiesTable.add(bAb4).row();
         abilitiesTable.add(bAb5);
-        abilitiesTable.add(bAb6);
-        abilitiesTable.add(bAb7);
-        abilitiesTable.add(bAb8).row();
-        abilitiesTable.add(bAb9);
-        abilitiesTable.add(bAb10);
-        abilitiesTable.add(bAb11);
-        abilitiesTable.add(bAb12).row();
-        abilitiesTable.add(bAb13);
-        abilitiesTable.add(bAb14);
-        abilitiesTable.add(bAb15);
-        abilitiesTable.add(bAb16).row();
+        abilitiesTable.add(bAb6).row();
 
         abilitiesTable.padTop(100f); // add some padding at the top
 
         getStage().addActor(abilitiesTable);
+
+        bAb1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // unlocked
+                bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
+            }
+        });
+
+        bAb2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // unlocked
+                bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
+            }
+        });
+
+        bAb3.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // unlocked
+                bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
+            }
+        });
+
+        bAb4.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // unlocked
+                bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
+            }
+        });
+
+        bAb5.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // unlocked
+                bAb5.setColor(0.3f, 0.7f, 0.8f, 1);
+            }
+        });
+
+        bAb6.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // unlocked
+                bAb6.setColor(0.3f, 0.7f, 0.8f, 1);
+            }
+        });
 
         // table buttons
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -120,7 +156,7 @@ public class AbilitiesScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(getStage());
     }
 
     @Override

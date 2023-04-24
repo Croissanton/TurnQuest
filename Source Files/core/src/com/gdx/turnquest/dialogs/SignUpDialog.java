@@ -1,16 +1,17 @@
 package com.gdx.turnquest.dialogs;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.screens.GameScreen;
 
-import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+import java.io.*;
+import java.util.Scanner;
+
+import static com.gdx.turnquest.dialogs.LoginDialog.hashPassword;
+import static com.gdx.turnquest.TurnQuest.*;
+import static com.gdx.turnquest.entities.Player.setCharacterClass;
 
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;
@@ -22,7 +23,7 @@ public class SignUpDialog extends Dialog {
     private final TurnQuest game;
     private String username;
     private String password;
-    private boolean checkClass = false;
+    private boolean espabilado = false;
 
     public SignUpDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
@@ -63,16 +64,14 @@ public class SignUpDialog extends Dialog {
         Warrior.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                checkClass = true;
                 if (Archer.isChecked()) Archer.setChecked(false);
                 if (Assassin.isChecked()) Assassin.setChecked(false);
             }
         });
-        
+
         Archer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                checkClass = true;
                 if (Warrior.isChecked()) Warrior.setChecked(false);
                 if (Assassin.isChecked()) Assassin.setChecked(false);
             }
@@ -81,7 +80,6 @@ public class SignUpDialog extends Dialog {
         Assassin.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                checkClass = true;
                 if (Archer.isChecked()) Archer.setChecked(false);
                 if (Warrior.isChecked()) Warrior.setChecked(false);
             }
@@ -104,14 +102,14 @@ public class SignUpDialog extends Dialog {
                 if (!freeUsername(username)) {
                     errorLabel.setText("Invalid username, it already exists.");
                 } else if (4 > password.length()) {
-                    errorLabel.setText("Invalid password, it needs to have at least 4 characters.");
-                } else if (!Archer.isChecked() && !Warrior.isChecked() && !Assassin.isChecked()) {
-                    checkClass = false;
-                    errorLabel.setText("Invalid class, you need to select one.");
-                }
-                else {
+                    errorLabel.setText("Invalid password, it needs to have 4 characters.");
+                } else if (!Warrior.isChecked() && !Archer.isChecked() && !Assassin.isChecked()) {
+                    errorLabel.setText("Espabila.");
+                    espabilado = false;
+                } else {
                     // create the new file
-                    addPlayer();
+                    createFile();
+
                     // hide te sign up dialog and go to game screen
                     hide();
                     game.setScreen(new GameScreen(game));
@@ -125,7 +123,7 @@ public class SignUpDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (freeUsername(usernameField.getText()) && password.length() >= 4 && checkClass) {
+        if (freeUsername(usernameField.getText()) && password.length() >= 4 && espabilado) {
             super.hide();
         }
     }
@@ -143,22 +141,7 @@ public class SignUpDialog extends Dialog {
     }
 
     // to create the file
-    private void addPlayer() {
-
-        try {
-            FileHandle file = Gdx.files.internal("../Data/" + "players.json");
-            String json = file.readString();
-            JsonReader reader = new JsonReader();
-            JsonValue root = reader.parse(json);
-            JsonValue players = root.get("players");
-
-
-
-        } catch (Exception e) {
-
-        }
-
-        /*
+    private void createFile() {
         String fileName = username + ".txt";
         String filePath = "../";
 
@@ -189,26 +172,14 @@ public class SignUpDialog extends Dialog {
             System.err.println("ERROR: no text written");
             System.err.println("ERROR: no text written");
         }
-        */
     }
 
     private boolean freeUsername(String username) {
         try {
-            FileHandle file = Gdx.files.internal("../Data/" + "players.json");
-            String json = file.readString();
-            JsonReader reader = new JsonReader();
-            JsonValue root = reader.parse(json);
-            JsonValue players = root.get("players");
-
-            for (JsonValue player : players) {
-                if (username.equals(player.getString("username"))) {
-                    return false;
-                }
-            }
-        } catch (Exception e) {
+            Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
+            return false;
+        } catch (FileNotFoundException e) {
             return true;
         }
-
-        return true;
     }
 }
