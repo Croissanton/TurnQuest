@@ -96,7 +96,8 @@ public class LoginDialog extends Dialog {
     // Helper method to check if the credentials are valid
     private boolean isValidCredentials(String username, String password) {
         try {
-            FileHandle file = Gdx.files.internal("../Data/" + "players.json");
+            FileHandle file = Gdx.files.internal("../Data/" + "players.json"); /*TODO: we need to change this to create a file for each player
+                                                                                    , instead of having 1 file for all players to ease the database*/
             String json = file.readString();
             JsonReader reader = new JsonReader();
             JsonValue root = reader.parse(json);

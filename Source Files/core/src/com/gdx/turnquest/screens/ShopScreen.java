@@ -32,7 +32,7 @@ public class ShopScreen implements Screen {
     private static final int CellHeight=80;
 
 
-    private static Hashtable<String, Hashtable<String, String>> inventory;
+    static Hashtable<String, Hashtable<String, String>> inventory;
 
 
     public ShopScreen(final TurnQuest game) {
