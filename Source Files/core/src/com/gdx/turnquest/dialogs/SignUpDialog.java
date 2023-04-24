@@ -23,7 +23,8 @@ public class SignUpDialog extends Dialog {
     private final TurnQuest game;
     private String username;
     private String password;
-    private boolean espabilado = false;
+    private String characterClass;
+    private boolean checkClass = false;
 
     public SignUpDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
@@ -64,6 +65,8 @@ public class SignUpDialog extends Dialog {
         Warrior.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
+                checkClass = true;
+                characterClass = "Warrior";
                 if (Archer.isChecked()) Archer.setChecked(false);
                 if (Assassin.isChecked()) Assassin.setChecked(false);
             }
@@ -72,6 +75,8 @@ public class SignUpDialog extends Dialog {
         Archer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
+                checkClass = true;
+                characterClass = "Archer";
                 if (Warrior.isChecked()) Warrior.setChecked(false);
                 if (Assassin.isChecked()) Assassin.setChecked(false);
             }
@@ -80,6 +85,8 @@ public class SignUpDialog extends Dialog {
         Assassin.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
+                checkClass = true;
+                characterClass = "Assassin";
                 if (Archer.isChecked()) Archer.setChecked(false);
                 if (Warrior.isChecked()) Warrior.setChecked(false);
             }
@@ -104,8 +111,8 @@ public class SignUpDialog extends Dialog {
                 } else if (4 > password.length()) {
                     errorLabel.setText("Invalid password, it needs to have 4 characters.");
                 } else if (!Warrior.isChecked() && !Archer.isChecked() && !Assassin.isChecked()) {
-                    errorLabel.setText("Espabila.");
-                    espabilado = false;
+                    errorLabel.setText("Please select a class.");
+                    checkClass = false;
                 } else {
                     // create the new file
                     createFile();
@@ -123,7 +130,7 @@ public class SignUpDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (freeUsername(usernameField.getText()) && password.length() >= 4 && espabilado) {
+        if (freeUsername(usernameField.getText()) && password.length() >= 4 && checkClass) {
             super.hide();
         }
     }
