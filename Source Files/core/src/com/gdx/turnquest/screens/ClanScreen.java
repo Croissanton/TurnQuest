@@ -65,8 +65,8 @@ public class ClanScreen implements Screen {
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Clan", getVirtualWidth()*48/100, getVirtualHeight()*85/100);
-        getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth()*45/100, getVirtualHeight()*75/100);
+        getFont().draw(getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
+        getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
         getBatch().end();
 
         getStage().act();

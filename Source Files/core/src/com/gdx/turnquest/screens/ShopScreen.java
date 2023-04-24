@@ -156,7 +156,7 @@ public class ShopScreen implements Screen {
 
     @Override
     public void show() {
-        setStage(new Stage(getViewport()));
+        //setStage(new Stage(getViewport()));
     }
 
     @Override

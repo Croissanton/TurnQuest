@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
 
         // create the table
         Table table = new Table();
-        table.defaults().expand().size(getVirtualWidth() * 15 / 100, getVirtualHeight() * 10 / 100);
+        table.defaults().expand().size(getVirtualWidth() *.15f, getVirtualHeight() *.10f);
         table.setFillParent(true);
 
         // options button
