@@ -5,12 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import org.json.simple.JSONArray;
@@ -34,6 +36,8 @@ public class ShopScreen implements Screen {
 
     static Hashtable<String, Hashtable<String, String>> inventory;
 
+    private Table descriptionTable;
+
 
     public ShopScreen(final TurnQuest game) {
         this.game = game;
@@ -55,13 +59,49 @@ public class ShopScreen implements Screen {
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setSmoothScrolling(true);
 
-        // Add the scroll pane to the root table of the stage
-        Table rootTable = new Table(getSkin());
-        rootTable.setFillParent(true);
-        rootTable.add(scrollPane).expand().fill();
-        getStage().addActor(rootTable);
 
-        // Create back button
+
+
+
+
+//        itemButton.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//
+//            }+
+//        });
+        // Add back button to a separate table
+        this.descriptionTable = new Table(getSkin());  //this will be the table for the description of the stats of each item, after being clicked
+
+//        Table backButtonTable = new Table(getSkin());
+//        backButtonTable.add(backButton).pad(40);
+
+        Table firstTable = new Table();
+
+        setFirstRow(firstTable);
+
+        Table rootTable = new Table(getSkin());
+
+        rootTable.row();
+
+        rootTable.setFillParent(true);
+        rootTable.add(firstTable).left().pad(40f);
+        rootTable.row();
+        rootTable.add(scrollPane).left().expand().pad(40f);
+//        rootTable.add(backButtonTable).top().left().expandX();
+        rootTable.add(descriptionTable).left().expand();
+
+
+        getStage().addActor(rootTable);
+    }
+
+    private void setFirstRow(Table firstTable)
+    {
+        firstTable.defaults().pad(30).width(CellWidth).height(CellHeight);
+        firstTable.columnDefaults(0).align(Align.center).width(CellWidth);
+        firstTable.columnDefaults(1).width(CellWidth);
+        firstTable.columnDefaults(2).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
+        firstTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
         TextButton backButton = new TextButton("Back", getSkin());
         backButton.addListener(new ClickListener() {
             @Override
@@ -70,20 +110,11 @@ public class ShopScreen implements Screen {
             }
         });
 
-
-
-//        itemButton.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//
-//            }
-//        });
-        // Add back button to a separate table
-        Table descriptionTable = new Table(getSkin());  //this will be the table for the description of the stats of each item, after being clicked
-        Table backButtonTable = new Table(getSkin());
-        backButtonTable.add(backButton).pad(40);
-        // Add back button table to the root table
-        rootTable.add(backButtonTable).top().left().expandX();
+        firstTable.add(new Label("price", getSkin()));//.width(CellWidth).height(CellHeight);
+        firstTable.add(new Label("itemImage", getSkin()));//.width(CellWidth).height(CellHeight);
+        firstTable.add(new Label("buyButton", getSkin()));//.width(CellWidth).height(CellHeight);
+        firstTable.add(new Label("sellButton", getSkin()));//.width(CellWidth).height(CellHeight);
+        firstTable.add(backButton).width(200f).pad(50f);//.width(CellWidth * 2);
     }
 
     private void setItemTable(Table itemTable)
@@ -95,11 +126,11 @@ public class ShopScreen implements Screen {
         itemTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
 
         //DEBUG
-        itemTable.add("priceLabel");
-        itemTable.add("itemImage");
-        itemTable.add("buyButton");
-        itemTable.add("sellButton");
-        itemTable.row();
+//        itemTable.add("priceLabel");
+//        itemTable.add("itemImage");
+//        itemTable.add("buyButton");
+//        itemTable.add("sellButton");
+//        itemTable.row();
 
         addItems(itemTable);
     }
@@ -182,7 +213,11 @@ public class ShopScreen implements Screen {
 
     private void showStats(String name, String price, String attack, String defence)
     {
-
+        this.descriptionTable.clear();
+        this.descriptionTable.add(new Label("Name " + name, getSkin())).row();
+        this.descriptionTable.add(new Label("Price " + price, getSkin())).row();
+        this.descriptionTable.add(new Label("Attack " + attack, getSkin())).row();
+        this.descriptionTable.add(new Label("Defence " + defence, getSkin()));
     }
 
     private void readInventory()
