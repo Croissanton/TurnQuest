@@ -156,7 +156,7 @@ public class ShopScreen implements Screen {
 
     @Override
     public void show() {
-        //setStage(new Stage(getViewport()));
+        Gdx.input.setInputProcessor(getStage());
     }
 
     @Override
@@ -237,5 +237,6 @@ public class ShopScreen implements Screen {
     @Override
     public void dispose() {
         getStage().dispose();
+        getBackgroundTexture().dispose();
     }
 }
