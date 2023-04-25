@@ -128,7 +128,7 @@ public class SignUpDialog extends Dialog {
                     PlayerManager playerManager = new PlayerManager();
                     playerManager.addPlayer(player);
                     // set the player in the TurnQuest class
-                    setCurrentPlayer(player);
+                    game.setCurrentPlayer(player);
                     // hide te sign up dialog and go to game screen
                     success = true;
                     hide();

@@ -5,5 +5,19 @@
 	"level": 1,
 	"inventory": {},
 	"playerName": "user123"
+},
+"user123435465u6": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {},
+	"playerName": "user123435465u6"
+},
+"klnstpr": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {},
+	"playerName": "klnstpr"
 }
 }
