@@ -68,10 +68,9 @@ public class LoginDialog extends Dialog {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
 //              } else if (!checkLoginCount(username)) {
-//                    errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction */
+//                    errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
                 } else {
                     // If the credentials are valid, proceed with the login process
-                    //TODO: send the credentials to PlayerManager for checking and creating a new Player instance that will get sent to TurnQuest class.
                     PlayerManager playerManager = new PlayerManager();
                     Player player = playerManager.getPlayer(username);
                     game.setCurrentPlayer(player);
@@ -85,8 +84,10 @@ public class LoginDialog extends Dialog {
 
     @Override
     public void hide() {
-        // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (userManager.checkUser(username, password)) {
+        // Only hide the dialog if the credentials are valid or the cancel button is clicked
+        if (username != null && password != null && userManager.checkUser(username, password)) {
+            super.hide();
+        } else if (username == null && password == null) {
             super.hide();
         }
     }
@@ -103,6 +104,8 @@ public class LoginDialog extends Dialog {
         return 500f;
     }
 
+
+//    TODO: fix this so it works with new Player managment.
 //    private boolean checkLoginCount(String username) {
 //        JSONParser parser = new JSONParser();
 //        try {
