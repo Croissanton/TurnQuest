@@ -38,43 +38,65 @@ public class AbilitiesScreen implements Screen {
 
         game.setStage(new Stage(getViewport()));
 
-        // tooltip that will be shown when hovering buttons when locked
-        Label tt1 = new Label("Your next attack will be a critic one.", game.getSkin());
-        Label tt2 = new Label("What r u searching 4?", game.getSkin());
-        Label tt3 = new Label("What r u searching 4?", game.getSkin());
-        Label tt4 = new Label("What r u searching 4?", game.getSkin());
+        // Set the position of the label relative to the size of the stage
+        // calculate where the labels will be
+        float centerX = getVirtualWidth() / 2f;
+        float centerY = getVirtualHeight() * 0.65f;
 
-        // tooltip that will be shown when hovering buttons when unlocked
-        Label tt1u = new Label("Increase the critical attack damage by 0.5% each upgrade: " + times1 * 0.5, game.getSkin());
-        Label tt2u = new Label("What r u searching 4? unlocked", game.getSkin());
-        Label tt3u = new Label("What r u searching 4? unlocked", game.getSkin());
-        Label tt4u = new Label("What r u searching 4? unlocked", game.getSkin());
-
-        // set position
-        tt1.setPosition(getVirtualWidth() * 38f / 100f, getVirtualHeight() * 70f / 100f);
-        tt2.setPosition(getVirtualWidth() * 43f / 100f, getVirtualHeight() * 70f / 100f);
-        tt3.setPosition(getVirtualWidth() * 43f / 100f, getVirtualHeight() * 70f / 100f);
-        tt4.setPosition(getVirtualWidth() * 43f / 100f, getVirtualHeight() * 70f / 100f);
-        tt1u.setPosition(getVirtualWidth() * 30f / 100f, getVirtualHeight() * 70f / 100f);
-        tt2u.setPosition(getVirtualWidth() * 43f / 100f, getVirtualHeight() * 70f / 100f);
-        tt3u.setPosition(getVirtualWidth() * 43f / 100f, getVirtualHeight() * 70f / 100f);
-        tt4u.setPosition(getVirtualWidth() * 43f / 100f, getVirtualHeight() * 70f / 100f);
+        // tooltip labels that will be shown when hovering buttons when locked
+        Label tt1 = new Label("", game.getSkin());
+        Label tt2 = new Label("", game.getSkin());
+        Label tt3 = new Label("", game.getSkin());
+        Label tt4 = new Label("", game.getSkin());
 
         // set to not be shown while not  hovering
         tt1.setVisible(false);
         tt2.setVisible(false);
         tt3.setVisible(false);
         tt4.setVisible(false);
-        tt1u.setVisible(false);
-        tt2u.setVisible(false);
-        tt3u.setVisible(false);
-        tt4u.setVisible(false);
+
+        // show the labels
+        game.getStage().addActor(tt1);
+        game.getStage().addActor(tt2);
+        game.getStage().addActor(tt3);
+        game.getStage().addActor(tt4);
 
         // abilities buttons
-        TextButton bAb1 = new TextButton("Critical", game.getSkin());
-        TextButton bAb2 = new TextButton("Ab2", game.getSkin());
-        TextButton bAb3 = new TextButton("Ab3", game.getSkin());
-        TextButton bAb4 = new TextButton("Ab4", game.getSkin());
+        TextButton bAb1 = new TextButton("", game.getSkin());
+        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+            bAb1.setText("Spin");
+        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+            bAb1.setText("");
+        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+            bAb1.setText("");
+        }
+
+        TextButton bAb2 = new TextButton("", game.getSkin());
+        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+            bAb2.setText("Fire Spin");
+        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+            bAb2.setText("");
+        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+            bAb2.setText("");
+        }
+
+        TextButton bAb3 = new TextButton("", game.getSkin());
+        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+            bAb3.setText("Fire Sword");
+        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+            bAb3.setText("");
+        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+            bAb3.setText("");
+        }
+
+        TextButton bAb4 = new TextButton("", game.getSkin());
+        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+            bAb4.setText("Critical");
+        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+            bAb4.setText("");
+        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+            bAb4.setText("");
+        }
 
         // set color to locked
         bAb1.setColor(0.3f, 0.7f, 0.8f, 0.5f);
@@ -84,40 +106,55 @@ public class AbilitiesScreen implements Screen {
 
         // Abilities table
         Table abilitiesTable = new Table();
-        abilitiesTable.defaults().size(getVirtualWidth() * 12f / 100f, getVirtualHeight() * 10f / 100f).pad(20);
+        abilitiesTable.defaults().size(getVirtualWidth() * 0.15f, getVirtualHeight() * 0.1f).pad(20);
         abilitiesTable.setFillParent(true);
 
         // order the buttons of the table
         abilitiesTable.add(bAb1);
         abilitiesTable.add(bAb2).row();
         abilitiesTable.add(bAb3);
-        abilitiesTable.add(bAb4).row();
+        abilitiesTable.add(bAb4);
 
         abilitiesTable.padTop(100f); // add some padding at the top
 
         game.getStage().addActor(abilitiesTable);
 
+        // buttons' listeners
+        // listener of button one when hovered
         bAb1.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked1) {
-                    tt1u.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt1.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times1 * 0.5 + "%.");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt1.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt1.setText("");
+                    }
                 } else {
-                    tt1.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt1.setText("Spin around you to inflict damage to all enemies with 60% of your attack.");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt1.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt1.setText("");
+                    }
                 }
+
+                tt1.setWidth(tt1.getText().length() * 12);
+                tt1.setPosition(centerX - tt1.getWidth() / 2f, centerY - tt1.getHeight() / 2f);
+                System.out.println(centerX + "-" + tt1.getWidth() / 2f + "=" + (centerX - tt1.getWidth() / 2f));
+                tt1.setVisible(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
                 tt1.setVisible(false);
-                tt1u.setVisible(false);
             }
         });
 
-        // show it
-        game.getStage().addActor(tt1);
-        game.getStage().addActor(tt1u);
-
+        // listener of button one when clicked
         bAb1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -125,96 +162,134 @@ public class AbilitiesScreen implements Screen {
                 bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked1 = true;
                 times1++;
-                tt1u.setText("Increase the critical attack damage by 0.5% each upgrade: " + times1 * 0.5 + "%");
             }
         });
 
+        // listener of button two when hovered
         bAb2.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked2) {
-                    tt2u.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times2 * 0.5 + "%.");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt2.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt2.setText("");
+                    }
                 } else {
-                    tt2.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt2.setText("Spin around you to inflict damage to all enemies with 50% of your attack. It also burn enemies..");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt2.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt2.setText("");
+                    }
                 }
+
+                tt2.setPosition(centerX - tt2.getWidth() / 2f, centerY - tt2.getHeight() / 2f);
+                tt2.setVisible(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
                 tt2.setVisible(false);
-                tt2u.setVisible(false);
             }
         });
 
-        // show it
-        game.getStage().addActor(tt2);
-        game.getStage().addActor(tt2u);
-
+        // listener of button two when clicked
         bAb2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // unlocked
                 bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
+                clicked2 = true;
                 times2++;
             }
         });
 
+        // listener of button three when hovered
         bAb3.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked3) {
-                    tt3u.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times3 * 0.5 + "%.");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt3.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt3.setText("");
+                    }
                 } else {
-                    tt3.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt3.setText("Attack one enemy dealing 150% of your attack and burning it.");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt3.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt3.setText("");
+                    }
                 }
+
+                tt3.setPosition(centerX - tt3.getWidth() / 2f, centerY - tt3.getHeight() / 2f);
+                tt3.setVisible(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
                 tt3.setVisible(false);
-                tt3u.setVisible(false);
             }
         });
 
-        // show it
-        game.getStage().addActor(tt3);
-        game.getStage().addActor(tt3u);
-
+        // listener of button three when clicked
         bAb3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // unlocked
                 bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
+                clicked3 = true;
                 times3++;
             }
         });
 
+        // listener of button four when hovered
         bAb4.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked4) {
-                    tt4u.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt4.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times4 * 0.5 + "%.");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt4.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt4.setText("");
+                    }
                 } else {
-                    tt4.setVisible(true);
+                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                        tt4.setText("Makes you next attack to be a critical one.");
+                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                        tt4.setText("");
+                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                        tt4.setText("");
+                    }
                 }
+
+                tt4.setPosition(centerX - tt4.getWidth() / 2f, centerY - tt4.getHeight() / 2f);
+                tt4.setVisible(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
                 tt4.setVisible(false);
-                tt4u.setVisible(false);
             }
         });
 
-        // show it
-        game.getStage().addActor(tt4);
-        game.getStage().addActor(tt4u);
-
+        // listener of button four when clicked
         bAb4.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // unlocked
                 bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
+                clicked4 = true;
                 times4++;
             }
         });
@@ -280,9 +355,9 @@ public class AbilitiesScreen implements Screen {
 
         game.getBatch().begin();
         game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        //game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().getData().setScale(4); //Changes font size.
         game.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 45f / 100f, getVirtualHeight() * 85f / 100f);
-        game.getFont().draw(game.getBatch(), getCharacterClass(), getVirtualWidth() * 45f / 100f, getVirtualHeight() * 78f / 100f);
+        game.getFont().draw(game.getBatch(), getCharacterClass(), getVirtualWidth() * 45f / 100f, getVirtualHeight() * 75f / 100f);
         game.getBatch().end();
 
         game.getStage().act();

@@ -11,10 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.dialogs.GameSelectionDialog;
-import com.gdx.turnquest.TurnQuest;
-
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class MainMenuScreen implements Screen {
@@ -51,7 +50,7 @@ public class MainMenuScreen implements Screen {
         bQuit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showQuitConfirmationDialog();
+                game.setScreen(new AbilitiesScreen(game));
             }
         });
 
