@@ -9,10 +9,16 @@ import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.GameScreen;
 import com.gdx.turnquest.utils.PlayerManager;
 import com.gdx.turnquest.utils.UserManager;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
-import static com.gdx.turnquest.TurnQuest.setCurrentPlayer;
 
 public class LoginDialog extends Dialog {
     private final TextField usernameField;
@@ -61,12 +67,14 @@ public class LoginDialog extends Dialog {
                 if (!userManager.checkUser(username, password)) {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
+                } else if (!checkLoginCount(username)) {
+                    errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction */
                 } else {
                     // If the credentials are valid, proceed with the login process
                     //TODO: send the credentials to PlayerManager for checking and creating a new Player instance that will get sent to TurnQuest class.
                     PlayerManager playerManager = new PlayerManager();
                     Player player = playerManager.getPlayer(username);
-                    setCurrentPlayer(player);
+                    game.setCurrentPlayer(player);
                     hide();
                     game.setScreen(new GameScreen(game));
                 }
@@ -93,5 +101,31 @@ public class LoginDialog extends Dialog {
     public float getPrefHeight() {
         // Set the preferred height of the dialog
         return 500f;
+    }
+
+    private boolean checkLoginCount(String username) {
+        JSONParser parser = new JSONParser();
+        try {
+
+            JSONObject playerData = (JSONObject) parser.parse(new FileReader("../Data/" + username +".json"));
+            long loginCount =(long)playerData.get("loginCount");
+            if (loginCount < 5) {
+                loginCount = loginCount + 1;
+                playerData.put("loginCount", loginCount);
+                // Write the updated JSONObject back to the JSON file
+                FileWriter fileWriter = new FileWriter("../Data/" + username +".json");
+                fileWriter.write(playerData.toJSONString());
+                fileWriter.flush();
+                fileWriter.close();
+
+                return true;
+            } else {
+                return false;
+            }
+
+        }catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

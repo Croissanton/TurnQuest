@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
+import com.sun.java.swing.action.AlignCenterAction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -88,7 +89,9 @@ public class ShopScreen implements Screen {
 
         rootTable.setFillParent(true);
         rootTable.add(firstTable).left().padLeft(200f);//.padRight(30f);
-        rootTable.add(new Label("Statistics", game.getSkin())).expandX().align(Align.center).colspan(5);
+        Label statsText  = new Label("Statistics", game.getSkin());
+        statsText.setFontScale(2f);
+        rootTable.add(statsText).expandX().align(Align.center).colspan(5);
         rootTable.row();
         rootTable.add(scrollPane).left().padLeft(200f);//.padRight(30f);
         rootTable.add(rightTable).center().expand().fill();
@@ -103,16 +106,32 @@ public class ShopScreen implements Screen {
         firstTable.defaults().pad(30).width(CellWidth).height(CellHeight);
         firstTable.columnDefaults(0).align(Align.center).width(CellWidth);
         firstTable.columnDefaults(1).width(CellWidth);
-        firstTable.columnDefaults(2).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
-        firstTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
+        firstTable.columnDefaults(2).padRight((float) CellWidth / 2).width(CellWidth);
+        firstTable.columnDefaults(3).padRight((float) CellWidth / 2).width(CellWidth);
+        firstTable.setDebug(true);
 
+        Label nameLabel = new Label("Name", game.getSkin());
+        nameLabel.setFontScale(1.4f);
+        firstTable.add(nameLabel);
 
-        firstTable.add(new Label("Price", game.getSkin()));
-        firstTable.add(new Label("Name", game.getSkin()));
-        firstTable.add(new Label("Image", game.getSkin()));
-        firstTable.add(new Label("Buy", game.getSkin()));
-        firstTable.add(new Label("Sell", game.getSkin()));
-//        firstTable.add(backButton).width(200f).pad(50f);
+        Label imageLable = new Label("Image", game.getSkin());
+        imageLable.setFontScale(1.4f);
+        firstTable.add(imageLable);
+
+        Label priceLabel = new Label("Price", game.getSkin());
+        priceLabel.setFontScale(1.4f);
+        priceLabel.setAlignment(Align.center);
+        firstTable.add(priceLabel);
+
+        Label buyLabel = new Label("Buy", game.getSkin());
+        buyLabel.setFontScale(1.4f);
+        buyLabel.setAlignment(Align.center);
+        firstTable.add(buyLabel);
+
+        Label sellLabel = new Label("Sell", game.getSkin());
+        sellLabel.setFontScale(1.4f);
+        sellLabel.setAlignment(Align.center);
+        firstTable.add(sellLabel);
     }
 
     public TextButton createBackButton()
@@ -134,7 +153,7 @@ public class ShopScreen implements Screen {
         itemTable.columnDefaults(1).width(CellWidth);
         itemTable.columnDefaults(2).width(CellWidth);
         itemTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
-        itemTable.columnDefaults(4).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
+        itemTable.columnDefaults(4).padRight((float) CellWidth / 2).width(CellWidth);
 
         addItems(itemTable);
     }
@@ -156,6 +175,7 @@ public class ShopScreen implements Screen {
             // Create label for item price
 
             Label priceLabel = new Label(price, game.getSkin());
+            priceLabel.setAlignment(Align.center);
             Label nameLabel = new Label(name, game.getSkin());
 
             // Load item texture
@@ -167,9 +187,11 @@ public class ShopScreen implements Screen {
 
             //create button with item image
             itemButton = new ImageButton(drawable);
+//            ImageButton b = new ImageButton(itemTexture);
             itemButton.setWidth(CellWidth);
             itemButton.setHeight(CellHeight);
-
+            itemButton.getImage().setAlign(Align.bottom);
+//            itemButton.getBackground().set
             itemButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y){
@@ -182,11 +204,12 @@ public class ShopScreen implements Screen {
             TextButton sellButton = new TextButton("Sell", game.getSkin());
 
             // Add item components to the item table
-            itemTable.add(priceLabel);
             itemTable.add(nameLabel);
             itemTable.add(itemButton);
+            itemTable.add(priceLabel);
             itemTable.add(buyButton);
             itemTable.add(sellButton);
+            itemTable.setDebug(true);
             itemTable.row();
         }
     }
@@ -219,8 +242,11 @@ public class ShopScreen implements Screen {
 
     private void showStats(String name, String price, String attack, String defence)
     {
+//        game.getFont().sc
         this.descriptionTable.clear();
-        this.descriptionTable.add(new Label(name, game.getSkin())).row();
+        Label labelName = new Label(name, game.getSkin());
+//        labelName.setScale(5);
+        this.descriptionTable.add(labelName).row();
         this.descriptionTable.add(new Label("Price " + price, game.getSkin())).row();
         this.descriptionTable.add(new Label("Attack " + attack, game.getSkin())).row();
         this.descriptionTable.add(new Label("Defence " + defence, game.getSkin()));
