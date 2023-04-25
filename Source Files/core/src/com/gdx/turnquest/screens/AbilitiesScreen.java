@@ -36,7 +36,7 @@ public class AbilitiesScreen implements Screen {
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
         // tooltip that will be shown when hovering buttons when locked
         Label tt1 = new Label("Your next attack will be a critic one.", getSkin());
@@ -95,7 +95,7 @@ public class AbilitiesScreen implements Screen {
 
         abilitiesTable.padTop(100f); // add some padding at the top
 
-        getStage().addActor(abilitiesTable);
+        game.getStage().addActor(abilitiesTable);
 
         bAb1.addListener(new InputListener() {
             @Override
@@ -115,8 +115,8 @@ public class AbilitiesScreen implements Screen {
         });
 
         // show it
-        getStage().addActor(tt1);
-        getStage().addActor(tt1u);
+        game.getStage().addActor(tt1);
+        game.getStage().addActor(tt1u);
 
         bAb1.addListener(new ClickListener() {
             @Override
@@ -147,8 +147,8 @@ public class AbilitiesScreen implements Screen {
         });
 
         // show it
-        getStage().addActor(tt2);
-        getStage().addActor(tt2u);
+        game.getStage().addActor(tt2);
+        game.getStage().addActor(tt2u);
 
         bAb2.addListener(new ClickListener() {
             @Override
@@ -177,8 +177,8 @@ public class AbilitiesScreen implements Screen {
         });
 
         // show it
-        getStage().addActor(tt3);
-        getStage().addActor(tt3u);
+        game.getStage().addActor(tt3);
+        game.getStage().addActor(tt3u);
 
         bAb3.addListener(new ClickListener() {
             @Override
@@ -207,8 +207,8 @@ public class AbilitiesScreen implements Screen {
         });
 
         // show it
-        getStage().addActor(tt4);
-        getStage().addActor(tt4u);
+        game.getStage().addActor(tt4);
+        game.getStage().addActor(tt4u);
 
         bAb4.addListener(new ClickListener() {
             @Override
@@ -238,7 +238,7 @@ public class AbilitiesScreen implements Screen {
         table.add();
         table.add(bReturn).bottom();
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         // if an arrow is clicked, go to abilities screen
         bRightArrow.addListener(new ClickListener() {
@@ -268,7 +268,7 @@ public class AbilitiesScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(getStage());
+        Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
@@ -285,8 +285,8 @@ public class AbilitiesScreen implements Screen {
         getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth() * 45f / 100f, getVirtualHeight() * 78f / 100f);
         getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -315,7 +315,6 @@ public class AbilitiesScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 }
