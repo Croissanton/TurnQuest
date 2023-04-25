@@ -19,5 +19,12 @@
 	"level": 1,
 	"inventory": {},
 	"playerName": "klnstpr"
+},
+"player1": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"characterClass": "Assassin",
+	"level": 1,
+	"inventory": {},
+	"playerName": "player1"
 }
 }

@@ -28,7 +28,7 @@ public class ShopScreen implements Screen {
 
     static Hashtable<String, Hashtable<String, String>> shopItems;
 
-    private Table descriptionTable;
+    private final Table descriptionTable;
 
 
     public ShopScreen(final TurnQuest game) {
@@ -58,11 +58,11 @@ public class ShopScreen implements Screen {
 
 
         // Create stats desription table
-        this.descriptionTable = new Table(game.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
+        descriptionTable = new Table(game.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
         Label label = new Label("Click on the image to show statistics of the item", game.getSkin());
         label.setWrap(true);
         label.setAlignment(Align.center);
-        this.descriptionTable.add(label).width(350f).top();
+        descriptionTable.add(label).width(350f).top();
 
         // Create right table
         Table rightTable = new Table();
@@ -170,16 +170,15 @@ public class ShopScreen implements Screen {
 
             // Load item texture
             Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
-            double aspectRatio = (double) itemTexture.getWidth() / itemTexture.getHeight();
-            int newWidth = (int) (aspectRatio * itemTexture.getWidth());
-            TextureRegion itemRegion = new TextureRegion(itemTexture, newWidth, CellHeight);
+            // double aspectRatio = (double) itemTexture.getWidth() / itemTexture.getHeight();
+            // int newWidth = (int) (aspectRatio * itemTexture.getWidth());
+            TextureRegion itemRegion = new TextureRegion(itemTexture, itemTexture.getWidth(), itemTexture.getHeight());
             TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
+            drawable.setMinSize(CellWidth, CellHeight);
 
             //create button with item image
             itemButton = new ImageButton(drawable);
 //            ImageButton b = new ImageButton(itemTexture);
-            itemButton.setWidth(CellWidth);
-            itemButton.setHeight(CellHeight);
             itemButton.getImage().setAlign(Align.bottom);
 //            itemButton.getBackground().set
             itemButton.addListener(new ClickListener() {
