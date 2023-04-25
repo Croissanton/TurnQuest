@@ -19,6 +19,14 @@ import java.util.Base64;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class LoginDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
@@ -64,9 +72,17 @@ public class LoginDialog extends Dialog {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
                 } else {
-                    // If the credentials are valid, proceed with the login process
-                    hide();
-                    game.setScreen(new GameScreen(game));
+                    // If the credentials are valid, check loginCounter
+                    if (!checkLoginCount(username)){
+                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction
+                                                                         has to be fixed*/
+                    }
+                    else{
+
+                        hide();
+                        game.setScreen(new GameScreen(game));
+                    }
+
                 }
             }
         }
@@ -126,5 +142,31 @@ public class LoginDialog extends Dialog {
             e.printStackTrace();
         }
         return null;
+    }
+    // Method that checks the number of logins and updates the value of the loginCounter after succesfull login
+    private boolean checkLoginCount(String username) {
+        JSONParser parser = new JSONParser();
+        try {
+
+            JSONObject playerData = (JSONObject) parser.parse(new FileReader("../Data/" + username +".json"));
+            long loginCount =(long)playerData.get("loginCount");
+            if (loginCount < 5) {
+                loginCount = loginCount + 1;
+                playerData.put("loginCount", loginCount);
+                // Write the updated JSONObject back to the JSON file
+                FileWriter fileWriter = new FileWriter("../Data/" + username +".json");
+                fileWriter.write(playerData.toJSONString());
+                fileWriter.flush();
+                fileWriter.close();
+
+                return true;
+            } else {
+                return false;
+            }
+
+        }catch (IOException | ParseException e) {
+        e.printStackTrace();
+        }
+        return false;
     }
 }
