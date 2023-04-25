@@ -86,7 +86,7 @@ public class InventoryScreen implements Screen {
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Inventory", getVirtualWidth()*45/100, getVirtualHeight()*85/100);
+        getFont().draw(getBatch(), "Inventory", getVirtualWidth()*.45f, getVirtualHeight()*.85f);
         getBatch().end();
 
         getStage().act();

@@ -34,7 +34,7 @@ public class ShopScreen implements Screen {
 
     private static Hashtable<String, Hashtable<String, String>> inventory;
 
-
+    //TODO: stop this from crashing
     public ShopScreen(final TurnQuest game) {
         this.game = game;
 
@@ -43,7 +43,7 @@ public class ShopScreen implements Screen {
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         inventory = new Hashtable<>();
-        readInventory();
+        readShopItems();
         // Create the table to hold the items
         Table itemTable = new Table(getSkin());
         setItemTable(itemTable);
@@ -185,7 +185,7 @@ public class ShopScreen implements Screen {
 
     }
 
-    private void readInventory()
+    private void readShopItems()
     {
         JSONParser jsonParser = new JSONParser();
 

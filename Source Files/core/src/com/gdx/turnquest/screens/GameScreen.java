@@ -12,21 +12,23 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class GameScreen implements Screen {
     final TurnQuest game;
+    private Player player;
 
     public GameScreen(final TurnQuest game) {
         this.game = game;
-
+        this.player = getCurrentPlayer();
         setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(getStage());
 
         // create the table
         Table table = new Table();
-        table.defaults().expand().size(getVirtualWidth() * 15 / 100, getVirtualHeight() * 10 / 100);
+        table.defaults().expand().size(getVirtualWidth() *.15f, getVirtualHeight() * .1f);
         table.setFillParent(true);
 
         // options button
@@ -137,7 +139,7 @@ public class GameScreen implements Screen {
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Game Menu", getVirtualWidth() * 42 / 100, getVirtualWidth() * 77 / 100);
+        getFont().draw(getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
         getBatch().end();
 
         getStage().act();

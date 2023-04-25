@@ -143,9 +143,9 @@ public class TurnQuest extends Game {
 		TurnQuest.viewport = viewport;
 	}
 
-	public static Player getPlayer() { return player; }
+	public static Player getCurrentPlayer() { return player; }
 
-	public static void setPlayer(Player player) { TurnQuest.player = player; }
+	public static void setCurrentPlayer(Player player) { TurnQuest.player = player; }
 
 	public static void toggleFullscreen(){
 		if (Gdx.graphics.isFullscreen()) {

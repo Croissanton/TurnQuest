@@ -4,14 +4,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.GameScreen;
+import com.gdx.turnquest.utils.PlayerManager;
+import com.gdx.turnquest.utils.UserManager;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.util.Scanner;
 
-import static com.gdx.turnquest.dialogs.LoginDialog.hashPassword;
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.entities.Player.setCharacterClass;
 
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;
@@ -24,7 +27,9 @@ public class SignUpDialog extends Dialog {
     private String username;
     private String password;
     private String characterClass;
-    private boolean checkClass = false;
+    private boolean success = false;
+    private static final String FILE_PATH = "../Data/players.json";
+
 
     public SignUpDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
@@ -65,7 +70,6 @@ public class SignUpDialog extends Dialog {
         Warrior.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                checkClass = true;
                 characterClass = "Warrior";
                 if (Archer.isChecked()) Archer.setChecked(false);
                 if (Assassin.isChecked()) Assassin.setChecked(false);
@@ -75,7 +79,6 @@ public class SignUpDialog extends Dialog {
         Archer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                checkClass = true;
                 characterClass = "Archer";
                 if (Warrior.isChecked()) Warrior.setChecked(false);
                 if (Assassin.isChecked()) Assassin.setChecked(false);
@@ -85,7 +88,6 @@ public class SignUpDialog extends Dialog {
         Assassin.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                checkClass = true;
                 characterClass = "Assassin";
                 if (Archer.isChecked()) Archer.setChecked(false);
                 if (Warrior.isChecked()) Warrior.setChecked(false);
@@ -102,22 +104,33 @@ public class SignUpDialog extends Dialog {
         boolean result = (boolean) object;
 
         if (result) {
+            //TODO: checking if the user has connection to the database and check for the username there.
             if (!hasInternetConnection()) {
                 errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
                 // check username
-                if (!freeUsername(username)) {
+                UserManager userManager = new UserManager();
+                if (userManager.checkUsername(username)) {
                     errorLabel.setText("Invalid username, it already exists.");
                 } else if (4 > password.length()) {
                     errorLabel.setText("Invalid password, it needs to have 4 characters.");
                 } else if (!Warrior.isChecked() && !Archer.isChecked() && !Assassin.isChecked()) {
                     errorLabel.setText("Please select a class.");
-                    checkClass = false;
                 } else {
-                    // create the new file
-                    createFile();
-
+                    try {
+                        userManager.addUser(username, password);
+                    } catch (IllegalArgumentException e) {
+                        errorLabel.setText("Username already exists. Try logging in.");
+                    }
+                    Player player = new Player (username);
+                    player.setCharacterClass(characterClass);
+                    //add the player to the database (json for now)
+                    PlayerManager playerManager = new PlayerManager();
+                    playerManager.addPlayer(player);
+                    // set the player in the TurnQuest class
+                    setCurrentPlayer(player);
                     // hide te sign up dialog and go to game screen
+                    success = true;
                     hide();
                     game.setScreen(new GameScreen(game));
                 }
@@ -130,7 +143,7 @@ public class SignUpDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (freeUsername(usernameField.getText()) && password.length() >= 4 && checkClass) {
+        if (success) {
             super.hide();
         }
     }
@@ -147,46 +160,26 @@ public class SignUpDialog extends Dialog {
         return 600f;
     }
 
-    // to create the file
-    private void createFile() {
-        String fileName = username + ".txt";
-        String filePath = "../";
-
-        //create the file
-        File file = new File(filePath + fileName);
-
+    private boolean freeUsername(String username) {
+        boolean free = true;
         try {
-            // write the user and password
-            FileWriter writer = new FileWriter(file);
-
-            writer.write(username + "\n");
-            writer.write(hashPassword(password) + "\n");
-
-            if (Warrior.isChecked()) {
-                writer.write("Warrior\n");
-                setCharacterClass("Warrior");
-            } else if (Archer.isChecked()) {
-                writer.write("Archer\n");
-                setCharacterClass("Archer");
-            } else if (Assassin.isChecked()) {
-                writer.write("Assassin\n");
-                setCharacterClass("Assassin");
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                free = false;
+                file.createNewFile();
+            } else {
+                //search the json dictionary for the username
+                JSONParser parser = new JSONParser();
+                JSONObject object = (JSONObject) parser.parse(new FileReader(FILE_PATH));
+                if (object.containsKey(username)) free = false;
             }
-
-            writer.close();
-
         } catch (IOException e) {
             System.err.println("ERROR: no text written");
-            System.err.println("ERROR: no text written");
+            free = false;
+        } catch (ParseException e) {
+            System.err.print("ERROR: could not parse JSON file");
+            free = false;
         }
-    }
-
-    private boolean freeUsername(String username) {
-        try {
-            Scanner file = new Scanner(new FileReader("../" + username + ".txt"));
-            return false;
-        } catch (FileNotFoundException e) {
-            return true;
-        }
+        return free;
     }
 }

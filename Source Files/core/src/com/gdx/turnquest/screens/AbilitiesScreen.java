@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.entities.Player.*;
 
 public class AbilitiesScreen implements Screen {
 
@@ -44,7 +43,7 @@ public class AbilitiesScreen implements Screen {
 
         // Abilities table
         Table abilitiesTable = new Table();
-        abilitiesTable.defaults().size(getVirtualWidth() * 12 / 100, getVirtualHeight() * 10 / 100).pad(20);
+        abilitiesTable.defaults().size(getVirtualWidth() * .12f, getVirtualHeight() * .1f).pad(20);
         abilitiesTable.setFillParent(true);
 
         // order the buttons of the table
@@ -169,8 +168,8 @@ public class AbilitiesScreen implements Screen {
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Abilities", getVirtualWidth()*45/100, getVirtualHeight()*85/100);
-        getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth()*45/100, getVirtualHeight()*78/100);
+        getFont().draw(getBatch(), "Abilities", getVirtualWidth()*.45f, getVirtualHeight()*.85f);
+        getFont().draw(getBatch(), getCurrentPlayer().getCharacterClass(), getVirtualWidth()*.45f, getVirtualHeight()*.78f);
         getBatch().end();
 
         getStage().act();
