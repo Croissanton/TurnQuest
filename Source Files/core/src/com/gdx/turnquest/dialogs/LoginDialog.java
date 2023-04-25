@@ -1,37 +1,33 @@
 package com.gdx.turnquest.dialogs;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.GameScreen;
-
-
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-
-import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+import com.gdx.turnquest.utils.PlayerManager;
+import com.gdx.turnquest.utils.UserManager;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
+import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
 public class LoginDialog extends Dialog {
     private final TextField usernameField;
     private final TextField passwordField;
     private final Label errorLabel;
     private final TurnQuest game;
+    private UserManager userManager = new UserManager();
+    private String username;
+    private String password;
 
     public LoginDialog(String title, Runnable runnable, Skin skin, TurnQuest game) {
         super(title, skin);
@@ -61,28 +57,25 @@ public class LoginDialog extends Dialog {
         boolean result = (boolean) object;
         if (result) {
             // Check credentials
-            String username = usernameField.getText();
-            String password = passwordField.getText();
+            username = usernameField.getText();
+            password = passwordField.getText();
             // If correct, change screen
             // Check if the credentials are valid
             if (!hasInternetConnection()) {
                 errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
-                if (!isValidCredentials(username, password)) {
+                if (!userManager.checkUser(username, password)) {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
+//              } else if (!checkLoginCount(username)) {
+//                    errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
                 } else {
-                    // If the credentials are valid, check loginCounter
-                    if (!checkLoginCount(username)){
-                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction
-                                                                         has to be fixed*/
-                    }
-                    else{
-
-                        hide();
-                        game.setScreen(new GameScreen(game));
-                    }
-
+                    // If the credentials are valid, proceed with the login process
+                    PlayerManager playerManager = new PlayerManager();
+                    Player player = playerManager.getPlayer(username);
+                    game.setCurrentPlayer(player);
+                    hide();
+                    game.setScreen(new GameScreen(game));
                 }
             }
         }
@@ -91,8 +84,10 @@ public class LoginDialog extends Dialog {
 
     @Override
     public void hide() {
-        // Only hide the dialog if the credentials are valid, this makes it so  that the dialog is not closed whenever a button is pressed but when it needs to.
-        if (isValidCredentials(usernameField.getText(), passwordField.getText())) {
+        // Only hide the dialog if the credentials are valid or the cancel button is clicked
+        if (username != null && password != null && userManager.checkUser(username, password)) {
+            super.hide();
+        } else if (username == null && password == null) {
             super.hide();
         }
     }
@@ -109,64 +104,31 @@ public class LoginDialog extends Dialog {
         return 500f;
     }
 
-    // Helper method to check if the credentials are valid
-    private boolean isValidCredentials(String username, String password) {
-        try {
-            FileHandle file = Gdx.files.internal("../Data/" + "players.json"); /*TODO: we need to change this to create a file for each player
-                                                                                    , instead of having 1 file for all players to ease the database*/
-            String json = file.readString();
-            JsonReader reader = new JsonReader();
-            JsonValue root = reader.parse(json);
-            JsonValue players = root.get("players");
-            for (JsonValue player : players) {
-                if(username.equals(player.getString("username"))){
-                    if (hashPassword(password).equals(player.getString("password"))) {
-                        return true;
-                    }
-                    else return false;
-                }
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return false;
-    }
 
-
-    protected static String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    // Method that checks the number of logins and updates the value of the loginCounter after succesfull login
-    private boolean checkLoginCount(String username) {
-        JSONParser parser = new JSONParser();
-        try {
-
-            JSONObject playerData = (JSONObject) parser.parse(new FileReader("../Data/" + username +".json"));
-            long loginCount =(long)playerData.get("loginCount");
-            if (loginCount < 5) {
-                loginCount = loginCount + 1;
-                playerData.put("loginCount", loginCount);
-                // Write the updated JSONObject back to the JSON file
-                FileWriter fileWriter = new FileWriter("../Data/" + username +".json");
-                fileWriter.write(playerData.toJSONString());
-                fileWriter.flush();
-                fileWriter.close();
-
-                return true;
-            } else {
-                return false;
-            }
-
-        }catch (IOException | ParseException e) {
-        e.printStackTrace();
-        }
-        return false;
-    }
+//    TODO: fix this so it works with new Player managment.
+//    private boolean checkLoginCount(String username) {
+//        JSONParser parser = new JSONParser();
+//        try {
+//
+//            JSONObject playerData = (JSONObject) parser.parse(new FileReader("../Data/" + username +".json"));
+//            long loginCount =(long)playerData.get("loginCount");
+//            if (loginCount < 5) {
+//                loginCount = loginCount + 1;
+//                playerData.put("loginCount", loginCount);
+//                // Write the updated JSONObject back to the JSON file
+//                FileWriter fileWriter = new FileWriter("../Data/" + username +".json");
+//                fileWriter.write(playerData.toJSONString());
+//                fileWriter.flush();
+//                fileWriter.close();
+//
+//                return true;
+//            } else {
+//                return false;
+//            }
+//
+//        }catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
 }

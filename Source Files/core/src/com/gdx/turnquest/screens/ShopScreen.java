@@ -3,27 +3,17 @@ package com.gdx.turnquest.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.*;
 import com.gdx.turnquest.TurnQuest;
-import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
-import com.sun.java.swing.action.AlignCenterAction;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -36,9 +26,9 @@ public class ShopScreen implements Screen {
     private static final int CellHeight=80;
 
 
-    static Hashtable<String, Hashtable<String, String>> inventory;
+    static Hashtable<String, Hashtable<String, String>> shopItems;
 
-    private Table descriptionTable;
+    private final Table descriptionTable;
 
 
     public ShopScreen(final TurnQuest game) {
@@ -48,8 +38,8 @@ public class ShopScreen implements Screen {
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         // Load inventory
-        inventory = new Hashtable<>();
-        readInventory();
+        shopItems = new Hashtable<>();
+        readShopItems();
 
         // Create row of labels
         Table firstTable = new Table();
@@ -68,11 +58,11 @@ public class ShopScreen implements Screen {
 
 
         // Create stats desription table
-        this.descriptionTable = new Table(game.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
+        descriptionTable = new Table(game.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
         Label label = new Label("Click on the image to show statistics of the item", game.getSkin());
         label.setWrap(true);
         label.setAlignment(Align.center);
-        this.descriptionTable.add(label).width(350f).top();
+        descriptionTable.add(label).width(350f).top();
 
         // Create right table
         Table rightTable = new Table();
@@ -163,7 +153,7 @@ public class ShopScreen implements Screen {
         // Add items to the table
         ImageButton itemButton = null;
 
-        for (Map.Entry<String, Hashtable<String, String>> set : inventory.entrySet())
+        for (Map.Entry<String, Hashtable<String, String>> set : shopItems.entrySet())
         {
 
             String name = set.getKey();
@@ -180,16 +170,15 @@ public class ShopScreen implements Screen {
 
             // Load item texture
             Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
-            double aspectRatio = (double) itemTexture.getWidth() / itemTexture.getHeight();
-            int newWidth = (int) (aspectRatio * itemTexture.getWidth());
-            TextureRegion itemRegion = new TextureRegion(itemTexture, newWidth, CellHeight);
+            // double aspectRatio = (double) itemTexture.getWidth() / itemTexture.getHeight();
+            // int newWidth = (int) (aspectRatio * itemTexture.getWidth());
+            TextureRegion itemRegion = new TextureRegion(itemTexture, itemTexture.getWidth(), itemTexture.getHeight());
             TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
+            drawable.setMinSize(CellWidth, CellHeight);
 
             //create button with item image
             itemButton = new ImageButton(drawable);
 //            ImageButton b = new ImageButton(itemTexture);
-            itemButton.setWidth(CellWidth);
-            itemButton.setHeight(CellHeight);
             itemButton.getImage().setAlign(Align.bottom);
 //            itemButton.getBackground().set
             itemButton.addListener(new ClickListener() {
@@ -252,39 +241,31 @@ public class ShopScreen implements Screen {
         this.descriptionTable.add(new Label("Defence " + defence, game.getSkin()));
     }
 
-    private void readInventory()
+    private void readShopItems()
     {
-        JSONParser jsonParser = new JSONParser();
+        FileHandle file = Gdx.files.internal("../shop.json");
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        JsonValue rootJson = new JsonReader().parse(file.readString());
 
-        try (FileReader reader = new FileReader("../shop.json"))
-        {
-            //Read JSON file
-            Object obj = jsonParser.parse(reader);
-
-            final JSONArray inventory = (JSONArray) obj;
-
-            for (Object thing : inventory) {
-                this.parseInventory( (JSONObject) thing );
-            }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        for (JsonValue childJson : rootJson) {
+            parseShopItems(childJson);
         }
     }
 
-    private void parseInventory(JSONObject inventory)
+    private void parseShopItems(JsonValue item)
     {
-        String name = (String) inventory.get("name");
-        String price = (String) inventory.get("price");
-        String attack = (String) inventory.get("attack");
-        String defence = (String) inventory.get("defence");
-        String path = (String) inventory.get("image_path");
+        String name = item.name;
+        String price = item.getString("price");
+        String attack = item.getString("attack");
+        String defence = item.getString("defence");
+        String imagePath = item.getString("image_path");
         Hashtable<String, String> stats = new Hashtable<>();
         stats.put("attack", attack);
         stats.put("defence", defence);
         stats.put("price", price);
-        stats.put("imagePath", path);
-        ShopScreen.inventory.put(name, stats);
+        stats.put("imagePath", imagePath);
+        ShopScreen.shopItems.put(name, stats);
     }
     @Override
     public void pause() {

@@ -3,25 +3,30 @@ package com.gdx.turnquest.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.gdx.turnquest.TurnQuest;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class InventoryScreen implements Screen {
-    final TurnQuest game;
+    private final TurnQuest game;
+    private ObjectMap<String, Integer> inventory = new ObjectMap<String, Integer>();
+    private Player player;
 
     public InventoryScreen(final TurnQuest game) {
         this.game = game;
+        player = game.getCurrentPlayer();
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -135,24 +140,10 @@ public class InventoryScreen implements Screen {
 
 
         private void ReadPlayerInventory () {
-
-
-            // Load the players.json file into a FileHandle object
-            FileHandle file = Gdx.files.internal("../Data/players.json");
-
-            // Use a JsonReader object to parse the JSON data
-            JsonReader reader = new JsonReader();
-            JsonValue root = reader.parse(file);
-
-            // Get the inventory array for the specified player
-            String playerName = getPlayer().getUsername();
-            JsonValue playerData = root.get(playerName);
-            JsonValue inventoryData = playerData.get("inventory");
-
-            // Read the IDs of the items in the inventory array
-            for (JsonValue itemData : inventoryData) {
-                String itemId = itemData.asString();
-                System.out.println("Player " + playerName + " owns item with ID " + itemId);
+            inventory = player.getInventory();
+            //iterate through the inventory and print out the items
+            for (ObjectMap.Entry<String, Integer> entry : inventory.entries()) {
+                System.out.println(entry.key + " " + entry.value);
             }
         }
     }

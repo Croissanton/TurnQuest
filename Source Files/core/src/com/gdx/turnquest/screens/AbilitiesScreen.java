@@ -11,13 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.entities.Player.*;
 
 public class AbilitiesScreen implements Screen {
 
     final TurnQuest game;
+
 
     // set all buttons to not clicked, need to be global
     boolean clicked1 = false;
@@ -33,6 +34,7 @@ public class AbilitiesScreen implements Screen {
 
     public AbilitiesScreen (final TurnQuest game) {
         this.game = game;
+        Player player = game.getCurrentPlayer();
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -63,38 +65,38 @@ public class AbilitiesScreen implements Screen {
 
         // abilities buttons
         TextButton bAb1 = new TextButton("", game.getSkin());
-        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+        if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("Spin");
-        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("");
-        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("");
         }
 
         TextButton bAb2 = new TextButton("", game.getSkin());
-        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+        if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb2.setText("Fire Spin");
-        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
             bAb2.setText("");
-        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
             bAb2.setText("");
         }
 
         TextButton bAb3 = new TextButton("", game.getSkin());
-        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+        if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb3.setText("Fire Sword");
-        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
             bAb3.setText("");
-        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
             bAb3.setText("");
         }
 
         TextButton bAb4 = new TextButton("", game.getSkin());
-        if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+        if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Critical");
-        } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("");
-        } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+        } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("");
         }
 
@@ -125,19 +127,19 @@ public class AbilitiesScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked1) {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times1 * 0.5 + "%.");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("");
                     }
                 } else {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("Spin around you to inflict damage to all enemies with 60% of your attack.");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("");
                     }
                 }
@@ -170,19 +172,19 @@ public class AbilitiesScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked2) {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times2 * 0.5 + "%.");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("");
                     }
                 } else {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("Spin around you to inflict damage to all enemies with 50% of your attack. It also burn enemies..");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("");
                     }
                 }
@@ -213,19 +215,19 @@ public class AbilitiesScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked3) {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times3 * 0.5 + "%.");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("");
                     }
                 } else {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("Attack one enemy dealing 150% of your attack and burning it.");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("");
                     }
                 }
@@ -256,19 +258,19 @@ public class AbilitiesScreen implements Screen {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked4) {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt4.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times4 * 0.5 + "%.");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt4.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt4.setText("");
                     }
                 } else {
-                    if ("Warrior".equalsIgnoreCase(getCharacterClass())) {
+                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt4.setText("Makes you next attack to be a critical one.");
-                    } else if ("Archer".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt4.setText("");
-                    } else if ("Assassin".equalsIgnoreCase(getCharacterClass())) {
+                    } else if ("Assassin".equalsIgnoreCase(player.getCharacterClass())) {
                         tt4.setText("");
                     }
                 }
@@ -357,7 +359,7 @@ public class AbilitiesScreen implements Screen {
         game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         game.getFont().getData().setScale(4); //Changes font size.
         game.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 45f / 100f, getVirtualHeight() * 85f / 100f);
-        game.getFont().draw(game.getBatch(), getCharacterClass(), getVirtualWidth() * 45f / 100f, getVirtualHeight() * 75f / 100f);
+        game.getFont().draw(game.getBatch(), game.getCurrentPlayer().getCharacterClass(), getVirtualWidth() * 45f / 100f, getVirtualHeight() * 75f / 100f);
         game.getBatch().end();
 
         game.getStage().act();

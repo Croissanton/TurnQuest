@@ -1,47 +1,81 @@
 package com.gdx.turnquest.entities;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Scanner;
+import com.badlogic.gdx.utils.ObjectMap;
 
-public class Player {
+public class Player extends Character {
 
-    private static String playerName;
+    private String characterClass;
+    private int gold;
+    private int exp;
+    private int level;
+    private ObjectMap<String, Integer> inventory;
+    private final String playerName;
 
-    private static final int N_STATS = 7; // Number of stats, TO BE CHANGED WHEN WE CONCLUDE THE NUMBER OF STATS.
-    private static String characterClass = "";
-    private static int gold;
-    private static int exp;
-    private static int level;
-    private static int stats[] = new int[N_STATS]; //0 is HP, 1 is MP, 2 is STR, 3 is DEF, 4 is SPD, 5 is INT, 6 is LUK
 
-    public Player(String fileName) {
-        try {
-            Scanner file = new Scanner(new FileReader("../" + fileName + ".txt"));
-            playerName = file.nextLine();
-            file.nextLine();
-            characterClass = file.nextLine();
-            gold = Integer.parseInt(file.nextLine());
-            exp = Integer.parseInt(file.nextLine());
-            level = Integer.parseInt(file.nextLine());
-        } catch (FileNotFoundException e) {
-            System.err.println("ERROR: File not found.");
+    public Player() {
+        super();
+        this.playerName = null;
+    }
+
+    //creating a default Player, acts a new player that just began the game
+    public Player(String playerName) {
+        super();
+        this.playerName = playerName;
+        this.characterClass = "";
+        gold = 0;
+        exp = 0;
+        level = 1;
+        inventory = new ObjectMap<>();
+        //TODO: add character class handling -> setting stats according to the class given.
+    }
+
+    public void setInventory(ObjectMap<String, Integer> inv) {
+        inventory = inv;
+    }
+
+    public void addItem(String item, int quantity) {
+        if (inventory.containsKey(item)) {
+            inventory.put(item, inventory.get(item) + quantity);
+        } else {
+            inventory.put(item, quantity);
         }
     }
 
-    public static void setCharacterClass(String cc) {
+    public void removeItem(String item, int quantity) {
+        if (inventory.containsKey(item)) {
+            if (inventory.get(item) < quantity) {
+                inventory.remove(item);
+            } else {
+                inventory.put(item, inventory.get(item) - quantity);
+            }
+        }
+    }
+
+    public ObjectMap<String, Integer> getInventory() {
+        return inventory;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setCharacterClass(String cc) {
         characterClass = cc;
     }
 
-    public static String getCharacterClass() {
+    public String getCharacterClass() {
         return characterClass;
     }
 
-    public static void addGold(int g) {
-        gold =+ g;
+    public void setGold(int g) {
+        gold = g;
     }
 
-    public static int removeGold(int g) {
+    public void addGold(int g) {
+        gold += g;
+    }
+
+    public int removeGold(int g) {
         if (gold < g) {
             return -1;
         }
@@ -50,61 +84,25 @@ public class Player {
         // 0 means success, -1 means not enough gold.
     }
 
-    public static int getGold() {
+    public int getGold() {
         return gold;
     }
 
-    public static void addExp(int e) {
+    public void setExp(int e) {
+        exp = e;
+    }
+
+    public void addExp(int e) {
         exp += e;
     }
 
-    public static int getExp() {
+    public int getExp() {
         return exp;
     }
 
-    public static void setLevel(int l) {level = l;}
+    public void setLevel(int l) {level = l;}
 
-    public static void increaseLevel(int l) {level += l;}
+    public void increaseLevel(int l) {level += l;}
 
-    public static int getLevel() {return level;}
-
-    public static int getHP(){
-        return stats[0];
-    }
-
-    public static void increaseHP(int hp){
-        stats[0] += hp;
-    }
-
-    public static int getMP(){
-        return stats[1];
-    }
-
-    public static void increaseMP(int mp){
-        stats[1] += mp;
-    }
-
-    public static int getSTR(){
-        return stats[2];
-    }
-
-    public static int getDEF(){
-        return stats[3];
-    }
-
-    public static int getSPD(){
-        return stats[4];
-    }
-
-    public static int getINT(){
-        return stats[5];
-    }
-
-    public static int getLUK(){
-        return stats[6];
-    }
-
-    public String getUsername() {
-        return playerName;
-    }
+    public int getLevel() {return level;}
 }

@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.entities.Player.*;
 
 public class ClanScreen implements Screen {
     final TurnQuest game;
@@ -65,7 +64,7 @@ public class ClanScreen implements Screen {
         game.getBatch().draw(game.getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         //game.getFont().getData().setScale(4); //Changes font size.
         game.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
-        game.getFont().draw(game.getBatch(), getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
+        game.getFont().draw(game.getBatch(), game.getCurrentPlayer().getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
         game.getBatch().end();
 
         game.getStage().act();

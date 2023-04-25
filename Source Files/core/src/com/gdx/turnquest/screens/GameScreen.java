@@ -12,14 +12,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class GameScreen implements Screen {
     final TurnQuest game;
+    private Player player;
 
     public GameScreen(final TurnQuest game) {
         this.game = game;
+        this.player = game.getCurrentPlayer();
 
         game.setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(game.getStage());
