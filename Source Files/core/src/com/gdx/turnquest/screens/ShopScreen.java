@@ -44,7 +44,7 @@ public class ShopScreen implements Screen {
 
         this.game = game;
         game.setStage(new Stage(getViewport()));
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         // Load inventory
         inventory = new Hashtable<>();
@@ -56,19 +56,19 @@ public class ShopScreen implements Screen {
 
 
         // Create the table to hold the items
-        Table itemTable = new Table(getSkin());
+        Table itemTable = new Table(game.getSkin());
         setItemTable(itemTable);
 
 
         // Create a scroll pane to hold the item table
-        ScrollPane scrollPane = new ScrollPane(itemTable, getSkin());
+        ScrollPane scrollPane = new ScrollPane(itemTable, game.getSkin());
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setSmoothScrolling(true);
 
 
         // Create stats desription table
-        this.descriptionTable = new Table(getSkin());  //this will be the table for the description of the stats of each item, after being clicked
-        Label label = new Label("Click on the image to show statistics of the item", getSkin());
+        this.descriptionTable = new Table(game.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
+        Label label = new Label("Click on the image to show statistics of the item", game.getSkin());
         label.setWrap(true);
         label.setAlignment(Align.center);
         this.descriptionTable.add(label).width(350f).top();
@@ -82,13 +82,13 @@ public class ShopScreen implements Screen {
 
 
         // Create root table
-        Table rootTable = new Table(getSkin());
+        Table rootTable = new Table(game.getSkin());
 
         rootTable.row();
 
         rootTable.setFillParent(true);
         rootTable.add(firstTable).left().padLeft(200f);//.padRight(30f);
-        rootTable.add(new Label("Statistics", getSkin())).expandX().align(Align.center).colspan(5);
+        rootTable.add(new Label("Statistics", game.getSkin())).expandX().align(Align.center).colspan(5);
         rootTable.row();
         rootTable.add(scrollPane).left().padLeft(200f);//.padRight(30f);
         rootTable.add(rightTable).center().expand().fill();
@@ -107,17 +107,17 @@ public class ShopScreen implements Screen {
         firstTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
 
 
-        firstTable.add(new Label("Price", getSkin()));
-        firstTable.add(new Label("Name", getSkin()));
-        firstTable.add(new Label("Image", getSkin()));
-        firstTable.add(new Label("Buy", getSkin()));
-        firstTable.add(new Label("Sell", getSkin()));
+        firstTable.add(new Label("Price", game.getSkin()));
+        firstTable.add(new Label("Name", game.getSkin()));
+        firstTable.add(new Label("Image", game.getSkin()));
+        firstTable.add(new Label("Buy", game.getSkin()));
+        firstTable.add(new Label("Sell", game.getSkin()));
 //        firstTable.add(backButton).width(200f).pad(50f);
     }
 
     public TextButton createBackButton()
     {
-        TextButton backButton = new TextButton("Return", getSkin());
+        TextButton backButton = new TextButton("Return", game.getSkin());
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -155,8 +155,8 @@ public class ShopScreen implements Screen {
 
             // Create label for item price
 
-            Label priceLabel = new Label(price, getSkin());
-            Label nameLabel = new Label(name, getSkin());
+            Label priceLabel = new Label(price, game.getSkin());
+            Label nameLabel = new Label(name, game.getSkin());
 
             // Load item texture
             Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
@@ -178,8 +178,8 @@ public class ShopScreen implements Screen {
             });
 
             // Create buy/sell buttons for item
-            TextButton buyButton = new TextButton("Buy", getSkin());
-            TextButton sellButton = new TextButton("Sell", getSkin());
+            TextButton buyButton = new TextButton("Buy", game.getSkin());
+            TextButton sellButton = new TextButton("Sell", game.getSkin());
 
             // Add item components to the item table
             itemTable.add(priceLabel);
@@ -200,15 +200,15 @@ public class ShopScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            TurnQuest.toggleFullscreen();
+            toggleFullscreen();
         }
     }
 
@@ -220,10 +220,10 @@ public class ShopScreen implements Screen {
     private void showStats(String name, String price, String attack, String defence)
     {
         this.descriptionTable.clear();
-        this.descriptionTable.add(new Label(name, getSkin())).row();
-        this.descriptionTable.add(new Label("Price " + price, getSkin())).row();
-        this.descriptionTable.add(new Label("Attack " + attack, getSkin())).row();
-        this.descriptionTable.add(new Label("Defence " + defence, getSkin()));
+        this.descriptionTable.add(new Label(name, game.getSkin())).row();
+        this.descriptionTable.add(new Label("Price " + price, game.getSkin())).row();
+        this.descriptionTable.add(new Label("Attack " + attack, game.getSkin())).row();
+        this.descriptionTable.add(new Label("Defence " + defence, game.getSkin()));
     }
 
     private void readInventory()

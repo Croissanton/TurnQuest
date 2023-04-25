@@ -34,21 +34,21 @@ public class AbilitiesScreen implements Screen {
     public AbilitiesScreen (final TurnQuest game) {
         this.game = game;
 
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         game.setStage(new Stage(getViewport()));
 
         // tooltip that will be shown when hovering buttons when locked
-        Label tt1 = new Label("Your next attack will be a critic one.", getSkin());
-        Label tt2 = new Label("What r u searching 4?", getSkin());
-        Label tt3 = new Label("What r u searching 4?", getSkin());
-        Label tt4 = new Label("What r u searching 4?", getSkin());
+        Label tt1 = new Label("Your next attack will be a critic one.", game.getSkin());
+        Label tt2 = new Label("What r u searching 4?", game.getSkin());
+        Label tt3 = new Label("What r u searching 4?", game.getSkin());
+        Label tt4 = new Label("What r u searching 4?", game.getSkin());
 
         // tooltip that will be shown when hovering buttons when unlocked
-        Label tt1u = new Label("Increase the critical attack damage by 0.5% each upgrade: " + times1 * 0.5, getSkin());
-        Label tt2u = new Label("What r u searching 4? unlocked", getSkin());
-        Label tt3u = new Label("What r u searching 4? unlocked", getSkin());
-        Label tt4u = new Label("What r u searching 4? unlocked", getSkin());
+        Label tt1u = new Label("Increase the critical attack damage by 0.5% each upgrade: " + times1 * 0.5, game.getSkin());
+        Label tt2u = new Label("What r u searching 4? unlocked", game.getSkin());
+        Label tt3u = new Label("What r u searching 4? unlocked", game.getSkin());
+        Label tt4u = new Label("What r u searching 4? unlocked", game.getSkin());
 
         // set position
         tt1.setPosition(getVirtualWidth() * 38f / 100f, getVirtualHeight() * 70f / 100f);
@@ -71,10 +71,10 @@ public class AbilitiesScreen implements Screen {
         tt4u.setVisible(false);
 
         // abilities buttons
-        TextButton bAb1 = new TextButton("Critical", getSkin());
-        TextButton bAb2 = new TextButton("Ab2", getSkin());
-        TextButton bAb3 = new TextButton("Ab3", getSkin());
-        TextButton bAb4 = new TextButton("Ab4", getSkin());
+        TextButton bAb1 = new TextButton("Critical", game.getSkin());
+        TextButton bAb2 = new TextButton("Ab2", game.getSkin());
+        TextButton bAb3 = new TextButton("Ab3", game.getSkin());
+        TextButton bAb4 = new TextButton("Ab4", game.getSkin());
 
         // set color to locked
         bAb1.setColor(0.3f, 0.7f, 0.8f, 0.5f);
@@ -220,9 +220,9 @@ public class AbilitiesScreen implements Screen {
         });
 
         // table buttons
-        TextButton bReturn = new TextButton("Return", getSkin());
-        TextButton bLeftArrow = new TextButton("<-", getSkin());
-        TextButton bRightArrow = new TextButton("->", getSkin());
+        TextButton bReturn = new TextButton("Return", game.getSkin());
+        TextButton bLeftArrow = new TextButton("<-", game.getSkin());
+        TextButton bRightArrow = new TextButton("->", game.getSkin());
 
         // table for return
         Table table = new Table();
@@ -276,14 +276,14 @@ public class AbilitiesScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Abilities", getVirtualWidth() * 45f / 100f, getVirtualHeight() * 85f / 100f);
-        getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth() * 45f / 100f, getVirtualHeight() * 78f / 100f);
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        //game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 45f / 100f, getVirtualHeight() * 85f / 100f);
+        game.getFont().draw(game.getBatch(), getCharacterClass(), getVirtualWidth() * 45f / 100f, getVirtualHeight() * 78f / 100f);
+        game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();

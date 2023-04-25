@@ -31,7 +31,7 @@ public class CombatScreen implements Screen {
     public CombatScreen(final TurnQuest game) {
         this.game = game;
 
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         game.setStage(new Stage(getViewport()));
 
@@ -48,13 +48,13 @@ public class CombatScreen implements Screen {
         enemySprite.setPosition(getVirtualWidth()*6/8f, getVirtualHeight()/2f); // Set the position of the enemy sprite
         enemySprite.setScale(2); // Scale the enemy sprite
 
-        TextButton attackButton = new TextButton("Attack", getSkin());
-        TextButton magicButton = new TextButton("Magic", getSkin());
-        TextButton itemButton = new TextButton("Item", getSkin());
-        TextButton runButton = new TextButton("Run", getSkin());
+        TextButton attackButton = new TextButton("Attack", game.getSkin());
+        TextButton magicButton = new TextButton("Magic", game.getSkin());
+        TextButton itemButton = new TextButton("Item", game.getSkin());
+        TextButton runButton = new TextButton("Run", game.getSkin());
 
         // Create the table
-        Table optionsTable = new Table(getSkin());
+        Table optionsTable = new Table(game.getSkin());
         optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 200f, Align.center);
         optionsTable.defaults().space(20f);
         optionsTable.add(attackButton);
@@ -66,19 +66,19 @@ public class CombatScreen implements Screen {
         // Add the table to the stage
         game.getStage().addActor(optionsTable);
 
-        playerHpLabel = new Label("HP: " + getHP(), getSkin());
-        playerMpLabel = new Label("MP: " + getMP(), getSkin());
-        enemyHpLabel = new Label("HP: " + 0, getSkin());
-        enemyMpLabel = new Label("MP: " + 0, getSkin());
+        playerHpLabel = new Label("HP: " + getHP(), game.getSkin());
+        playerMpLabel = new Label("MP: " + getMP(), game.getSkin());
+        enemyHpLabel = new Label("HP: " + 0, game.getSkin());
+        enemyMpLabel = new Label("MP: " + 0, game.getSkin());
 
         ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
         ProgressBar.ProgressBarStyle progressBarStyleMP = new ProgressBar.ProgressBarStyle();
 
-        progressBarStyleHP.background = getSkin().getDrawable("progress-bar-health");
-        progressBarStyleHP.knobBefore = getSkin().getDrawable("progress-bar-health-knob");
+        progressBarStyleHP.background = game.getSkin().getDrawable("progress-bar-health");
+        progressBarStyleHP.knobBefore = game.getSkin().getDrawable("progress-bar-health-knob");
 
-        progressBarStyleMP.background = getSkin().getDrawable("progress-bar-mana");
-        progressBarStyleMP.knobBefore = getSkin().getDrawable("progress-bar-mana-knob");
+        progressBarStyleMP.background = game.getSkin().getDrawable("progress-bar-mana");
+        progressBarStyleMP.knobBefore = game.getSkin().getDrawable("progress-bar-mana-knob");
 
         ProgressBar playerHpBar = new ProgressBar(0, getHP(), 1, false, progressBarStyleHP);
         playerHpBar.setValue(getHP()); // Set the initial value of the bar to getHP() (full)
@@ -93,7 +93,7 @@ public class CombatScreen implements Screen {
         enemyMpBar.setValue(getMP()); // Set the initial value of the bar to getHP() (full)
 
 
-        Table playerTable = new Table(getSkin());
+        Table playerTable = new Table(game.getSkin());
         playerTable.setPosition(getVirtualWidth() * 0.25f, getVirtualHeight() * 0.25f);
         playerTable.defaults().space(10f);
         playerTable.add(playerHpLabel).row();
@@ -105,7 +105,7 @@ public class CombatScreen implements Screen {
 
         //Space these two out in the X axis (I didn't manage to do that, if you can, please do)
 
-        Table enemyTable = new Table(getSkin());
+        Table enemyTable = new Table(game.getSkin());
         enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
         enemyTable.defaults().space(10f);
         enemyTable.add(enemyHpLabel).row();
@@ -163,18 +163,18 @@ public class CombatScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
         playerHpLabel.setText("HP: " + getHP());
         playerMpLabel.setText("MP: " + getMP());
         enemyHpLabel.setText("HP: " + 0);
         enemyMpLabel.setText("MP: " + 0);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        playerSprite.draw(getBatch());
-        enemySprite.draw(getBatch());
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        playerSprite.draw(game.getBatch());
+        enemySprite.draw(game.getBatch());
+        game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();

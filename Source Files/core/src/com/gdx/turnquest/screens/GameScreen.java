@@ -30,14 +30,14 @@ public class GameScreen implements Screen {
         table.setFillParent(true);
 
         // options button
-        TextButton bOptions = new TextButton("Options", getSkin());
+        TextButton bOptions = new TextButton("Options", game.getSkin());
         table.add(bOptions).right();
 
         // add another column
         table.add();
 
         // inventory button
-        TextButton bInventory = new TextButton("Inventory", getSkin());
+        TextButton bInventory = new TextButton("Inventory", game.getSkin());
         table.add(bInventory).left();
 
         // add another row
@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
         table.add();
 
         // play button
-        TextButton bPlay = new TextButton("Play", getSkin());
+        TextButton bPlay = new TextButton("Play", game.getSkin());
         table.add(bPlay).center();
 
         // add another column
@@ -57,15 +57,15 @@ public class GameScreen implements Screen {
         table.row();
 
         // abilities button
-        TextButton bClan = new TextButton("Clan", getSkin());
+        TextButton bClan = new TextButton("Clan", game.getSkin());
         table.add(bClan).right();
 
         //return button
-        TextButton bReturn = new TextButton("Return", getSkin());
+        TextButton bReturn = new TextButton("Return", game.getSkin());
         table.add(bReturn).bottom();
 
         // shop button
-        TextButton bShop = new TextButton("Shop", getSkin());
+        TextButton bShop = new TextButton("Shop", game.getSkin());
         table.add(bShop).left();
 
         // table padding
@@ -132,13 +132,13 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        //game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
+        game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
@@ -171,12 +171,12 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         game.getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getBackgroundTexture().dispose();
     }
 
     private void showQuitConfirmationDialog() {
         ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", () -> game.setScreen(new MainMenuScreen(game)), getSkin());
+                "You will have to enter your credentials again.", () -> game.setScreen(new MainMenuScreen(game)), game.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }

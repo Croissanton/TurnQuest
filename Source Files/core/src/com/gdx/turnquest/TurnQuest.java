@@ -24,23 +24,23 @@ import java.net.URL;
 
 public class TurnQuest extends Game {
 
-	private static SpriteBatch batch;
+	private SpriteBatch batch;
 
-	private static BitmapFont font;
+	private BitmapFont font;
 
-	private static AssetManager manager;
+	private AssetManager manager;
 
 	private static int generalVolume = 50;
 
 	private static Graphics.DisplayMode dm;
 
-	private static Texture backgroundTexture;
+	private Texture backgroundTexture;
 
 	private static OrthographicCamera camera;
 
 	private Stage stage;
 
-	private static Skin skin;
+	private Skin skin;
 
 	private static Viewport viewport;
 	private static Player player;
@@ -57,7 +57,7 @@ public class TurnQuest extends Game {
 		AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
 		manager.load(skinAssetDescriptor);
 		manager.finishLoading();
-		skin = TurnQuest.getManager().get(skinAssetDescriptor);
+		skin = manager.get(skinAssetDescriptor);
 		camera = new OrthographicCamera();
 		setDisplayMode(Gdx.graphics.getDisplayMode());
 		getCamera().setToOrtho(false, getVirtualWidth(), getVirtualHeight());
@@ -94,23 +94,20 @@ public class TurnQuest extends Game {
 		return dm.height;
 	}
 
-	public static SpriteBatch getBatch(){
+	public SpriteBatch getBatch(){
 		return batch;
 	}
 
-	public static BitmapFont getFont(){
+	public BitmapFont getFont(){
 		return font;
 	}
 
-	public static AssetManager getManager(){
-		return manager;
-	}
-	public static Texture getBackgroundTexture() {
+	public Texture getBackgroundTexture() {
 		return backgroundTexture;
 	}
 
-	public static void setBackgroundTexture(Texture backgroundTexture) {
-		TurnQuest.backgroundTexture.load(backgroundTexture.getTextureData());
+	public void setBackgroundTexture(Texture backgroundTexture) {
+		backgroundTexture.load(backgroundTexture.getTextureData());
 	}
 
 	public static OrthographicCamera getCamera() {
@@ -125,7 +122,7 @@ public class TurnQuest extends Game {
 		this.stage = stage;
 	}
 
-	public static Skin getSkin() {
+	public Skin getSkin() {
 		return skin;
 	}
 	public static Viewport getViewport() {

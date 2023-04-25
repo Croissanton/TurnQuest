@@ -26,13 +26,13 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final TurnQuest game) {
         this.game = game;
 
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
         game.setStage(new Stage(getViewport()));
 
 
-        TextButton bStart = new TextButton("Start", getSkin());
-        TextButton bOptions = new TextButton("Options", getSkin());
-        TextButton bQuit = new TextButton("Quit", getSkin());
+        TextButton bStart = new TextButton("Start", game.getSkin());
+        TextButton bOptions = new TextButton("Options", game.getSkin());
+        TextButton bQuit = new TextButton("Quit", game.getSkin());
 
         //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
 
@@ -78,13 +78,13 @@ public class MainMenuScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
+        game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
@@ -120,7 +120,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void showQuitConfirmationDialog() {
-        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", () -> Gdx.app.exit(), getSkin());
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", () -> Gdx.app.exit(), game.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }
@@ -128,7 +128,7 @@ public class MainMenuScreen implements Screen {
     private void showGameSelectionDialog() {
         GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", () -> {
             // Handle login here
-        }, getSkin(), game);
+        }, game.getSkin(), game);
         dialog.show(game.getStage());
     }
 }
