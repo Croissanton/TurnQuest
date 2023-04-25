@@ -50,7 +50,7 @@ public class MainMenuScreen implements Screen {
         bQuit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game));
+                showQuitConfirmationDialog();
             }
         });
 
