@@ -23,7 +23,7 @@ public class ClanScreen implements Screen {
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
         // return button
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -36,7 +36,7 @@ public class ClanScreen implements Screen {
         // add return button to the table
         table.add(bReturn).bottom();
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         // return to GameScreen when pressed return button
         bReturn.addListener(new ClickListener() {
@@ -51,7 +51,7 @@ public class ClanScreen implements Screen {
     }
 
     @Override
-    public void show() {Gdx.input.setInputProcessor(getStage());
+    public void show() {Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
@@ -68,8 +68,8 @@ public class ClanScreen implements Screen {
         getFont().draw(getBatch(), getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
         getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -98,7 +98,6 @@ public class ClanScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 }

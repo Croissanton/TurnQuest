@@ -27,7 +27,7 @@ public class MainMenuScreen implements Screen {
         this.game = game;
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
 
         TextButton bStart = new TextButton("Start", getSkin());
@@ -45,7 +45,7 @@ public class MainMenuScreen implements Screen {
         bOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showPreferencesDialog();
+                game.showPreferencesDialog();
             }
         });
         bQuit.addListener(new ClickListener() {
@@ -63,14 +63,14 @@ public class MainMenuScreen implements Screen {
 
         table.padTop(100f); // add some padding at the top
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         getViewport().apply();
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(getStage());
+        Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
@@ -83,11 +83,11 @@ public class MainMenuScreen implements Screen {
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
+        getFont().draw(getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
         getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -116,28 +116,19 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 
     private void showQuitConfirmationDialog() {
-        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", new Runnable() {
-            @Override
-            public void run() {
-                Gdx.app.exit();
-            }
-        }, getSkin());
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", () -> Gdx.app.exit(), getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(getStage());
+        dialog.show(game.getStage());
     }
 
     private void showGameSelectionDialog() {
-        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", new Runnable() {
-            @Override
-            public void run() {
-                // Handle login here
-            }
+        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", () -> {
+            // Handle login here
         }, getSkin(), game);
-        dialog.show(getStage());
+        dialog.show(game.getStage());
     }
 }

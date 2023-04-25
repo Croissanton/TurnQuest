@@ -28,8 +28,6 @@ public class TurnQuest extends Game {
 
 	private static BitmapFont font;
 
-	private static BitmapFont fontSmall;
-
 	private static AssetManager manager;
 
 	private static int generalVolume = 50;
@@ -40,7 +38,7 @@ public class TurnQuest extends Game {
 
 	private static OrthographicCamera camera;
 
-	private static Stage stage;
+	private Stage stage;
 
 	private static Skin skin;
 
@@ -54,9 +52,9 @@ public class TurnQuest extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont(); // use libGDX's default Arial font
-		fontSmall = new BitmapFont();
 		manager = new AssetManager();
-		AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<Skin>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
+		backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
+		AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
 		manager.load(skinAssetDescriptor);
 		manager.finishLoading();
 		skin = TurnQuest.getManager().get(skinAssetDescriptor);
@@ -69,8 +67,7 @@ public class TurnQuest extends Game {
 	}
 
 	public void dispose() {
-		batch.dispose();
-		font.dispose();
+		manager.dispose();
 	}
 
 	public static int getGeneralVolume(){
@@ -105,10 +102,6 @@ public class TurnQuest extends Game {
 		return font;
 	}
 
-	public static BitmapFont getFontSmall(){
-		return fontSmall;
-	}
-
 	public static AssetManager getManager(){
 		return manager;
 	}
@@ -117,19 +110,19 @@ public class TurnQuest extends Game {
 	}
 
 	public static void setBackgroundTexture(Texture backgroundTexture) {
-		TurnQuest.backgroundTexture = backgroundTexture;
+		TurnQuest.backgroundTexture.load(backgroundTexture.getTextureData());
 	}
 
 	public static OrthographicCamera getCamera() {
 		return camera;
 	}
 
-	public static Stage getStage() {
+	public Stage getStage() {
 		return stage;
 	}
 
-	public static void setStage(Stage stage) {
-		TurnQuest.stage = stage;
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	public static Skin getSkin() {
@@ -149,7 +142,7 @@ public class TurnQuest extends Game {
 
 	public static void toggleFullscreen(){
 		if (Gdx.graphics.isFullscreen()) {
-			Gdx.graphics.setWindowedMode(TurnQuest.getVirtualWidth()/2, TurnQuest.getVirtualHeight()/2);
+			Gdx.graphics.setWindowedMode(getVirtualWidth()/2, getVirtualHeight()/2);
 			getViewport().update(getVirtualWidth()/2, getVirtualHeight()/2, true);
 		} else {
 			Gdx.graphics.setFullscreenMode(getDisplayMode());
@@ -167,12 +160,9 @@ public class TurnQuest extends Game {
 		return true;
 	}
 
-	public static void showPreferencesDialog() {
-		PreferencesDialog dialog = new PreferencesDialog("Options", "", new Runnable() {
-			@Override
-			public void run() {
+	public void showPreferencesDialog() {
+		PreferencesDialog dialog = new PreferencesDialog("Options", "", () -> {
 
-			}
 		}, getSkin());
 		dialog.setColor(Color.LIGHT_GRAY);
 		dialog.show(getStage());

@@ -33,7 +33,7 @@ public class CharactersScreen implements Screen{
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
         // create the button
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -45,7 +45,7 @@ public class CharactersScreen implements Screen{
 
         // add button
         table.add(bReturn);
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         bReturn.addListener(new ClickListener() {
             @Override
@@ -59,7 +59,7 @@ public class CharactersScreen implements Screen{
 
         @Override
     public void show() {
-        Gdx.input.setInputProcessor(getStage());
+        Gdx.input.setInputProcessor(game.getStage());
 
         spriteSheet= new Texture(Gdx.files.internal("Necromancer_creativekind-Sheet.png"));
           //attempt to resize texture
@@ -102,13 +102,13 @@ public class CharactersScreen implements Screen{
 
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getBatch().draw(currentFrame, getVirtualWidth()/3, getVirtualHeight()/2,currentFrame.getRegionWidth()*2,currentFrame.getRegionHeight()*2);
+        getBatch().draw(currentFrame, getVirtualWidth()/3f, getVirtualHeight()/2f,currentFrame.getRegionWidth()*2,currentFrame.getRegionHeight()*2);
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "The button `DOES!!!` work! :DDD", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
+        getFont().draw(getBatch(), "The button `DOES!!!` work! :DDD", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
         getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -137,7 +137,6 @@ public class CharactersScreen implements Screen{
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 }

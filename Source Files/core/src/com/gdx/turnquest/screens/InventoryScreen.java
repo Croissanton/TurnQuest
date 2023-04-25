@@ -14,7 +14,6 @@ import com.gdx.turnquest.TurnQuest;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.w3c.dom.Text;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -26,7 +25,7 @@ public class InventoryScreen implements Screen {
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
         // table buttons
         TextButton bReturn = new TextButton("Return", getSkin());
@@ -49,7 +48,7 @@ public class InventoryScreen implements Screen {
         table.add(bReturn).bottom();
         table.add(bInventory);
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         // if an arrow is clicked, go to abilities screen
         bRightArrow.addListener(new ClickListener() {
@@ -84,7 +83,7 @@ public class InventoryScreen implements Screen {
 
         @Override
         public void show () {
-            Gdx.input.setInputProcessor(getStage());
+            Gdx.input.setInputProcessor(game.getStage());
 
         }
 
@@ -98,11 +97,11 @@ public class InventoryScreen implements Screen {
             getBatch().begin();
             getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
             getFont().getData().setScale(4); //Changes font size.
-            getFont().draw(getBatch(), "Inventory", getVirtualWidth() * 45 / 100, getVirtualHeight() * 85 / 100);
+            getFont().draw(getBatch(), "Inventory", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
             getBatch().end();
 
-            getStage().act();
-            getStage().draw();
+            game.getStage().act();
+            game.getStage().draw();
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
                 toggleFullscreen();
@@ -131,8 +130,7 @@ public class InventoryScreen implements Screen {
 
         @Override
         public void dispose () {
-            getStage().dispose();
-            getBackgroundTexture().dispose();
+            game.getStage().dispose();
         }
 
 

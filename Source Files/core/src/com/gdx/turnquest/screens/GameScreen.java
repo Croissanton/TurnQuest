@@ -21,12 +21,12 @@ public class GameScreen implements Screen {
     public GameScreen(final TurnQuest game) {
         this.game = game;
 
-        setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
+        game.setStage(new Stage(getViewport()));
+        Gdx.input.setInputProcessor(game.getStage());
 
         // create the table
         Table table = new Table();
-        table.defaults().expand().size(getVirtualWidth() *.15f, getVirtualHeight() *.10f);
+        table.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         table.setFillParent(true);
 
         // options button
@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
         table.padLeft(20);
         table.padRight(20);
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         bPlay.addListener(new ClickListener() {
             @Override
@@ -115,7 +115,7 @@ public class GameScreen implements Screen {
         bOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showPreferencesDialog();
+                game.showPreferencesDialog();
             }
         });
 
@@ -137,11 +137,11 @@ public class GameScreen implements Screen {
         getBatch().begin();
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Game Menu", getVirtualWidth() * 42 / 100, getVirtualWidth() * 77 / 100);
+        getFont().draw(getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
         getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -170,19 +170,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
+        game.getStage().dispose();
         getBackgroundTexture().dispose();
     }
 
     private void showQuitConfirmationDialog() {
         ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", new Runnable() {
-            @Override
-            public void run() {
-                game.setScreen(new MainMenuScreen(game));
-            }
-        }, getSkin());
+                "You will have to enter your credentials again.", () -> game.setScreen(new MainMenuScreen(game)), getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(getStage());
+        dialog.show(game.getStage());
     }
 }

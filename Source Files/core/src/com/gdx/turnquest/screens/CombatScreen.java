@@ -18,22 +18,22 @@ import static com.gdx.turnquest.entities.Player.*;
 
 public class CombatScreen implements Screen {
     final TurnQuest game;
-    private static Texture playerTexture;
-    private static Texture enemyTexture;
-    private static Sprite playerSprite;
-    private static Sprite enemySprite;
+    private final Texture playerTexture;
+    private final Texture enemyTexture;
+    private final Sprite playerSprite;
+    private final Sprite enemySprite;
 
-    private static Label playerHpLabel;
-    private static Label playerMpLabel;
-    private static Label enemyMpLabel;
-    private static Label enemyHpLabel;
+    private Label playerHpLabel;
+    private Label playerMpLabel;
+    private Label enemyMpLabel;
+    private Label enemyHpLabel;
 
     public CombatScreen(final TurnQuest game) {
         this.game = game;
 
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
         // Load the player and enemy textures
         playerTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/01.png"));
@@ -64,7 +64,7 @@ public class CombatScreen implements Screen {
         optionsTable.add(runButton);
 
         // Add the table to the stage
-        getStage().addActor(optionsTable);
+        game.getStage().addActor(optionsTable);
 
         playerHpLabel = new Label("HP: " + getHP(), getSkin());
         playerMpLabel = new Label("MP: " + getMP(), getSkin());
@@ -94,33 +94,33 @@ public class CombatScreen implements Screen {
 
 
         Table playerTable = new Table(getSkin());
-        playerTable.setPosition(getVirtualWidth() * 25 / 100, getVirtualHeight() * 25 / 100);
+        playerTable.setPosition(getVirtualWidth() * 0.25f, getVirtualHeight() * 0.25f);
         playerTable.defaults().space(10f);
         playerTable.add(playerHpLabel).row();
         playerTable.add(playerHpBar).width(400f).row();
         playerTable.add(playerMpLabel).row();
         playerTable.add(playerMpBar).width(400f).row();
 
-        getStage().addActor(playerTable);
+        game.getStage().addActor(playerTable);
 
         //Space these two out in the X axis (I didn't manage to do that, if you can, please do)
 
         Table enemyTable = new Table(getSkin());
-        enemyTable.setPosition(getVirtualWidth() * 80 / 100, getVirtualHeight() * 25 / 100);
+        enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
         enemyTable.defaults().space(10f);
         enemyTable.add(enemyHpLabel).row();
         enemyTable.add(enemyHpBar).width(400f).row();
         enemyTable.add(enemyMpLabel).row();
         enemyTable.add(enemyMpBar).width(400f).row();
 
-        getStage().addActor(enemyTable);
+        game.getStage().addActor(enemyTable);
 
         //create the table
         Table table = new Table();
         table.defaults().expand();
         table.setFillParent(true);
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         // apply
         getViewport().apply();
@@ -155,7 +155,7 @@ public class CombatScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(getStage());
+        Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
@@ -176,8 +176,8 @@ public class CombatScreen implements Screen {
         enemySprite.draw(getBatch());
         getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -210,8 +210,7 @@ public class CombatScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
         playerTexture.dispose();
         enemyTexture.dispose();
     }

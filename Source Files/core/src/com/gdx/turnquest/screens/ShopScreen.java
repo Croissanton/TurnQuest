@@ -43,7 +43,7 @@ public class ShopScreen implements Screen {
     public ShopScreen(final TurnQuest game) {
 
         this.game = game;
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
         setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         // Load inventory
@@ -95,7 +95,7 @@ public class ShopScreen implements Screen {
 
         rootTable.setDebug(true);
 
-        getStage().addActor(rootTable);
+        game.getStage().addActor(rootTable);
     }
 
     private void setFirstRow(Table firstTable)
@@ -193,7 +193,7 @@ public class ShopScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(getStage());
+        Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
@@ -204,8 +204,8 @@ public class ShopScreen implements Screen {
         getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             TurnQuest.toggleFullscreen();
@@ -277,7 +277,6 @@ public class ShopScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 }
