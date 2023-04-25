@@ -20,12 +20,12 @@ public class ClanScreen implements Screen {
     public ClanScreen(final TurnQuest game) {
         this.game = game;
 
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
         // return button
-        TextButton bReturn = new TextButton("Return", getSkin());
+        TextButton bReturn = new TextButton("Return", game.getSkin());
 
         //create the table
         Table table = new Table();
@@ -35,7 +35,7 @@ public class ClanScreen implements Screen {
         // add return button to the table
         table.add(bReturn).bottom();
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         // return to GameScreen when pressed return button
         bReturn.addListener(new ClickListener() {
@@ -50,8 +50,7 @@ public class ClanScreen implements Screen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(getStage());
+    public void show() {Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
@@ -59,17 +58,17 @@ public class ClanScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
-        getFont().draw(getBatch(), getCurrentPlayer().getCharacterClass(), getVirtualWidth()*.45f, getVirtualHeight()*.75f);
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        //game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
+        game.getFont().draw(game.getBatch(), game.getCurrentPlayer().getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
+        game.getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -98,7 +97,6 @@ public class ClanScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 }

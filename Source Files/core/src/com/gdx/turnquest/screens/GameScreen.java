@@ -22,24 +22,25 @@ public class GameScreen implements Screen {
 
     public GameScreen(final TurnQuest game) {
         this.game = game;
-        this.player = getCurrentPlayer();
-        setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(getStage());
+        this.player = game.getCurrentPlayer();
+
+        game.setStage(new Stage(getViewport()));
+        Gdx.input.setInputProcessor(game.getStage());
 
         // create the table
         Table table = new Table();
-        table.defaults().expand().size(getVirtualWidth() *.15f, getVirtualHeight() * .1f);
+        table.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         table.setFillParent(true);
 
         // options button
-        TextButton bOptions = new TextButton("Options", getSkin());
+        TextButton bOptions = new TextButton("Options", game.getSkin());
         table.add(bOptions).right();
 
         // add another column
         table.add();
 
         // inventory button
-        TextButton bInventory = new TextButton("Inventory", getSkin());
+        TextButton bInventory = new TextButton("Inventory", game.getSkin());
         table.add(bInventory).left();
 
         // add another row
@@ -49,7 +50,7 @@ public class GameScreen implements Screen {
         table.add();
 
         // play button
-        TextButton bPlay = new TextButton("Play", getSkin());
+        TextButton bPlay = new TextButton("Play", game.getSkin());
         table.add(bPlay).center();
 
         // add another column
@@ -59,15 +60,15 @@ public class GameScreen implements Screen {
         table.row();
 
         // abilities button
-        TextButton bClan = new TextButton("Clan", getSkin());
+        TextButton bClan = new TextButton("Clan", game.getSkin());
         table.add(bClan).right();
 
         //return button
-        TextButton bReturn = new TextButton("Return", getSkin());
+        TextButton bReturn = new TextButton("Return", game.getSkin());
         table.add(bReturn).bottom();
 
         // shop button
-        TextButton bShop = new TextButton("Shop", getSkin());
+        TextButton bShop = new TextButton("Shop", game.getSkin());
         table.add(bShop).left();
 
         // table padding
@@ -76,7 +77,7 @@ public class GameScreen implements Screen {
         table.padLeft(20);
         table.padRight(20);
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         bPlay.addListener(new ClickListener() {
             @Override
@@ -117,7 +118,7 @@ public class GameScreen implements Screen {
         bOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showPreferencesDialog();
+                game.showPreferencesDialog();
             }
         });
 
@@ -134,16 +135,16 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        //game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
+        game.getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -172,19 +173,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
+        game.getBackgroundTexture().dispose();
     }
 
     private void showQuitConfirmationDialog() {
         ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", new Runnable() {
-            @Override
-            public void run() {
-                game.setScreen(new MainMenuScreen(game));
-            }
-        }, getSkin());
+                "You will have to enter your credentials again.", () -> game.setScreen(new MainMenuScreen(game)), game.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(getStage());
+        dialog.show(game.getStage());
     }
 }

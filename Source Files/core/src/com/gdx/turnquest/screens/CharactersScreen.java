@@ -31,12 +31,12 @@ public class CharactersScreen implements Screen{
     public CharactersScreen(final TurnQuest game) {
         this.game = game;
 
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
+        game.setStage(new Stage(getViewport()));
 
         // create the button
-        TextButton bReturn = new TextButton("Return", getSkin());
+        TextButton bReturn = new TextButton("Return", game.getSkin());
 
         // create the table
         Table table = new Table();
@@ -45,7 +45,7 @@ public class CharactersScreen implements Screen{
 
         // add button
         table.add(bReturn);
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         bReturn.addListener(new ClickListener() {
             @Override
@@ -59,7 +59,7 @@ public class CharactersScreen implements Screen{
 
         @Override
     public void show() {
-        Gdx.input.setInputProcessor(getStage());
+        Gdx.input.setInputProcessor(game.getStage());
 
         spriteSheet= new Texture(Gdx.files.internal("Necromancer_creativekind-Sheet.png"));
           //attempt to resize texture
@@ -94,21 +94,21 @@ public class CharactersScreen implements Screen{
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
         stateTime += Gdx.graphics.getDeltaTime();
 
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getBatch().draw(currentFrame, getVirtualWidth()/3, getVirtualHeight()/2,currentFrame.getRegionWidth()*2,currentFrame.getRegionHeight()*2);
-        getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "The button `DOES!!!` work! :DDD", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(currentFrame, getVirtualWidth()/3f, getVirtualHeight()/2f,currentFrame.getRegionWidth()*2,currentFrame.getRegionHeight()*2);
+        //getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "The button `DOES!!!` work! :DDD", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
+        game.getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -137,7 +137,6 @@ public class CharactersScreen implements Screen{
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 }

@@ -5,14 +5,17 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,58 +35,96 @@ public class ShopScreen implements Screen {
     private static final int CellHeight=80;
 
 
-    private static Hashtable<String, Hashtable<String, String>> inventory;
+    static Hashtable<String, Hashtable<String, String>> inventory;
 
-    //TODO: stop this from crashing
+    private Table descriptionTable;
+
+
     public ShopScreen(final TurnQuest game) {
+
         this.game = game;
+        game.setStage(new Stage(getViewport()));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        setStage(new Stage(getViewport()));
-
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
+        // Load inventory
         inventory = new Hashtable<>();
         readShopItems();
+
+        // Create row of labels
+        Table firstTable = new Table();
+        setFirstRow(firstTable);
+
+
         // Create the table to hold the items
-        Table itemTable = new Table(getSkin());
+        Table itemTable = new Table(game.getSkin());
         setItemTable(itemTable);
 
-        ImageButton itemButton = null;
 
         // Create a scroll pane to hold the item table
-        ScrollPane scrollPane = new ScrollPane(itemTable, getSkin());
+        ScrollPane scrollPane = new ScrollPane(itemTable, game.getSkin());
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setSmoothScrolling(true);
 
-        // Add the scroll pane to the root table of the stage
-        Table rootTable = new Table(getSkin());
-        rootTable.setFillParent(true);
-        rootTable.add(scrollPane).expand().fill();
-        getStage().addActor(rootTable);
 
-        // Create back button
-        TextButton backButton = new TextButton("Back", getSkin());
+        // Create stats desription table
+        this.descriptionTable = new Table(game.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
+        Label label = new Label("Click on the image to show statistics of the item", game.getSkin());
+        label.setWrap(true);
+        label.setAlignment(Align.center);
+        this.descriptionTable.add(label).width(350f).top();
+
+        // Create right table
+        Table rightTable = new Table();
+        TextButton backButton = createBackButton();
+        rightTable.add(this.descriptionTable).expand().height(150f).top().padTop(300f);
+        rightTable.row();
+        rightTable.add(backButton).padBottom(100f);
+
+
+        // Create root table
+        Table rootTable = new Table(game.getSkin());
+
+        rootTable.row();
+
+        rootTable.setFillParent(true);
+        rootTable.add(firstTable).left().padLeft(200f);//.padRight(30f);
+        rootTable.add(new Label("Statistics", game.getSkin())).expandX().align(Align.center).colspan(5);
+        rootTable.row();
+        rootTable.add(scrollPane).left().padLeft(200f);//.padRight(30f);
+        rootTable.add(rightTable).center().expand().fill();
+
+        rootTable.setDebug(true);
+
+        game.getStage().addActor(rootTable);
+    }
+
+    private void setFirstRow(Table firstTable)
+    {
+        firstTable.defaults().pad(30).width(CellWidth).height(CellHeight);
+        firstTable.columnDefaults(0).align(Align.center).width(CellWidth);
+        firstTable.columnDefaults(1).width(CellWidth);
+        firstTable.columnDefaults(2).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
+        firstTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
+
+
+        firstTable.add(new Label("Price", game.getSkin()));
+        firstTable.add(new Label("Name", game.getSkin()));
+        firstTable.add(new Label("Image", game.getSkin()));
+        firstTable.add(new Label("Buy", game.getSkin()));
+        firstTable.add(new Label("Sell", game.getSkin()));
+//        firstTable.add(backButton).width(200f).pad(50f);
+    }
+
+    public TextButton createBackButton()
+    {
+        TextButton backButton = new TextButton("Return", game.getSkin());
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new GameScreen(game));
             }
         });
-
-
-
-//        itemButton.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//
-//            }
-//        });
-        // Add back button to a separate table
-        Table descriptionTable = new Table(getSkin());  //this will be the table for the description of the stats of each item, after being clicked
-        Table backButtonTable = new Table(getSkin());
-        backButtonTable.add(backButton).pad(40);
-        // Add back button table to the root table
-        rootTable.add(backButtonTable).top().left().expandX();
+        return backButton;
     }
 
     private void setItemTable(Table itemTable)
@@ -91,15 +132,9 @@ public class ShopScreen implements Screen {
         itemTable.defaults().pad(30).width(CellWidth).height(CellHeight);
         itemTable.columnDefaults(0).align(Align.center).width(CellWidth);
         itemTable.columnDefaults(1).width(CellWidth);
-        itemTable.columnDefaults(2).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
+        itemTable.columnDefaults(2).width(CellWidth);
         itemTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
-
-        //DEBUG
-        itemTable.add("priceLabel");
-        itemTable.add("itemImage");
-        itemTable.add("buyButton");
-        itemTable.add("sellButton");
-        itemTable.row();
+        itemTable.columnDefaults(4).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
 
         addItems(itemTable);
     }
@@ -120,7 +155,8 @@ public class ShopScreen implements Screen {
 
             // Create label for item price
 
-            Label priceLabel = new Label(price, getSkin());
+            Label priceLabel = new Label(price, game.getSkin());
+            Label nameLabel = new Label(name, game.getSkin());
 
             // Load item texture
             Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
@@ -142,11 +178,12 @@ public class ShopScreen implements Screen {
             });
 
             // Create buy/sell buttons for item
-            TextButton buyButton = new TextButton("Buy", getSkin());
-            TextButton sellButton = new TextButton("Sell", getSkin());
+            TextButton buyButton = new TextButton("Buy", game.getSkin());
+            TextButton sellButton = new TextButton("Sell", game.getSkin());
 
             // Add item components to the item table
             itemTable.add(priceLabel);
+            itemTable.add(nameLabel);
             itemTable.add(itemButton);
             itemTable.add(buyButton);
             itemTable.add(sellButton);
@@ -156,22 +193,22 @@ public class ShopScreen implements Screen {
 
     @Override
     public void show() {
-        setStage(new Stage(getViewport()));
+        Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            TurnQuest.toggleFullscreen();
+            toggleFullscreen();
         }
     }
 
@@ -182,7 +219,11 @@ public class ShopScreen implements Screen {
 
     private void showStats(String name, String price, String attack, String defence)
     {
-
+        this.descriptionTable.clear();
+        this.descriptionTable.add(new Label(name, game.getSkin())).row();
+        this.descriptionTable.add(new Label("Price " + price, game.getSkin())).row();
+        this.descriptionTable.add(new Label("Attack " + attack, game.getSkin())).row();
+        this.descriptionTable.add(new Label("Defence " + defence, game.getSkin()));
     }
 
     private void readShopItems()
@@ -236,6 +277,6 @@ public class ShopScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
+        game.getStage().dispose();
     }
 }

@@ -11,10 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.dialogs.GameSelectionDialog;
-import com.gdx.turnquest.TurnQuest;
-
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class MainMenuScreen implements Screen {
@@ -26,13 +25,13 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final TurnQuest game) {
         this.game = game;
 
-        setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-        setStage(new Stage(getViewport()));
+        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        game.setStage(new Stage(getViewport()));
 
 
-        TextButton bStart = new TextButton("Start", getSkin());
-        TextButton bOptions = new TextButton("Options", getSkin());
-        TextButton bQuit = new TextButton("Quit", getSkin());
+        TextButton bStart = new TextButton("Start", game.getSkin());
+        TextButton bOptions = new TextButton("Options", game.getSkin());
+        TextButton bQuit = new TextButton("Quit", game.getSkin());
 
         //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
 
@@ -45,7 +44,7 @@ public class MainMenuScreen implements Screen {
         bOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showPreferencesDialog();
+                game.showPreferencesDialog();
             }
         });
         bQuit.addListener(new ClickListener() {
@@ -63,14 +62,14 @@ public class MainMenuScreen implements Screen {
 
         table.padTop(100f); // add some padding at the top
 
-        getStage().addActor(table);
+        game.getStage().addActor(table);
 
         getViewport().apply();
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(getStage());
+        Gdx.input.setInputProcessor(game.getStage());
     }
 
     @Override
@@ -78,16 +77,16 @@ public class MainMenuScreen implements Screen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
         getCamera().update();
-        getBatch().setProjectionMatrix(getCamera().combined);
+        game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        getBatch().begin();
-        getBatch().draw(getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        getFont().getData().setScale(4); //Changes font size.
-        getFont().draw(getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*35/100, getVirtualHeight()*85/100);
-        getBatch().end();
+        game.getBatch().begin();
+        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getFont().getData().setScale(4); //Changes font size.
+        game.getFont().draw(game.getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
+        game.getBatch().end();
 
-        getStage().act();
-        getStage().draw();
+        game.getStage().act();
+        game.getStage().draw();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
             toggleFullscreen();
@@ -116,28 +115,19 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        getStage().dispose();
-        getBackgroundTexture().dispose();
+        game.getStage().dispose();
     }
 
     private void showQuitConfirmationDialog() {
-        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", new Runnable() {
-            @Override
-            public void run() {
-                Gdx.app.exit();
-            }
-        }, getSkin());
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", () -> Gdx.app.exit(), game.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
-        dialog.show(getStage());
+        dialog.show(game.getStage());
     }
 
     private void showGameSelectionDialog() {
-        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", new Runnable() {
-            @Override
-            public void run() {
-                // Handle login here
-            }
-        }, getSkin(), game);
-        dialog.show(getStage());
+        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", () -> {
+            // Handle login here
+        }, game.getSkin(), game);
+        dialog.show(game.getStage());
     }
 }
