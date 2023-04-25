@@ -26,12 +26,6 @@ import java.io.IOException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import java.time.format.DateTimeFormatter;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-
 
 public class LoginDialog extends Dialog {
     private final TextField usernameField;
@@ -78,7 +72,6 @@ public class LoginDialog extends Dialog {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
                 } else {
-                    updateLoginTimer(username,"loginTime");
                     // If the credentials are valid, check loginCounter
                     if (!checkLoginCount(username)){
                         errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction
@@ -175,62 +168,5 @@ public class LoginDialog extends Dialog {
         e.printStackTrace();
         }
         return false;
-    }
-
-    private float getTimeDiff(String username,String timetype) {
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject playerData = (JSONObject) parser.parse(new FileReader("../Data/" + username + ".json"));
-
-            //Get the saved first login time as a Calender Object
-            String loginTime = (String) playerData.get(timetype);
-
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            try {
-                Date firstLoginTime = formatter.parse(loginTime);
-                Calendar FirstLoginTime = Calendar.getInstance();
-                // set the calendar object to the given time
-                FirstLoginTime.setTime(firstLoginTime);
-                long diff = System.currentTimeMillis()-FirstLoginTime.getTimeInMillis();
-                //Time differnce as a float in hours
-                float diffHours=diff / (60.0f * 60.0f * 1000.0f);
-
-                return diffHours;
-
-            } catch (java.text.ParseException e) {
-                return 0;
-            }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-    private boolean updateLoginTimer(String username,String timetype) {
-
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject playerData = (JSONObject) parser.parse(new FileReader("../Data/" + username + ".json"));
-            if (getTimeDiff(username,timetype)>24){
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                String formattedDateTime = now.format(formatter);
-
-                playerData.put("loginCount", 0);
-                playerData.put("loginTimer", formattedDateTime);
-
-                // Write the updated JSONObject back to the JSON file
-                FileWriter fileWriter = new FileWriter("../Data/" + username +".json");
-                fileWriter.write(playerData.toJSONString());
-                fileWriter.flush();
-                fileWriter.close();
-
-                return true;
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 }

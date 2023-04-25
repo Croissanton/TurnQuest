@@ -1,1 +1,29 @@
-{"gameCount":0,"level":10,"loginTimer":"25\/04\/2023 19:05:02","inventory":[{"itemID":1,"quantity":3},{"itemID":2,"quantity":1}],"loginCount":0,"gold":500,"password":"XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=","loginTime":"17\/04\/2023 12:34:00","gameTime":"17\/04\/2023 12:34:00","stats":{"MAX_HP":100,"strength":20,"defence":15,"MAX_MP":50,"agility":10},"exp":1500,"class":"warrior","username":"player1"}
+{
+  "gold": 500,
+  "password": "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=",
+  "gameCount": 0,
+  "loginTime": "17/04/2023 12:34:00",
+  "gameTime": "17/04/2023 12:34:00",
+  "level": 10,
+  "stats": {
+    "MAX_HP": 100,
+    "strength": 20,
+    "defence": 15,
+    "MAX_MP": 50,
+    "agility": 10
+  },
+  "exp": 1500,
+  "inventory": [
+    {
+      "itemID": 1,
+      "quantity": 3
+    },
+    {
+      "itemID": 2,
+      "quantity": 1
+    }
+  ],
+  "class": "warrior",
+  "loginCount": 1,
+  "username": "player1"
+}
