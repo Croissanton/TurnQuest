@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.*;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.dialogs.InformationDialog;
+import com.gdx.turnquest.entities.Player;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -84,12 +87,12 @@ public class ShopScreen implements Screen {
         rootTable.row();
 
         rootTable.setFillParent(true);
-        rootTable.add(firstTable).left().padLeft(200f);//.padRight(30f);
+        rootTable.add(firstTable).left().padLeft(200f);
         Label statsText  = new Label("Statistics", game.getSkin());
         statsText.setFontScale(2.4f);
         rootTable.add(statsText).expandX().align(Align.center).colspan(5);
         rootTable.row();
-        rootTable.add(scrollPane).left().padLeft(200f);//.padRight(30f);
+        rootTable.add(scrollPane).left().padLeft(200f);
         rootTable.add(rightTable).expand().fill();
 
     }
@@ -152,12 +155,8 @@ public class ShopScreen implements Screen {
 
     private void addItems(Table itemTable, Table descriptionTable)
     {
-        // Add items to the table
-        ImageButton itemButton = null;
-
         for (Map.Entry<String, Hashtable<String, String>> set : shopItems.entrySet())
         {
-
             String name = set.getKey();
             String price = set.getValue().get("price");
             String attack = set.getValue().get("attack");
@@ -172,27 +171,12 @@ public class ShopScreen implements Screen {
             Label nameLabel = new Label(name, game.getSkin());
             nameLabel.setFontScale(1.2f);
 
-            // Load item texture
-            Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
-
-            TextureRegion itemRegion = new TextureRegion(itemTexture, itemTexture.getWidth(), itemTexture.getHeight());
-            TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
-            drawable.setMinSize(CellWidth, CellHeight);
-
-            //create button with item image
-            itemButton = new ImageButton(drawable);
-            itemButton.getImage().setAlign(Align.bottom);
-
-            itemButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y){
-                    showStats(name, price, attack, defence, descriptionTable);
-                }
-            });
+            // Create image button
+            ImageButton itemButton = createItemButton(name, price, attack, defence, imagePath, descriptionTable);
 
             // Create buy/sell buttons for item
-            TextButton buyButton = new TextButton("Buy", game.getSkin());
-            TextButton sellButton = new TextButton("Sell", game.getSkin());
+            TextButton buyButton = createBuyButton(name, price, descriptionTable);
+            TextButton sellButton = createSellButton(name, price, descriptionTable);
 
             // Add item components to the item table
             itemTable.add(nameLabel);
@@ -202,6 +186,55 @@ public class ShopScreen implements Screen {
             itemTable.add(sellButton);
             itemTable.row();
         }
+    }
+
+    private TextButton createBuyButton(String name, String price, Table descriptionTable)
+    {
+        TextButton buyButton = new TextButton("Buy", game.getSkin());
+
+        buyButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                buyItem(name, price);
+            }
+        });
+        return buyButton;
+    }
+
+    private TextButton createSellButton(String name, String price, Table descriptionTable)
+    {
+        TextButton sellButton = new TextButton("Sell", game.getSkin());
+
+        sellButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                sellItem(name, price);
+            }
+        });
+        return sellButton;
+    }
+
+    private ImageButton createItemButton(String name, String price, String attack,
+                                         String defence, String imagePath, Table descriptionTable)
+    {
+        // Load item texture
+        Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
+
+        TextureRegion itemRegion = new TextureRegion(itemTexture, itemTexture.getWidth(), itemTexture.getHeight());
+        TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
+        drawable.setMinSize(CellWidth, CellHeight);
+
+        //create button with item image
+        ImageButton itemButton = new ImageButton(drawable);
+        itemButton.getImage().setAlign(Align.bottom);
+
+        itemButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                showStats(name, price, attack, defence, descriptionTable);
+            }
+        });
+        return itemButton;
     }
 
     private void showStats(String name, String price, String attack, String defence, Table descriptionTable)
@@ -222,6 +255,47 @@ public class ShopScreen implements Screen {
         Label defenceLable = new Label("Defence " + defence, game.getSkin());
         defenceLable.setFontScale(1.7f);
         descriptionTable.add(defenceLable).padTop(30f).padBottom(100f);
+    }
+
+    private void buyItem(String name, String price)
+    {
+        Player player = game.getCurrentPlayer();
+        int priceInt = Integer.parseInt(price);
+
+        if (player.removeGold(priceInt) < 0)
+        {
+            shoInformationDialog("Error", "Not enough gold to buy this item");
+        }
+        else
+        {
+            player.addItem(name, 1);
+            shoInformationDialog("Congratulation", "Item successfully bought");
+        }
+
+    }
+
+    private void sellItem(String name, String price)
+    {
+        Player player = game.getCurrentPlayer();
+        int priceInt = Integer.parseInt(price);
+
+        if (player.removeItem(name, 1) < 0)
+        {
+            shoInformationDialog("Error", "Item is not in the inventory");
+        }
+        else
+        {
+            player.addGold(priceInt);
+            shoInformationDialog("Congratulation", "Item successfully sold");
+        }
+
+    }
+
+    private void shoInformationDialog(String title, String message)
+    {
+        InformationDialog dialog = new InformationDialog(title, message, game.getSkin());
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(game.getStage());
     }
 
     private void readShopItems()

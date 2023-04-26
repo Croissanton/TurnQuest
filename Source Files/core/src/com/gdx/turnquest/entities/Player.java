@@ -41,14 +41,16 @@ public class Player extends Character {
         }
     }
 
-    public void removeItem(String item, int quantity) {
+    public int removeItem(String item, int quantity) {
         if (inventory.containsKey(item)) {
             if (inventory.get(item) < quantity) {
                 inventory.remove(item);
             } else {
                 inventory.put(item, inventory.get(item) - quantity);
             }
+            return 0;
         }
+        return -1;
     }
 
     public ObjectMap<String, Integer> getInventory() {
