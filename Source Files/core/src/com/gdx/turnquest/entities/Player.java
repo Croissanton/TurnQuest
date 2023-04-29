@@ -11,6 +11,10 @@ public class Player extends Character {
     private ObjectMap<String, Integer> inventory;
     private final String playerName;
 
+    private String[] equipment = new String[3]; //There should also be a slot for rings.
+
+    private int[] equipmentStats = new int[7]; //The stats that the equipment gives.
+
 
     public Player() {
         super();
@@ -26,39 +30,39 @@ public class Player extends Character {
         exp = 0;
         level = 1;
         inventory = new ObjectMap<>();
+        inventory.put("Potion", 5);
+        inventory.put("Ether", 5);
         //TODO: add character class handling -> setting stats according to the class given.
+        calculateStats();
         switch (characterClass){
             case "Warrior" :
-                setHP(100 + 50*level);
-                setMP(20 + 10*level);
-                setSTR(3 + 2*level);
-                setDEF(3 + 2*level);
-                setSPD(1 + level/2);
-                setINT(1 + level/2);
-                setLUK(2 + level);
+                inventory.put("Sword", 1);
+                setEquipment("Sword");
+                inventory.put("Shield", 1);
+                setEquipment("Shield");
+                inventory.put("Leather Armor", 1);
+                setEquipment("Leather Armor");
                 break;
             case "Archer" :
-                setHP(80 + 40*level);
-                setMP(30 + 15*level);
-                setSTR(2 + level);
-                setDEF(1 + level/2);
-                setSPD(3 + 2*level);
-                setINT(1 + level/2);
-                setLUK(3 + 2*level);
+                inventory.put("Bow", 1);
+                setEquipment("Bow");
+                inventory.put("Arrows", 1);
+                setEquipment("Arrows"); //Singular because it's a stack of arrows (infinite). There could be gold arrows, flame arrows, ice arrows, etc...
+                inventory.put("Leather Armor", 1);
+                setEquipment("Leather Armor");
+
                 break;
             case "Mage" :
-                setHP(70 + 35*level);
-                setMP(50 + 25*level);
-                setSTR(1 + level/2);
-                setDEF(1 + level/2);
-                setSPD(2 + level);
-                setINT(3 + 2*level);
-                setLUK(2 + level);
+                inventory.put("Wooden Staff", 1);
+                setEquipment("Wooden Staff");
+                inventory.put("Old Grimmorie", 1);
+                setEquipment("Old Grimmorie");
+                inventory.put("Silk Robe", 1);
+                setEquipment("Silk Robe");
                 break;
             default:
                 break;
         }
-        //THESE ARE THE BASE STATS THAT INCREASE WITH LEVEL.
     }
 
     public void setInventory(ObjectMap<String, Integer> inv) {
@@ -122,7 +126,50 @@ public class Player extends Character {
         return exp;
     }
 
-    public void increaseLevel(int l) {level += l;}
+    public void increaseLevel(int l) {
+        level += l;
+        calculateStats();
+    }
+
+    private void calculateStats() {
+        switch (characterClass){
+            case "Warrior" :
+                setHP(100 + 50*level);
+                setMP(20 + 10*level);
+                setSTR(3 + 2*level);
+                setDEF(3 + 2*level);
+                setSPD(1 + level/2);
+                setINT(1 + level/2);
+                setLUK(2 + level);
+                break;
+            case "Archer" :
+                setHP(80 + 40*level);
+                setMP(30 + 15*level);
+                setSTR(2 + level);
+                setDEF(1 + level/2);
+                setSPD(3 + 2*level);
+                setINT(1 + level/2);
+                setLUK(3 + 2*level);
+                break;
+            case "Mage" :
+                setHP(70 + 35*level);
+                setMP(50 + 25*level);
+                setSTR(1 + level/2);
+                setDEF(1 + level/2);
+                setSPD(2 + level);
+                setINT(3 + 2*level);
+                setLUK(2 + level);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void setEquipment(String item) { //String item should be changed to an Item object.
+        // The item should be removed from the inventory and put in the equipment slot.
+        // If there is already an item in the slot, it should be unequipped and put back in the inventory.
+        // The stats of the unequipped item should be subtracted from equipmentStats and the stats of the equipped item should be added.
+    }
 
     public int getLevel() {return level;}
 
