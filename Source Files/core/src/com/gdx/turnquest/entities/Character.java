@@ -15,23 +15,6 @@ public class Character {
         stats.put("INT", 0);
         stats.put("LUK", 0);
     }
-//    debugging purposes
-    public Character (int HP, int MP, int STR, int DEF, int SPD, int INT, int LUK, int level) {
-        stats.put("HP", HP*level);
-        stats.put("MP", MP*level);
-        stats.put("STR", STR*level);
-        stats.put("DEF", DEF*level);
-        stats.put("SPD", SPD*level);
-        stats.put("INT", INT*level);
-        stats.put("LUK", LUK*level);
-
-        //Multiplies the stats by the level of the character for now, this may change later.
-        //These stats are the base stats of the character, and will be used to calculate the stats of the character.
-    }
-    /* TODO: add character class handling -> setting stats according to the class given.
-        Each class will have different stats, so we need to handle that.
-        Also, we need to handle the level up system, which will increase the stats of the character.
-    */
 
     public ObjectMap<String, Integer> getStats(){
         return stats;

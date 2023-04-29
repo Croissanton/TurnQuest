@@ -10,10 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.EnemyManager;
+import com.gdx.turnquest.utils.ItemManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
 
@@ -21,7 +24,7 @@ import static com.gdx.turnquest.TurnQuest.*;
 
 public class CombatScreen implements Screen {
     final TurnQuest game;
-    private Player player;
+    private final Player player;
     private Enemy enemy;
     private final Texture playerTexture;
     private final Texture enemyTexture;
@@ -35,6 +38,9 @@ public class CombatScreen implements Screen {
     public CombatScreen(final TurnQuest game) {
         this.game = game;
         player = game.getCurrentPlayer();
+        EnemyManager enemy_manager = new EnemyManager();
+        enemy = new Enemy(10, 10, "Estraxatela", new ObjectMap<String, Integer>(){});
+        enemy_manager.addEnemy(enemy);
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 

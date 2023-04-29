@@ -26,5 +26,27 @@
 	"level": 1,
 	"inventory": {},
 	"playerName": "player1"
+},
+"Croissanton": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 5,
+		"STR": 1,
+		"DEF": 1,
+		"LUK": 3,
+		"MP": 75,
+		"HP": 105,
+		"SPD": 3
+	},
+	"characterClass": "Mage",
+	"level": 1,
+	"inventory": {
+		"Wooden Staff": 1,
+		"Silk Robe": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Old Grimmorie": 1
+	},
+	"playerName": "Croissanton"
 }
 }

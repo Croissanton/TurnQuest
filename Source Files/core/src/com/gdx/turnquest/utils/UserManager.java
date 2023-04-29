@@ -19,10 +19,10 @@ import java.util.Base64;
 //We can use the username as the primary key, and the rest of the data as the values.
 
 public class UserManager {
-    private ObjectMap<String, String> usersData;
+    private final ObjectMap<String, String> usersData;
     private static final String USERS_PATH = "../Data/users.json";
-    private FileHandle file = Gdx.files.local(USERS_PATH);
-    private Json json = new Json();
+    private final FileHandle file = Gdx.files.local(USERS_PATH);
+    private final Json json = new Json();
 
 
     public UserManager() {
@@ -58,7 +58,7 @@ public class UserManager {
         return usersData.containsKey(username);
     }
 
-    protected static String hashPassword(String password) {
+    private static String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
