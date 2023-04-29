@@ -16,14 +16,17 @@ public class Character {
         stats.put("LUK", 0);
     }
 //    debugging purposes
-    public Character (int debugNum){
-        stats.put("HP", debugNum);
-        stats.put("MP", debugNum);
-        stats.put("STR", debugNum);
-        stats.put("DEF", debugNum);
-        stats.put("SPD", debugNum);
-        stats.put("INT", debugNum);
-        stats.put("LUK", debugNum);
+    public Character (int HP, int MP, int STR, int DEF, int SPD, int INT, int LUK, int level) {
+        stats.put("HP", HP*level);
+        stats.put("MP", MP*level);
+        stats.put("STR", STR*level);
+        stats.put("DEF", DEF*level);
+        stats.put("SPD", SPD*level);
+        stats.put("INT", INT*level);
+        stats.put("LUK", LUK*level);
+
+        //Multiplies the stats by the level of the character for now, this may change later.
+        //These stats are the base stats of the character, and will be used to calculate the stats of the character. These change depending on the class.
     }
     /* TODO: add character class handling -> setting stats according to the class given.
         Each class will have different stats, so we need to handle that.

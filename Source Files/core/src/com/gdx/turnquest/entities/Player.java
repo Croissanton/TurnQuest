@@ -107,4 +107,8 @@ public class Player extends Character {
     public void increaseLevel(int l) {level += l;}
 
     public int getLevel() {return level;}
+
+    public int expNeeded() {
+        return (int) (Math.pow(level, 1.5) * 100);
+    }
 }

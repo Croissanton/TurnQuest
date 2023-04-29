@@ -12,18 +12,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
+
+import com.gdx.turnquest.logic.CombatLogic;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class CombatScreen implements Screen {
     final TurnQuest game;
     private Player player;
+    private Enemy enemy;
     private final Texture playerTexture;
     private final Texture enemyTexture;
     private final Sprite playerSprite;
     private final Sprite enemySprite;
-
     private Label playerHpLabel;
     private Label playerMpLabel;
     private Label enemyMpLabel;
@@ -131,26 +134,31 @@ public class CombatScreen implements Screen {
         attackButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Attack button clicked");
+                CombatLogic.attack(player, enemy);
             }
         });
         // do the same for the other buttons
         magicButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Magic button clicked");
+                CombatLogic.magicAttack(player, enemy);
             }
         });
         itemButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Item button clicked");
+                //Fetch inventory
+                //Display inventory
+                //Select item
+                //Use item with CombatLogic.useItem(player, itemID)
             }
         });
         runButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Run button clicked");
+                if(CombatLogic.run(player, enemy)){
+                    //game.setScreen(new OverworldScreen(game));
+                }
             }
         });
     }
