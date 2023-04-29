@@ -36,18 +36,18 @@ public class Player extends Character {
         calculateStats();
         switch (characterClass){
             case "Warrior" :
-                inventory.put("Sword", 1);
-                setEquipment("Sword");
-                inventory.put("Shield", 1);
-                setEquipment("Shield");
+                inventory.put("Iron Sword", 1);
+                setEquipment("Iron Sword");
+                inventory.put("Iron Shield", 1);
+                setEquipment("Iron Shield");
                 inventory.put("Leather Armor", 1);
                 setEquipment("Leather Armor");
                 break;
             case "Archer" :
                 inventory.put("Bow", 1);
                 setEquipment("Bow");
-                inventory.put("Arrows", 1);
-                setEquipment("Arrows"); //Singular because it's a stack of arrows (infinite). There could be gold arrows, flame arrows, ice arrows, etc...
+                inventory.put("Old Quiver", 1);
+                setEquipment("Old Quiver"); //Singular because it's a stack of arrows (infinite). There could be gold arrows, flame arrows, ice arrows, etc...
                 inventory.put("Leather Armor", 1);
                 setEquipment("Leather Armor");
 
@@ -63,10 +63,6 @@ public class Player extends Character {
             default:
                 break;
         }
-    }
-
-    public void setInventory(ObjectMap<String, Integer> inv) {
-        inventory = inv;
     }
 
     public void addItem(String item, int quantity) {
