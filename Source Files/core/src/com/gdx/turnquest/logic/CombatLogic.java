@@ -14,9 +14,9 @@ public class CombatLogic {
             damage = attacker.getSTR();
         }
         else{
-            damage = attacker.getSTR() - defender.getDEF();
-            if(damage < 0){
-                damage = 0;
+            damage = (attacker.getSTR() - defender.getDEF()/2);
+            if(damage <= 0){
+                damage = 1; //Always do at least 1 damage
             }
         }
         defender.setHP(defender.getHP() - damage);
@@ -26,11 +26,17 @@ public class CombatLogic {
     }
 
     public static void magicAttack(Character attacker, Character defender) {
-        int damage = attacker.getINT() - defender.getINT();
-        if (damage < 0) {
-            damage = 0;
+        int damage = attacker.getINT() - defender.getINT()/2;
+        attacker.setMP(attacker.getMP() - damage/2);
+        if (damage <= 0) {
+            damage = 1;
+            attacker.setMP(attacker.getMP() - 1);
         }
         defender.setHP(defender.getHP() - damage);
+        if(defender.getHP() < 0){
+            defender.setHP(0);
+        }
+        //THIS IS AN EXAMPLE, WE SHOULD DO ABILITIES INSTEAD OF THIS.
     }
 
     public static void heal(Character healer, Character target) {
@@ -38,19 +44,12 @@ public class CombatLogic {
         target.setHP(target.getHP() + heal);
     }
 
-    public static void levelUp(Player character, int exp, int level, int hp, int mp, int str, int def, int spd, int intel, int luk) {
-        character.setExp(character.getExp() + exp);
+    public static void increaseEXP(Player player, int exp) {
+        player.setExp(player.getExp() + exp);
         //Increases 1 or more levels if the exp is greater than or equal to the exp needed to level up, and then sets the exp to the remainder.
-        while (character.getExp() >= character.expNeeded()) {
-            character.increaseLevel(level);
-            character.setExp(character.getExp() - character.expNeeded());
-            character.setHP(character.getHP() + hp);
-            character.setMP(character.getMP() + mp);
-            character.setSTR(character.getSTR() + str);
-            character.setDEF(character.getDEF() + def);
-            character.setSPD(character.getSPD() + spd);
-            character.setINT(character.getINT() + intel);
-            character.setLUK(character.getLUK() + luk);
+        while (player.getExp() >= player.expNeeded()) {
+            player.setExp(player.getExp() - player.expNeeded());
+            player.increaseLevel();
         }
     }
     public static void useItem(Character character, String item) {

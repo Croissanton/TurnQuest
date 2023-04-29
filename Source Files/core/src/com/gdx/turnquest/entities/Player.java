@@ -122,8 +122,8 @@ public class Player extends Character {
         return exp;
     }
 
-    public void increaseLevel(int l) {
-        level += l;
+    public void increaseLevel() {
+        level += 1;
         calculateStats();
     }
 
