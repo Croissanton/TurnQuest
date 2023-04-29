@@ -12,7 +12,7 @@
 	},
 	"exp": 1000,
 	"gold": 500,
-	"name": "Slime"
+	"name": "boss1"
 },
 "enemy1_04": {
 	"class": "com.gdx.turnquest.entities.Enemy",
@@ -27,7 +27,7 @@
 	},
 	"exp": 100,
 	"gold": 100,
-	"name": "Slime"
+	"name": "enemy1_04"
 },
 "enemy2_01": {
 	"class": "com.gdx.turnquest.entities.Enemy",
@@ -42,16 +42,7 @@
 	},
 	"exp": 200,
 	"gold": 200,
-	"name": "Slime"
-},
-"Estraxatela": {
-	"class": "com.gdx.turnquest.entities.Enemy",
-	"stats": {
-		"class": "com.gdx.turnquest.screens.CombatScreen$1"
-	},
-	"exp": 10,
-	"gold": 10,
-	"name": "Estraxatela"
+	"name": "enemy2_01"
 },
 "enemy1_01": {
 	"class": "com.gdx.turnquest.entities.Enemy",

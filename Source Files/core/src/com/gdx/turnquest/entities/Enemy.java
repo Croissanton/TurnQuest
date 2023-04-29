@@ -13,11 +13,22 @@ public class Enemy extends Character {
         gold = 0;
         name = "";
     }
-    public Enemy(int exp, int gold, String name, ObjectMap<String, Integer> stats) {
+    public Enemy(int exp, int gold, String name) {
         super();
         this.exp = exp;
         this.gold = gold;
         this.name = name;
-        super.setStats(stats);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public int getExp() {
+        return exp;
     }
 }

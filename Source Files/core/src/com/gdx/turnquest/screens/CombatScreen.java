@@ -30,17 +30,24 @@ public class CombatScreen implements Screen {
     private final Texture enemyTexture;
     private final Sprite playerSprite;
     private final Sprite enemySprite;
-    private Label playerHpLabel;
-    private Label playerMpLabel;
-    private Label enemyMpLabel;
-    private Label enemyHpLabel;
+    private Label playerHPLabel;
+    private Label playerMPLabel;
+    private Label enemyMPLabel;
+    private Label enemyHPLabel;
+
+    private int currentPlayerHP;
+    private int currentPlayerMP;
+    private int currentEnemyHP;
+    private int currentEnemyMP;
 
     public CombatScreen(final TurnQuest game) {
         this.game = game;
         player = game.getCurrentPlayer();
-        EnemyManager enemy_manager = new EnemyManager();
-        enemy = new Enemy(10, 10, "Estraxatela", new ObjectMap<String, Integer>(){});
-        enemy_manager.addEnemy(enemy);
+        enemy = new EnemyManager().getEnemy("boss1");
+        currentPlayerHP = player.getHP();
+        currentPlayerMP = player.getMP();
+        currentEnemyHP = enemy.getHP();
+        currentEnemyMP = enemy.getMP();
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -77,10 +84,10 @@ public class CombatScreen implements Screen {
         // Add the table to the stage
         game.getStage().addActor(optionsTable);
 
-        playerHpLabel = new Label("HP: " + player.getHP(), game.getSkin());
-        playerMpLabel = new Label("MP: " + player.getMP(), game.getSkin());
-        enemyHpLabel = new Label("HP: " + 0, game.getSkin());
-        enemyMpLabel = new Label("MP: " + 0, game.getSkin());
+        playerHPLabel = new Label("HP: " + currentPlayerHP, game.getSkin());
+        playerMPLabel = new Label("MP: " + currentPlayerMP, game.getSkin());
+        enemyHPLabel = new Label("HP: " + currentEnemyHP, game.getSkin());
+        enemyMPLabel = new Label("MP: " + currentEnemyMP, game.getSkin());
 
         ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
         ProgressBar.ProgressBarStyle progressBarStyleMP = new ProgressBar.ProgressBarStyle();
@@ -92,24 +99,24 @@ public class CombatScreen implements Screen {
         progressBarStyleMP.knobBefore = game.getSkin().getDrawable("progress-bar-mana-knob");
 
         ProgressBar playerHpBar = new ProgressBar(0, player.getHP(), 1, false, progressBarStyleHP);
-        playerHpBar.setValue(player.getHP()); // Set the initial value of the bar to getHP() (full)
+        playerHpBar.setValue(currentPlayerHP); // Set the initial value of the bar to getHP() (full)
 
         ProgressBar playerMpBar = new ProgressBar(0, player.getMP(), 1, false, progressBarStyleMP);
-        playerMpBar.setValue(player.getMP()); // Set the initial value of the bar to getHP() (full)
+        playerMpBar.setValue(currentPlayerMP); // Set the initial value of the bar to getHP() (full)
 
-        ProgressBar enemyHpBar = new ProgressBar(0,player.getHP(), 1, false, progressBarStyleHP); //TODO: change this to enemy when implemented
-        enemyHpBar.setValue(player.getHP()); // Set the initial value of the bar to getHP() (full)
+        ProgressBar enemyHpBar = new ProgressBar(0,enemy.getHP(), 1, false, progressBarStyleHP);
+        enemyHpBar.setValue(currentEnemyHP); // Set the initial value of the bar to getHP() (full)
 
-        ProgressBar enemyMpBar = new ProgressBar(0, player.getMP(), 1, false, progressBarStyleMP); //TODO: change this to enemy when implemented
-        enemyMpBar.setValue(player.getMP()); // Set the initial value of the bar to getHP() (full)
+        ProgressBar enemyMpBar = new ProgressBar(0, enemy.getMP(), 1, false, progressBarStyleMP);
+        enemyMpBar.setValue(currentEnemyMP); // Set the initial value of the bar to getHP() (full)
 
 
         Table playerTable = new Table(game.getSkin());
         playerTable.setPosition(getVirtualWidth() * 0.25f, getVirtualHeight() * 0.25f);
         playerTable.defaults().space(10f);
-        playerTable.add(playerHpLabel).row();
+        playerTable.add(playerHPLabel).row();
         playerTable.add(playerHpBar).width(400f).row();
-        playerTable.add(playerMpLabel).row();
+        playerTable.add(playerMPLabel).row();
         playerTable.add(playerMpBar).width(400f).row();
 
         game.getStage().addActor(playerTable);
@@ -119,9 +126,9 @@ public class CombatScreen implements Screen {
         Table enemyTable = new Table(game.getSkin());
         enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
         enemyTable.defaults().space(10f);
-        enemyTable.add(enemyHpLabel).row();
+        enemyTable.add(enemyHPLabel).row();
         enemyTable.add(enemyHpBar).width(400f).row();
-        enemyTable.add(enemyMpLabel).row();
+        enemyTable.add(enemyMPLabel).row();
         enemyTable.add(enemyMpBar).width(400f).row();
 
         game.getStage().addActor(enemyTable);
@@ -181,10 +188,10 @@ public class CombatScreen implements Screen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        playerHpLabel.setText("HP: " + player.getHP());
-        playerMpLabel.setText("MP: " + player.getMP());
-        enemyHpLabel.setText("HP: " + 0);
-        enemyMpLabel.setText("MP: " + 0);
+        playerHPLabel.setText("HP: " + currentPlayerHP);
+        playerMPLabel.setText("MP: " + currentPlayerMP);
+        enemyHPLabel.setText("HP: " + currentEnemyHP);
+        enemyMPLabel.setText("MP: " + currentEnemyMP);
 
         game.getBatch().begin();
         game.getBatch().draw(game.getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());

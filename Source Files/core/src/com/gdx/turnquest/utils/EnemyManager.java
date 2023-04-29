@@ -28,13 +28,4 @@ public class EnemyManager {
         }
         return enemiesData.get(name);
     }
-
-    public void addEnemy(Enemy enemy) {
-        if (enemiesData.containsKey(enemy.getName())) {
-            throw new IllegalArgumentException("Enemy already exists.");
-        }
-        enemiesData.put(enemy.getName(), enemy);
-        file.writeString(json.prettyPrint(enemiesData), false);
-    }
-
 }
