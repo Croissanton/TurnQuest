@@ -1,6 +1,5 @@
 {
 "boss1": {
-	"class": "com.gdx.turnquest.entities.Enemy",
 	"stats": {
 		"INT": 10,
 		"STR": 12,
@@ -15,7 +14,6 @@
 	"name": "boss1"
 },
 "enemy1_04": {
-	"class": "com.gdx.turnquest.entities.Enemy",
 	"stats": {
 		"INT": 3,
 		"STR": 6,
@@ -30,7 +28,6 @@
 	"name": "enemy1_04"
 },
 "enemy2_01": {
-	"class": "com.gdx.turnquest.entities.Enemy",
 	"stats": {
 		"INT": 5,
 		"STR": 8,
@@ -45,7 +42,6 @@
 	"name": "enemy2_01"
 },
 "enemy1_01": {
-	"class": "com.gdx.turnquest.entities.Enemy",
 	"stats": {
 		"INT": 1,
 		"STR": 4,
@@ -57,10 +53,9 @@
 	},
 	"exp": 50,
 	"gold": 50,
-	"name": "Slime"
+	"name": "enemy1_01"
 },
 "enemy1_03": {
-	"class": "com.gdx.turnquest.entities.Enemy",
 	"stats": {
 		"INT": 1,
 		"STR": 4,
@@ -72,10 +67,9 @@
 	},
 	"exp": 100,
 	"gold": 50,
-	"name": "Slime"
+	"name": "enemy1_03"
 },
 "enemy1_02": {
-	"class": "com.gdx.turnquest.entities.Enemy",
 	"stats": {
 		"INT": 1,
 		"STR": 8,
@@ -87,6 +81,6 @@
 	},
 	"exp": 50,
 	"gold": 100,
-	"name": "Slime"
+	"name": "enemy1_02"
 }
 }
