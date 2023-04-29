@@ -26,7 +26,7 @@ public class Character {
         stats.put("LUK", LUK*level);
 
         //Multiplies the stats by the level of the character for now, this may change later.
-        //These stats are the base stats of the character, and will be used to calculate the stats of the character. These change depending on the class.
+        //These stats are the base stats of the character, and will be used to calculate the stats of the character.
     }
     /* TODO: add character class handling -> setting stats according to the class given.
         Each class will have different stats, so we need to handle that.
@@ -45,17 +45,11 @@ public class Character {
         return stats.get("HP");
     }
 
-    public void increaseHP(int hp){
-        stats.put("HP", stats.get("HP") + hp);
-    }
-
     public void setHP(int hp) { stats.put("HP", hp);}
 
     public int getMP(){
         return stats.get("MP");
     }
-
-    public void increaseMP(int mp) {stats.put("MP", stats.get("MP") + mp);}
 
     public void setMP(int mp) { stats.put("MP", mp);}
 

@@ -42,7 +42,7 @@ public class CombatLogic {
         character.setExp(character.getExp() + exp);
         //Increases 1 or more levels if the exp is greater than or equal to the exp needed to level up, and then sets the exp to the remainder.
         while (character.getExp() >= character.expNeeded()) {
-            character.setLevel(level + 1);
+            character.increaseLevel(level);
             character.setExp(character.getExp() - character.expNeeded());
             character.setHP(character.getHP() + hp);
             character.setMP(character.getMP() + mp);

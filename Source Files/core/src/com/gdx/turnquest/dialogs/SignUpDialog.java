@@ -122,8 +122,7 @@ public class SignUpDialog extends Dialog {
                     } catch (IllegalArgumentException e) {
                         errorLabel.setText("Username already exists. Try logging in.");
                     }
-                    Player player = new Player (username);
-                    player.setCharacterClass(characterClass);
+                    Player player = new Player (username, characterClass);
                     //add the player to the database (json for now)
                     PlayerManager playerManager = new PlayerManager();
                     playerManager.addPlayer(player);

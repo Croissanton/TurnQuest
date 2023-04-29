@@ -18,15 +18,47 @@ public class Player extends Character {
     }
 
     //creating a default Player, acts a new player that just began the game
-    public Player(String playerName) {
+    public Player(String playerName, String characterClass) {
         super();
         this.playerName = playerName;
-        this.characterClass = "";
+        this.characterClass = characterClass;
         gold = 0;
         exp = 0;
         level = 1;
         inventory = new ObjectMap<>();
         //TODO: add character class handling -> setting stats according to the class given.
+        switch (characterClass){
+            case "Warrior" :
+                setHP(100 + 50*level);
+                setMP(20 + 10*level);
+                setSTR(3 + 2*level);
+                setDEF(3 + 2*level);
+                setSPD(1 + level/2);
+                setINT(1 + level/2);
+                setLUK(2 + level);
+                break;
+            case "Archer" :
+                setHP(80 + 40*level);
+                setMP(30 + 15*level);
+                setSTR(2 + level);
+                setDEF(1 + level/2);
+                setSPD(3 + 2*level);
+                setINT(1 + level/2);
+                setLUK(3 + 2*level);
+                break;
+            case "Mage" :
+                setHP(70 + 35*level);
+                setMP(50 + 25*level);
+                setSTR(1 + level/2);
+                setDEF(1 + level/2);
+                setSPD(2 + level);
+                setINT(3 + 2*level);
+                setLUK(2 + level);
+                break;
+            default:
+                break;
+        }
+        //THESE ARE THE BASE STATS THAT INCREASE WITH LEVEL.
     }
 
     public void setInventory(ObjectMap<String, Integer> inv) {
@@ -61,16 +93,8 @@ public class Player extends Character {
         return playerName;
     }
 
-    public void setCharacterClass(String cc) {
-        characterClass = cc;
-    }
-
     public String getCharacterClass() {
         return characterClass;
-    }
-
-    public void setGold(int g) {
-        gold = g;
     }
 
     public void addGold(int g) {
@@ -94,15 +118,9 @@ public class Player extends Character {
         exp = e;
     }
 
-    public void addExp(int e) {
-        exp += e;
-    }
-
     public int getExp() {
         return exp;
     }
-
-    public void setLevel(int l) {level = l;}
 
     public void increaseLevel(int l) {level += l;}
 
