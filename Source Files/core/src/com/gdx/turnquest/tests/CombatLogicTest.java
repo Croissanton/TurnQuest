@@ -7,19 +7,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.gdx.turnquest.logic.CombatLogic;
-import com.gdx.turnquest.entities.Player;
-import com.gdx.turnquest.entities.Enemy;
+
+import com.gdx.turnquest.entities.Character;
 
 public class CombatLogicTest {
-    private Player player;
-    private Enemy enemy;
+    private Character player;
+    private Character enemy;
+
+    //Both are set as characters since Player and Enemy are both subclasses of Character. So this is a good way to test both.
 
     @BeforeEach
     public void setUp() {
-        player = new Player();
-        enemy = new Enemy();
+        player = new Character();
+        enemy = new Character();
 
-        player.setHP(100);
         enemy.setHP(100);
     }
 
