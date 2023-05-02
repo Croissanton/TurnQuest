@@ -72,7 +72,7 @@ public class CombatScreen implements Screen {
         enemySprite.setScale(2); // Scale the enemy sprite
 
         TextButton attackButton = new TextButton("Attack", game.getSkin());
-        TextButton magicButton = new TextButton("Magic", game.getSkin());
+        TextButton abtlitiesButton = new TextButton("Abilities", game.getSkin());
         TextButton itemButton = new TextButton("Item", game.getSkin());
         TextButton runButton = new TextButton("Run", game.getSkin());
 
@@ -83,7 +83,7 @@ public class CombatScreen implements Screen {
         optionsTable.add(attackButton);
         optionsTable.add(itemButton);
         optionsTable.row();
-        optionsTable.add(magicButton);
+        optionsTable.add(abtlitiesButton);
         optionsTable.add(runButton);
 
         // Add the table to the stage
@@ -153,7 +153,7 @@ public class CombatScreen implements Screen {
             }
         });
         // do the same for the other buttons
-        magicButton.addListener(new ClickListener() {
+        abtlitiesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 CombatLogic.magicAttack(player, enemy);

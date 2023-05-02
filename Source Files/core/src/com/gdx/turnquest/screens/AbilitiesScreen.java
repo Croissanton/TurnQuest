@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.entities.Player.*;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -35,6 +36,12 @@ public class AbilitiesScreen implements Screen {
     public AbilitiesScreen (final TurnQuest game) {
         this.game = game;
         Player player = game.getCurrentPlayer();
+
+        // load player's abiities level
+        times1 = player.getNAb1();
+        times2 = player.getNAb2();
+        times3 = player.getNAb3();
+        times4 = player.getNAb4();
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -106,6 +113,31 @@ public class AbilitiesScreen implements Screen {
         bAb3.setColor(0.3f, 0.7f, 0.8f, 0.5f);
         bAb4.setColor(0.3f, 0.7f, 0.8f, 0.5f);
 
+        // load former abilities
+        if (0 <= times1) {
+            clicked1 = true;
+            bAb1.setChecked(true);
+            bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
+        }
+
+        if (0 <= times2) {
+            clicked2 = true;
+            bAb2.setChecked(true);
+            bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
+        }
+
+        if (0 <= times3) {
+            clicked3 = true;
+            bAb3.setChecked(true);
+            bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
+        }
+
+        if (0 <= times4) {
+            clicked4 = true;
+            bAb4.setChecked(true);
+            bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
+        }
+
         // Abilities table
         Table abilitiesTable = new Table();
         abilitiesTable.defaults().size(getVirtualWidth() * 0.15f, getVirtualHeight() * 0.1f).pad(20);
@@ -146,7 +178,6 @@ public class AbilitiesScreen implements Screen {
 
                 tt1.setWidth(tt1.getText().length() * 12);
                 tt1.setPosition(centerX - tt1.getWidth() / 2f, centerY - tt1.getHeight() / 2f);
-                System.out.println(centerX + "-" + tt1.getWidth() / 2f + "=" + (centerX - tt1.getWidth() / 2f));
                 tt1.setVisible(true);
             }
 
@@ -164,6 +195,7 @@ public class AbilitiesScreen implements Screen {
                 bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked1 = true;
                 times1++;
+                player.setNAb1(times1);
             }
         });
 
@@ -191,7 +223,6 @@ public class AbilitiesScreen implements Screen {
 
                 tt2.setWidth(tt2.getText().length() * 12);
                 tt2.setPosition(centerX - tt2.getWidth() / 2f, centerY - tt2.getHeight() / 2f);
-                System.out.println(centerX + "-" + tt2.getWidth() / 2f + "=" + (centerX - tt2.getWidth() / 2f));
                 tt2.setVisible(true);
             }
 
@@ -209,6 +240,7 @@ public class AbilitiesScreen implements Screen {
                 bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked2 = true;
                 times2++;
+                player.setNAb2(times2);
             }
         });
 
@@ -236,7 +268,6 @@ public class AbilitiesScreen implements Screen {
 
                 tt3.setWidth(tt3.getText().length() * 12);
                 tt3.setPosition(centerX - tt3.getWidth() / 2f, centerY - tt3.getHeight() / 2f);
-                System.out.println(centerX + "-" + tt3.getWidth() / 2f + "=" + (centerX - tt3.getWidth() / 2f));
                 tt3.setVisible(true);
             }
 
@@ -254,6 +285,7 @@ public class AbilitiesScreen implements Screen {
                 bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked3 = true;
                 times3++;
+                player.setNAb3(times3);
             }
         });
 
@@ -281,7 +313,6 @@ public class AbilitiesScreen implements Screen {
 
                 tt4.setWidth(tt4.getText().length() * 12);
                 tt4.setPosition(centerX - tt4.getWidth() / 2f, centerY - tt4.getHeight() / 2f);
-                System.out.println(centerX + "-" + tt4.getWidth() / 2f + "=" + (centerX - tt4.getWidth() / 2f));
                 tt4.setVisible(true);
             }
 
@@ -299,6 +330,7 @@ public class AbilitiesScreen implements Screen {
                 bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked4 = true;
                 times4++;
+                player.setNAb4(times4);
             }
         });
 
@@ -364,7 +396,7 @@ public class AbilitiesScreen implements Screen {
         game.getBatch().begin();
         game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
         game.getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 45f / 100f, getVirtualHeight() * 85f / 100f);
+        game.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
         game.getBatch().end();
 
         game.getStage().act();
