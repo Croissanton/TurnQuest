@@ -12,14 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.entities.Player;
-import com.gdx.turnquest.entities.Player.*;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class AbilitiesScreen implements Screen {
 
     final TurnQuest game;
-
 
     // set all buttons to not clicked, need to be global
     boolean clicked1 = false;
@@ -28,10 +26,10 @@ public class AbilitiesScreen implements Screen {
     boolean clicked4 = false;
 
     // times each abilitie has been upgraded
-    int times1 = -1;
-    int times2 = -1;
-    int times3 = -1;
-    int times4 = -1;
+    static int times1 = 0;
+    static int times2 = 0;
+    static int times3 = 0;
+    static int times4 = 0;
 
     public AbilitiesScreen (final TurnQuest game) {
         this.game = game;
@@ -73,7 +71,7 @@ public class AbilitiesScreen implements Screen {
         // abilities buttons
         TextButton bAb1 = new TextButton("", game.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-            bAb1.setText("Critical");
+            bAb1.setText("Pierce");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("Root");
         } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
@@ -102,7 +100,7 @@ public class AbilitiesScreen implements Screen {
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Fire Sword");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-            bAb4.setText("Green Ray");
+            bAb4.setText("Ray");
         } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Tear Down");
         }
@@ -114,25 +112,25 @@ public class AbilitiesScreen implements Screen {
         bAb4.setColor(0.3f, 0.7f, 0.8f, 0.5f);
 
         // load former abilities
-        if (0 <= times1) {
+        if (0 <= times1 - 1) {
             clicked1 = true;
             bAb1.setChecked(true);
             bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
         }
 
-        if (0 <= times2) {
+        if (0 <= times2 - 1) {
             clicked2 = true;
             bAb2.setChecked(true);
             bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
         }
 
-        if (0 <= times3) {
+        if (0 <= times3 - 1) {
             clicked3 = true;
             bAb3.setChecked(true);
             bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
         }
 
-        if (0 <= times4) {
+        if (0 <= times4 - 1) {
             clicked4 = true;
             bAb4.setChecked(true);
             bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
@@ -160,15 +158,15 @@ public class AbilitiesScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked1) {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt1.setText("Already unlocked. It increase the critical damage 0.5% each upgrade, total: " + times1 * 0.5 + "%.");
+                        tt1.setText("Already unlocked. It increase the critical damage 0.5% each upgrade, total: " + (times1 - 1) * 0.5 + "%.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt1.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times1 * 0.5 + "%.");
+                        tt1.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times1 - 1) * 0.5 + "%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt1.setText("Already unlocked. It increase the critical damage 0.5% each upgrade, total: " + times1 * 0.5 + "%.");
+                        tt1.setText("Already unlocked. It increase the critical damage 0.5% each upgrade, total: " + (times1 - 1) * 0.5 + "%.");
                     }
                 } else {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt1.setText("Makes you next attack to be a critical one.");
+                        tt1.setText("Makes you next attack ignore enemy's defense.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("Throw an rooting attack that stuns the enemy for one turn.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
@@ -205,19 +203,19 @@ public class AbilitiesScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked2) {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times2 * 0.5 + "%.");
+                        tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times2 - 1) * 0.5 + "%.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt2.setText("Already unlocked. It increase the poison damage 0.5% each upgrade, total: " + times2 * 0.5 + "%.");
+                        tt2.setText("Already unlocked. It increase the poison damage 0.5% each upgrade, total: " + (times2 - 1) * 0.5 + "%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times2 * 0.5 + "%.");
+                        tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times2 - 1) * 0.5 + "%.");
                     }
                 } else {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt2.setText("Spin around you to inflict damage to all enemies with 60% of your attack.");
+                        tt2.setText("Spin around you to inflict damage three times with 50% of your attack.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("Throw a poison attack that inflicts posison to the enemy for three turns.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt2.setText("Attack one enemy with a stab dealing 140% of the damage and a 15% chance of freezing.");
+                        tt2.setText("Attack one enemy with a stab dealing 150% of the damage and a 15% chance of freezing.");
                     }
                 }
 
@@ -250,19 +248,19 @@ public class AbilitiesScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked3) {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times3 * 0.5 + "%.");
+                        tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Already unlocked. It increase the damage 0.3% each upgrade, total: " + times3 * 0.3 + "%.");
+                        tt3.setText("Already unlocked. It increase the damage 0.3% each upgrade, total: " + (times3 - 1) * 0.3 + "%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times3 * 0.5 + "%.");
+                        tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     }
                 } else {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Spin around you to inflict damage to all enemies with 50% of your attack. It also burn enemies.");
+                        tt3.setText("Spin around you to inflict damage three times with 40% of your attack. It also burn enemies.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Throw a rain of arrows that damage all the enemies with the 60% of the attack attack.");
+                        tt3.setText("Throw a rain of arrows that damage three times with the 50% of the attack attack.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Throw a wave in front of you that deals damage to all enemies with a 60% of the damage.");
+                        tt3.setText("Throw a wave in front of you that deals damage three times with a 50% of the damage.");
                     }
                 }
 
@@ -295,19 +293,19 @@ public class AbilitiesScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor actor) {
                 if (clicked4) {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Already unlocked. It increase the damage and fire damage 0.5% each upgrade, total: " + times4 * 0.5 + "%.");
+                        tt4.setText("Already unlocked. It increase the damage and fire damage 0.5% each upgrade, total: " + (times4 - 1) * 0.5 + "%.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times4 * 0.5 + "%.");
+                        tt4.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times4 - 1) * 0.5 + "%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + times4 * 0.5 + "%.");
+                        tt4.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times4 - 1) * 0.5 + "%.");
                     }
                 } else {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Attack one enemy dealing 150% of your attack and burning it.");
+                        tt4.setText("Attack one enemy dealing 200% of your attack and burning it.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Invoke a green ray from the power of nature that makes 180% of the damage.");
+                        tt4.setText("Invoke a green ray from the power of nature that makes 220% of the damage.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Invoke a giant tear that first makes 70% of the damage and then has a 80% of freezing.");
+                        tt4.setText("Invoke a giant tear that first makes 200% of the damage and then has a 80% of freezing.");
                     }
                 }
 
@@ -431,4 +429,12 @@ public class AbilitiesScreen implements Screen {
     public void dispose() {
         game.getStage().dispose();
     }
+
+    public static int getTimes1() {return times1;}
+
+    public static int getTimes2() {return times2;}
+
+    public static int getTimes3() {return times3;}
+
+    public static int getTimes4() {return times4;}
 }

@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.dialogs.AbilitiesDialog;
+import com.gdx.turnquest.dialogs.GameSelectionDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.utils.EnemyManager;
@@ -25,7 +27,7 @@ import static com.gdx.turnquest.TurnQuest.*;
 public class CombatScreen implements Screen {
     final TurnQuest game;
     private final Player player;
-    private final Enemy enemy;
+    private static Enemy enemy = null;
     private Texture playerTexture;
     private final Texture enemyTexture;
     private final Sprite playerSprite;
@@ -91,7 +93,7 @@ public class CombatScreen implements Screen {
         // Create the table
         Table optionsTable = new Table(game.getSkin());
         optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 200f, Align.center);
-        optionsTable.defaults().space(20f);
+        optionsTable.defaults().space(20f).width(200);
         optionsTable.add(attackButton);
         optionsTable.add(itemButton);
         optionsTable.row();
@@ -168,7 +170,7 @@ public class CombatScreen implements Screen {
         abtlitiesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                CombatLogic.magicAttack(player, enemy);
+                showAbilitiesDialog();
             }
         });
         itemButton.addListener(new ClickListener() {
@@ -254,5 +256,16 @@ public class CombatScreen implements Screen {
         game.getStage().dispose();
         playerTexture.dispose();
         enemyTexture.dispose();
+    }
+
+    private void showAbilitiesDialog() {
+        AbilitiesDialog dialog = new AbilitiesDialog("", "", () -> {
+            // Handle login here
+        }, game.getSkin(), game);
+        dialog.show(game.getStage());
+    }
+
+    public static Enemy getEnemy() {
+        return enemy;
     }
 }
