@@ -1,42 +1,160 @@
 {
-  "items": [
-    {
-      "id": 1,
-      "name": "Iron Sword",
-      "description": "A basic sword made of iron",
-      "value": 50,
-      "stats": {
-        "attack": 20,
-        "agility": 5
-      }
-    },
-    {
-      "id": 2,
-      "name": "Leather Armor",
-      "description": "A simple armor made of leather",
-      "value": 30,
-      "stats": {
-        "defence": 10,
-        "agility": 5
-      }
-    },
-    {
-      "id": 3,
-      "name": "Health Potion",
-      "description": "A potion that restores some health",
-      "value": 20,
-      "stats": {
-        "healing": 50
-      }
-    },
-    {
-      "id": 4,
-      "name": "Mana Potion",
-      "description": "A potion that restores some mana",
-      "value": 15,
-      "stats": {
-        "manaRestore": 30
-      }
+  "Health Potion": {
+    "name": "Health Potion",
+    "description": "A potion that restores some health",
+    "value": 50,
+    "type": "CONSUMABLE",
+    "classType": "ALL",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons1.png",
+    "stats": {
+      "HP": 50
     }
-  ]
+  },
+  "Health Potion +": {
+    "name": "Health Potion +",
+    "description": "A potion that restores more health",
+    "value": 500,
+    "type": "CONSUMABLE",
+    "classType": "All",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons2.png",
+    "stats": {
+      "HP": 200
+    }
+  },
+  "Health Potion ++": {
+    "name": "Health Potion ++",
+    "description": "A potion that restores full health",
+    "value": 10000,
+    "type": "CONSUMABLE",
+    "classType": "All",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons3.png",
+    "stats": {
+      "HP": 9999
+    }
+  },
+  "Mana Potion": {
+    "name": "Mana Potion",
+    "description": "A potion that restores some mana",
+    "value": 50,
+    "type": "CONSUMABLE",
+    "classType": "All",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons4.png",
+    "stats": {
+      "MP": 50
+    }
+  },
+  "Mana Potion +": {
+    "name": "Mana Potion +",
+    "description": "A potion that restores more mana",
+    "value": 500,
+    "type": "CONSUMABLE",
+    "classType": "All",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons5.png",
+    "stats": {
+      "MP": 200
+    }
+  },
+  "Mana Potion ++": {
+    "name": "Mana Potion ++",
+    "description": "A potion that restores full mana",
+    "value": 10000,
+    "type": "CONSUMABLE",
+    "classType": "All",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons6.png",
+    "stats": {
+      "MP": 9999
+    }
+  },
+  "Iron Sword": {
+    "name": "Iron Sword",
+    "description": "A basic sword made of iron",
+    "value": 50,
+    "type": "WEAPON_1",
+    "classType": "Warrior",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons7.png",
+    "stats": {
+      "ATK": 4
+    }
+  },
+  "Iron Shield": {
+    "name": "Iron Shield",
+    "description": "A basic shield made of iron",
+    "value": 50,
+    "type": "WEAPON_2",
+    "classType": "Warrior",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons8.png",
+    "stats": {
+      "DEF": 4
+    }
+  },
+  "Leather Armor": {
+    "name": "Leather Armor",
+    "description": "A simple armor made of leather",
+    "value": 30,
+    "type": "ARMOR",
+    "classType": "All",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons9.png",
+    "stats": {
+      "DEF": 3
+    }
+  },
+  "Bow": {
+    "name": "Bow",
+    "description": "A basic bow",
+    "value": 50,
+    "type": "WEAPON_1",
+    "classType": "Archer",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons10.png",
+    "stats": {
+      "ATK": 1,
+      "SPD": 4
+    }
+  },
+  "Old Quiver": {
+    "name": "Old Quiver",
+    "description": "A quiver that holds arrows",
+    "value": 50,
+    "type": "WEAPON_2",
+    "classType": "Archer",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons11.png",
+    "stats": {
+      "ATK": 2,
+      "SPD": 2
+    }
+  },
+  "Wooden Staff": {
+    "name": "Wooden Staff",
+    "description": "A simple staff made of wood",
+    "value": 50,
+    "type": "WEAPON_1",
+    "classType": "Mage",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons12.png",
+    "stats": {
+      "ATK": 1,
+      "MAG": 4
+    }
+  },
+  "Old Grimmoire": {
+    "name": "Old Grimmoire",
+    "description": "A grimmoire that holds spells",
+    "value": 50,
+    "type": "WEAPON_2",
+    "classType": "Mage",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons13.png",
+    "stats": {
+      "MAG": 2
+    }
+  },
+  "Silk Robe": {
+    "name": "Silk Robe",
+    "description": "A simple robe made of silk",
+    "value": 30,
+    "type": "ARMOR",
+    "classType": "Mage",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons14.png",
+    "stats": {
+      "DEF": 1,
+      "MAG": 3
+    }
+  }
 }
