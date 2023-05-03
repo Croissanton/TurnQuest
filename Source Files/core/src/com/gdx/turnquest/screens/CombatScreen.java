@@ -25,15 +25,15 @@ import static com.gdx.turnquest.TurnQuest.*;
 public class CombatScreen implements Screen {
     final TurnQuest game;
     private final Player player;
-    private Enemy enemy;
-    private final Texture playerTexture;
+    private final Enemy enemy;
+    private Texture playerTexture;
     private final Texture enemyTexture;
     private final Sprite playerSprite;
     private final Sprite enemySprite;
-    private Label playerHPLabel;
-    private Label playerMPLabel;
-    private Label enemyMPLabel;
-    private Label enemyHPLabel;
+    private final Label playerHPLabel;
+    private final Label playerMPLabel;
+    private final Label enemyMPLabel;
+    private final Label enemyHPLabel;
 
     private int maxPlayerHP;
     private int maxPlayerMP;
@@ -60,15 +60,27 @@ public class CombatScreen implements Screen {
 
         // Load the player and enemy textures
         playerTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/01.png"));
+        Texture warriorTexture = new Texture(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/png/fire_knight/01_idle/idle_1.png"));
+        Texture archerTexture = new Texture(Gdx.files.internal("Elementals_Leaf_ranger_Free_v1.0/animations/PNG/1_atk/1_atk_1.png"));
+        Texture mageTexture = new Texture(Gdx.files.internal("Elementals_water_priestess_FREE_v1.1/png/01_idle/idle_1.png"));
+
+        if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
+            playerTexture = warriorTexture;
+        } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
+            playerTexture = archerTexture;
+        } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
+            playerTexture = mageTexture;
+        }
+
         enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/09.png"));
 
         // Create the player and enemy sprites
         playerSprite = new Sprite(playerTexture);
-        playerSprite.setPosition(getVirtualWidth()*2/8f, getVirtualHeight()/2f); // Set the position of the player sprite
-        playerSprite.setScale(2); // Scale the player sprite
+        playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.7f); // Set the position of the player sprite
+        playerSprite.setScale(6); // Scale the player sprite
 
         enemySprite = new Sprite(enemyTexture);
-        enemySprite.setPosition(getVirtualWidth()*6/8f, getVirtualHeight()/2f); // Set the position of the enemy sprite
+        enemySprite.setPosition(getVirtualWidth() * 0.75f, getVirtualHeight() * 0.48f); // Set the position of the enemy sprite
         enemySprite.setScale(2); // Scale the enemy sprite
 
         TextButton attackButton = new TextButton("Attack", game.getSkin());
