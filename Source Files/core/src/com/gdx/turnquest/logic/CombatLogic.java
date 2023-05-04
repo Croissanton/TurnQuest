@@ -147,10 +147,10 @@ public class CombatLogic {
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
+            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
         }
         else {
-            damage = (int) (attacker.getSTR() + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
+            damage = (int) (attacker.getSTR() + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
             if(damage <= 0){
                 damage = 1; //Always do at least 1 damage
             }
@@ -170,10 +170,10 @@ public class CombatLogic {
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 - defender.getDEF()/2);
+            damage = (int) (attacker.getSTR() * 1.5 * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes3() * 0.05 - defender.getDEF()/2);
         }
         else{
-            damage = (int) (attacker.getSTR() * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 - defender.getDEF()/2);
+            damage = (int) (attacker.getSTR() * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes3() * 0.05 - defender.getDEF()/2);
             if(damage <= 0){
                 damage = 1; //Always do at least 1 damage
             }
@@ -191,11 +191,11 @@ public class CombatLogic {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
-        if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
+        if (critChance <= attacker.getLUK() + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 - defender.getLUK()/2) {
             damage = (int) (attacker.getSTR() * 1.5 * 2.5) - defender.getDEF()/2;
         }
         else{
-            damage = (int) (attacker.getSTR() * 2.5 - defender.getDEF()/2);
+            damage = (int) (attacker.getSTR() * 2.5 + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 - defender.getDEF()/2);
             if(damage <= 0){
                 damage = 1; //Always do at least 1 damage
             }
