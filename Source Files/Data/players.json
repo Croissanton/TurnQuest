@@ -79,6 +79,31 @@
 	},
 	"playerName": "player 123"
 },
+"TESTUSER": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "TESTUSER",
+	"loginEnergy": 1,
+	"gametimeZero": "17/04/2023 12:34:00",
+	"logintimeZero": "17/04/2023 12:34:00"
+},
 "klnstpr": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"characterClass": "Archer",

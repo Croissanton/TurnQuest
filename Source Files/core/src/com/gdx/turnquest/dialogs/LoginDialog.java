@@ -76,10 +76,10 @@ public class LoginDialog extends Dialog {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
                 } else {
-                    updateTimer(username, "login");
-                    if (!checkLoginCount(username)) {
-                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
-                    } else {
+//                    updateTimer(username, "login");
+//                    if (!checkLoginCount(username)) {
+//                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
+
                         // If the credentials are valid, proceed with the login process
                         PlayerManager playerManager = new PlayerManager();
                         Player player = playerManager.getPlayer(username);
@@ -87,7 +87,7 @@ public class LoginDialog extends Dialog {
                         hide();
                         game.setScreen(new GameScreen(game));
                     }
-                }
+
             }
         }
         else super.hide();
@@ -115,91 +115,91 @@ public class LoginDialog extends Dialog {
         return 500f;
     }
 
-    private boolean checkLoginCount(String username) {
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject loginData = (JSONObject) parser.parse(new FileReader("../Data/users.json"));
-
-            JSONObject loginInfo = (JSONObject) loginData.get(username);
-            long loginCount = (long) loginInfo.get("loginCount");
-
-            if (loginCount < 5000) {   /*TODO: The Counter should be set to 5 for the actual game, this is just for testing */
-                loginCount++;
-                loginInfo.put("loginCount", loginCount);
-
-                // Write the updated JSONObject back to the JSON file
-                FileWriter fileWriter = new FileWriter("../Data/users.json");
-                fileWriter.write(loginData.toJSONString());
-                fileWriter.flush();
-                fileWriter.close();
-
-                return true;
-            } else {
-                return false;
-            }
-        } catch (IOException | ParseException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
-
+//    private boolean checkLoginCount(String username) {
+//        JSONParser parser = new JSONParser();
+//        try {
+//            JSONObject loginData = (JSONObject) parser.parse(new FileReader("../Data/users.json"));
+//
+//            JSONObject loginInfo = (JSONObject) loginData.get(username);
+//            long loginCount = (long) loginInfo.get("loginCount");
+//
+//            if (loginCount < 5000) {   /*TODO: The Counter should be set to 5 for the actual game, this is just for testing */
+//                loginCount++;
+//                loginInfo.put("loginCount", loginCount);
+//
+//                // Write the updated JSONObject back to the JSON file
+//                FileWriter fileWriter = new FileWriter("../Data/users.json");
+//                fileWriter.write(loginData.toJSONString());
+//                fileWriter.flush();
+//                fileWriter.close();
+//
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } catch (IOException | ParseException ex) {
+//            ex.printStackTrace();
+//            return false;
+//        }
+//    }
 
 
-    private float getTimeDiff(String username,String timetype) {
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject Users = (JSONObject) parser.parse(new FileReader("../Data/users.json"));
 
-            JSONObject user = (JSONObject) Users.get(username);
-            //Get the saved first login time as a Calender Object
-            String fTime = (String) user.get(timetype+"Time");
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            try {
-                Date firstTime = formatter.parse(fTime);
-                Calendar FirstTime = Calendar.getInstance();
-                // set the calendar object to the given time
-                FirstTime.setTime(firstTime);
-                long diff = System.currentTimeMillis()-FirstTime.getTimeInMillis();
-                //Time differnce as a float in hours
-
-                return diff / (60.0f * 60.0f * 1000.0f);
-
-            } catch (java.text.ParseException e) {
-                return 0;
-            }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-    public void updateTimer(String username,String timetype) {
-
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject Users = (JSONObject) parser.parse(new FileReader("../Data/users.json"));
-
-            JSONObject user = (JSONObject) Users.get(username);
-            //Get the saved first login time as a Calender Object
-
-            if (getTimeDiff(username,timetype)>24){
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                String formattedDateTime = now.format(formatter);
-
-                user.put(timetype+"Time", formattedDateTime);
-                user.put(timetype+"Count", 0);
-
-                // Write the updated JSONObject back to the JSON file
-                FileWriter fileWriter = new FileWriter("../Data/users.json");
-                fileWriter.write(Users.toJSONString());
-                fileWriter.flush();
-                fileWriter.close();
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    }
+//    private float getTimeDiff(String username,String timetype) {
+//        JSONParser parser = new JSONParser();
+//        try {
+//            JSONObject Users = (JSONObject) parser.parse(new FileReader("../Data/users.json"));
+//
+//            JSONObject user = (JSONObject) Users.get(username);
+//            //Get the saved first login time as a Calender Object
+//            String fTime = (String) user.get(timetype+"Time");
+//
+//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//            try {
+//                Date firstTime = formatter.parse(fTime);
+//                Calendar FirstTime = Calendar.getInstance();
+//                // set the calendar object to the given time
+//                FirstTime.setTime(firstTime);
+//                long diff = System.currentTimeMillis()-FirstTime.getTimeInMillis();
+//                //Time differnce as a float in hours
+//
+//                return diff / (60.0f * 60.0f * 1000.0f);
+//
+//            } catch (java.text.ParseException e) {
+//                return 0;
+//            }
+//
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//            return 0;
+//        }
+//    }
+//    public void updateTimer(String username,String timetype) {
+//
+//        JSONParser parser = new JSONParser();
+//        try {
+//            JSONObject Users = (JSONObject) parser.parse(new FileReader("../Data/users.json"));
+//
+//            JSONObject user = (JSONObject) Users.get(username);
+//            //Get the saved first login time as a Calender Object
+//
+//            if (getTimeDiff(username,timetype)>24){
+//                LocalDateTime now = LocalDateTime.now();
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+//                String formattedDateTime = now.format(formatter);
+//
+//                user.put(timetype+"Time", formattedDateTime);
+//                user.put(timetype+"Count", 0);
+//
+//                // Write the updated JSONObject back to the JSON file
+//                FileWriter fileWriter = new FileWriter("../Data/users.json");
+//                fileWriter.write(Users.toJSONString());
+//                fileWriter.flush();
+//                fileWriter.close();
+//            }
+//        } catch (IOException | ParseException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
