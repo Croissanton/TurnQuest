@@ -168,7 +168,7 @@ public class AbilitiesScreen implements Screen {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("Makes you next attack ignore enemy's defense.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt1.setText("Throw an rooting attack that stuns the enemy for one turn.");
+                        tt1.setText("Throw an rooting attack that reduce 25% the defense of the enemy.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
                         tt1.setText("Makes you next attack to be a critical one.");
                     }
@@ -205,7 +205,7 @@ public class AbilitiesScreen implements Screen {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times2 - 1) * 0.5 + "%.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt2.setText("Already unlocked. It increase the poison damage 0.5% each upgrade, total: " + (times2 - 1) * 0.5 + "%.");
+                        tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times2 - 1) * 0.5 + "%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times2 - 1) * 0.5 + "%.");
                     }
@@ -213,7 +213,7 @@ public class AbilitiesScreen implements Screen {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("Spin around you to inflict damage three times with 50% of your attack.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt2.setText("Throw a poison attack that inflicts posison to the enemy for three turns.");
+                        tt2.setText("Throw a poison attack that inflicts posison to the enemy reducing its attack 10%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
                         tt2.setText("Attack one enemy with a stab dealing 150% of the damage and a 15% chance of freezing.");
                     }
@@ -303,9 +303,9 @@ public class AbilitiesScreen implements Screen {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt4.setText("Attack one enemy dealing 200% of your attack and burning it.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Invoke a green ray from the power of nature that makes 220% of the damage.");
+                        tt4.setText("Invoke a green ray from the power of nature that makes 250% of the damage.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt4.setText("Invoke a giant tear that first makes 200% of the damage and then has a 80% of freezing.");
+                        tt4.setText("Invoke a giant tear that first makes 200% of the damage and then froze the enemy.");
                     }
                 }
 

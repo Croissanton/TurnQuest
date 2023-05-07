@@ -23,6 +23,18 @@ public class Player extends Character {
 
     private int nAb4;
 
+    private int gameEnergy;
+
+    private int loginEnergy;
+
+    private String gametimeZero;
+
+    private String logintimeZero;
+
+
+
+
+
     public Player() {
         super();
         this.playerName = null;
@@ -33,6 +45,10 @@ public class Player extends Character {
         super();
         this.playerName = playerName;
         this.characterClass = characterClass;
+        gameEnergy=0;
+        loginEnergy=1;
+        logintimeZero="17/04/2023 12:34:00";
+        gametimeZero="17/04/2023 12:34:00";
         gold = 0;
         exp = 0;
         level = 1;

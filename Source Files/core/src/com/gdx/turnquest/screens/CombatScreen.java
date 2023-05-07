@@ -74,7 +74,7 @@ public class CombatScreen implements Screen {
             playerTexture = mageTexture;
         }
 
-        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/09.png"));
+        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
 
         // Create the player and enemy sprites
         playerSprite = new Sprite(playerTexture);
@@ -82,8 +82,8 @@ public class CombatScreen implements Screen {
         playerSprite.setScale(6); // Scale the player sprite
 
         enemySprite = new Sprite(enemyTexture);
-        enemySprite.setPosition(getVirtualWidth() * 0.75f, getVirtualHeight() * 0.48f); // Set the position of the enemy sprite
-        enemySprite.setScale(2); // Scale the enemy sprite
+        enemySprite.setPosition(getVirtualWidth() * 0.77f, getVirtualHeight() * 0.52f); // Set the position of the enemy sprite
+        enemySprite.setScale(4); // Scale the enemy sprite
 
         TextButton attackButton = new TextButton("Attack", game.getSkin());
         TextButton abtlitiesButton = new TextButton("Abilities", game.getSkin());
@@ -186,7 +186,7 @@ public class CombatScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(CombatLogic.run(player, enemy)){
-                    //game.setScreen(new OverworldScreen(game));
+                    game.setScreen(new GameScreen(game));
                 }
             }
         });
