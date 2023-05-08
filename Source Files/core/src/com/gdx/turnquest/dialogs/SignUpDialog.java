@@ -21,7 +21,7 @@ public class SignUpDialog extends Dialog {
     private final TextField passwordField;
     final CheckBox Warrior;
     final CheckBox Archer;
-    final CheckBox Assassin;
+    final CheckBox Mage;
     private Label errorLabel;
     private final TurnQuest game;
     private String username;
@@ -38,7 +38,7 @@ public class SignUpDialog extends Dialog {
         // create check boxes
         Warrior = new CheckBox("Warrior", skin);
         Archer = new CheckBox("Archer", skin);
-        Assassin = new CheckBox("Assassin", skin);
+        Mage = new CheckBox("Mage", skin);
 
         // table
         getContentTable().defaults().expand().pad(10);
@@ -58,7 +58,7 @@ public class SignUpDialog extends Dialog {
         // checkboxes
         getContentTable().add(Warrior);
         getContentTable().add(Archer);
-        getContentTable().add(Assassin).row();
+        getContentTable().add(Mage).row();
 
         // errors
         errorLabel = new Label("", skin);
@@ -72,7 +72,7 @@ public class SignUpDialog extends Dialog {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 characterClass = "Warrior";
                 if (Archer.isChecked()) Archer.setChecked(false);
-                if (Assassin.isChecked()) Assassin.setChecked(false);
+                if (Mage.isChecked()) Mage.setChecked(false);
             }
         });
 
@@ -81,14 +81,14 @@ public class SignUpDialog extends Dialog {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 characterClass = "Archer";
                 if (Warrior.isChecked()) Warrior.setChecked(false);
-                if (Assassin.isChecked()) Assassin.setChecked(false);
+                if (Mage.isChecked()) Mage.setChecked(false);
             }
         });
 
-        Assassin.addListener(new ChangeListener() {
+        Mage.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                characterClass = "Assassin";
+                characterClass = "Mage";
                 if (Archer.isChecked()) Archer.setChecked(false);
                 if (Warrior.isChecked()) Warrior.setChecked(false);
             }
@@ -114,7 +114,7 @@ public class SignUpDialog extends Dialog {
                     errorLabel.setText("Invalid username, it already exists.");
                 } else if (4 > password.length()) {
                     errorLabel.setText("Invalid password, it needs to have 4 characters.");
-                } else if (!Warrior.isChecked() && !Archer.isChecked() && !Assassin.isChecked()) {
+                } else if (!Warrior.isChecked() && !Archer.isChecked() && !Mage.isChecked()) {
                     errorLabel.setText("Please select a class.");
                 } else {
                     try {
@@ -122,14 +122,13 @@ public class SignUpDialog extends Dialog {
                     } catch (IllegalArgumentException e) {
                         errorLabel.setText("Username already exists. Try logging in.");
                     }
-                    Player player = new Player (username);
-                    player.setCharacterClass(characterClass);
+                    Player player = new Player (username, characterClass);
                     //add the player to the database (json for now)
                     PlayerManager playerManager = new PlayerManager();
                     playerManager.addPlayer(player);
                     // set the player in the TurnQuest class
                     game.setCurrentPlayer(player);
-                    // hide te sign up dialog and go to game screen
+                    // hide the sign up dialog and go to game screen
                     success = true;
                     hide();
                     game.setScreen(new GameScreen(game));

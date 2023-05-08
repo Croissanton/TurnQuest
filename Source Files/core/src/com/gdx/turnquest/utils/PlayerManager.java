@@ -20,9 +20,9 @@ import java.io.IOException;
 
 public class PlayerManager {
     private static final String PLAYERS_PATH = "../Data/players.json";
-    private FileHandle file = Gdx.files.local(PLAYERS_PATH);
-    private Json json = new Json();
-    private ObjectMap<String, Player> playersData;
+    private final FileHandle file = Gdx.files.local(PLAYERS_PATH);
+    private final Json json = new Json();
+    private final ObjectMap<String, Player> playersData;
 
     /**
      * Constructs a PlayerManager object. It initializes the file handle and the JSON object

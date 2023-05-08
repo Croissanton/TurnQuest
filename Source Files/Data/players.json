@@ -13,6 +13,97 @@
 	"inventory": {},
 	"playerName": "user123435465u6"
 },
+"guarrio": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "guarrio"
+},
+"pepe": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "pepe"
+},
+"player 123": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "player 123"
+},
+"TESTUSER": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "TESTUSER",
+	"loginEnergy": 1,
+	"gametimeZero": "17/04/2023 12:34:00",
+	"logintimeZero": "17/04/2023 12:34:00"
+},
 "klnstpr": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"characterClass": "Archer",
@@ -26,5 +117,71 @@
 	"level": 1,
 	"inventory": {},
 	"playerName": "player1"
+},
+"mage": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 5,
+		"STR": 1,
+		"DEF": 1,
+		"LUK": 3,
+		"MP": 75,
+		"HP": 105,
+		"SPD": 3
+	},
+	"characterClass": "Mage",
+	"level": 1,
+	"inventory": {
+		"Wooden Staff": 1,
+		"Silk Robe": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Old Grimmorie": 1
+	},
+	"playerName": "mage"
+},
+"Login": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 5,
+		"STR": 1,
+		"DEF": 1,
+		"LUK": 3,
+		"MP": 75,
+		"HP": 105,
+		"SPD": 3
+	},
+	"characterClass": "Mage",
+	"level": 1,
+	"inventory": {
+		"Wooden Staff": 1,
+		"Silk Robe": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Old Grimmorie": 1
+	},
+	"playerName": "Login"
+},
+"Croissanton": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 5,
+		"STR": 1,
+		"DEF": 1,
+		"LUK": 3,
+		"MP": 75,
+		"HP": 105,
+		"SPD": 3
+	},
+	"characterClass": "Mage",
+	"level": 1,
+	"inventory": {
+		"Wooden Staff": 1,
+		"Silk Robe": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Old Grimmorie": 1
+	},
+	"playerName": "Croissanton"
 }
 }

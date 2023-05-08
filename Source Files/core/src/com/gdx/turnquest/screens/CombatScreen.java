@@ -10,28 +10,51 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.dialogs.AbilitiesDialog;
+import com.gdx.turnquest.dialogs.GameSelectionDialog;
+import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.EnemyManager;
+import com.gdx.turnquest.utils.ItemManager;
+
+import com.gdx.turnquest.logic.CombatLogic;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class CombatScreen implements Screen {
     final TurnQuest game;
-    private Player player;
-    private final Texture playerTexture;
+    private final Player player;
+    private static Enemy enemy = null;
+    private Texture playerTexture;
     private final Texture enemyTexture;
     private final Sprite playerSprite;
     private final Sprite enemySprite;
+    private final Label playerHPLabel;
+    private final Label playerMPLabel;
+    private final Label enemyMPLabel;
+    private final Label enemyHPLabel;
 
-    private Label playerHpLabel;
-    private Label playerMpLabel;
-    private Label enemyMpLabel;
-    private Label enemyHpLabel;
+    private int maxPlayerHP;
+    private int maxPlayerMP;
+    private int maxEnemyHP;
+    private int maxEnemyMP;
+
+    ProgressBar playerHPBar;
+    ProgressBar playerMPBar;
+    ProgressBar enemyHPBar;
+    ProgressBar enemyMPBar;
 
     public CombatScreen(final TurnQuest game) {
         this.game = game;
         player = game.getCurrentPlayer();
+        enemy = new EnemyManager().getEnemy("enemy1_01");
+        maxPlayerHP = player.getHP();
+        maxPlayerMP = player.getMP();
+        maxEnemyHP = enemy.getHP();
+        maxEnemyMP = enemy.getMP();
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -39,39 +62,51 @@ public class CombatScreen implements Screen {
 
         // Load the player and enemy textures
         playerTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/01.png"));
-        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/09.png"));
+        Texture warriorTexture = new Texture(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/png/fire_knight/01_idle/idle_1.png"));
+        Texture archerTexture = new Texture(Gdx.files.internal("Elementals_Leaf_ranger_Free_v1.0/animations/PNG/1_atk/1_atk_1.png"));
+        Texture mageTexture = new Texture(Gdx.files.internal("Elementals_water_priestess_FREE_v1.1/png/01_idle/idle_1.png"));
+
+        if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
+            playerTexture = warriorTexture;
+        } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
+            playerTexture = archerTexture;
+        } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
+            playerTexture = mageTexture;
+        }
+
+        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
 
         // Create the player and enemy sprites
         playerSprite = new Sprite(playerTexture);
-        playerSprite.setPosition(getVirtualWidth()*2/8f, getVirtualHeight()/2f); // Set the position of the player sprite
-        playerSprite.setScale(2); // Scale the player sprite
+        playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.7f); // Set the position of the player sprite
+        playerSprite.setScale(6); // Scale the player sprite
 
         enemySprite = new Sprite(enemyTexture);
-        enemySprite.setPosition(getVirtualWidth()*6/8f, getVirtualHeight()/2f); // Set the position of the enemy sprite
-        enemySprite.setScale(2); // Scale the enemy sprite
+        enemySprite.setPosition(getVirtualWidth() * 0.77f, getVirtualHeight() * 0.52f); // Set the position of the enemy sprite
+        enemySprite.setScale(4); // Scale the enemy sprite
 
         TextButton attackButton = new TextButton("Attack", game.getSkin());
-        TextButton magicButton = new TextButton("Magic", game.getSkin());
+        TextButton abtlitiesButton = new TextButton("Abilities", game.getSkin());
         TextButton itemButton = new TextButton("Item", game.getSkin());
         TextButton runButton = new TextButton("Run", game.getSkin());
 
         // Create the table
         Table optionsTable = new Table(game.getSkin());
         optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 200f, Align.center);
-        optionsTable.defaults().space(20f);
+        optionsTable.defaults().space(20f).width(200);
         optionsTable.add(attackButton);
         optionsTable.add(itemButton);
         optionsTable.row();
-        optionsTable.add(magicButton);
+        optionsTable.add(abtlitiesButton);
         optionsTable.add(runButton);
 
         // Add the table to the stage
         game.getStage().addActor(optionsTable);
 
-        playerHpLabel = new Label("HP: " + player.getHP(), game.getSkin());
-        playerMpLabel = new Label("MP: " + player.getMP(), game.getSkin());
-        enemyHpLabel = new Label("HP: " + 0, game.getSkin());
-        enemyMpLabel = new Label("MP: " + 0, game.getSkin());
+        playerHPLabel = new Label("HP: " + maxPlayerHP, game.getSkin());
+        playerMPLabel = new Label("MP: " + maxPlayerMP, game.getSkin());
+        enemyHPLabel = new Label("HP: " + maxEnemyHP, game.getSkin());
+        enemyMPLabel = new Label("MP: " + maxEnemyMP, game.getSkin());
 
         ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
         ProgressBar.ProgressBarStyle progressBarStyleMP = new ProgressBar.ProgressBarStyle();
@@ -82,26 +117,22 @@ public class CombatScreen implements Screen {
         progressBarStyleMP.background = game.getSkin().getDrawable("progress-bar-mana");
         progressBarStyleMP.knobBefore = game.getSkin().getDrawable("progress-bar-mana-knob");
 
-        ProgressBar playerHpBar = new ProgressBar(0, player.getHP(), 1, false, progressBarStyleHP);
-        playerHpBar.setValue(player.getHP()); // Set the initial value of the bar to getHP() (full)
+        playerHPBar = new ProgressBar(0, maxPlayerHP, 1, false, progressBarStyleHP);
 
-        ProgressBar playerMpBar = new ProgressBar(0, player.getMP(), 1, false, progressBarStyleMP);
-        playerMpBar.setValue(player.getMP()); // Set the initial value of the bar to getHP() (full)
+        playerMPBar = new ProgressBar(0, maxPlayerMP, 1, false, progressBarStyleMP);
 
-        ProgressBar enemyHpBar = new ProgressBar(0,player.getHP(), 1, false, progressBarStyleHP); //TODO: change this to enemy when implemented
-        enemyHpBar.setValue(player.getHP()); // Set the initial value of the bar to getHP() (full)
+        enemyHPBar = new ProgressBar(0,maxEnemyHP, 1, false, progressBarStyleHP);
 
-        ProgressBar enemyMpBar = new ProgressBar(0, player.getMP(), 1, false, progressBarStyleMP); //TODO: change this to enemy when implemented
-        enemyMpBar.setValue(player.getMP()); // Set the initial value of the bar to getHP() (full)
+        enemyMPBar = new ProgressBar(0, maxEnemyMP, 1, false, progressBarStyleMP);
 
 
         Table playerTable = new Table(game.getSkin());
         playerTable.setPosition(getVirtualWidth() * 0.25f, getVirtualHeight() * 0.25f);
         playerTable.defaults().space(10f);
-        playerTable.add(playerHpLabel).row();
-        playerTable.add(playerHpBar).width(400f).row();
-        playerTable.add(playerMpLabel).row();
-        playerTable.add(playerMpBar).width(400f).row();
+        playerTable.add(playerHPLabel).row();
+        playerTable.add(playerHPBar).width(400f).row();
+        playerTable.add(playerMPLabel).row();
+        playerTable.add(playerMPBar).width(400f).row();
 
         game.getStage().addActor(playerTable);
 
@@ -110,10 +141,10 @@ public class CombatScreen implements Screen {
         Table enemyTable = new Table(game.getSkin());
         enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
         enemyTable.defaults().space(10f);
-        enemyTable.add(enemyHpLabel).row();
-        enemyTable.add(enemyHpBar).width(400f).row();
-        enemyTable.add(enemyMpLabel).row();
-        enemyTable.add(enemyMpBar).width(400f).row();
+        enemyTable.add(enemyHPLabel).row();
+        enemyTable.add(enemyHPBar).width(400f).row();
+        enemyTable.add(enemyMPLabel).row();
+        enemyTable.add(enemyMPBar).width(400f).row();
 
         game.getStage().addActor(enemyTable);
 
@@ -131,26 +162,32 @@ public class CombatScreen implements Screen {
         attackButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Attack button clicked");
+                CombatLogic.attack(player, enemy);
+                System.out.println(enemy.getHP());
             }
         });
         // do the same for the other buttons
-        magicButton.addListener(new ClickListener() {
+        abtlitiesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Magic button clicked");
+                showAbilitiesDialog();
             }
         });
         itemButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Item button clicked");
+                //Fetch inventory
+                //Display inventory
+                //Select item
+                //Use item with CombatLogic.useItem(player, itemID)
             }
         });
         runButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Run button clicked");
+                if(CombatLogic.run(player, enemy)){
+                    game.setScreen(new GameScreen(game));
+                }
             }
         });
     }
@@ -167,13 +204,17 @@ public class CombatScreen implements Screen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        playerHpLabel.setText("HP: " + player.getHP());
-        playerMpLabel.setText("MP: " + player.getMP());
-        enemyHpLabel.setText("HP: " + 0);
-        enemyMpLabel.setText("MP: " + 0);
+        playerHPLabel.setText("HP: " + player.getHP());
+        playerMPLabel.setText("MP: " + player.getMP());
+        enemyHPLabel.setText("HP: " + enemy.getHP());
+        enemyMPLabel.setText("MP: " + enemy.getMP());
 
         game.getBatch().begin();
         game.getBatch().draw(game.getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        playerHPBar.setValue(player.getHP());
+        playerMPBar.setValue(player.getMP());
+        enemyHPBar.setValue(enemy.getHP());
+        enemyMPBar.setValue(enemy.getMP());
         playerSprite.draw(game.getBatch());
         enemySprite.draw(game.getBatch());
         game.getBatch().end();
@@ -215,5 +256,16 @@ public class CombatScreen implements Screen {
         game.getStage().dispose();
         playerTexture.dispose();
         enemyTexture.dispose();
+    }
+
+    private void showAbilitiesDialog() {
+        AbilitiesDialog dialog = new AbilitiesDialog("", "", () -> {
+            // Handle login here
+        }, game.getSkin(), game);
+        dialog.show(game.getStage());
+    }
+
+    public static Enemy getEnemy() {
+        return enemy;
     }
 }

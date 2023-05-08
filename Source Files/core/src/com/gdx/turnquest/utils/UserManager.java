@@ -28,10 +28,10 @@ import java.util.Base64;
  */
 
 public class UserManager {
-    private ObjectMap<String, String> usersData;
+    private final ObjectMap<String, String> usersData;
     private static final String USERS_PATH = "../Data/users.json";
-    private FileHandle file = Gdx.files.local(USERS_PATH);
-    private Json json = new Json();
+    private final FileHandle file = Gdx.files.local(USERS_PATH);
+    private final Json json = new Json();
 
 
     /**
