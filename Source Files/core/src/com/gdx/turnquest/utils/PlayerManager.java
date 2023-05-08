@@ -6,11 +6,30 @@ import com.badlogic.gdx.utils.*;
 import com.gdx.turnquest.entities.Player;
 import java.io.IOException;
 
+/**
+ *
+ The PlayerManager class manages the data of players in the game. It stores and retrieves
+ player data to/from a JSON file. It uses LibGDX's file handling and JSON utilities to manage
+ the data. This class provides methods to add, retrieve, and remove player data from the
+ JSON file.
+ @see com.badlogic.gdx.Gdx
+ @see com.badlogic.gdx.files.FileHandle
+ @see com.badlogic.gdx.utils.Json
+ @see com.gdx.turnquest.entities.Player
+ */
+
 public class PlayerManager {
     private static final String PLAYERS_PATH = "../Data/players.json";
     private FileHandle file = Gdx.files.local(PLAYERS_PATH);
     private Json json = new Json();
     private ObjectMap<String, Player> playersData;
+
+    /**
+     * Constructs a PlayerManager object. It initializes the file handle and the JSON object
+     * for storing and retrieving player data. If the JSON file already exists, the player
+     * data is loaded from the file. Otherwise, a new JSON file is created and an empty player
+     * data map is created.
+     */
 
     @SuppressWarnings("unchecked")
     public PlayerManager() {
@@ -26,6 +45,15 @@ public class PlayerManager {
             playersData = new ObjectMap<>();
         }
     }
+
+    /**
+     * Retrieves the player data for a given username.
+     *
+     * @param username The username of the player.
+     * @return The Player object representing the player data.
+     * @throws IllegalArgumentException If the player data for the given username does not exist.
+     */
+
     public Player getPlayer(String username) {
         if (!playersData.containsKey(username)) {
             throw new IllegalArgumentException("Player does not exist.");
@@ -33,6 +61,13 @@ public class PlayerManager {
         return playersData.get(username);
     }
 
+    /**
+     * Adds a new player to the player data map and writes the updated player data map to the
+     * JSON file.
+     *
+     * @param player The Player object representing the player to be added.
+     * @throws IllegalArgumentException If player data for the given player already exists.
+     */
 
     public void addPlayer(Player player) {
         if (playersData.containsKey(player.getPlayerName())) {
@@ -41,6 +76,14 @@ public class PlayerManager {
         playersData.put(player.getPlayerName(), player);
         file.writeString(json.prettyPrint(playersData), false);
     }
+
+    /**
+     * Removes the player data for a given username from the player data map and writes the
+     * updated player data map to the JSON file.
+     *
+     * @param username The username of the player to be removed.
+     * @throws IllegalArgumentException If player data for the given username does not exist.
+     */
 
     public void removePlayer(String username) {
         if (!playersData.containsKey(username)) {
