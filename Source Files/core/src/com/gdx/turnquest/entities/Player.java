@@ -22,13 +22,7 @@ public class Player extends Character {
 
     private int[] equipmentStats = new int[7]; //The stats that the equipment gives.
 
-    private int nAb1;
-
-    private int nAb2;
-
-    private int nAb3;
-
-    private int nAb4;
+    private int[] abilities;
 
     private int gameEnergy;
 
@@ -64,10 +58,7 @@ public class Player extends Character {
         gold = 0;
         exp = 0;
         level = 1;
-        nAb1 = 0;
-        nAb2 = 0;
-        nAb3 = 0;
-        nAb4 = 0;
+        abilities = new int[4];
         inventory = new ObjectMap<>();
         inventory.put("Potion", 5);
         inventory.put("Ether", 5);
@@ -277,15 +268,6 @@ public class Player extends Character {
         return (int) (Math.pow(level, 1.5) * 100);
     }
 
-    public int getNAb1 () {return nAb1;}
-    public void setNAb1 (int n) {nAb1 = n;}
-
-    public int getNAb2 () {return nAb2;}
-    public void setNAb2 (int n) {nAb2 = n;}
-
-    public int getNAb3 () {return nAb3;}
-    public void setNAb3 (int n) {nAb3 = n;}
-
-    public int getNAb4 () {return nAb4;}
-    public void setNAb4 (int n) {nAb4 = n;}
+    public int[] getAbilities () {return abilities;}
+    public void increaseAbility (int ability) {abilities[ability]++;}
 }

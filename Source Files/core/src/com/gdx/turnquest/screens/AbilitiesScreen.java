@@ -32,12 +32,13 @@ public class AbilitiesScreen extends BaseScreen {
     public AbilitiesScreen (final TurnQuest game) {
         super(game);
         Player player = game.getCurrentPlayer();
+        int[] abilities = player.getAbilities();
 
         // load player's abiities level
-        times1 = player.getNAb1();
-        times2 = player.getNAb2();
-        times3 = player.getNAb3();
-        times4 = player.getNAb4();
+        times1 = abilities[0];
+        times2 = abilities[1];
+        times3 = abilities[2];
+        times4 = abilities[3];
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -191,7 +192,7 @@ public class AbilitiesScreen extends BaseScreen {
                 bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked1 = true;
                 times1++;
-                player.setNAb1(times1);
+                player.increaseAbility(0);
             }
         });
 
@@ -236,7 +237,7 @@ public class AbilitiesScreen extends BaseScreen {
                 bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked2 = true;
                 times2++;
-                player.setNAb2(times2);
+                player.increaseAbility(1);
             }
         });
 
@@ -281,7 +282,7 @@ public class AbilitiesScreen extends BaseScreen {
                 bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked3 = true;
                 times3++;
-                player.setNAb3(times3);
+                player.increaseAbility(2);
             }
         });
 
@@ -326,7 +327,7 @@ public class AbilitiesScreen extends BaseScreen {
                 bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked4 = true;
                 times4++;
-                player.setNAb4(times4);
+                player.increaseAbility(3);
             }
         });
 
