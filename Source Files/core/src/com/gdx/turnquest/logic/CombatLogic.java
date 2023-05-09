@@ -377,7 +377,7 @@ public class CombatLogic {
     public static boolean run(Character character, Enemy enemy) {
         //generate random number based in SPD, between 0 and 100 (if luk is higher it increases)
         int escapeChance = (int) (Math.random() * 100);
-        if (escapeChance <= character.getSPD() - enemy.getSPD()/2) {
+        if (escapeChance <= character.getSPD() - enemy.getSPD()/15) {
             return true;
         }
         else{

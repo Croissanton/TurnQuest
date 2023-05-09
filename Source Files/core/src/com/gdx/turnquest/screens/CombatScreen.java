@@ -40,17 +40,25 @@ public class CombatScreen extends BaseScreen {
     private int maxPlayerMP;
     private int maxEnemyHP;
     private int maxEnemyMP;
+    private boolean boss;
 
     ProgressBar playerHPBar;
     ProgressBar playerMPBar;
     ProgressBar enemyHPBar;
     ProgressBar enemyMPBar;
 
-    public CombatScreen(final TurnQuest game) {
+    public CombatScreen(final TurnQuest game, boolean boss) {
         super(game);
 
+        this.boss = boss;
+
         player = game.getCurrentPlayer();
-        enemy = new EnemyManager().getEnemy("enemy1_01");
+        if (boss) {
+            enemy = new EnemyManager().getEnemy("boss1");
+        } else {
+            enemy = new EnemyManager().getEnemy("enemy1_01");
+        }
+
         maxPlayerHP = player.getHP();
         maxPlayerMP = player.getMP();
         maxEnemyHP = enemy.getHP();
@@ -74,7 +82,11 @@ public class CombatScreen extends BaseScreen {
             playerTexture = mageTexture;
         }
 
-        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
+        if (boss) {
+            enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/03.png"));
+        } else {
+            enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
+        }
 
         // Create the player and enemy sprites
         playerSprite = new Sprite(playerTexture);
@@ -86,7 +98,7 @@ public class CombatScreen extends BaseScreen {
         enemySprite.setScale(4); // Scale the enemy sprite
 
         TextButton attackButton = new TextButton("Attack", game.getSkin());
-        TextButton abtlitiesButton = new TextButton("Abilities", game.getSkin());
+        TextButton abilitiesButton = new TextButton("Abilities", game.getSkin());
         TextButton itemButton = new TextButton("Item", game.getSkin());
         TextButton runButton = new TextButton("Run", game.getSkin());
 
@@ -97,7 +109,7 @@ public class CombatScreen extends BaseScreen {
         optionsTable.add(attackButton);
         optionsTable.add(itemButton);
         optionsTable.row();
-        optionsTable.add(abtlitiesButton);
+        optionsTable.add(abilitiesButton);
         optionsTable.add(runButton);
 
         // Add the table to the stage
@@ -167,7 +179,7 @@ public class CombatScreen extends BaseScreen {
             }
         });
         // do the same for the other buttons
-        abtlitiesButton.addListener(new ClickListener() {
+        abilitiesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showAbilitiesDialog();
@@ -186,7 +198,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(CombatLogic.run(player, enemy)){
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new MapScreen(game));
                 }
             }
         });
@@ -195,7 +207,7 @@ public class CombatScreen extends BaseScreen {
     @Override
     protected void refreshScreen() {
         dispose();
-        game.setScreen(new CombatScreen(game));
+        game.setScreen(new CombatScreen(game, boss));
     }
 
 

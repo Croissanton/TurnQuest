@@ -81,7 +81,7 @@ public class GameScreen extends BaseScreen {
         bPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CombatScreen(game));
+                game.setScreen(new MapScreen(game));
                 //game.setScreen(new CharactersScreen(game));
             }
         });
