@@ -2,6 +2,8 @@ package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
+import java.util.Arrays;
+
 /**
  The Player class represents a playable character in the game. It extends the Character class and has additional fields
  for character class, gold, experience points, level, and inventory. It also provides methods for managing the player's
@@ -22,7 +24,7 @@ public class Player extends Character {
 
     private int[] equipmentStats = new int[7]; //The stats that the equipment gives.
 
-    private int[] abilities;
+    private int[] abilities = new int[4];
 
     private int gameEnergy;
 
@@ -58,7 +60,7 @@ public class Player extends Character {
         gold = 0;
         exp = 0;
         level = 1;
-        abilities = new int[4];
+        Arrays.fill(abilities, 0);
         inventory = new ObjectMap<>();
         inventory.put("Potion", 5);
         inventory.put("Ether", 5);
@@ -269,5 +271,8 @@ public class Player extends Character {
     }
 
     public int[] getAbilities () {return abilities;}
+
+    public int getAbility (int ability) {return abilities[ability];}
+
     public void increaseAbility (int ability) {abilities[ability]++;}
 }

@@ -249,7 +249,7 @@ public class AbilitiesScreen extends BaseScreen {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Already unlocked. It increase the damage 0.3% each upgrade, total: " + (times3 - 1) * 0.3 + "%.");
+                        tt3.setText("Already unlocked. It increase the damage 0.3% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     }
@@ -403,13 +403,4 @@ public class AbilitiesScreen extends BaseScreen {
 
         handleInput();
     }
-
-
-    public static int getTimes1() {return times1;}
-
-    public static int getTimes2() {return times2;}
-
-    public static int getTimes3() {return times3;}
-
-    public static int getTimes4() {return times4;}
 }

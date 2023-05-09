@@ -1,8 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,15 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
-import com.gdx.turnquest.dialogs.GameSelectionDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.utils.EnemyManager;
-import com.gdx.turnquest.utils.ItemManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
 
@@ -175,7 +170,6 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 CombatLogic.attack(player, enemy);
-                System.out.println(enemy.getHP());
             }
         });
         // do the same for the other buttons
@@ -248,7 +242,7 @@ public class CombatScreen extends BaseScreen {
     }
 
     private void showAbilitiesDialog() {
-        AbilitiesDialog dialog = new AbilitiesDialog("", "", () -> {
+        AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
             // Handle login here
         }, game.getSkin(), game);
         dialog.show(game.getStage());
