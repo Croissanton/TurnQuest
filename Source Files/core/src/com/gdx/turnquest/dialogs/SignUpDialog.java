@@ -124,7 +124,12 @@ public class SignUpDialog extends Dialog {
                     }
                     Player player = new Player (username, characterClass);
                     //add the player to the database (json for now)
-                    PlayerManager playerManager = new PlayerManager();
+                    PlayerManager playerManager;
+                    try {
+                        playerManager = new PlayerManager();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     playerManager.addPlayer(player);
                     // set the player in the TurnQuest class
                     game.setCurrentPlayer(player);

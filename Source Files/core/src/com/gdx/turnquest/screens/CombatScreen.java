@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
@@ -44,6 +45,9 @@ public class CombatScreen extends BaseScreen {
 
     public CombatScreen(final TurnQuest game, boolean boss) {
         super(game);
+        Assets.loadFor(CombatScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
 
         this.boss = boss;
 
@@ -59,7 +63,6 @@ public class CombatScreen extends BaseScreen {
         maxEnemyHP = enemy.getHP();
         maxEnemyMP = enemy.getMP();
 
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         game.setStage(new Stage(getViewport()));
 
@@ -92,13 +95,13 @@ public class CombatScreen extends BaseScreen {
         enemySprite.setPosition(getVirtualWidth() * 0.77f, getVirtualHeight() * 0.52f); // Set the position of the enemy sprite
         enemySprite.setScale(4); // Scale the enemy sprite
 
-        TextButton attackButton = new TextButton("Attack", game.getSkin());
-        TextButton abilitiesButton = new TextButton("Abilities", game.getSkin());
-        TextButton itemButton = new TextButton("Item", game.getSkin());
-        TextButton runButton = new TextButton("Run", game.getSkin());
+        TextButton attackButton = new TextButton("Attack", Assets.getSkin());
+        TextButton abilitiesButton = new TextButton("Abilities", Assets.getSkin());
+        TextButton itemButton = new TextButton("Item", Assets.getSkin());
+        TextButton runButton = new TextButton("Run", Assets.getSkin());
 
         // Create the table
-        Table optionsTable = new Table(game.getSkin());
+        Table optionsTable = new Table(Assets.getSkin());
         optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 200f, Align.center);
         optionsTable.defaults().space(20f).width(200);
         optionsTable.add(attackButton);
@@ -110,19 +113,19 @@ public class CombatScreen extends BaseScreen {
         // Add the table to the stage
         game.getStage().addActor(optionsTable);
 
-        playerHPLabel = new Label("HP: " + maxPlayerHP, game.getSkin());
-        playerMPLabel = new Label("MP: " + maxPlayerMP, game.getSkin());
-        enemyHPLabel = new Label("HP: " + maxEnemyHP, game.getSkin());
-        enemyMPLabel = new Label("MP: " + maxEnemyMP, game.getSkin());
+        playerHPLabel = new Label("HP: " + maxPlayerHP, Assets.getSkin());
+        playerMPLabel = new Label("MP: " + maxPlayerMP, Assets.getSkin());
+        enemyHPLabel = new Label("HP: " + maxEnemyHP, Assets.getSkin());
+        enemyMPLabel = new Label("MP: " + maxEnemyMP, Assets.getSkin());
 
         ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
         ProgressBar.ProgressBarStyle progressBarStyleMP = new ProgressBar.ProgressBarStyle();
 
-        progressBarStyleHP.background = game.getSkin().getDrawable("progress-bar-health");
-        progressBarStyleHP.knobBefore = game.getSkin().getDrawable("progress-bar-health-knob");
+        progressBarStyleHP.background = Assets.getSkin().getDrawable("progress-bar-health");
+        progressBarStyleHP.knobBefore = Assets.getSkin().getDrawable("progress-bar-health-knob");
 
-        progressBarStyleMP.background = game.getSkin().getDrawable("progress-bar-mana");
-        progressBarStyleMP.knobBefore = game.getSkin().getDrawable("progress-bar-mana-knob");
+        progressBarStyleMP.background = Assets.getSkin().getDrawable("progress-bar-mana");
+        progressBarStyleMP.knobBefore = Assets.getSkin().getDrawable("progress-bar-mana-knob");
 
         playerHPBar = new ProgressBar(0, maxPlayerHP, 1, false, progressBarStyleHP);
 
@@ -133,7 +136,7 @@ public class CombatScreen extends BaseScreen {
         enemyMPBar = new ProgressBar(0, maxEnemyMP, 1, false, progressBarStyleMP);
 
 
-        Table playerTable = new Table(game.getSkin());
+        Table playerTable = new Table(Assets.getSkin());
         playerTable.setPosition(getVirtualWidth() * 0.25f, getVirtualHeight() * 0.25f);
         playerTable.defaults().space(10f);
         playerTable.add(playerHPLabel).row();
@@ -145,7 +148,7 @@ public class CombatScreen extends BaseScreen {
 
         //Space these two out in the X axis (I didn't manage to do that, if you can, please do)
 
-        Table enemyTable = new Table(game.getSkin());
+        Table enemyTable = new Table(Assets.getSkin());
         enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
         enemyTable.defaults().space(10f);
         enemyTable.add(enemyHPLabel).row();
@@ -218,7 +221,7 @@ public class CombatScreen extends BaseScreen {
         enemyMPLabel.setText("MP: " + enemy.getMP());
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         playerHPBar.setValue(player.getHP());
         playerMPBar.setValue(player.getMP());
         enemyHPBar.setValue(enemy.getHP());
@@ -244,7 +247,7 @@ public class CombatScreen extends BaseScreen {
     private void showAbilitiesDialog() {
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
             // Handle login here
-        }, game.getSkin(), game);
+        }, Assets.getSkin(), game);
         dialog.show(game.getStage());
     }
 

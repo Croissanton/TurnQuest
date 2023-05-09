@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 
 import static com.gdx.turnquest.TurnQuest.*;
 import static com.gdx.turnquest.TurnQuest.getVirtualHeight;
@@ -18,13 +19,13 @@ public class MapScreen extends BaseScreen {
     public MapScreen(final TurnQuest game) {
         super(game);
 
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
 
 
-        TextButton bEnemy = new TextButton("Enemy", game.getSkin());
-        TextButton bBoss = new TextButton("Boss", game.getSkin());
-        TextButton bQuit = new TextButton("Quit", game.getSkin());
+        TextButton bEnemy = new TextButton("Enemy", Assets.getSkin());
+        TextButton bBoss = new TextButton("Boss", Assets.getSkin());
+        TextButton bQuit = new TextButton("Quit", Assets.getSkin());
 
         final boolean[] boss = {false};
 
@@ -78,8 +79,8 @@ public class MapScreen extends BaseScreen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        game.getFont().getData().setScale(4); //Changes font size.
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        Assets.getFont().getData().setScale(4); //Changes font size.
         game.getBatch().end();
 
         game.getStage().act();

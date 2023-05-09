@@ -1,8 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.entities.Player;
@@ -22,7 +21,8 @@ public class GameScreen extends BaseScreen {
     public GameScreen(final TurnQuest game) {
         super(game);
         this.player = game.getCurrentPlayer();
-
+        Assets.loadFor(GameScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
         game.setStage(new Stage(getViewport()));
         Gdx.input.setInputProcessor(game.getStage());
 
@@ -32,14 +32,14 @@ public class GameScreen extends BaseScreen {
         table.setFillParent(true);
 
         // options button
-        TextButton bOptions = new TextButton("Options", game.getSkin());
+        TextButton bOptions = new TextButton("Options", Assets.getSkin());
         table.add(bOptions).right();
 
         // add another column
         table.add();
 
         // inventory button
-        TextButton bInventory = new TextButton("Inventory", game.getSkin());
+        TextButton bInventory = new TextButton("Inventory", Assets.getSkin());
         table.add(bInventory).left();
 
         // add another row
@@ -49,7 +49,7 @@ public class GameScreen extends BaseScreen {
         table.add();
 
         // play button
-        TextButton bPlay = new TextButton("Play", game.getSkin());
+        TextButton bPlay = new TextButton("Play", Assets.getSkin());
         table.add(bPlay).center();
 
         // add another column
@@ -59,15 +59,15 @@ public class GameScreen extends BaseScreen {
         table.row();
 
         // abilities button
-        TextButton bClan = new TextButton("Clan", game.getSkin());
+        TextButton bClan = new TextButton("Clan", Assets.getSkin());
         table.add(bClan).right();
 
         //return button
-        TextButton bReturn = new TextButton("Return", game.getSkin());
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
         table.add(bReturn).bottom();
 
         // shop button
-        TextButton bShop = new TextButton("Shop", game.getSkin());
+        TextButton bShop = new TextButton("Shop", Assets.getSkin());
         table.add(bShop).left();
 
         // table padding
@@ -143,41 +143,15 @@ public class GameScreen extends BaseScreen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        //game.getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        //Assets.getFont().getData().setScale(4); //Changes font size.
+        Assets.getFont().draw(game.getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
         handleInput();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
-        game.getBackgroundTexture().dispose();
     }
 
     private void showQuitConfirmationDialog() {

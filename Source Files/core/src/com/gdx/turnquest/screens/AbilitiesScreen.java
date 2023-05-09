@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
@@ -29,7 +30,7 @@ public class AbilitiesScreen extends BaseScreen {
     static int times3 = 0;
     static int times4 = 0;
 
-    public AbilitiesScreen (final TurnQuest game) {
+    public AbilitiesScreen(final TurnQuest game) {
         super(game);
         Player player = game.getCurrentPlayer();
         int[] abilities = player.getAbilities();
@@ -40,7 +41,9 @@ public class AbilitiesScreen extends BaseScreen {
         times3 = abilities[2];
         times4 = abilities[3];
 
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        Assets.loadFor(AbilitiesScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
 
         game.setStage(new Stage(getViewport()));
 
@@ -50,10 +53,10 @@ public class AbilitiesScreen extends BaseScreen {
         float centerY = getVirtualHeight() * 0.65f;
 
         // tooltip labels that will be shown when hovering buttons when locked
-        Label tt1 = new Label("", game.getSkin());
-        Label tt2 = new Label("", game.getSkin());
-        Label tt3 = new Label("", game.getSkin());
-        Label tt4 = new Label("", game.getSkin());
+        Label tt1 = new Label("", Assets.getSkin());
+        Label tt2 = new Label("", Assets.getSkin());
+        Label tt3 = new Label("", Assets.getSkin());
+        Label tt4 = new Label("", Assets.getSkin());
 
         // set to not be shown while not  hovering
         tt1.setVisible(false);
@@ -68,7 +71,7 @@ public class AbilitiesScreen extends BaseScreen {
         game.getStage().addActor(tt4);
 
         // abilities buttons
-        TextButton bAb1 = new TextButton("", game.getSkin());
+        TextButton bAb1 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("Pierce");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -77,7 +80,7 @@ public class AbilitiesScreen extends BaseScreen {
             bAb1.setText("Critical");
         }
 
-        TextButton bAb2 = new TextButton("", game.getSkin());
+        TextButton bAb2 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb2.setText("Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -86,7 +89,7 @@ public class AbilitiesScreen extends BaseScreen {
             bAb2.setText("Water Stab");
         }
 
-        TextButton bAb3 = new TextButton("", game.getSkin());
+        TextButton bAb3 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb3.setText("Fire Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -95,7 +98,7 @@ public class AbilitiesScreen extends BaseScreen {
             bAb3.setText("Wave");
         }
 
-        TextButton bAb4 = new TextButton("", game.getSkin());
+        TextButton bAb4 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Fire Sword");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -332,9 +335,9 @@ public class AbilitiesScreen extends BaseScreen {
         });
 
         // table buttons
-        TextButton bReturn = new TextButton("Return", game.getSkin());
-        TextButton bLeftArrow = new TextButton("<-", game.getSkin());
-        TextButton bRightArrow = new TextButton("->", game.getSkin());
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
+        TextButton bLeftArrow = new TextButton("<-", Assets.getSkin());
+        TextButton bRightArrow = new TextButton("->", Assets.getSkin());
 
         // table for return
         Table table = new Table();
@@ -393,9 +396,9 @@ public class AbilitiesScreen extends BaseScreen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        game.getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        Assets.getFont().getData().setScale(4); //Changes font size.
+        Assets.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
         game.getBatch().end();
 
         game.getStage().act();

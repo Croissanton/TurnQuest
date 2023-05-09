@@ -1,7 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.*;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.InformationDialog;
 import com.gdx.turnquest.entities.Player;
 
@@ -29,7 +29,9 @@ public class ShopScreen extends BaseScreen {
     public ShopScreen(final TurnQuest game) {
         super(game);
         game.setStage(new Stage(getViewport()));
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        Assets.loadFor(ShopScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
 
         // Load inventory
         shopItems = new Hashtable<>();
@@ -40,12 +42,12 @@ public class ShopScreen extends BaseScreen {
         setFirstRow(firstTable);
 
         // Create the table to hold the items
-        Table descriptionTable = new Table(game.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
-        Table itemTable = new Table(game.getSkin());
+        Table descriptionTable = new Table(Assets.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
+        Table itemTable = new Table(Assets.getSkin());
         setItemTable(itemTable, descriptionTable);
 
         // Create a scroll pane to hold the item table
-        ScrollPane scrollPane = new ScrollPane(itemTable, game.getSkin());
+        ScrollPane scrollPane = new ScrollPane(itemTable, Assets.getSkin());
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setSmoothScrolling(true);
 
@@ -57,7 +59,7 @@ public class ShopScreen extends BaseScreen {
         setRightTable(rightTable, descriptionTable);
 
         // Create root table that combains all the tables
-        Table rootTable = new Table(game.getSkin());
+        Table rootTable = new Table(Assets.getSkin());
         setRootTable(rootTable, firstTable, scrollPane, rightTable);
         game.getStage().addActor(rootTable);
     }
@@ -71,7 +73,7 @@ public class ShopScreen extends BaseScreen {
         private void setDescriptionLabel(Table descriptionTable)
     {
         // Create stats description table
-        Label label = new Label("Click on the image to show statistics of the item", game.getSkin());
+        Label label = new Label("Click on the image to show statistics of the item", Assets.getSkin());
         label.setFontScale(1.5f);
         label.setWrap(true);
         label.setAlignment(Align.center);
@@ -91,7 +93,7 @@ public class ShopScreen extends BaseScreen {
 
         rootTable.setFillParent(true);
         rootTable.add(firstTable).left().padLeft(200f);
-        Label statsText  = new Label("Statistics", game.getSkin());
+        Label statsText  = new Label("Statistics", Assets.getSkin());
         statsText.setFontScale(2.4f);
         rootTable.add(statsText).expandX().align(Align.center).colspan(5);
         rootTable.row();
@@ -108,25 +110,25 @@ public class ShopScreen extends BaseScreen {
         firstTable.columnDefaults(2).padRight((float) CellWidth / 2).width(CellWidth);
         firstTable.columnDefaults(3).padRight((float) CellWidth / 2).width(CellWidth);
 
-        Label nameLabel = new Label("Name", game.getSkin());
+        Label nameLabel = new Label("Name", Assets.getSkin());
         nameLabel.setFontScale(1.6f);
         firstTable.add(nameLabel);
 
-        Label imageLable = new Label("Image", game.getSkin());
+        Label imageLable = new Label("Image", Assets.getSkin());
         imageLable.setFontScale(1.6f);
         firstTable.add(imageLable);
 
-        Label priceLabel = new Label("Price", game.getSkin());
+        Label priceLabel = new Label("Price", Assets.getSkin());
         priceLabel.setFontScale(1.6f);
         priceLabel.setAlignment(Align.center);
         firstTable.add(priceLabel);
 
-        Label buyLabel = new Label("Buy", game.getSkin());
+        Label buyLabel = new Label("Buy", Assets.getSkin());
         buyLabel.setFontScale(1.6f);
         buyLabel.setAlignment(Align.center);
         firstTable.add(buyLabel);
 
-        Label sellLabel = new Label("Sell", game.getSkin());
+        Label sellLabel = new Label("Sell", Assets.getSkin());
         sellLabel.setFontScale(1.4f);
         sellLabel.setAlignment(Align.center);
         firstTable.add(sellLabel);
@@ -134,7 +136,7 @@ public class ShopScreen extends BaseScreen {
 
     public TextButton createBackButton()
     {
-        TextButton backButton = new TextButton("Return", game.getSkin());
+        TextButton backButton = new TextButton("Return", Assets.getSkin());
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -168,10 +170,10 @@ public class ShopScreen extends BaseScreen {
 
             // Create label for item price
 
-            Label priceLabel = new Label(price, game.getSkin());
+            Label priceLabel = new Label(price, Assets.getSkin());
             priceLabel.setAlignment(Align.center);
             priceLabel.setFontScale(1.2f);
-            Label nameLabel = new Label(name, game.getSkin());
+            Label nameLabel = new Label(name, Assets.getSkin());
             nameLabel.setFontScale(1.2f);
 
             // Create image button
@@ -193,7 +195,7 @@ public class ShopScreen extends BaseScreen {
 
     private TextButton createBuyButton(String name, String price, Table descriptionTable)
     {
-        TextButton buyButton = new TextButton("Buy", game.getSkin());
+        TextButton buyButton = new TextButton("Buy", Assets.getSkin());
 
         buyButton.addListener(new ClickListener(){
             @Override
@@ -206,7 +208,7 @@ public class ShopScreen extends BaseScreen {
 
     private TextButton createSellButton(String name, String price, Table descriptionTable)
     {
-        TextButton sellButton = new TextButton("Sell", game.getSkin());
+        TextButton sellButton = new TextButton("Sell", Assets.getSkin());
 
         sellButton.addListener(new ClickListener(){
             @Override
@@ -243,19 +245,19 @@ public class ShopScreen extends BaseScreen {
     private void showStats(String name, String price, String attack, String defence, Table descriptionTable)
     {
         descriptionTable.clear();
-        Label labelName = new Label(name, game.getSkin());
+        Label labelName = new Label(name, Assets.getSkin());
         labelName.setFontScale(2.5f);
         descriptionTable.add(labelName).align(Align.top).padTop(60f).fill().row();
 
-        Label priceLabel = new Label("Price " + price, game.getSkin());
+        Label priceLabel = new Label("Price " + price, Assets.getSkin());
         priceLabel.setFontScale(1.7f);
         descriptionTable.add(priceLabel).padTop(100f).row();
 
-        Label attackLabel = new Label("Attack " + attack, game.getSkin());
+        Label attackLabel = new Label("Attack " + attack, Assets.getSkin());
         attackLabel.setFontScale(1.7f);
         descriptionTable.add(attackLabel).padTop(30f).row();
 
-        Label defenceLable = new Label("Defence " + defence, game.getSkin());
+        Label defenceLable = new Label("Defence " + defence, Assets.getSkin());
         defenceLable.setFontScale(1.7f);
         descriptionTable.add(defenceLable).padTop(30f).padBottom(100f);
     }
@@ -296,7 +298,7 @@ public class ShopScreen extends BaseScreen {
 
     private void shoInformationDialog(String title, String message)
     {
-        InformationDialog dialog = new InformationDialog(title, message, game.getSkin());
+        InformationDialog dialog = new InformationDialog(title, message, Assets.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }
@@ -334,7 +336,7 @@ public class ShopScreen extends BaseScreen {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1);
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
         game.getBatch().end();
 
         game.getStage().act();

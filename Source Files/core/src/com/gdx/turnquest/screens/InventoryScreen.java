@@ -17,27 +17,28 @@ import static com.gdx.turnquest.TurnQuest.*;
 public class InventoryScreen extends BaseScreen {
     private ObjectMap<String, Integer> inventory = new ObjectMap<String, Integer>();
     private Player player;
-    private static final int CellWidth=100;
-    private static final int CellHeight=80;
+    private static final int CELL_WIDTH =100;
+    private static final int CELL_HEIGHT =80;
 
     public InventoryScreen(final TurnQuest game) {
         super(game);
         player = game.getCurrentPlayer();
+        Assets.loadFor(InventoryScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG));
 
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
-        Image backgroundImage = new Image(game.getBackgroundTexture());
+        Image backgroundImage = new Image(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG));
         backgroundImage.setSize(getVirtualWidth(), getVirtualHeight());
         stage.addActor(backgroundImage);
 
-        Label inventoryLabel = new Label("Inventory", game.getSkin());
+        Label inventoryLabel = new Label("Inventory", Assets.getSkin());
         inventoryLabel.setFontScale(2f);
 
         // table buttons
-        TextButton bReturn = new TextButton("Return", game.getSkin());
-        TextButton bLeftArrow = new TextButton("<-", game.getSkin());
-        TextButton bRightArrow = new TextButton("->", game.getSkin());
-        TextButton bInventory = new TextButton("Inventory", game.getSkin());
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
+        TextButton bLeftArrow = new TextButton("<-", Assets.getSkin());
+        TextButton bRightArrow = new TextButton("->", Assets.getSkin());
+        TextButton bInventory = new TextButton("Inventory", Assets.getSkin());
 
         // table for return
         Table table = new Table();
@@ -119,12 +120,12 @@ public class InventoryScreen extends BaseScreen {
 
             inventory = player.getInventory();
 
-            table.defaults().pad(30).width(CellWidth).height(CellHeight);
-            table.columnDefaults(0).align(Align.center).width(CellWidth);
-            table.columnDefaults(1).width(CellWidth);
-            table.columnDefaults(2).width(CellWidth);
-            table.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
-            table.columnDefaults(4).padRight((float) CellWidth / 2).width(CellWidth);
+            table.defaults().pad(30).width(CELL_WIDTH).height(CELL_HEIGHT);
+            table.columnDefaults(0).align(Align.center).width(CELL_WIDTH);
+            table.columnDefaults(1).width(CELL_WIDTH);
+            table.columnDefaults(2).width(CELL_WIDTH);
+            table.columnDefaults(3).padLeft(50).padRight((float) CELL_WIDTH / 2).width(CELL_WIDTH);
+            table.columnDefaults(4).padRight((float) CELL_WIDTH / 2).width(CELL_WIDTH);
 
             String jsonString = Gdx.files.internal("../Data/items.json").readString();
 
@@ -169,7 +170,7 @@ public class InventoryScreen extends BaseScreen {
 
             TextureRegion itemRegion = new TextureRegion(itemTexture, itemTexture.getWidth(), itemTexture.getHeight());
             TextureRegionDrawable drawable = new TextureRegionDrawable(itemRegion);
-            drawable.setMinSize(CellWidth, CellHeight);
+            drawable.setMinSize(CELL_WIDTH, CELL_HEIGHT);
 
             //create button with item image
             ImageButton itemButton = new ImageButton(drawable);
@@ -187,19 +188,19 @@ public class InventoryScreen extends BaseScreen {
         private void showStats(String name, String price, String attack, String defence, Table descriptionTable)
         {
             descriptionTable.clear();
-            Label labelName = new Label(name, game.getSkin());
+            Label labelName = new Label(name, Assets.getSkin());
             labelName.setFontScale(2.5f);
             descriptionTable.add(labelName).align(Align.top).padTop(60f).fill().row();
 
-            Label priceLabel = new Label("Price " + price, game.getSkin());
+            Label priceLabel = new Label("Price " + price, Assets.getSkin());
             priceLabel.setFontScale(1.7f);
             descriptionTable.add(priceLabel).padTop(100f).row();
 
-            Label attackLabel = new Label("Attack " + attack, game.getSkin());
+            Label attackLabel = new Label("Attack " + attack, Assets.getSkin());
             attackLabel.setFontScale(1.7f);
             descriptionTable.add(attackLabel).padTop(30f).row();
 
-            Label defenceLable = new Label("Defence " + defence, game.getSkin());
+            Label defenceLable = new Label("Defence " + defence, Assets.getSkin());
             defenceLable.setFontScale(1.7f);
             descriptionTable.add(defenceLable).padTop(30f).padBottom(100f);
         }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
+import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.logic.CombatLogic;
 import com.gdx.turnquest.screens.CombatScreen;
@@ -19,7 +21,7 @@ public class AbilitiesDialog extends Dialog {
 
         // buttons
         // abilities buttons
-        TextButton bAb1 = new TextButton("", game.getSkin());
+        TextButton bAb1 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("Pierce");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -28,7 +30,7 @@ public class AbilitiesDialog extends Dialog {
             bAb1.setText("Critical");
         }
 
-        TextButton bAb2 = new TextButton("", game.getSkin());
+        TextButton bAb2 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb2.setText("Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -37,7 +39,7 @@ public class AbilitiesDialog extends Dialog {
             bAb2.setText("Water Stab");
         }
 
-        TextButton bAb3 = new TextButton("", game.getSkin());
+        TextButton bAb3 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb3.setText("Fire Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -46,7 +48,7 @@ public class AbilitiesDialog extends Dialog {
             bAb3.setText("Wave");
         }
 
-        TextButton bAb4 = new TextButton("", game.getSkin());
+        TextButton bAb4 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Fire Sword");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {

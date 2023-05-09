@@ -3,22 +3,17 @@ package com.gdx.turnquest;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.turnquest.dialogs.PreferencesDialog;
 import com.gdx.turnquest.entities.Player;
-import com.gdx.turnquest.screens.CombatScreen;
 import com.gdx.turnquest.screens.MainMenuScreen;
+import com.gdx.turnquest.assets.Assets;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -28,15 +23,9 @@ public class TurnQuest extends Game {
 
 	private SpriteBatch batch;
 
-	private BitmapFont font;
-
-	private AssetManager manager;
-
 	private static int generalVolume = 50;
 
 	private static Graphics.DisplayMode dm;
-
-	private Texture backgroundTexture;
 
 	private static OrthographicCamera camera;
 
@@ -52,14 +41,10 @@ public class TurnQuest extends Game {
 	}
 
 	public void create() {
+		Assets.load();
+		Assets.ASSET_MANAGER.finishLoading();
+		Assets.adjustTitleFont(25);
 		batch = new SpriteBatch();
-		font = new BitmapFont(); // use libGDX's default Arial font
-		manager = new AssetManager();
-		backgroundTexture = new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png"));
-		AssetDescriptor<Skin> skinAssetDescriptor = new AssetDescriptor<>("pixthulhu/skin/pixthulhu-ui.json", Skin.class);
-		manager.load(skinAssetDescriptor);
-		manager.finishLoading();
-		skin = manager.get(skinAssetDescriptor);
 		camera = new OrthographicCamera();
 		setDisplayMode(Gdx.graphics.getDisplayMode());
 		getCamera().setToOrtho(false, getVirtualWidth(), getVirtualHeight());
@@ -69,7 +54,8 @@ public class TurnQuest extends Game {
 	}
 
 	public void dispose() {
-		manager.dispose();
+		super.dispose();
+		Assets.dispose();
 	}
 
 	public static int getGeneralVolume(){
@@ -100,17 +86,6 @@ public class TurnQuest extends Game {
 		return batch;
 	}
 
-	public BitmapFont getFont(){
-		return font;
-	}
-
-	public Texture getBackgroundTexture() {
-		return backgroundTexture;
-	}
-
-	public void setBackgroundTexture(Texture backgroundTexture) {
-		backgroundTexture.load(backgroundTexture.getTextureData());
-	}
 
 	public static OrthographicCamera getCamera() {
 		return camera;
@@ -124,9 +99,7 @@ public class TurnQuest extends Game {
 		this.stage = stage;
 	}
 
-	public Skin getSkin() {
-		return skin;
-	}
+
 	public static Viewport getViewport() {
 		return viewport;
 	}
@@ -162,7 +135,7 @@ public class TurnQuest extends Game {
 	public void showPreferencesDialog() {
 		PreferencesDialog dialog = new PreferencesDialog("Options", "", () -> {
 
-		}, getSkin());
+		}, Assets.getSkin());
 		dialog.setColor(Color.LIGHT_GRAY);
 		dialog.show(getStage());
 	}

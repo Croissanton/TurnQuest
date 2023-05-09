@@ -1,10 +1,9 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.dialogs.GameSelectionDialog;
 import static com.gdx.turnquest.TurnQuest.*;
@@ -20,14 +20,15 @@ public class MainMenuScreen extends BaseScreen {
 
     public MainMenuScreen(final TurnQuest game) {
         super(game);
-
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
+        Assets.loadFor(MainMenuScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
 
 
-        TextButton bStart = new TextButton("Start", game.getSkin());
-        TextButton bOptions = new TextButton("Options", game.getSkin());
-        TextButton bQuit = new TextButton("Quit", game.getSkin());
+        TextButton bStart = new TextButton("Start", Assets.getSkin());
+        TextButton bOptions = new TextButton("Options", Assets.getSkin());
+        TextButton bQuit = new TextButton("Quit", Assets.getSkin());
 
         //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
 
@@ -76,11 +77,13 @@ public class MainMenuScreen extends BaseScreen {
 
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
-
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        game.getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "Welcome to TurnQuest!", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(Assets.getTitleFont(), "Welcome to TurnQuest!");
+        Assets.getFont().getData().setScale(1.5f); //Changes font size.
+        Assets.getFont().draw(game.getBatch(), layout, getVirtualWidth()*0.5f - layout.width/2, getVirtualHeight()*0.85f);
         game.getBatch().end();
 
         game.getStage().act();
@@ -90,7 +93,7 @@ public class MainMenuScreen extends BaseScreen {
     }
 
     private void showQuitConfirmationDialog() {
-        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", () -> Gdx.app.exit(), game.getSkin());
+        ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to quit?", () -> Gdx.app.exit(), Assets.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }
@@ -98,7 +101,7 @@ public class MainMenuScreen extends BaseScreen {
     private void showGameSelectionDialog() {
         GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", () -> {
             // Handle login here
-        }, game.getSkin(), game);
+        }, Assets.getSkin(), game);
         dialog.show(game.getStage());
     }
 }

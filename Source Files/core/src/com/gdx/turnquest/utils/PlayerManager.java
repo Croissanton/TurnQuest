@@ -31,17 +31,11 @@ public class PlayerManager {
      * data map is created.
      */
 
-    @SuppressWarnings("unchecked")
-    public PlayerManager() {
+    public PlayerManager() throws IOException {
         json.setOutputType(JsonWriter.OutputType.json);
-        if(file.exists()) {
+        if(!file.file().createNewFile()) {
             playersData = json.fromJson(ObjectMap.class, Player.class, file.readString());
         } else {
-            try {
-                file.file().createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             playersData = new ObjectMap<>();
         }
     }

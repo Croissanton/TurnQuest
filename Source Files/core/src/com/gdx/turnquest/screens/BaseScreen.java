@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 
 import static com.gdx.turnquest.TurnQuest.*;
 import static com.gdx.turnquest.TurnQuest.getVirtualHeight;
@@ -18,6 +19,7 @@ public abstract class BaseScreen implements Screen {
     public BaseScreen(final TurnQuest game) {
         this.game = game;
         this.stage = game.getStage();
+        Assets.load();
     }
 
     protected abstract void refreshScreen();
