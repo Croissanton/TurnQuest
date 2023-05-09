@@ -15,7 +15,7 @@ import com.gdx.turnquest.entities.Player;
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class InventoryScreen extends BaseScreen {
-    private ObjectMap<String, Integer> inventory = new ObjectMap<String, Integer>();
+    private ObjectMap<String, Integer> inventory = new ObjectMap<>();
     private Player player;
     private static final int CELL_WIDTH =100;
     private static final int CELL_HEIGHT =80;

@@ -163,27 +163,4 @@ public class SignUpDialog extends Dialog {
         // Set the preferred height of the dialog
         return 600f;
     }
-
-    private boolean freeUsername(String username) {
-        boolean free = true;
-        try {
-            File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                free = false;
-                file.createNewFile();
-            } else {
-                //search the json dictionary for the username
-                JSONParser parser = new JSONParser();
-                JSONObject object = (JSONObject) parser.parse(new FileReader(FILE_PATH));
-                if (object.containsKey(username)) free = false;
-            }
-        } catch (IOException e) {
-            System.err.println("ERROR: no text written");
-            free = false;
-        } catch (ParseException e) {
-            System.err.print("ERROR: could not parse JSON file");
-            free = false;
-        }
-        return free;
-    }
 }
