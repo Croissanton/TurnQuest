@@ -18,8 +18,11 @@ import com.gdx.turnquest.assets.Assets;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Stack;
 
 public class TurnQuest extends Game {
+
+	private Stack<Screen> screenStack = new Stack<>();
 
 	private SpriteBatch batch;
 
@@ -31,10 +34,27 @@ public class TurnQuest extends Game {
 
 	private Stage stage;
 
-	private Skin skin;
-
 	private static Viewport viewport;
+
 	private Player player;
+
+	public void pushScreen(Screen screen) {
+		if (screen != null) {
+			screenStack.push(screen);
+			setScreen(screen);
+		} else {
+			Gdx.app.log("TurnQuest", "Screen must not be null");
+		}
+	}
+
+	public void popScreen() {
+		if (!screenStack.isEmpty()) {
+			screenStack.pop();
+			if (!screenStack.isEmpty()) {
+				setScreen(screenStack.peek());
+			}
+		}
+	}
 
 	public void render() {
 		super.render(); // important!
@@ -50,7 +70,7 @@ public class TurnQuest extends Game {
 		getCamera().setToOrtho(false, getVirtualWidth(), getVirtualHeight());
 		setViewport(new FitViewport(getVirtualWidth(), getVirtualHeight(), getCamera()));
 
-		this.setScreen(new MainMenuScreen(this));
+		pushScreen(new MainMenuScreen(this));
 	}
 
 	public void dispose() {

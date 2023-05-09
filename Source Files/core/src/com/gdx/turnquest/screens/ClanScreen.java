@@ -23,7 +23,7 @@ public class ClanScreen extends BaseScreen {
         game.setStage(new Stage(getViewport()));
 
         // return button
-        TextButton bReturn = new TextButton("Return", game.getSkin());
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
 
         //create the table
         Table table = new Table();
@@ -39,7 +39,7 @@ public class ClanScreen extends BaseScreen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.pushScreen(new GameScreen(game));
             }
         });
 
@@ -50,7 +50,7 @@ public class ClanScreen extends BaseScreen {
         @Override
         protected void refreshScreen() {
             dispose();
-            game.setScreen(new ClanScreen(game));
+            game.pushScreen(new ClanScreen(game));
         }
 
     @Override

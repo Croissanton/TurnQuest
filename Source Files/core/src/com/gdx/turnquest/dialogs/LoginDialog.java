@@ -90,7 +90,7 @@ public class LoginDialog extends Dialog {
                     Player player = playerManager.getPlayer(username);
                         game.setCurrentPlayer(player);
                         hide();
-                        game.setScreen(new GameScreen(game));
+                        game.pushScreen(new GameScreen(game));
                     }
 
             }

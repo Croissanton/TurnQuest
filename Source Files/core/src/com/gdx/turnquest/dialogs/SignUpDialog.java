@@ -136,7 +136,7 @@ public class SignUpDialog extends Dialog {
                     // hide the sign up dialog and go to game screen
                     success = true;
                     hide();
-                    game.setScreen(new GameScreen(game));
+                    game.pushScreen(new GameScreen(game));
                 }
             }
         } else {

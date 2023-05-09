@@ -67,7 +67,7 @@ public class ShopScreen extends BaseScreen {
         @Override
         protected void refreshScreen() {
             dispose();
-            game.setScreen(new ShopScreen(game));
+            game.pushScreen(new ShopScreen(game));
         }
 
         private void setDescriptionLabel(Table descriptionTable)
@@ -140,7 +140,7 @@ public class ShopScreen extends BaseScreen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.pushScreen(new GameScreen(game));
             }
         });
         return backButton;

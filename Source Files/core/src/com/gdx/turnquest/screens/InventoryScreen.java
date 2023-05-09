@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.*;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
@@ -65,14 +65,14 @@ public class InventoryScreen extends BaseScreen {
         bRightArrow.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game));
+                game.pushScreen(new AbilitiesScreen(game));
             }
         });
 
         bLeftArrow.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new AbilitiesScreen(game));
+                game.pushScreen(new AbilitiesScreen(game));
             }
         });
 
@@ -80,7 +80,7 @@ public class InventoryScreen extends BaseScreen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
         bInventory.addListener(new ClickListener() {
@@ -96,7 +96,7 @@ public class InventoryScreen extends BaseScreen {
     @Override
     protected void refreshScreen() {
         dispose();
-        game.setScreen(new InventoryScreen(game));
+        game.pushScreen(new InventoryScreen(game));
     }
 
 

@@ -1,8 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -359,14 +357,14 @@ public class AbilitiesScreen extends BaseScreen {
         bRightArrow.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new InventoryScreen(game));
+                game.pushScreen(new InventoryScreen(game));
             }
         });
 
         bLeftArrow.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new InventoryScreen(game));
+                game.pushScreen(new InventoryScreen(game));
             }
         });
 
@@ -374,7 +372,7 @@ public class AbilitiesScreen extends BaseScreen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
 
@@ -384,7 +382,7 @@ public class AbilitiesScreen extends BaseScreen {
     @Override
     protected void refreshScreen() {
         dispose();
-        game.setScreen(new AbilitiesScreen(game));
+        game.pushScreen(new AbilitiesScreen(game));
     }
 
 

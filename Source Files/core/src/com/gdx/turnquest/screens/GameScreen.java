@@ -81,29 +81,29 @@ public class GameScreen extends BaseScreen {
         bPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MapScreen(game));
-                //game.setScreen(new CharactersScreen(game));
+                game.pushScreen(new MapScreen(game));
+                //game.pushScreen(new CharactersScreen(game));
             }
         });
 
         bInventory.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new InventoryScreen(game));
+                game.pushScreen(new InventoryScreen(game));
             }
         });
 
         bClan.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ClanScreen(game));
+                game.pushScreen(new ClanScreen(game));
             }
         });
 
         bShop.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ShopScreen(game));
+                game.pushScreen(new ShopScreen(game));
             }
         });
 
@@ -127,7 +127,7 @@ public class GameScreen extends BaseScreen {
     @Override
     protected void refreshScreen() {
         dispose();
-        game.setScreen(new GameScreen(game));
+        game.pushScreen(new GameScreen(game));
     }
 
     @Override
@@ -156,7 +156,7 @@ public class GameScreen extends BaseScreen {
 
     private void showQuitConfirmationDialog() {
         ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", () -> game.setScreen(new MainMenuScreen(game)), game.getSkin());
+                "You will have to enter your credentials again.", () -> game.pushScreen(new MainMenuScreen(game)), Assets.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }

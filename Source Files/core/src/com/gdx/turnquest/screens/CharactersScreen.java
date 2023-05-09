@@ -50,7 +50,7 @@ public class CharactersScreen extends BaseScreen{
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
 
@@ -60,7 +60,7 @@ public class CharactersScreen extends BaseScreen{
     @Override
     protected void refreshScreen() {
         dispose();
-        game.setScreen(new CharactersScreen(game));
+        game.pushScreen(new CharactersScreen(game));
     }
 
     @Override

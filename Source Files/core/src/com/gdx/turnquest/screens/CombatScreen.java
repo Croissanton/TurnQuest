@@ -195,7 +195,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(CombatLogic.run(player, enemy)){
-                    game.setScreen(new MapScreen(game));
+                    game.pushScreen(new MapScreen(game));
                 }
             }
         });
@@ -204,7 +204,7 @@ public class CombatScreen extends BaseScreen {
     @Override
     protected void refreshScreen() {
         dispose();
-        game.setScreen(new CombatScreen(game, boss));
+        game.pushScreen(new CombatScreen(game, boss));
     }
 
 
