@@ -3,6 +3,7 @@ package com.gdx.turnquest;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.turnquest.dialogs.PreferencesDialog;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.screens.CombatScreen;
 import com.gdx.turnquest.screens.MainMenuScreen;
 
 import java.io.IOException;

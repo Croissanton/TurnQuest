@@ -16,14 +16,10 @@ import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.dialogs.GameSelectionDialog;
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class MainMenuScreen implements Screen {
-
-
-    private final TurnQuest game;
-
+public class MainMenuScreen extends BaseScreen {
 
     public MainMenuScreen(final TurnQuest game) {
-        this.game = game;
+        super(game);
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
         game.setStage(new Stage(getViewport()));
@@ -68,9 +64,11 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(game.getStage());
+    protected void refreshScreen() {
+        dispose();
+        game.setScreen(new MainMenuScreen(game));
     }
+
 
     @Override
     public void render(float delta) {
@@ -88,34 +86,7 @@ public class MainMenuScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
+        handleInput();
     }
 
     private void showQuitConfirmationDialog() {

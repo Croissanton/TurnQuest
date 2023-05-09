@@ -16,12 +16,11 @@ import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class CharactersScreen implements Screen{
+public class CharactersScreen extends BaseScreen{
 
     private static final int FRAME_COLS = 17;
     private static final int FRAME_ROWS = 7;
     private static final float FRAME_DURATION = 0.1f;   //duration of each frame in seconds
-    final TurnQuest game;
 
     private Texture spriteSheet;
     private TextureRegion[] frames;
@@ -29,7 +28,7 @@ public class CharactersScreen implements Screen{
     private float stateTime;
 
     public CharactersScreen(final TurnQuest game) {
-        this.game = game;
+        super(game);
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -57,7 +56,13 @@ public class CharactersScreen implements Screen{
         getViewport().apply();
     }
 
-        @Override
+    @Override
+    protected void refreshScreen() {
+        dispose();
+        game.setScreen(new CharactersScreen(game));
+    }
+
+    @Override
     public void show() {
         Gdx.input.setInputProcessor(game.getStage());
 
@@ -110,33 +115,7 @@ public class CharactersScreen implements Screen{
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
+        handleInput();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
-    }
 }

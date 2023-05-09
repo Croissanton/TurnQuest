@@ -15,9 +15,7 @@ import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class AbilitiesScreen implements Screen {
-
-    final TurnQuest game;
+public class AbilitiesScreen extends BaseScreen {
 
     // set all buttons to not clicked, need to be global
     boolean clicked1 = false;
@@ -32,7 +30,7 @@ public class AbilitiesScreen implements Screen {
     static int times4 = 0;
 
     public AbilitiesScreen (final TurnQuest game) {
-        this.game = game;
+        super(game);
         Player player = game.getCurrentPlayer();
 
         // load player's abiities level
@@ -380,9 +378,11 @@ public class AbilitiesScreen implements Screen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(game.getStage());
+    protected void refreshScreen() {
+        dispose();
+        game.setScreen(new AbilitiesScreen(game));
     }
+
 
     @Override
     public void render(float v) {
@@ -400,35 +400,9 @@ public class AbilitiesScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
+        handleInput();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
-    }
 
     public static int getTimes1() {return times1;}
 

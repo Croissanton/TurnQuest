@@ -92,7 +92,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 10);
+        if (attacker.getMP() >= 10) {
+            attacker.setMP(attacker.getMP() - 10);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void fireSwordAttack(Character attacker, Character defender) {
@@ -113,8 +117,11 @@ public class CombatLogic {
         if(defender.getHP() < 0){
             defender.setHP(0);
         }
-
-        attacker.setMP(attacker.getMP() - 15);
+        if (attacker.getMP() >= 15) {
+            attacker.setMP(attacker.getMP() - 15);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     // archer abilities
@@ -139,7 +146,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 5);
+        if (attacker.getMP() >= 5) {
+            attacker.setMP(attacker.getMP() - 5);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void poisonAttack(Character attacker, Character defender) {
@@ -162,7 +173,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 8);
+        if (attacker.getMP() >= 8) {
+            attacker.setMP(attacker.getMP() - 8);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void multipleAttack(Character attacker, Character defender) {
@@ -184,7 +199,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 10);
+        if (attacker.getMP() >= 10) {
+            attacker.setMP(attacker.getMP() - 10);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void rayAttack(Character attacker, Character defender) {
@@ -206,7 +225,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 15);
+        if (attacker.getMP() >= 15) {
+            attacker.setMP(attacker.getMP() - 15);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     // mage abilities
@@ -221,7 +244,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 5);
+        if (attacker.getMP() >= 5) {
+            attacker.setMP(attacker.getMP() - 5);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void waterStabAttack(Character attacker, Character defender) {
@@ -254,7 +281,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 8);
+        if (attacker.getMP() >= 8) {
+            attacker.setMP(attacker.getMP() - 8);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void waveAttack(Character attacker, Character defender) {
@@ -276,7 +307,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 10);
+        if (attacker.getMP() >= 10) {
+            attacker.setMP(attacker.getMP() - 10);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void tearDownAttack(Character attacker, Character defender) {
@@ -309,7 +344,11 @@ public class CombatLogic {
             defender.setHP(0);
         }
 
-        attacker.setMP(attacker.getMP() - 15);
+        if (attacker.getMP() >= 15) {
+            attacker.setMP(attacker.getMP() - 15);
+        } else {
+            attacker.setMP(0);
+        }
     }
 
     public static void heal(Character healer, Character target) {

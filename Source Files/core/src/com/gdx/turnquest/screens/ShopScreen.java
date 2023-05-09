@@ -2,7 +2,6 @@ package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,15 +21,13 @@ import java.util.Map;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class ShopScreen implements Screen {
-    final TurnQuest game;
+public class ShopScreen extends BaseScreen {
     private static final int CellWidth=100;
     private static final int CellHeight=80;
     static Hashtable<String, Hashtable<String, String>> shopItems;
 
     public ShopScreen(final TurnQuest game) {
-
-        this.game = game;
+        super(game);
         game.setStage(new Stage(getViewport()));
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
@@ -53,7 +50,7 @@ public class ShopScreen implements Screen {
         scrollPane.setSmoothScrolling(true);
 
         // Setting default description label
-        setDescritpionLabel(descriptionTable);
+        setDescriptionLabel(descriptionTable);
 
         // Create right table for descriptions of the items
         Table rightTable = new Table();
@@ -65,9 +62,15 @@ public class ShopScreen implements Screen {
         game.getStage().addActor(rootTable);
     }
 
-    private void setDescritpionLabel(Table descriptionTable)
+        @Override
+        protected void refreshScreen() {
+            dispose();
+            game.setScreen(new ShopScreen(game));
+        }
+
+        private void setDescriptionLabel(Table descriptionTable)
     {
-        // Create stats desription table
+        // Create stats description table
         Label label = new Label("Click on the image to show statistics of the item", game.getSkin());
         label.setFontScale(1.5f);
         label.setWrap(true);
@@ -325,10 +328,6 @@ public class ShopScreen implements Screen {
         ShopScreen.shopItems.put(name, stats);
     }
 
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(game.getStage());
-    }
 
     @Override
     public void render(float delta) {
@@ -341,34 +340,6 @@ public class ShopScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        TurnQuest.getViewport().update(width, height, true);
-    }
-
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
+        handleInput();
     }
 }

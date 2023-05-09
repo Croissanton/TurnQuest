@@ -24,8 +24,7 @@ import com.gdx.turnquest.logic.CombatLogic;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class CombatScreen implements Screen {
-    final TurnQuest game;
+public class CombatScreen extends BaseScreen {
     private final Player player;
     private static Enemy enemy = null;
     private Texture playerTexture;
@@ -48,7 +47,8 @@ public class CombatScreen implements Screen {
     ProgressBar enemyMPBar;
 
     public CombatScreen(final TurnQuest game) {
-        this.game = game;
+        super(game);
+
         player = game.getCurrentPlayer();
         enemy = new EnemyManager().getEnemy("enemy1_01");
         maxPlayerHP = player.getHP();
@@ -193,9 +193,11 @@ public class CombatScreen implements Screen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(game.getStage());
+    protected void refreshScreen() {
+        dispose();
+        game.setScreen(new CombatScreen(game));
     }
+
 
     @Override
     public void render(float delta) {
@@ -222,34 +224,9 @@ public class CombatScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F5)) {
-            dispose();
-            game.setScreen(new CombatScreen(game));
-        }
+        handleInput();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
 
     @Override
     public void dispose() {

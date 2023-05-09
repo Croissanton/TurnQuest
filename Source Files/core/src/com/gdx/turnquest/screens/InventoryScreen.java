@@ -1,17 +1,11 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.*;
@@ -19,21 +13,25 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
-import static com.gdx.turnquest.screens.ShopScreen.CellHeight;
-import static com.gdx.turnquest.screens.ShopScreen.CellWidth;
 
-public class InventoryScreen implements Screen {
-    private final TurnQuest game;
+public class InventoryScreen extends BaseScreen {
     private ObjectMap<String, Integer> inventory = new ObjectMap<String, Integer>();
     private Player player;
+    private static final int CellWidth=100;
+    private static final int CellHeight=80;
 
     public InventoryScreen(final TurnQuest game) {
-        this.game = game;
+        super(game);
         player = game.getCurrentPlayer();
 
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
-        game.setStage(new Stage(getViewport()));
+        Image backgroundImage = new Image(game.getBackgroundTexture());
+        backgroundImage.setSize(getVirtualWidth(), getVirtualHeight());
+        stage.addActor(backgroundImage);
+
+        Label inventoryLabel = new Label("Inventory", game.getSkin());
+        inventoryLabel.setFontScale(2f);
 
         // table buttons
         TextButton bReturn = new TextButton("Return", game.getSkin());
@@ -47,6 +45,9 @@ public class InventoryScreen implements Screen {
         table.defaults().expand().pad(50);
         table.setFillParent(true);
 
+        table.add(inventoryLabel).colspan(3).padBottom(40);
+        table.row();
+
         // order the buttons of the table
         table.add(bLeftArrow).left();
         table.add();
@@ -58,8 +59,6 @@ public class InventoryScreen implements Screen {
         table.add(bInventory).right().center();
 
 
-
-        game.getStage().addActor(table);
 
         // if an arrow is clicked, go to abilities screen
         bRightArrow.addListener(new ClickListener() {
@@ -89,61 +88,29 @@ public class InventoryScreen implements Screen {
             ReadPlayerInventory();
         }
     });
+
+        game.getStage().addActor(table);
 }
 
+    @Override
+    protected void refreshScreen() {
+        dispose();
+        game.setScreen(new InventoryScreen(game));
+    }
 
-        @Override
-        public void show () {
-            Gdx.input.setInputProcessor(game.getStage());
 
-        }
-
-        @Override
+    @Override
         public void render ( float delta){
             ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
             getCamera().update();
             game.getBatch().setProjectionMatrix(getCamera().combined);
 
-            game.getBatch().begin();
-            game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-            //game.getFont().getData().setScale(4); //Changes font size.
-            game.getFont().draw(game.getBatch(), "Inventory", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
-
-            game.getStage().draw();
             game.getStage().act();
             game.getStage().draw();
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-                toggleFullscreen();
-            }
+            handleInput();
         }
-
-        @Override
-        public void resize ( int width, int height){
-            getViewport().update(width, height, true);
-        }
-
-        @Override
-        public void pause () {
-
-        }
-
-        @Override
-        public void resume () {
-
-        }
-
-        @Override
-        public void hide () {
-
-        }
-
-        @Override
-        public void dispose () {
-            game.getStage().dispose();
-        }
-
 
         private Table ReadPlayerInventory () {
             Table table = new Table();

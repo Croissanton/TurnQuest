@@ -14,12 +14,10 @@ import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class ClanScreen implements Screen {
-    final TurnQuest game;
+public class ClanScreen extends BaseScreen {
 
     public ClanScreen(final TurnQuest game) {
-        this.game = game;
-
+        super(game);
         game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
 
         game.setStage(new Stage(getViewport()));
@@ -49,9 +47,11 @@ public class ClanScreen implements Screen {
         getViewport().apply();
     }
 
-    @Override
-    public void show() {Gdx.input.setInputProcessor(game.getStage());
-    }
+        @Override
+        protected void refreshScreen() {
+            dispose();
+            game.setScreen(new ClanScreen(game));
+        }
 
     @Override
     public void render(float delta) {
@@ -70,33 +70,6 @@ public class ClanScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
+        handleInput();
     }
 }

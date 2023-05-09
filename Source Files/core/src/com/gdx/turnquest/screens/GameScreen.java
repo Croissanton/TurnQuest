@@ -16,12 +16,11 @@ import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class GameScreen implements Screen {
-    final TurnQuest game;
+public class GameScreen extends BaseScreen {
     private Player player;
 
     public GameScreen(final TurnQuest game) {
-        this.game = game;
+        super(game);
         this.player = game.getCurrentPlayer();
 
         game.setStage(new Stage(getViewport()));
@@ -126,6 +125,12 @@ public class GameScreen implements Screen {
     }
 
     @Override
+    protected void refreshScreen() {
+        dispose();
+        game.setScreen(new GameScreen(game));
+    }
+
+    @Override
     public void show() {
 
     }
@@ -146,9 +151,7 @@ public class GameScreen implements Screen {
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
+        handleInput();
     }
 
     @Override
