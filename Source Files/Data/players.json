@@ -162,28 +162,6 @@
 	},
 	"playerName": "Login"
 },
-"Croissanton": {
-	"class": "com.gdx.turnquest.entities.Player",
-	"stats": {
-		"INT": 5,
-		"STR": 1,
-		"DEF": 1,
-		"LUK": 3,
-		"MP": 75,
-		"HP": 105,
-		"SPD": 3
-	},
-	"characterClass": "Mage",
-	"level": 1,
-	"inventory": {
-		"Wooden Staff": 1,
-		"Silk Robe": 1,
-		"Potion": 5,
-		"Ether": 5,
-		"Old Grimmorie": 1
-	},
-	"playerName": "Croissanton"
-},
 "TestingSavings": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -210,5 +188,29 @@
 	"loginEnergy": 1,
 	"gametimeZero": "17/04/2023 12:34:00",
 	"logintimeZero": "17/04/2023 12:34:00"
+},
+"Croissanton": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 35,
+		"STR": 9,
+		"DEF": 9,
+		"LUK": 18,
+		"MP": 450,
+		"HP": 630,
+		"SPD": 18
+	},
+	"characterClass": "Mage",
+	"gold": 40900,
+	"exp": 3598,
+	"level": 16,
+	"inventory": {
+		"Wooden Staff": 1,
+		"Silk Robe": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Old Grimmorie": 1
+	},
+	"playerName": "Croissanton"
 }
 }

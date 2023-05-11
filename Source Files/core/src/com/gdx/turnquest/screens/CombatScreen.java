@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
+import com.gdx.turnquest.dialogs.GameOverDialog;
+import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.utils.EnemyManager;
@@ -238,26 +240,6 @@ public class CombatScreen extends BaseScreen {
         enemyMPBar.setValue(enemy.getMP());
         playerSprite.draw(game.getBatch());
         enemySprite.draw(game.getBatch());
-        if(player.getHP() <= 0){
-            CombatLogic.defeat(player, enemy);
-            if(playerManager.savePlayer(player) == 0){
-                System.out.println("Player saved");
-            }
-            else{
-                System.out.println("Player not saved");
-            }
-            game.pushScreen(new MapScreen(game));
-        }
-        else if(enemy.getHP() <= 0){
-            CombatLogic.victory(player, enemy);
-            if(playerManager.savePlayer(player) == 0){
-                System.out.println("Player saved");
-            }
-            else{
-                System.out.println("Player not saved");
-            }
-            game.pushScreen(new MapScreen(game));
-        }
         game.getBatch().end();
 
         game.getStage().act();
@@ -276,7 +258,7 @@ public class CombatScreen extends BaseScreen {
 
     private void showAbilitiesDialog() {
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
-            // Handle login here
+            // Handle abilities here
         }, Assets.getSkin(), game);
         dialog.show(game.getStage());
     }

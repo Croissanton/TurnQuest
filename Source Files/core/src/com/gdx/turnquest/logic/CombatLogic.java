@@ -391,6 +391,6 @@ public class CombatLogic {
 
     public static void victory(Player player, Enemy enemy) {
         increaseEXP(player, enemy.getExp());
-        player.setGold(player.getGold() + enemy.getGold());
+        player.addGold(enemy.getGold());
     }
 }
