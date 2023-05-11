@@ -185,6 +185,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 CombatLogic.attack(player, enemy);
+                evaluateCombat();
             }
         });
         // do the same for the other buttons
@@ -192,6 +193,8 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showAbilitiesDialog();
+                //Fetch abilities and use them accordingly
+                evaluateCombat();
             }
         });
         itemButton.addListener(new ClickListener() {
@@ -201,6 +204,7 @@ public class CombatScreen extends BaseScreen {
                 //Display inventory
                 //Select item
                 //Use item with CombatLogic.useItem(player, itemID)
+                evaluateCombat();
             }
         });
         runButton.addListener(new ClickListener() {
@@ -209,6 +213,7 @@ public class CombatScreen extends BaseScreen {
                 if(CombatLogic.run(player, enemy)){
                     game.pushScreen(new MapScreen(game));
                 }
+                evaluateCombat();
             }
         });
     }
@@ -265,5 +270,30 @@ public class CombatScreen extends BaseScreen {
 
     public static Enemy getEnemy() {
         return enemy;
+    }
+
+    private void evaluateCombat(){
+        if(player.getHP() <= 0){
+            CombatLogic.defeat(player, enemy);
+            if(playerManager.savePlayer(player) == 0){
+                System.out.println("Player saved");
+            }
+            else{
+                System.out.println("Player not saved");
+            }
+            new GameOverDialog(game, Assets.getSkin());
+        }
+        else if(enemy.getHP() <= 0){
+            int level = player.getLevel();
+            CombatLogic.victory(player, enemy);
+            if(playerManager.savePlayer(player) == 0){
+                System.out.println("Player saved");
+            }
+            else{
+                System.out.println("Player not saved");
+            }
+            //create dialog that says you won and when ok is pressed, go back to map screen
+            new VictoryDialog(game, Assets.getSkin()).show(game.getStage());
+        }
     }
 }
