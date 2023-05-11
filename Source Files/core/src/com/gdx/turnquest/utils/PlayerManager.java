@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.*;
 import com.gdx.turnquest.entities.Player;
 import java.io.IOException;
 
+import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+
 /**
  *
  The PlayerManager class manages the data of players in the game. It stores and retrieves
@@ -68,7 +70,7 @@ public class PlayerManager {
             throw new IllegalArgumentException("Player already exists.");
         }
         playersData.put(player.getPlayerName(), player);
-        file.writeString(json.prettyPrint(playersData), false);
+        file.writeString(json.prettyPrint(player), false);
     }
 
     /**
@@ -78,6 +80,16 @@ public class PlayerManager {
      * @param username The username of the player to be removed.
      * @throws IllegalArgumentException If player data for the given username does not exist.
      */
+    public void savePlayer(Player player){
+        if(hasInternetConnection()) {
+            removePlayer(player.getPlayerName());
+            addPlayer(player);
+        }
+        else{
+            // wait and retry.
+        }
+    }
+
 
     public void removePlayer(String username) {
         if (!playersData.containsKey(username)) {
