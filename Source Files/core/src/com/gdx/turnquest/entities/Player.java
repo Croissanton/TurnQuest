@@ -275,4 +275,8 @@ public class Player extends Character {
     public int getAbility (int ability) {return abilities[ability];}
 
     public void increaseAbility (int ability) {abilities[ability]++;}
+
+    public void setGold(int i) {
+        gold = i;
+    }
 }

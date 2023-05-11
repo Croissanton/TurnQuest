@@ -30,8 +30,6 @@ public class MainMenuScreen extends BaseScreen {
         TextButton bOptions = new TextButton("Options", Assets.getSkin());
         TextButton bQuit = new TextButton("Quit", Assets.getSkin());
 
-        //I DON'T KNOW HOW TO CHANGE THE BUTTON SIZE :(
-
         bStart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

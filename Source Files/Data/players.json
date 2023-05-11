@@ -183,5 +183,32 @@
 		"Old Grimmorie": 1
 	},
 	"playerName": "Croissanton"
+},
+"TestingSavings": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 3,
+		"STR": 11,
+		"DEF": 11,
+		"LUK": 6,
+		"MP": 60,
+		"HP": 300,
+		"SPD": 3
+	},
+	"characterClass": "Warrior",
+	"gold": 900,
+	"exp": 499,
+	"level": 4,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "TestingSavings",
+	"loginEnergy": 1,
+	"gametimeZero": "17/04/2023 12:34:00",
+	"logintimeZero": "17/04/2023 12:34:00"
 }
 }

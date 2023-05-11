@@ -210,7 +210,7 @@ public class CombatLogic {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
-        if (critChance <= attacker.getLUK() + attacker.getSTR() * attacker.getAbility(3) * 0.05 - defender.getLUK()/2) {
+        if (critChance <= attacker.getLUK() + attacker.getSTR() * attacker.getAbility(3) * 0.05 - defender.getLUK()/2f) {
             damage = (int) (attacker.getSTR() * 1.5 * 2.5) - defender.getDEF()/2;
         }
         else{
@@ -383,5 +383,14 @@ public class CombatLogic {
         else{
             return false;
         }
+    }
+
+    public static void defeat(Player player, Enemy enemy) {
+        // YOU LOST :( Do whatever is necessary maybe game over screen or something.
+    }
+
+    public static void victory(Player player, Enemy enemy) {
+        increaseEXP(player, enemy.getExp());
+        player.setGold(player.getGold() + enemy.getGold());
     }
 }

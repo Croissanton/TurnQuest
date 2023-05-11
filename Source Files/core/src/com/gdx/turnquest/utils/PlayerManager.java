@@ -7,6 +7,7 @@ import com.gdx.turnquest.entities.Player;
 import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -70,9 +71,33 @@ public class PlayerManager {
             throw new IllegalArgumentException("Player already exists.");
         }
         playersData.put(player.getPlayerName(), player);
-        file.writeString(json.prettyPrint(player), false);
+        file.writeString(json.prettyPrint(playersData), false);
     }
 
+    /**
+     * Updates the player data for a given player data and writes the
+     * updated player data map to the JSON file.
+     *
+     * @param player The Player object representing the player to be added.
+     * @throws InterruptedException because of the sleep method.
+     */
+    public int savePlayer(Player player){
+        int cont = 0;
+        while(!hasInternetConnection()) {
+            if(cont == 5){
+                return -1; // ERROR, COULD NOT SAVE, SHOULD TREAT THIS.
+            }
+            try {
+                sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ++cont;
+        }
+        removePlayer(player.getPlayerName());
+        addPlayer(player);
+        return 0;
+    }
     /**
      * Removes the player data for a given username from the player data map and writes the
      * updated player data map to the JSON file.
@@ -80,17 +105,6 @@ public class PlayerManager {
      * @param username The username of the player to be removed.
      * @throws IllegalArgumentException If player data for the given username does not exist.
      */
-    public void savePlayer(Player player){
-        if(hasInternetConnection()) {
-            removePlayer(player.getPlayerName());
-            addPlayer(player);
-        }
-        else{
-            // wait and retry.
-        }
-    }
-
-
     public void removePlayer(String username) {
         if (!playersData.containsKey(username)) {
             throw new IllegalArgumentException("Player does not exist.");

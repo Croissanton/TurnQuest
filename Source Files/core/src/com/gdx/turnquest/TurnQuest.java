@@ -22,7 +22,7 @@ import java.util.Stack;
 
 public class TurnQuest extends Game {
 
-	private Stack<Screen> screenStack = new Stack<>();
+	private final Stack<Screen> screenStack = new Stack<>();
 
 	private SpriteBatch batch;
 

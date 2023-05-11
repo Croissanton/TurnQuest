@@ -17,6 +17,9 @@ import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.utils.EnemyManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -32,11 +35,13 @@ public class CombatScreen extends BaseScreen {
     private final Label enemyMPLabel;
     private final Label enemyHPLabel;
 
-    private int maxPlayerHP;
-    private int maxPlayerMP;
-    private int maxEnemyHP;
-    private int maxEnemyMP;
-    private boolean boss;
+    private PlayerManager playerManager;
+
+    private final int maxPlayerHP;
+    private final int maxPlayerMP;
+    private final int maxEnemyHP;
+    private final int maxEnemyMP;
+    private final boolean boss;
 
     ProgressBar playerHPBar;
     ProgressBar playerMPBar;
@@ -52,6 +57,11 @@ public class CombatScreen extends BaseScreen {
         this.boss = boss;
 
         player = game.getCurrentPlayer();
+        try {
+            playerManager = new PlayerManager();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         if (boss) {
             enemy = new EnemyManager().getEnemy("boss1");
         } else {
@@ -204,7 +214,7 @@ public class CombatScreen extends BaseScreen {
     @Override
     protected void refreshScreen() {
         dispose();
-        game.pushScreen(new CombatScreen(game, boss));
+            game.pushScreen(new CombatScreen(game, boss));
     }
 
 
@@ -228,6 +238,26 @@ public class CombatScreen extends BaseScreen {
         enemyMPBar.setValue(enemy.getMP());
         playerSprite.draw(game.getBatch());
         enemySprite.draw(game.getBatch());
+        if(player.getHP() <= 0){
+            CombatLogic.defeat(player, enemy);
+            if(playerManager.savePlayer(player) == 0){
+                System.out.println("Player saved");
+            }
+            else{
+                System.out.println("Player not saved");
+            }
+            game.pushScreen(new MapScreen(game));
+        }
+        else if(enemy.getHP() <= 0){
+            CombatLogic.victory(player, enemy);
+            if(playerManager.savePlayer(player) == 0){
+                System.out.println("Player saved");
+            }
+            else{
+                System.out.println("Player not saved");
+            }
+            game.pushScreen(new MapScreen(game));
+        }
         game.getBatch().end();
 
         game.getStage().act();
