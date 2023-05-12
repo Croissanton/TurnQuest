@@ -90,14 +90,7 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(0)) {
                     hide();
                 } else {
-                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.pierceAttack(player, CombatScreen.getEnemy());
-                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.rootAttack(player, CombatScreen.getEnemy());
-                    } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.criticalAttack(player, CombatScreen.getEnemy());
-                    }
-
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 0, 5);
                     hide();
                 }
             }
@@ -109,13 +102,7 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(1)) {
                     hide();
                 } else {
-                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.spinAttack(player, CombatScreen.getEnemy());
-                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.poisonAttack(player, CombatScreen.getEnemy());
-                    } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.waterStabAttack(player, CombatScreen.getEnemy());
-                    }
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 1, 8);
 
                     hide();
                 }
@@ -128,14 +115,7 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(2)) {
                     hide();
                 } else {
-                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.fireSpinAttack(player, CombatScreen.getEnemy());
-                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.multipleAttack(player, CombatScreen.getEnemy());
-                    } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.waveAttack(player, CombatScreen.getEnemy());
-                    }
-
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 2, 10);
                     hide();
                 }
             }
@@ -147,14 +127,7 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(3)) {
                     hide();
                 } else {
-                    if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.fireSwordAttack(player, CombatScreen.getEnemy());
-                    } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.rayAttack(player, CombatScreen.getEnemy());
-                    } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                        CombatLogic.tearDownAttack(player, CombatScreen.getEnemy());
-                    }
-
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 3, 15);
                     hide();
                 }
             }
