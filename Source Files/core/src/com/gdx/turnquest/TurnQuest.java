@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.turnquest.dialogs.PreferencesDialog;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.screens.BaseScreen;
 import com.gdx.turnquest.screens.MainMenuScreen;
 import com.gdx.turnquest.assets.Assets;
 
@@ -49,10 +50,20 @@ public class TurnQuest extends Game {
 
 	public void popScreen() {
 		if (!screenStack.isEmpty()) {
-			screenStack.pop();
-			if (!screenStack.isEmpty()) {
-				setScreen(screenStack.peek());
+			Screen previousScreen = screenStack.pop();
+			if (previousScreen != null) {
+				previousScreen.dispose();
 			}
+
+			if (!screenStack.isEmpty()) {
+				Screen newScreen = screenStack.peek();
+				if (newScreen instanceof BaseScreen) {
+					((BaseScreen) newScreen).refreshScreen();
+				}
+				setScreen(newScreen);
+			}
+		} else {
+			Gdx.app.log("TurnQuest", "Screen stack is empty");
 		}
 	}
 
@@ -153,9 +164,7 @@ public class TurnQuest extends Game {
 	}
 
 	public void showPreferencesDialog() {
-		PreferencesDialog dialog = new PreferencesDialog("Options", "", () -> {
-
-		}, Assets.getSkin());
+		PreferencesDialog dialog = new PreferencesDialog("Options", "", Assets.getSkin());
 		dialog.setColor(Color.LIGHT_GRAY);
 		dialog.show(getStage());
 	}

@@ -17,11 +17,23 @@ public class ClanScreen extends BaseScreen {
 
     public ClanScreen(final TurnQuest game) {
         super(game);
+    }
+
+    @Override
+    public void show() {
         Assets.loadFor(ClanScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
+        game.getStage().addActor(createUIComponents());
 
+        // apply
+        getViewport().apply();
+        super.show();
+    }
+
+    @Override
+    public Table createUIComponents() {
         // return button
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
 
@@ -32,26 +44,15 @@ public class ClanScreen extends BaseScreen {
 
         // add return button to the table
         table.add(bReturn).bottom();
-
-        game.getStage().addActor(table);
-
         // return to GameScreen when pressed return button
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
-
-        // apply
-        getViewport().apply();
+        return table;
     }
-
-        @Override
-        protected void refreshScreen() {
-            dispose();
-            game.pushScreen(new ClanScreen(game));
-        }
 
     @Override
     public void render(float delta) {
@@ -62,7 +63,6 @@ public class ClanScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        //Assets.getFont().getData().setScale(4); //Changes font size.
         Assets.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
         Assets.getFont().draw(game.getBatch(), game.getCurrentPlayer().getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
         game.getBatch().end();
@@ -70,6 +70,6 @@ public class ClanScreen extends BaseScreen {
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
     }
 }

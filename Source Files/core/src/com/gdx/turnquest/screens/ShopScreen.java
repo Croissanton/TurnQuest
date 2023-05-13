@@ -28,47 +28,7 @@ public class ShopScreen extends BaseScreen {
 
     public ShopScreen(final TurnQuest game) {
         super(game);
-        game.setStage(new Stage(getViewport()));
-        Assets.loadFor(ShopScreen.class);
-        Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-
-        // Load inventory
-        shopItems = new Hashtable<>();
-        readShopItems();
-
-        // Create description of the item table
-        Table firstTable = new Table();
-        setFirstRow(firstTable);
-
-        // Create the table to hold the items
-        Table descriptionTable = new Table(Assets.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
-        Table itemTable = new Table(Assets.getSkin());
-        setItemTable(itemTable, descriptionTable);
-
-        // Create a scroll pane to hold the item table
-        ScrollPane scrollPane = new ScrollPane(itemTable, Assets.getSkin());
-        scrollPane.setScrollingDisabled(true, false);
-        scrollPane.setSmoothScrolling(true);
-
-        // Setting default description label
-        setDescriptionLabel(descriptionTable);
-
-        // Create right table for descriptions of the items
-        Table rightTable = new Table();
-        setRightTable(rightTable, descriptionTable);
-
-        // Create root table that combains all the tables
-        Table rootTable = new Table(Assets.getSkin());
-        setRootTable(rootTable, firstTable, scrollPane, rightTable);
-        game.getStage().addActor(rootTable);
     }
-
-        @Override
-        protected void refreshScreen() {
-            dispose();
-            game.pushScreen(new ShopScreen(game));
-        }
 
         private void setDescriptionLabel(Table descriptionTable)
     {
@@ -136,14 +96,14 @@ public class ShopScreen extends BaseScreen {
 
     public TextButton createBackButton()
     {
-        TextButton backButton = new TextButton("Return", Assets.getSkin());
-        backButton.addListener(new ClickListener() {
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
+        bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
-        return backButton;
+        return bReturn;
     }
 
     private void setItemTable(Table itemTable, Table descriptionTable)
@@ -332,16 +292,60 @@ public class ShopScreen extends BaseScreen {
 
 
     @Override
+    public Table createUIComponents() {
+
+        // Load inventory
+        shopItems = new Hashtable<>();
+        readShopItems();
+
+        // Create description of the item table
+        Table firstTable = new Table();
+        setFirstRow(firstTable);
+
+        // Create the table to hold the items
+        Table descriptionTable = new Table(Assets.getSkin());  //this will be the table for the description of the stats of each item, after being clicked
+        Table itemTable = new Table(Assets.getSkin());
+        setItemTable(itemTable, descriptionTable);
+
+        // Create a scroll pane to hold the item table
+        ScrollPane scrollPane = new ScrollPane(itemTable, Assets.getSkin());
+        scrollPane.setScrollingDisabled(true, false);
+        scrollPane.setSmoothScrolling(true);
+
+        // Setting default description label
+        setDescriptionLabel(descriptionTable);
+
+        // Create right table for descriptions of the items
+        Table rightTable = new Table();
+        setRightTable(rightTable, descriptionTable);
+
+        // Create root table that combains all the tables
+        Table rootTable = new Table(Assets.getSkin());
+        setRootTable(rootTable, firstTable, scrollPane, rightTable);
+        return rootTable;
+    }
+
+    @Override
+    public void show() {
+        Assets.loadFor(ShopScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+        game.setStage(new Stage(getViewport()));
+        game.getStage().addActor(createUIComponents());
+        getViewport().apply();
+        super.show();
+    }
+
+    @Override
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1);
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
         game.getBatch().end();
-
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
     }
 }

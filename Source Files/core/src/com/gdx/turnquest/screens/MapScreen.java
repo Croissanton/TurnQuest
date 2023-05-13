@@ -18,14 +18,14 @@ public class MapScreen extends BaseScreen {
 
     public MapScreen(final TurnQuest game) {
         super(game);
-
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-        game.setStage(new Stage(getViewport()));
+    }
 
 
+    @Override
+    public Table createUIComponents() {
         TextButton bEnemy = new TextButton("Enemy", Assets.getSkin());
         TextButton bBoss = new TextButton("Boss", Assets.getSkin());
-        TextButton bQuit = new TextButton("Quit", Assets.getSkin());
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
 
         final boolean[] boss = {false};
 
@@ -44,10 +44,10 @@ public class MapScreen extends BaseScreen {
             }
         });
 
-        bQuit.addListener(new ClickListener() {
+        bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
 
@@ -55,19 +55,22 @@ public class MapScreen extends BaseScreen {
         table.setFillParent(true);
         table.add(bEnemy).center().padBottom(50f).row();
         table.add(bBoss).center().padBottom(50f).row();
-        table.add(bQuit).center().padBottom(50f);
+        table.add(bReturn).center().padBottom(50f);
 
         table.padTop(100f); // add some padding at the top
-
-        game.getStage().addActor(table);
-
-        getViewport().apply();
+        return table;
     }
 
     @Override
-    protected void refreshScreen() {
-        dispose();
-        game.setScreen(new MainMenuScreen(game));
+    public void show() {
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+        game.setStage(new Stage(getViewport()));
+
+
+        game.getStage().addActor(createUIComponents());
+
+        getViewport().apply();
+        super.show();
     }
 
 
@@ -80,12 +83,16 @@ public class MapScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
-        Assets.getFont().getData().setScale(4); //Changes font size.
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }

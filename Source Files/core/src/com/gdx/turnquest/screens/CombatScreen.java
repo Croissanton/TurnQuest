@@ -26,38 +26,153 @@ import java.io.IOException;
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class CombatScreen extends BaseScreen {
-    private final Player player;
+    private Player player;
     private static Enemy enemy = null;
     private Texture playerTexture;
-    private final Texture enemyTexture;
-    private final Sprite playerSprite;
-    private final Sprite enemySprite;
-    private final Label playerHPLabel;
-    private final Label playerMPLabel;
-    private final Label enemyMPLabel;
-    private final Label enemyHPLabel;
+    private Texture enemyTexture;
+    private Sprite playerSprite;
+    private Sprite enemySprite;
+    private Label playerHPLabel;
+    private Label playerMPLabel;
+    private Label enemyMPLabel;
+    private Label enemyHPLabel;
 
     private PlayerManager playerManager;
 
-    private final int maxPlayerHP;
-    private final int maxPlayerMP;
-    private final int maxEnemyHP;
-    private final int maxEnemyMP;
-    private final boolean boss;
+    private int maxPlayerHP;
+    private int maxPlayerMP;
+    private int maxEnemyHP;
+    private int maxEnemyMP;
+    private boolean boss;
 
-    ProgressBar playerHPBar;
-    ProgressBar playerMPBar;
-    ProgressBar enemyHPBar;
-    ProgressBar enemyMPBar;
+    private ProgressBar playerHPBar;
+    private ProgressBar playerMPBar;
+    private ProgressBar enemyHPBar;
+    private ProgressBar enemyMPBar;
 
     public CombatScreen(final TurnQuest game, boolean boss) {
         super(game);
+        this.boss = boss;
+    }
+
+    @Override
+    public Table createUIComponents() {
+        // Create UI components
+        TextButton attackButton = new TextButton("Attack", Assets.getSkin());
+        TextButton abilitiesButton = new TextButton("Abilities", Assets.getSkin());
+        TextButton itemButton = new TextButton("Item", Assets.getSkin());
+        TextButton runButton = new TextButton("Run", Assets.getSkin());
+
+        // Create the table
+        Table optionsTable = new Table(Assets.getSkin());
+        optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 200f, Align.center);
+        optionsTable.defaults().space(20f).width(200);
+        optionsTable.add(attackButton);
+        optionsTable.add(itemButton);
+        optionsTable.row();
+        optionsTable.add(abilitiesButton);
+        optionsTable.add(runButton);
+
+        // Add listeners to the buttons
+        attackButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                CombatLogic.attack(player, enemy);
+                evaluateCombat();
+            }
+        });
+
+        abilitiesButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showAbilitiesDialog();
+                //Fetch abilities and use them accordingly
+                evaluateCombat();
+            }
+        });
+
+        itemButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Fetch inventory
+                // Display inventory
+                // Select item
+                // Use item with CombatLogic.useItem(player, itemID)
+                evaluateCombat();
+            }
+        });
+
+        runButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (CombatLogic.run(player, enemy)) {
+                    game.pushScreen(new MapScreen(game));
+                }
+                evaluateCombat();
+            }
+        });
+
+        return optionsTable;
+    }
+
+    private Sprite createPlayerSprite() {
+        playerSprite = new Sprite(playerTexture);
+        playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.7f); // Set the position of the player sprite
+//        playerSprite.setSize(200, 200); // Set the size of the player sprite
+        playerSprite.setScale(4);
+        return playerSprite;
+    }
+
+    private Sprite createEnemySprite() {
+        enemySprite = new Sprite(enemyTexture);
+        enemySprite.setPosition(getVirtualWidth() * 0.77f, getVirtualHeight() * 0.52f); // Set the position of the enemy sprite
+//        enemySprite.setSize(200, 200); // Set the size of the enemy sprite
+        enemySprite.setScale(4);
+        return enemySprite;
+    }
+
+    private ProgressBar.ProgressBarStyle createProgressBarStyleMP() {
+        ProgressBar.ProgressBarStyle progressBarStyleMP = new ProgressBar.ProgressBarStyle();
+        progressBarStyleMP.background = Assets.getSkin().getDrawable("progress-bar-mana");
+        progressBarStyleMP.knobBefore = Assets.getSkin().getDrawable("progress-bar-mana-knob");
+        return progressBarStyleMP;
+    }
+
+    private ProgressBar.ProgressBarStyle createProgressBarStyleHP() {
+        ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
+        progressBarStyleHP.background = Assets.getSkin().getDrawable("progress-bar-health");
+        progressBarStyleHP.knobBefore = Assets.getSkin().getDrawable("progress-bar-health-knob");
+        return progressBarStyleHP;
+    }
+
+    private Table createPlayerTable() {
+        Table playerTable = new Table(Assets.getSkin());
+        playerTable.setPosition(getVirtualWidth() * 0.25f, getVirtualHeight() * 0.25f);
+        playerTable.defaults().space(10f);
+        playerTable.add(playerHPLabel).row();
+        playerTable.add(playerHPBar).width(400f).row();
+        playerTable.add(playerMPLabel).row();
+        playerTable.add(playerMPBar).width(400f).row();
+
+        return playerTable;
+    }
+
+    private Table createEnemyTable() {
+        Table enemyTable = new Table(Assets.getSkin());
+        enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
+        enemyTable.defaults().space(10f);
+        enemyTable.add(enemyHPLabel).row();
+        enemyTable.add(enemyHPBar).width(400f).row();
+        enemyTable.add(enemyMPLabel).row();
+        enemyTable.add(enemyMPBar).width(400f).row();
+        return enemyTable;
+    }
+
+    @Override
+    public void show() {
         Assets.loadFor(CombatScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-
-        this.boss = boss;
-
         player = game.getCurrentPlayer();
         try {
             playerManager = new PlayerManager();
@@ -98,46 +213,20 @@ public class CombatScreen extends BaseScreen {
             enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
         }
 
-        // Create the player and enemy sprites
-        playerSprite = new Sprite(playerTexture);
-        playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.7f); // Set the position of the player sprite
-        playerSprite.setScale(6); // Scale the player sprite
+        playerSprite = createPlayerSprite();
 
-        enemySprite = new Sprite(enemyTexture);
-        enemySprite.setPosition(getVirtualWidth() * 0.77f, getVirtualHeight() * 0.52f); // Set the position of the enemy sprite
-        enemySprite.setScale(4); // Scale the enemy sprite
-
-        TextButton attackButton = new TextButton("Attack", Assets.getSkin());
-        TextButton abilitiesButton = new TextButton("Abilities", Assets.getSkin());
-        TextButton itemButton = new TextButton("Item", Assets.getSkin());
-        TextButton runButton = new TextButton("Run", Assets.getSkin());
-
-        // Create the table
-        Table optionsTable = new Table(Assets.getSkin());
-        optionsTable.setPosition(TurnQuest.getVirtualWidth() / 2f, 200f, Align.center);
-        optionsTable.defaults().space(20f).width(200);
-        optionsTable.add(attackButton);
-        optionsTable.add(itemButton);
-        optionsTable.row();
-        optionsTable.add(abilitiesButton);
-        optionsTable.add(runButton);
+        enemySprite = createEnemySprite();
 
         // Add the table to the stage
-        game.getStage().addActor(optionsTable);
+        game.getStage().addActor(createUIComponents());
 
         playerHPLabel = new Label("HP: " + maxPlayerHP, Assets.getSkin());
         playerMPLabel = new Label("MP: " + maxPlayerMP, Assets.getSkin());
         enemyHPLabel = new Label("HP: " + maxEnemyHP, Assets.getSkin());
         enemyMPLabel = new Label("MP: " + maxEnemyMP, Assets.getSkin());
 
-        ProgressBar.ProgressBarStyle progressBarStyleHP = new ProgressBar.ProgressBarStyle();
-        ProgressBar.ProgressBarStyle progressBarStyleMP = new ProgressBar.ProgressBarStyle();
-
-        progressBarStyleHP.background = Assets.getSkin().getDrawable("progress-bar-health");
-        progressBarStyleHP.knobBefore = Assets.getSkin().getDrawable("progress-bar-health-knob");
-
-        progressBarStyleMP.background = Assets.getSkin().getDrawable("progress-bar-mana");
-        progressBarStyleMP.knobBefore = Assets.getSkin().getDrawable("progress-bar-mana-knob");
+        ProgressBar.ProgressBarStyle progressBarStyleHP = createProgressBarStyleHP();
+        ProgressBar.ProgressBarStyle progressBarStyleMP = createProgressBarStyleMP();
 
         playerHPBar = new ProgressBar(0, maxPlayerHP, 1, false, progressBarStyleHP);
 
@@ -148,27 +237,11 @@ public class CombatScreen extends BaseScreen {
         enemyMPBar = new ProgressBar(0, maxEnemyMP, 1, false, progressBarStyleMP);
 
 
-        Table playerTable = new Table(Assets.getSkin());
-        playerTable.setPosition(getVirtualWidth() * 0.25f, getVirtualHeight() * 0.25f);
-        playerTable.defaults().space(10f);
-        playerTable.add(playerHPLabel).row();
-        playerTable.add(playerHPBar).width(400f).row();
-        playerTable.add(playerMPLabel).row();
-        playerTable.add(playerMPBar).width(400f).row();
-
-        game.getStage().addActor(playerTable);
+        game.getStage().addActor(createPlayerTable());
 
         //Space these two out in the X axis (I didn't manage to do that, if you can, please do)
 
-        Table enemyTable = new Table(Assets.getSkin());
-        enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
-        enemyTable.defaults().space(10f);
-        enemyTable.add(enemyHPLabel).row();
-        enemyTable.add(enemyHPBar).width(400f).row();
-        enemyTable.add(enemyMPLabel).row();
-        enemyTable.add(enemyMPBar).width(400f).row();
-
-        game.getStage().addActor(enemyTable);
+        game.getStage().addActor(createEnemyTable());
 
         //create the table
         Table table = new Table();
@@ -176,52 +249,9 @@ public class CombatScreen extends BaseScreen {
         table.setFillParent(true);
 
         game.getStage().addActor(table);
-
         // apply
         getViewport().apply();
-
-        // Add a listener to the attack button
-        attackButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                CombatLogic.attack(player, enemy);
-                evaluateCombat();
-            }
-        });
-        // do the same for the other buttons
-        abilitiesButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showAbilitiesDialog();
-                //Fetch abilities and use them accordingly
-                evaluateCombat();
-            }
-        });
-        itemButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //Fetch inventory
-                //Display inventory
-                //Select item
-                //Use item with CombatLogic.useItem(player, itemID)
-                evaluateCombat();
-            }
-        });
-        runButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(CombatLogic.run(player, enemy)){
-                    game.pushScreen(new MapScreen(game));
-                }
-                evaluateCombat();
-            }
-        });
-    }
-
-    @Override
-    protected void refreshScreen() {
-        dispose();
-            game.pushScreen(new CombatScreen(game, boss));
+        super.show();
     }
 
 
@@ -250,7 +280,7 @@ public class CombatScreen extends BaseScreen {
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
     }
 
 

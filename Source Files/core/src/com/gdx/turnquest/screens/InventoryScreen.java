@@ -23,6 +23,10 @@ public class InventoryScreen extends BaseScreen {
     public InventoryScreen(final TurnQuest game) {
         super(game);
         player = game.getCurrentPlayer();
+    }
+
+    @Override
+    public void show() {
         Assets.loadFor(InventoryScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG));
@@ -31,6 +35,13 @@ public class InventoryScreen extends BaseScreen {
         backgroundImage.setSize(getVirtualWidth(), getVirtualHeight());
         stage.addActor(backgroundImage);
 
+        game.getStage().addActor(createUIComponents());
+        getViewport().apply();
+        super.show();
+    }
+
+    @Override
+    public Table createUIComponents() {
         Label inventoryLabel = new Label("Inventory", Assets.getSkin());
         inventoryLabel.setFontScale(2f);
 
@@ -83,22 +94,15 @@ public class InventoryScreen extends BaseScreen {
                 game.popScreen();
             }
         });
+
         bInventory.addListener(new ClickListener() {
-        @Override
-        public void clicked (InputEvent event,float x, float y){
-            ReadPlayerInventory();
-        }
-    });
-
-        game.getStage().addActor(table);
-}
-
-    @Override
-    protected void refreshScreen() {
-        dispose();
-        game.pushScreen(new InventoryScreen(game));
+            @Override
+            public void clicked (InputEvent event,float x, float y){
+                ReadPlayerInventory();
+            }
+        });
+        return table;
     }
-
 
     @Override
         public void render ( float delta){
@@ -106,11 +110,10 @@ public class InventoryScreen extends BaseScreen {
 
             getCamera().update();
             game.getBatch().setProjectionMatrix(getCamera().combined);
-
             game.getStage().act();
             game.getStage().draw();
 
-            handleInput();
+            handleKeyboardInput();
         }
 
         private Table ReadPlayerInventory () {

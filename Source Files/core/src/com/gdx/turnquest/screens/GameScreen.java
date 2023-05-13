@@ -21,11 +21,19 @@ public class GameScreen extends BaseScreen {
     public GameScreen(final TurnQuest game) {
         super(game);
         this.player = game.getCurrentPlayer();
+    }
+
+    @Override
+    public void show() {
         Assets.loadFor(GameScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         game.setStage(new Stage(getViewport()));
-        Gdx.input.setInputProcessor(game.getStage());
+        game.getStage().addActor(createUIComponents());
+        getViewport().apply();
+        super.show();
+    }
 
+    public Table createUIComponents() {
         // create the table
         Table table = new Table();
         table.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
@@ -76,8 +84,6 @@ public class GameScreen extends BaseScreen {
         table.padLeft(20);
         table.padRight(20);
 
-        game.getStage().addActor(table);
-
         bPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -121,18 +127,7 @@ public class GameScreen extends BaseScreen {
             }
         });
 
-        getViewport().apply();
-    }
-
-    @Override
-    protected void refreshScreen() {
-        dispose();
-        game.pushScreen(new GameScreen(game));
-    }
-
-    @Override
-    public void show() {
-
+        return table;
     }
 
     @Override
@@ -144,19 +139,18 @@ public class GameScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
-        //Assets.getFont().getData().setScale(4); //Changes font size.
         Assets.getFont().draw(game.getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
     }
 
     private void showQuitConfirmationDialog() {
         ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", () -> game.pushScreen(new MainMenuScreen(game)), Assets.getSkin());
+                "You will have to enter your credentials again.", () -> game.popScreen(), Assets.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }

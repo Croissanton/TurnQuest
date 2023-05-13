@@ -28,47 +28,38 @@ public class CharactersScreen extends BaseScreen{
 
     public CharactersScreen(final TurnQuest game) {
         super(game);
+    }
 
-        Assets.loadFor(AbilitiesScreen.class);
-        Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-
-        game.setStage(new Stage(getViewport()));
-
+    @Override
+    public Table createUIComponents() {
         // create the button
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
-
         // create the table
         Table table = new Table();
         table.defaults();
         table.setFillParent(true);
-
         // add button
         table.add(bReturn);
-        game.getStage().addActor(table);
-
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.popScreen();
             }
         });
-
-        getViewport().apply();
-    }
-
-    @Override
-    protected void refreshScreen() {
-        dispose();
-        game.pushScreen(new CharactersScreen(game));
+        return table;
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(game.getStage());
+        Assets.loadFor(AbilitiesScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+
+        game.setStage(new Stage(getViewport()));
+        game.getStage().addActor(createUIComponents());
 
         spriteSheet= new Texture(Gdx.files.internal("Necromancer_creativekind-Sheet.png"));
-          //attempt to resize texture
+        //attempt to resize texture
             /*int newWidth = 256; // new width in pixels
             int newHeight = 256; // new height in pixels
 
@@ -77,7 +68,6 @@ public class CharactersScreen extends BaseScreen{
             Texture resizedTexture = new Texture(pixmap);
 
             spriteSheet=resizedTexture;*/
-
 
         int frameWidth=spriteSheet.getWidth() / FRAME_COLS;
         int frameHeight=spriteSheet.getHeight() / FRAME_ROWS;
@@ -93,6 +83,8 @@ public class CharactersScreen extends BaseScreen{
             }
         }
         animation = new Animation<>(FRAME_DURATION, frames);
+        getViewport().apply();
+        super.show();
     }
 
     @Override
@@ -116,7 +108,7 @@ public class CharactersScreen extends BaseScreen{
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
     }
 
 }

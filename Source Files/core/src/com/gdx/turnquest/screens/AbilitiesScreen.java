@@ -30,20 +30,17 @@ public class AbilitiesScreen extends BaseScreen {
 
     public AbilitiesScreen(final TurnQuest game) {
         super(game);
+    }
+
+    private Table createAbilitiesTable() {
         Player player = game.getCurrentPlayer();
         int[] abilities = player.getAbilities();
 
-        // load player's abiities level
+        // load player's abilities level
         times1 = abilities[0];
         times2 = abilities[1];
         times3 = abilities[2];
         times4 = abilities[3];
-
-        Assets.loadFor(AbilitiesScreen.class);
-        Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-
-        game.setStage(new Stage(getViewport()));
 
         // Set the position of the label relative to the size of the stage
         // calculate where the labels will be
@@ -148,8 +145,6 @@ public class AbilitiesScreen extends BaseScreen {
         abilitiesTable.add(bAb4);
 
         abilitiesTable.padTop(100f); // add some padding at the top
-
-        game.getStage().addActor(abilitiesTable);
 
         // buttons' listeners
         // listener of button one when hovered
@@ -332,26 +327,28 @@ public class AbilitiesScreen extends BaseScreen {
             }
         });
 
+        return abilitiesTable;
+    }
+
+    private Table createNavigationTable() {
         // table buttons
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
         TextButton bLeftArrow = new TextButton("<-", Assets.getSkin());
         TextButton bRightArrow = new TextButton("->", Assets.getSkin());
 
-        // table for return
-        Table table = new Table();
+        // table for navigation
+        Table navigationTable = new Table();
         // add some padding and expand each cell
-        table.defaults().expand().pad(50);
-        table.setFillParent(true);
+        navigationTable.defaults().expand().pad(50);
+        navigationTable.setFillParent(true);
 
         // order the buttons of the table
-        table.add(bLeftArrow).left();
-        table.add();
-        table.add(bRightArrow).right();
-        table.row();
-        table.add();
-        table.add(bReturn).bottom();
-
-        game.getStage().addActor(table);
+        navigationTable.add(bLeftArrow).left();
+        navigationTable.add();
+        navigationTable.add(bRightArrow).right();
+        navigationTable.row();
+        navigationTable.add();
+        navigationTable.add(bReturn).bottom();
 
         // if an arrow is clicked, go to abilities screen
         bRightArrow.addListener(new ClickListener() {
@@ -376,13 +373,37 @@ public class AbilitiesScreen extends BaseScreen {
             }
         });
 
-        getViewport().apply();
+        return navigationTable;
+    }
+
+    public Table createUIComponents() {
+        Table mainTable = new Table();
+        mainTable.setFillParent(true);
+
+        // Abilities table
+        Table abilitiesTable = createAbilitiesTable();
+        mainTable.add(abilitiesTable).padTop(100f).expandY().top().row();
+
+        // Navigation table
+        Table navigationTable = createNavigationTable();
+        mainTable.add(navigationTable).expandY().bottom();
+
+        return mainTable;
     }
 
     @Override
-    protected void refreshScreen() {
-        dispose();
-        game.pushScreen(new AbilitiesScreen(game));
+    public void show() {
+        Assets.loadFor(AbilitiesScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+
+        game.setStage(new Stage(getViewport()));
+
+        game.getStage().addActor(createAbilitiesTable());
+
+        game.getStage().addActor(createNavigationTable());
+        getViewport().apply();
+        super.show();
     }
 
 
@@ -395,13 +416,12 @@ public class AbilitiesScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
-        Assets.getFont().getData().setScale(4); //Changes font size.
         Assets.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
     }
 }

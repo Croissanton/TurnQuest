@@ -20,12 +20,10 @@ public class MainMenuScreen extends BaseScreen {
 
     public MainMenuScreen(final TurnQuest game) {
         super(game);
-        Assets.loadFor(MainMenuScreen.class);
-        Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-        game.setStage(new Stage(getViewport()));
+    }
 
 
+    public Table createUIComponents() {
         TextButton bStart = new TextButton("Start", Assets.getSkin());
         TextButton bOptions = new TextButton("Options", Assets.getSkin());
         TextButton bQuit = new TextButton("Quit", Assets.getSkin());
@@ -56,16 +54,18 @@ public class MainMenuScreen extends BaseScreen {
         table.add(bQuit).center().padBottom(50f);
 
         table.padTop(100f); // add some padding at the top
-
-        game.getStage().addActor(table);
-
-        getViewport().apply();
+        return table;
     }
 
     @Override
-    protected void refreshScreen() {
-        dispose();
-        game.setScreen(new MainMenuScreen(game));
+    public void show() {
+        Assets.loadFor(MainMenuScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+        game.setStage(new Stage(getViewport()));
+        game.getStage().addActor(createUIComponents());
+        getViewport().apply();
+        super.show();
     }
 
 
@@ -80,14 +80,13 @@ public class MainMenuScreen extends BaseScreen {
 
         GlyphLayout layout = new GlyphLayout();
         layout.setText(Assets.getTitleFont(), "Welcome to TurnQuest!");
-        Assets.getFont().getData().setScale(1.5f); //Changes font size.
         Assets.getFont().draw(game.getBatch(), layout, getVirtualWidth()*0.5f - layout.width/2, getVirtualHeight()*0.85f);
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
-        handleInput();
+        handleKeyboardInput();
     }
 
     private void showQuitConfirmationDialog() {
