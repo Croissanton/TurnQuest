@@ -1,6 +1,5 @@
 package com.gdx.turnquest.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,11 +15,9 @@ import com.gdx.turnquest.entities.Player;
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class GameScreen extends BaseScreen {
-    private Player player;
 
     public GameScreen(final TurnQuest game) {
         super(game);
-        this.player = game.getCurrentPlayer();
     }
 
     @Override
