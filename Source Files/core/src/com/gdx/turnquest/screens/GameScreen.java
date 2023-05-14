@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.TurnQuest;
-import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -147,7 +146,7 @@ public class GameScreen extends BaseScreen {
 
     private void showQuitConfirmationDialog() {
         ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", () -> game.popScreen(), Assets.getSkin());
+                "You will have to enter your credentials again.", game::popScreen, Assets.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }

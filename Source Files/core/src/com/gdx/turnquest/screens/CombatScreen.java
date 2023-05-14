@@ -24,6 +24,7 @@ import com.gdx.turnquest.utils.PlayerManager;
 import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
+import static java.lang.Thread.sleep;
 
 public class CombatScreen extends BaseScreen {
     private Player player;
@@ -106,7 +107,8 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (CombatLogic.run(player, enemy)) {
-                    game.pushScreen(new MapScreen(game));
+                    dispose();
+                    game.popScreen();
                 }
                 evaluateCombat();
             }
@@ -173,6 +175,7 @@ public class CombatScreen extends BaseScreen {
         Assets.loadFor(CombatScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+        setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
         try {
             playerManager = new PlayerManager();
@@ -258,7 +261,6 @@ public class CombatScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
-
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
@@ -289,6 +291,7 @@ public class CombatScreen extends BaseScreen {
         game.getStage().dispose();
         playerTexture.dispose();
         enemyTexture.dispose();
+        getMusic().dispose();
     }
 
     private void showAbilitiesDialog() {
@@ -323,6 +326,7 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("Player not saved");
             }
             //create dialog that says you won and when ok is pressed, go back to map screen
+
             new VictoryDialog(game, Assets.getSkin()).show(game.getStage());
         }
     }

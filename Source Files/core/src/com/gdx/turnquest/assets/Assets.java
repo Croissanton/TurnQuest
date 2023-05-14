@@ -78,8 +78,6 @@ public class Assets {
         return titleFont;
     }
 
-
-
     public static void load() {
         ASSET_MANAGER.load(SKIN_PIXTHULHU_UI_JSON, Skin.class);
     }

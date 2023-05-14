@@ -62,6 +62,7 @@ public class MainMenuScreen extends BaseScreen {
         Assets.loadFor(MainMenuScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+        if(getMusic() == null) setMusic("intro.ogg");
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
         getViewport().apply();
@@ -72,7 +73,6 @@ public class MainMenuScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
-
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
         game.getBatch().begin();

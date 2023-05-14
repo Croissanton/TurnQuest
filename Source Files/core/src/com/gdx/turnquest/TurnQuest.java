@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.BaseScreen;
 import com.gdx.turnquest.screens.MainMenuScreen;
 import com.gdx.turnquest.assets.Assets;
+import com.badlogic.gdx.audio.Music;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -38,6 +40,14 @@ public class TurnQuest extends Game {
 	private static Viewport viewport;
 
 	private Player player;
+
+	private static Music music;
+
+	public static void playSfx(String filename) {
+		Sound sfx = Gdx.audio.newSound(Gdx.files.internal("sfx/" + filename));
+		//Default config
+		sfx.play(generalVolume/100f);
+	}
 
 	public void pushScreen(Screen screen) {
 		if (screen != null) {
@@ -95,6 +105,7 @@ public class TurnQuest extends Game {
 
 	public static void setGeneralVolume(int vol){
 		generalVolume=vol;
+		if(music != null) music.setVolume(generalVolume/100f);
 	}
 
 	public static Graphics.DisplayMode getDisplayMode(){
@@ -161,6 +172,22 @@ public class TurnQuest extends Game {
 			return false;
 		}
 		return true;
+	}
+
+	public static Music getMusic() {
+		return music;
+	}
+
+	public static void setMusic(String filename) {
+		//Remove previous music.
+		if(music != null) music.dispose();
+
+		music = Gdx.audio.newMusic(Gdx.files.internal("music/" + filename));
+
+		//Default config.
+		music.setLooping(true);
+		music.setVolume(generalVolume/100f);
+		music.play();
 	}
 
 	public void showPreferencesDialog() {
