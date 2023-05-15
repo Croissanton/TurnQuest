@@ -139,11 +139,11 @@ public class CombatScreen extends BaseScreen {
         animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
-            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/warrior.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/warrior.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
-            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/archer.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/archer.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
-            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/mage.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/mage.atlas"));
         }
         float FRAME_TIME = 1 / 10f;
         assert charset != null;
