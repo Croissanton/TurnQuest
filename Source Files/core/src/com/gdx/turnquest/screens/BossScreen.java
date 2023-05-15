@@ -99,7 +99,6 @@ public class BossScreen extends BaseScreen {
                     else if(whoseTurn == 1){
                         animationHandlerAlly.setCurrent(A_ATTACK);
                     }
-                    evaluateCombat();
                     ++whoseTurn;
                 }
             }
@@ -130,7 +129,6 @@ public class BossScreen extends BaseScreen {
                     // Display inventory
                     // Select item
                     // Use item with CombatLogic.useItem(player, itemID)
-                    evaluateCombat();
                     ++whoseTurn;
                 }
             }
@@ -148,7 +146,6 @@ public class BossScreen extends BaseScreen {
                         game.setMusic("intro.ogg");
                         game.popScreen();
                     }
-                    evaluateCombat();
                 }
             }
         });
@@ -353,8 +350,7 @@ public class BossScreen extends BaseScreen {
         if(ally.getHP() == 0 && whoseTurn == 1){
             whoseTurn = 2;
         }
-
-        updateBarsAndTags();
+        
         TextureRegion framePlayer = animationHandlerPlayer.getFrame();
         TextureRegion frameAlly = animationHandlerAlly.getFrame();
 
@@ -386,8 +382,6 @@ public class BossScreen extends BaseScreen {
     private void showAbilitiesDialog(Player player, AnimationHandler animationHandler){
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
             ++whoseTurn;
-            System.out.println("Whose turn: " + whoseTurn);
-            evaluateCombat();
         }, Assets.getSkin(), player, animationHandler, enemy);
         dialog.show(game.getStage());
     }

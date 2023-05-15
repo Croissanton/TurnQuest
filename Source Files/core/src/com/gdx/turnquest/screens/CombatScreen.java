@@ -83,7 +83,6 @@ public class CombatScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if(playerTurn) {
                     animationHandler.setCurrent(A_ATTACK);
-                    evaluateCombat();
                     playerTurn = false;
                 }
             }
@@ -95,7 +94,6 @@ public class CombatScreen extends BaseScreen {
                 if(playerTurn) {
                     showAbilitiesDialog();
                     //Fetch abilities and use them accordingly
-                    evaluateCombat();
                     playerTurn = false;
                 }
             }
@@ -109,7 +107,6 @@ public class CombatScreen extends BaseScreen {
                     // Display inventory
                     // Select item
                     // Use item with CombatLogic.useItem(player, itemID)
-                    evaluateCombat();
                     playerTurn = false;
                 }
             }
@@ -123,7 +120,6 @@ public class CombatScreen extends BaseScreen {
                         game.setMusic("intro.ogg");
                         game.popScreen();
                     }
-                    evaluateCombat();
                 }
             }
         });
@@ -281,13 +277,14 @@ public class CombatScreen extends BaseScreen {
             if(player.getHP() == 0) animationHandler.setCurrent(A_DEATH);
 
             else animationHandler.setCurrent(A_HURT);
+
             if(!combatFinished) evaluateCombat();
         }
         if(animationHandler.isFinished() && player.getHP() != 0) {
             animationHandler.setCurrent(A_IDLE, true);
+            updateBarsAndTags();
         }
 
-        updateBarsAndTags();
         TextureRegion frame = animationHandler.getFrame();
 
         game.getBatch().begin();

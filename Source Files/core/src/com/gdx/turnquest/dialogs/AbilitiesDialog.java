@@ -91,7 +91,7 @@ public class AbilitiesDialog extends Dialog {
                 } else {
                     CombatLogic.useAbility(player, enemy, 0, 5);
                     animationHandler.setCurrent("air_atk");
-                    hide();
+                    result(true);
                 }
             }
         });
@@ -104,7 +104,7 @@ public class AbilitiesDialog extends Dialog {
                 } else {
                     CombatLogic.useAbility(player, enemy, 1, 8);
                     animationHandler.setCurrent("2_atk");
-
+                    result(true);
                     hide();
                 }
             }
@@ -118,7 +118,7 @@ public class AbilitiesDialog extends Dialog {
                 } else {
                     CombatLogic.useAbility(player, enemy, 2, 10);
                     animationHandler.setCurrent("3_atk");
-                    hide();
+                    result(true);
                 }
             }
         });
@@ -131,6 +131,7 @@ public class AbilitiesDialog extends Dialog {
                 } else {
                     CombatLogic.useAbility(player, enemy, 3, 15);
                     animationHandler.setCurrent("sp_atk");
+                    result(true);
                     hide();
                 }
             }
@@ -138,6 +139,7 @@ public class AbilitiesDialog extends Dialog {
 
         bReturn.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
+                result(false);
                 hide();
             }
         });
