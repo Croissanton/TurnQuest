@@ -94,7 +94,6 @@ public class CombatScreen extends BaseScreen {
                 if(playerTurn) {
                     showAbilitiesDialog();
                     //Fetch abilities and use them accordingly
-                    playerTurn = false;
                 }
             }
         });
@@ -282,8 +281,9 @@ public class CombatScreen extends BaseScreen {
         }
         if(animationHandler.isFinished() && player.getHP() != 0) {
             animationHandler.setCurrent(A_IDLE, true);
-            updateBarsAndTags();
         }
+
+        updateBarsAndTags();
 
         TextureRegion frame = animationHandler.getFrame();
 
@@ -308,7 +308,7 @@ public class CombatScreen extends BaseScreen {
 
     private void showAbilitiesDialog() {
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
-            // Handle abilities here
+            playerTurn = false;
         }, Assets.getSkin(), player, animationHandler, enemy);
         dialog.show(game.getStage());
     }

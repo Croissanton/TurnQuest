@@ -1,0 +1,6 @@
+{
+Apocalisis: {
+	class: com.gdx.turnquest.entities.Clan
+	name: Apocalisis
+}
+}

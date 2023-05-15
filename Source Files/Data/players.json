@@ -110,6 +110,33 @@
 	"loginCount": 1,
 	"previousTime": 1684165421627
 },
+"eabyergaer": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 3,
+		"STR": 6,
+		"DEF": 3,
+		"LUK": 11,
+		"MP": 90,
+		"HP": 240,
+		"SPD": 11
+	},
+	"characterClass": "Archer",
+	"gold": 500,
+	"exp": 99,
+	"level": 4,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "eabyergaer",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684176738377
+},
 "guarrio": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -131,6 +158,33 @@
 		"Iron Sword": 1
 	},
 	"playerName": "guarrio"
+},
+"rwthjrth": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 3,
+		"STR": 11,
+		"DEF": 11,
+		"LUK": 6,
+		"MP": 60,
+		"HP": 300,
+		"SPD": 3
+	},
+	"characterClass": "Warrior",
+	"gold": 500,
+	"exp": 99,
+	"level": 4,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "rwthjrth",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684176882230
 },
 "asdfsaaf": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -516,13 +570,13 @@
 		"STR": 9,
 		"DEF": 9,
 		"LUK": 19,
-		"MP": 437,
-		"HP": 665,
+		"MP": 368,
+		"HP": 629,
 		"SPD": 19
 	},
 	"characterClass": "Mage",
-	"gold": 43950,
-	"exp": 1248,
+	"gold": 45550,
+	"exp": 4348,
 	"level": 17,
 	"inventory": {
 		"Wooden Staff": 1,

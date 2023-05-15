@@ -336,7 +336,6 @@ public class BossScreen extends BaseScreen {
             if (ally.getHP() == 0) animationHandlerAlly.setCurrent(A_DEATH);
             else animationHandlerAlly.setCurrent(A_HURT);
 
-            if(!combatFinished) evaluateCombat();
         }
         if(animationHandlerPlayer.isFinished() && player.getHP() != 0) {
             animationHandlerPlayer.setCurrent(A_IDLE, true);
@@ -350,7 +349,9 @@ public class BossScreen extends BaseScreen {
         if(ally.getHP() == 0 && whoseTurn == 1){
             whoseTurn = 2;
         }
-        
+        if(!combatFinished) evaluateCombat();
+        updateBarsAndTags();
+
         TextureRegion framePlayer = animationHandlerPlayer.getFrame();
         TextureRegion frameAlly = animationHandlerAlly.getFrame();
 
