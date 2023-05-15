@@ -508,18 +508,18 @@
 "Croissanton": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
-		"INT": 35,
+		"INT": 37,
 		"STR": 9,
 		"DEF": 9,
-		"LUK": 18,
-		"MP": 450,
-		"HP": 630,
-		"SPD": 18
+		"LUK": 19,
+		"MP": 437,
+		"HP": 665,
+		"SPD": 19
 	},
 	"characterClass": "Mage",
-	"gold": 42950,
-	"exp": 5648,
-	"level": 16,
+	"gold": 43950,
+	"exp": 1248,
+	"level": 17,
 	"inventory": {
 		"Wooden Staff": 1,
 		"Silk Robe": 1,
@@ -528,6 +528,7 @@
 		"Old Grimmorie": 1
 	},
 	"playerName": "Croissanton",
+	"abilities": [ 1, 1, 1, 1 ],
 	"energy": 10,
 	"previousTime": 1684140126884
 }

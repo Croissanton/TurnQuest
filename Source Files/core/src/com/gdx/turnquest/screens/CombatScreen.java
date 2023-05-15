@@ -50,7 +50,6 @@ public class CombatScreen extends BaseScreen {
     private AnimationHandler animationHandler;
     private final String A_IDLE = "idle";
     private final String A_ATTACK = "1_atk";
-    private final String A_CRIT = "2_atk";
     private final String A_HURT = "take_hit";
     private final String A_DEATH = "death";
     private boolean playerTurn = true;
@@ -83,10 +82,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(playerTurn) {
-                    if(CombatLogic.attack(player, enemy) == 1){
-                        animationHandler.setCurrent(A_CRIT);
-                    }
-                    else animationHandler.setCurrent(A_ATTACK);
+                    animationHandler.setCurrent(A_ATTACK);
                     evaluateCombat();
                     playerTurn = false;
                 }
@@ -149,7 +145,10 @@ public class CombatScreen extends BaseScreen {
         assert charset != null;
         animationHandler.add(A_IDLE, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_IDLE)));
         animationHandler.add(A_ATTACK, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_ATTACK)));
-        animationHandler.add(A_CRIT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_CRIT)));
+        animationHandler.add("air_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("air_atk")));
+        animationHandler.add("2_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("2_atk")));
+        animationHandler.add("3_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("3_atk")));
+        animationHandler.add("sp_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("sp_atk")));
         animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
         animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
         animationHandler.setCurrent(A_IDLE, true);
@@ -313,12 +312,8 @@ public class CombatScreen extends BaseScreen {
     private void showAbilitiesDialog() {
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
             // Handle abilities here
-        }, Assets.getSkin(), player);
+        }, Assets.getSkin(), player, animationHandler, enemy);
         dialog.show(game.getStage());
-    }
-
-    public static Enemy getEnemy() {
-        return enemy;
     }
 
     private void evaluateCombat(){

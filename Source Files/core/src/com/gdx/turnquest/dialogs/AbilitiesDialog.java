@@ -3,18 +3,18 @@ package com.gdx.turnquest.dialogs;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.logic.CombatLogic;
 import com.gdx.turnquest.screens.CombatScreen;
+import com.gdx.turnquest.utils.AnimationHandler;
 
 public class AbilitiesDialog extends Dialog {
 
     private final Runnable yesRunnable;
 
-    public AbilitiesDialog(String title, Runnable yesRunnable, Skin skin, Player player) {
+    public AbilitiesDialog(String title, Runnable yesRunnable, Skin skin, Player player , AnimationHandler animationHandler, Enemy enemy) {
         super(title, skin);
         this.yesRunnable = yesRunnable;
 
@@ -89,7 +89,8 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(0)) {
                     hide();
                 } else {
-                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 0, 5);
+                    CombatLogic.useAbility(player, enemy, 0, 5);
+                    animationHandler.setCurrent("air_atk");
                     hide();
                 }
             }
@@ -101,7 +102,8 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(1)) {
                     hide();
                 } else {
-                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 1, 8);
+                    CombatLogic.useAbility(player, enemy, 1, 8);
+                    animationHandler.setCurrent("2_atk");
 
                     hide();
                 }
@@ -114,7 +116,8 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(2)) {
                     hide();
                 } else {
-                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 2, 10);
+                    CombatLogic.useAbility(player, enemy, 2, 10);
+                    animationHandler.setCurrent("3_atk");
                     hide();
                 }
             }
@@ -126,7 +129,8 @@ public class AbilitiesDialog extends Dialog {
                 if (0 == player.getAbility(3)) {
                     hide();
                 } else {
-                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 3, 15);
+                    CombatLogic.useAbility(player, enemy, 3, 15);
+                    animationHandler.setCurrent("sp_atk");
                     hide();
                 }
             }

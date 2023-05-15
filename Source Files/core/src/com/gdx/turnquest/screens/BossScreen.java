@@ -60,7 +60,6 @@ public class BossScreen extends BaseScreen {
     private float elapsed_time = 0;
     private final String A_IDLE = "idle";
     private final String A_ATTACK = "1_atk";
-    private final String A_CRIT = "2_atk";
     private final String A_HURT = "take_hit";
     private final String A_DEATH = "death";
     private int whoseTurn = 0; //0 means player, 1 means ally, 2 means enemy
@@ -95,16 +94,10 @@ public class BossScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if(whoseTurn < 2) {
                     if(whoseTurn == 0){
-                        if (CombatLogic.attack(player, enemy) == 1) {
-                            animationHandlerPlayer.setCurrent(A_CRIT);
-                        }
-                        else animationHandlerPlayer.setCurrent(A_ATTACK);
+                        animationHandlerPlayer.setCurrent(A_ATTACK);
                     }
                     else if(whoseTurn == 1){
-                        if (CombatLogic.attack(ally, enemy) == 1) {
-                            animationHandlerAlly.setCurrent(A_CRIT);
-                        }
-                        else animationHandlerAlly.setCurrent(A_ATTACK);
+                        animationHandlerAlly.setCurrent(A_ATTACK);
                     }
                     evaluateCombat();
                     ++whoseTurn;
@@ -116,11 +109,9 @@ public class BossScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(whoseTurn < 2) {
-                    if(whoseTurn == 0) showAbilitiesDialog(player);
-                    else if(whoseTurn == 1) showAbilitiesDialog(ally);
+                    if(whoseTurn == 0) showAbilitiesDialog(player, animationHandlerPlayer);
+                    else if(whoseTurn == 1) showAbilitiesDialog(ally, animationHandlerAlly);
                     //Fetch abilities and use them accordingly
-                    evaluateCombat();
-                    ++whoseTurn;
                 }
             }
         });
@@ -179,7 +170,10 @@ public class BossScreen extends BaseScreen {
         assert charset != null;
         animationHandler.add(A_IDLE, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_IDLE)));
         animationHandler.add(A_ATTACK, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_ATTACK)));
-        animationHandler.add(A_CRIT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_CRIT)));
+        animationHandler.add("air_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("air_atk")));
+        animationHandler.add("2_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("2_atk")));
+        animationHandler.add("3_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("3_atk")));
+        animationHandler.add("sp_atk", new Animation<TextureRegion>(FRAME_TIME, charset.findRegions("sp_atk")));
         animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
         animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
         animationHandler.setCurrent(A_IDLE, true);
@@ -389,10 +383,12 @@ public class BossScreen extends BaseScreen {
         enemyTexture.dispose();
     }
 
-    private void showAbilitiesDialog(Player player){
+    private void showAbilitiesDialog(Player player, AnimationHandler animationHandler){
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
-            // Handle abilities here
-        }, Assets.getSkin(), player);
+            ++whoseTurn;
+            System.out.println("Whose turn: " + whoseTurn);
+            evaluateCombat();
+        }, Assets.getSkin(), player, animationHandler, enemy);
         dialog.show(game.getStage());
     }
 
