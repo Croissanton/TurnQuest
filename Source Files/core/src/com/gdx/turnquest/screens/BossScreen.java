@@ -95,9 +95,11 @@ public class BossScreen extends BaseScreen {
                 if(whoseTurn < 2) {
                     if(whoseTurn == 0){
                         animationHandlerPlayer.setCurrent(A_ATTACK);
+                        CombatLogic.attack(player, enemy);
                     }
                     else if(whoseTurn == 1){
                         animationHandlerAlly.setCurrent(A_ATTACK);
+                        CombatLogic.attack(ally, enemy);
                     }
                     ++whoseTurn;
                 }

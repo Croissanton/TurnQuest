@@ -282,7 +282,6 @@ public class CombatScreen extends BaseScreen {
         if(animationHandler.isFinished() && player.getHP() != 0) {
             animationHandler.setCurrent(A_IDLE, true);
         }
-
         updateBarsAndTags();
 
         TextureRegion frame = animationHandler.getFrame();
