@@ -15,12 +15,10 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.InformationDialog;
 import com.gdx.turnquest.entities.Player;
-import jdk.javadoc.internal.doclets.toolkit.taglets.snippet.Style;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
 
 import java.util.*;
-import java.util.List;
+
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -128,11 +126,10 @@ public class ShopScreen extends BaseScreen {
             String name = set.getValue().get("name");
             String description = set.getValue().get("description");
 
-            String price = set.getValue().get("price");
+            String price = set.getValue().get("value");
 
 
             // Create label for item price
-
             Label priceLabel = new Label(price, Assets.getSkin());
             priceLabel.setAlignment(Align.center);
             priceLabel.setFontScale(1.2f);
@@ -185,11 +182,6 @@ public class ShopScreen extends BaseScreen {
     private ImageButton createItemButton(Map.Entry<String, LinkedHashMap<String, String>> set, Table descriptionTable)
     {
         String name = set.getValue().get("name");
-        String description = set.getValue().get("description");
-
-        String price = set.getValue().get("value");
-//        String attack = set.getValue().get("attack");
-//        String defence = set.getValue().get("defence");
         String imagePath = set.getValue().get("imagePath");
 
         // Load item texture
@@ -219,7 +211,7 @@ public class ShopScreen extends BaseScreen {
         labelName.setFontScale(2.5f);
         labelName.setAlignment(Align.center);
         descriptionTable.add(labelName).align(Align.top).padTop(60f).fill().row();
-//        descriptionTable.debug();
+
         for (Map.Entry<String, String> statistic: stats.entrySet()) {
             if (!(statistic.getKey().equals("imagePath") || statistic.getKey().equals("name"))) {
                 Label priceLabel;
@@ -232,21 +224,7 @@ public class ShopScreen extends BaseScreen {
                 priceLabel.setFontScale(1.3f);
                 descriptionTable.add(priceLabel).padTop(50f).row();
             }
-
         }
-
-
-//        Label priceLabel = new Label("Price " + price, Assets.getSkin());
-//        priceLabel.setFontScale(1.7f);
-//        descriptionTable.add(priceLabel).padTop(100f).row();
-//
-//        Label attackLabel = new Label("Attack " + attack, Assets.getSkin());
-//        attackLabel.setFontScale(1.7f);
-//        descriptionTable.add(attackLabel).padTop(30f).row();
-//
-//        Label defenceLable = new Label("Defence " + defence, Assets.getSkin());
-//        defenceLable.setFontScale(1.7f);
-//        descriptionTable.add(defenceLable).padTop(30f).padBottom(100f);
     }
 
     private void buyItem(String name, String price)
@@ -304,28 +282,23 @@ public class ShopScreen extends BaseScreen {
 
     private void parseShopItems(JsonValue item)
     {
-        String name = item.getString("name");
-        String description = item.getString("description");
-        String price = item.getString("value");
-        String classType = item.getString("classType");
-        JsonValue statsToExtract = item.get("stats");
-        
-
-        String imagePath = item.getString("imagePath");
         LinkedHashMap<String, String> stats = new LinkedHashMap<>();
-        stats.put("name", name);
-        stats.put("description", description);
-        stats.put("price", price);
-        stats.put("classType", classType);
-        stats.put("imagePath", imagePath);
-        JsonValue child = statsToExtract.child;
+        JsonValue child = item.child;
+
+        while (!child.name.equals("stats")) {
+            stats.put(child.name, item.getString(child.name));
+            child = child.next;
+        }
+
+        JsonValue statsToExtract = item.get("stats");
+        JsonValue grandchild = statsToExtract.child;
 
         for (int i = 0; i < statsToExtract.size; i++) {
 
-            stats.put(child.name, statsToExtract.getString(child.name));
-            child = child.next;
+            stats.put(grandchild.name, statsToExtract.getString(grandchild.name));
+            grandchild = grandchild.next;
         }
-        ShopScreen.shopItems.put(name, stats);
+        ShopScreen.shopItems.put(stats.get("name"), stats);
     }
 
 
