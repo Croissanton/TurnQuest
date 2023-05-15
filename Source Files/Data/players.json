@@ -206,28 +206,6 @@
 	},
 	"playerName": "asdf"
 },
-"pepe": {
-	"class": "com.gdx.turnquest.entities.Player",
-	"stats": {
-		"INT": 1,
-		"STR": 3,
-		"DEF": 1,
-		"LUK": 5,
-		"MP": 45,
-		"HP": 120,
-		"SPD": 5
-	},
-	"characterClass": "Archer",
-	"level": 1,
-	"inventory": {
-		"Potion": 5,
-		"Ether": 5,
-		"Leather Armor": 1,
-		"Bow": 1,
-		"Old Quiver": 1
-	},
-	"playerName": "pepe"
-},
 "ferfg4": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -252,6 +230,32 @@
 	"energy": 5,
 	"loginCount": 1,
 	"previousTime": 1684166997787
+},
+"pepe": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 116,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"gold": 50,
+	"exp": 50,
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "pepe",
+	"energy": 5,
+	"previousTime": 1684167788944
 },
 "player 123": {
 	"class": "com.gdx.turnquest.entities.Player",

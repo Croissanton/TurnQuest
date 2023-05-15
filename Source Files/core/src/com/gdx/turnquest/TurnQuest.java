@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.turnquest.dialogs.PreferencesDialog;
+import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.BaseScreen;
 import com.gdx.turnquest.screens.MainMenuScreen;

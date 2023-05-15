@@ -14,11 +14,18 @@ import java.util.Arrays;
 public class Player extends Character {
 
     private String characterClass;
+
     private int gold;
+
     private int exp;
+
     private int level;
+
     private ObjectMap<String, Integer> inventory;
+
     private final String playerName;
+
+    private String clanName = "";
 
     private String[] equipment = new String[3]; //There should also be a slot for rings.
 
@@ -274,11 +281,20 @@ public class Player extends Character {
         return (int) (Math.pow(level, 1.5) * 100);
     }
 
+    // return an array with the level of each ability
     public int[] getAbilities () {return abilities;}
 
+    // return the level of one ability
     public int getAbility (int ability) {return abilities[ability];}
 
+    // increase in one level an ability
     public void increaseAbility (int ability) {abilities[ability]++;}
+
+    // return the clan's name of the player
+    public String getClanName () {return clanName;}
+
+    // set a new clan
+    public void setClanName (String clan) {clanName = clan;}
 
     public void checkRefresh(){
         long actualTime = System.currentTimeMillis();
