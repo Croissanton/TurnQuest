@@ -233,19 +233,7 @@ public class CombatScreen extends BaseScreen {
 
         game.setStage(new Stage(getViewport()));
 
-        // Load the player and enemy textures
-        Texture warriorTexture = new Texture(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/png/fire_knight/01_idle/idle_1.png"));
-        Texture archerTexture = new Texture(Gdx.files.internal("Elementals_Leaf_ranger_Free_v1.0/animations/PNG/1_atk/1_atk_1.png"));
-        Texture mageTexture = new Texture(Gdx.files.internal("Elementals_water_priestess_FREE_v1.1/png/01_idle/idle_1.png"));
-
-        if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
-            playerTexture = warriorTexture;
-        } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
-            playerTexture = archerTexture;
-        } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
-            playerTexture = mageTexture;
-        }
-
+        // Load the enemy textures
         if (boss) {
             enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/03.png"));
         } else {
@@ -300,6 +288,7 @@ public class CombatScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
+
         if(animationHandler.isFinished() && !playerTurn){
             try {
                 sleep(100);
@@ -307,26 +296,22 @@ public class CombatScreen extends BaseScreen {
                 throw new RuntimeException(e);
             }
             CombatLogic.attack(enemy, player);
-            animationHandler.setCurrent(A_HURT);
             playerTurn = true;
+
+            if(player.getHP() == 0) animationHandler.setCurrent(A_DEATH);
+
+            else animationHandler.setCurrent(A_HURT);
+            evaluateCombat();
         }
-        if(animationHandler.isFinished()) animationHandler.setCurrent(A_IDLE, true);
+        if(animationHandler.isFinished() && player.getHP() != 0) {
+            animationHandler.setCurrent(A_IDLE, true);
+        }
 
-
-
+        updateBarsAndTags();
         TextureRegion frame = animationHandler.getFrame();
-
-        playerHPLabel.setText("HP: " + player.getHP());
-        playerMPLabel.setText("MP: " + player.getMP());
-        enemyHPLabel.setText("HP: " + enemy.getHP());
-        enemyMPLabel.setText("MP: " + enemy.getMP());
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        playerHPBar.setValue(player.getHP());
-        playerMPBar.setValue(player.getMP());
-        enemyHPBar.setValue(enemy.getHP());
-        enemyMPBar.setValue(enemy.getMP());
         enemySprite.draw(game.getBatch());
         game.getBatch().draw(frame, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.38f, frame.getRegionWidth() * 8f, frame.getRegionHeight() * 8f);
         game.getBatch().end();
@@ -365,7 +350,7 @@ public class CombatScreen extends BaseScreen {
             else{
                 System.out.println("Player not saved");
             }
-            new GameOverDialog(game, Assets.getSkin());
+            new GameOverDialog(game, Assets.getSkin()).show(game.getStage());
         }
         else if(enemy.getHP() <= 0){
             int level = player.getLevel();
@@ -380,5 +365,15 @@ public class CombatScreen extends BaseScreen {
 
             new VictoryDialog(game, Assets.getSkin()).show(game.getStage());
         }
+    }
+    private void updateBarsAndTags(){
+        playerHPLabel.setText("HP: " + player.getHP());
+        playerMPLabel.setText("MP: " + player.getMP());
+        enemyHPLabel.setText("HP: " + enemy.getHP());
+        enemyMPLabel.setText("MP: " + enemy.getMP());
+        playerHPBar.setValue(player.getHP());
+        playerMPBar.setValue(player.getMP());
+        enemyHPBar.setValue(enemy.getHP());
+        enemyMPBar.setValue(enemy.getMP());
     }
 }

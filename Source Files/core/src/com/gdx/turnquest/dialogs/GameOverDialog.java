@@ -7,18 +7,20 @@ import com.gdx.turnquest.screens.MapScreen;
 
 public class GameOverDialog extends Dialog {
 
-    private TurnQuest game;
+    private final TurnQuest game;
 
     public GameOverDialog(TurnQuest game, Skin skin) {
         super("Defeat", skin);
         this.game = game;
+        game.getMusic().dispose();
         text("You have been defeated.");
         button("OK");
     }
 
     @Override
     protected void result(Object object) {
-        game.pushScreen(new MapScreen(game));
+        game.setMusic("intro.ogg");
+        game.popScreen();
         hide();
     }
 }

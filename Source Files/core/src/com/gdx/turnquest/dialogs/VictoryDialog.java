@@ -9,7 +9,7 @@ import static com.gdx.turnquest.TurnQuest.*;
 
 public class VictoryDialog extends Dialog {
 
-    private TurnQuest game;
+    private final TurnQuest game;
 
     public VictoryDialog(TurnQuest game, Skin skin) {
         super("Victory", skin);
