@@ -1,7 +1,6 @@
 package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import java.time.LocalTime;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -57,8 +56,6 @@ public class Player extends Character {
         this.characterClass = characterClass;
         energy = 5;
         loginCount=1;
-        previousTime=LocalTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        actualTime= previousTime;
         gold = 0;
         exp = 0;
         level = 1;
