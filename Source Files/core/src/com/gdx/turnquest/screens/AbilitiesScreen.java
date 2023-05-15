@@ -411,7 +411,6 @@ public class AbilitiesScreen extends BaseScreen {
     public void render(float v) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
 
-        getMusic().play();
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 

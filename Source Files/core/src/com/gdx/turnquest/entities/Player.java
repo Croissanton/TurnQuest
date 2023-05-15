@@ -1,7 +1,9 @@
 package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import java.time.LocalTime;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 /**
@@ -26,13 +28,13 @@ public class Player extends Character {
 
     private int[] abilities = new int[4];
 
-    private int gameEnergy;
+    private int energy;
 
-    private int loginEnergy;
+    private int loginCount;
 
-    private String gametimeZero;
+    private String previousTime;
 
-    private String logintimeZero;
+    private String actualTime;
 
     /**
      * Creates a default Player object with no parameters. The player's name is set to null.
@@ -53,10 +55,10 @@ public class Player extends Character {
         super();
         this.playerName = playerName;
         this.characterClass = characterClass;
-        gameEnergy=0;
-        loginEnergy=1;
-        logintimeZero="17/04/2023 12:34:00";
-        gametimeZero="17/04/2023 12:34:00";
+        energy = 5;
+        loginCount=1;
+        previousTime=LocalTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        actualTime= previousTime;
         gold = 0;
         exp = 0;
         level = 1;

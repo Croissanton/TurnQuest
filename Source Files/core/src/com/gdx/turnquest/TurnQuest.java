@@ -41,7 +41,7 @@ public class TurnQuest extends Game {
 
 	private Player player;
 
-	private static Music music;
+	private Music music;
 
 	public static void playSfx(String filename) {
 		Sound sfx = Gdx.audio.newSound(Gdx.files.internal("sfx/" + filename));
@@ -103,7 +103,7 @@ public class TurnQuest extends Game {
 		return generalVolume;
 	}
 
-	public static void setGeneralVolume(int vol){
+	public void setGeneralVolume(int vol){
 		generalVolume=vol;
 		if(music != null) music.setVolume(generalVolume/100f);
 	}
@@ -174,11 +174,11 @@ public class TurnQuest extends Game {
 		return true;
 	}
 
-	public static Music getMusic() {
+	public Music getMusic() {
 		return music;
 	}
 
-	public static void setMusic(String filename) {
+	public void setMusic(String filename) {
 		//Remove previous music.
 		if(music != null) music.dispose();
 
@@ -191,7 +191,7 @@ public class TurnQuest extends Game {
 	}
 
 	public void showPreferencesDialog() {
-		PreferencesDialog dialog = new PreferencesDialog("Options", "", Assets.getSkin());
+		PreferencesDialog dialog = new PreferencesDialog("Options", "", Assets.getSkin(), this);
 		dialog.setColor(Color.LIGHT_GRAY);
 		dialog.show(getStage());
 	}

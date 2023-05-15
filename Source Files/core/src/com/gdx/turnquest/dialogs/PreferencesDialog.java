@@ -10,7 +10,7 @@ import com.gdx.turnquest.TurnQuest;
 
 public class PreferencesDialog extends Dialog {
 
-    public PreferencesDialog(String title, String message, Skin skin) {
+    public PreferencesDialog(String title, String message, Skin skin, TurnQuest game) {
         super(title, skin);
         text(message);
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
@@ -49,7 +49,7 @@ public class PreferencesDialog extends Dialog {
         sliderVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                TurnQuest.setGeneralVolume((int) sliderVolume.getValue());
+                game.setGeneralVolume((int) sliderVolume.getValue());
                 tTest.setText(" VOLUME: " + (int)sliderVolume.getValue());
             }
         });

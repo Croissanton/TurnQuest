@@ -229,12 +229,12 @@ public class ShopScreen extends BaseScreen {
 
         if (player.removeGold(priceInt) < 0)
         {
-            shoInformationDialog("Error", "Not enough gold to buy this item");
+            shopInformationDialog("Error", "Not enough gold to buy this item");
         }
         else
         {
             player.addItem(name, 1);
-            shoInformationDialog("Congratulation", "Item successfully bought");
+            shopInformationDialog("Congratulation", "Item successfully bought");
         }
 
     }
@@ -246,17 +246,17 @@ public class ShopScreen extends BaseScreen {
 
         if (player.removeItem(name, 1) < 0)
         {
-            shoInformationDialog("Error", "Item is not in the inventory");
+            shopInformationDialog("Error", "Item is not in the inventory");
         }
         else
         {
             player.addGold(priceInt);
-            shoInformationDialog("Congratulation", "Item successfully sold");
+            shopInformationDialog("Congratulation", "Item successfully sold");
         }
 
     }
 
-    private void shoInformationDialog(String title, String message)
+    private void shopInformationDialog(String title, String message)
     {
         InformationDialog dialog = new InformationDialog(title, message, Assets.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);

@@ -62,7 +62,7 @@ public class MainMenuScreen extends BaseScreen {
         Assets.loadFor(MainMenuScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-        if(getMusic() == null) setMusic("intro.ogg");
+        if(game.getMusic() == null) game.setMusic("intro.ogg");
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
         getViewport().apply();

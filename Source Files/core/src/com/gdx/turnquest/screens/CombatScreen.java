@@ -175,7 +175,7 @@ public class CombatScreen extends BaseScreen {
         Assets.loadFor(CombatScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-        setMusic("boss1.ogg");
+        game.setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
         try {
             playerManager = new PlayerManager();
@@ -291,7 +291,6 @@ public class CombatScreen extends BaseScreen {
         game.getStage().dispose();
         playerTexture.dispose();
         enemyTexture.dispose();
-        getMusic().dispose();
     }
 
     private void showAbilitiesDialog() {

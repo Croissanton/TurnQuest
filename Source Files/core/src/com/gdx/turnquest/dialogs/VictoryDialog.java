@@ -13,7 +13,7 @@ public class VictoryDialog extends Dialog {
 
     public VictoryDialog(TurnQuest game, Skin skin) {
         super("Victory", skin);
-        getMusic().dispose();
+        game.getMusic().dispose();
         this.game = game;
         text("Congratulations! You have won the combat.");
         playSfx("victory.ogg");
@@ -22,7 +22,7 @@ public class VictoryDialog extends Dialog {
 
     @Override
     protected void result(Object object) {
-        setMusic("intro.ogg");
+        game.setMusic("intro.ogg");
         game.popScreen();
         hide();
     }
