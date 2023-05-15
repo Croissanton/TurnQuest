@@ -100,8 +100,7 @@
 		"Old Quiver": 1
 	},
 	"playerName": "TESTUSER",
-	"loginCount": 1,
-	"previousTime": "17/04/2023 12:34:00"
+	"loginCount": 1
 },
 "grege": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -208,8 +207,7 @@
 		"Iron Sword": 1
 	},
 	"playerName": "TestingSavings",
-	"loginCount": 1,
-	"previousTime": "17/04/2023 12:34:00"
+	"loginCount": 1
 },
 "Croissanton": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -223,8 +221,8 @@
 		"SPD": 18
 	},
 	"characterClass": "Mage",
-	"gold": 41700,
-	"exp": 4398,
+	"gold": 41750,
+	"exp": 4448,
 	"level": 16,
 	"inventory": {
 		"Wooden Staff": 1,
@@ -233,6 +231,8 @@
 		"Ether": 5,
 		"Old Grimmorie": 1
 	},
-	"playerName": "Croissanton"
+	"playerName": "Croissanton",
+	"energy": 10,
+	"previousTime": 1684140126884
 }
 }

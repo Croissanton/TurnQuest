@@ -21,7 +21,7 @@ public class LoginDialog extends Dialog {
     private final TextField passwordField;
     private final Label errorLabel;
     private final TurnQuest game;
-    private UserManager userManager = new UserManager();
+    private final UserManager userManager = new UserManager();
     private String username;
     private String password;
 
@@ -64,11 +64,6 @@ public class LoginDialog extends Dialog {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
                 } else {
-//                    updateTimer(username, "login");
-//                    if (!checkLoginCount(username)) {
-//                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
-
-                        // If the credentials are valid, proceed with the login process
                     PlayerManager playerManager;
                     try {
                         playerManager = new PlayerManager();
@@ -76,6 +71,11 @@ public class LoginDialog extends Dialog {
                         throw new RuntimeException(e);
                     }
                     Player player = playerManager.getPlayer(username);
+                    player.checkRefresh();
+//                    if (!checkLoginCount(username)) {
+//                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
+
+                        // If the credentials are valid, proceed with the login process
                         game.setCurrentPlayer(player);
                         hide();
                         game.pushScreen(new GameScreen(game));

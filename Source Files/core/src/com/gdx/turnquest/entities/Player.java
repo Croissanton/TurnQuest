@@ -2,7 +2,6 @@ package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 /**
@@ -31,9 +30,7 @@ public class Player extends Character {
 
     private int loginCount;
 
-    private String previousTime;
-
-    private String actualTime;
+    private long previousTime;
 
     /**
      * Creates a default Player object with no parameters. The player's name is set to null.
@@ -55,6 +52,7 @@ public class Player extends Character {
         this.playerName = playerName;
         this.characterClass = characterClass;
         energy = 5;
+        previousTime = System.currentTimeMillis();
         loginCount=1;
         gold = 0;
         exp = 0;
@@ -275,4 +273,15 @@ public class Player extends Character {
 
     public void increaseAbility (int ability) {abilities[ability]++;}
 
+    public void checkRefresh(){
+        long actualTime = System.currentTimeMillis();
+        long TIME_BETWEEN_REFRESH = 86400000; // A day in milliseconds.
+        //If a day has passed
+        if(previousTime + TIME_BETWEEN_REFRESH < actualTime){
+            previousTime = actualTime;
+            //Refresh energy and login count
+            energy = 10;
+            loginCount = 0;
+        }
+    }
 }
