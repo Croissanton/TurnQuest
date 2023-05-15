@@ -322,7 +322,6 @@ public class BossScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
-
         if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished() && whoseTurn == 2 && !combatFinished){
             try {
                 sleep(100);
@@ -345,14 +344,18 @@ public class BossScreen extends BaseScreen {
         if(animationHandlerAlly.isFinished() && ally.getHP() != 0) {
             animationHandlerAlly.setCurrent(A_IDLE, true);
         }
+        // If the player is dead, only the ally attacks
         if(player.getHP() == 0 && whoseTurn == 0){
             whoseTurn = 1;
         }
+        // If the ally is dead, only the player attacks
         if(ally.getHP() == 0 && whoseTurn == 1){
             whoseTurn = 2;
         }
-        if(!combatFinished) evaluateCombat();
-        updateBarsAndTags();
+        if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished()) {
+            updateBarsAndTags();
+            if(!combatFinished) evaluateCombat();
+        }
 
         TextureRegion framePlayer = animationHandlerPlayer.getFrame();
         TextureRegion frameAlly = animationHandlerAlly.getFrame();

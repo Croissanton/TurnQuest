@@ -566,18 +566,18 @@
 "Croissanton": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
-		"INT": 39,
+		"INT": 41,
 		"STR": 10,
 		"DEF": 10,
-		"LUK": 20,
-		"MP": 500,
-		"HP": 700,
-		"SPD": 20
+		"LUK": 21,
+		"MP": 525,
+		"HP": 735,
+		"SPD": 21
 	},
 	"characterClass": "Mage",
-	"gold": 47100,
-	"exp": 389,
-	"level": 18,
+	"gold": 51700,
+	"exp": 353,
+	"level": 19,
 	"inventory": {
 		"Wooden Staff": 1,
 		"Silk Robe": 1,

@@ -263,26 +263,28 @@ public class CombatScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
-
-        if(animationHandler.isFinished() && !playerTurn && !combatFinished){
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            CombatLogic.attack(enemy, player);
-            playerTurn = true;
-
-            if(player.getHP() == 0) animationHandler.setCurrent(A_DEATH);
-
-            else animationHandler.setCurrent(A_HURT);
-
+        if(animationHandler.isFinished()){
+            updateBarsAndTags();
             if(!combatFinished) evaluateCombat();
+
+            if(!playerTurn && !combatFinished){
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                CombatLogic.attack(enemy, player);
+                playerTurn = true;
+
+                if(player.getHP() == 0) animationHandler.setCurrent(A_DEATH);
+
+                else animationHandler.setCurrent(A_HURT);
+
+            }
+            if(player.getHP() != 0) {
+                animationHandler.setCurrent(A_IDLE, true);
+            }
         }
-        if(animationHandler.isFinished() && player.getHP() != 0) {
-            animationHandler.setCurrent(A_IDLE, true);
-        }
-        updateBarsAndTags();
 
         TextureRegion frame = animationHandler.getFrame();
 

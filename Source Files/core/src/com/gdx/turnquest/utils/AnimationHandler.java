@@ -38,6 +38,9 @@ public class AnimationHandler {
         return current.equals(name);
     }
     public boolean isFinished(){
+        if(animations.get(current) == animations.get("idle")){
+            return true;
+        }
         return animations.get(current).isAnimationFinished(timer);
     }
     public int frameIndex(){
