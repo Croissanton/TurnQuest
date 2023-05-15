@@ -1,4 +1,57 @@
 {
+"EnergyTest": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "EnergyTest",
+	"gameEnergy": 5,
+	"loginEnergy": 1,
+	"gametimeZero": "17/04/2023 12:34:00",
+	"logintimeZero": "17/04/2023 12:34:00"
+},
+"asdf1": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"gold": 300,
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "asdf1",
+	"gameEnergy": 5,
+	"loginEnergy": 1,
+	"gametimeZero": "17/04/2023 12:34:00",
+	"logintimeZero": "17/04/2023 12:34:00"
+},
 "user123": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"characterClass": "Archer",
@@ -61,6 +114,32 @@
 		"Iron Sword": 1
 	},
 	"playerName": "guarrio"
+},
+"asdf": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "asdf",
+	"gameEnergy": 5,
+	"loginEnergy": 1,
+	"gametimeZero": "17/04/2023 12:34:00",
+	"logintimeZero": "17/04/2023 12:34:00"
 },
 "pepe": {
 	"class": "com.gdx.turnquest.entities.Player",
