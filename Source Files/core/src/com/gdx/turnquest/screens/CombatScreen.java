@@ -61,6 +61,7 @@ public class CombatScreen extends BaseScreen {
     private String A_DEATH = "death";
 
     private boolean playerTurn = true;
+    private boolean combatFinished = false;
 
     public CombatScreen(final TurnQuest game, boolean boss) {
         super(game);
@@ -301,7 +302,7 @@ public class CombatScreen extends BaseScreen {
             if(player.getHP() == 0) animationHandler.setCurrent(A_DEATH);
 
             else animationHandler.setCurrent(A_HURT);
-            evaluateCombat();
+            if(!combatFinished) evaluateCombat();
         }
         if(animationHandler.isFinished() && player.getHP() != 0) {
             animationHandler.setCurrent(A_IDLE, true);
@@ -351,6 +352,7 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("Player not saved");
             }
             new GameOverDialog(game, Assets.getSkin()).show(game.getStage());
+            combatFinished = true;
         }
         else if(enemy.getHP() <= 0){
             int level = player.getLevel();
@@ -364,6 +366,7 @@ public class CombatScreen extends BaseScreen {
             //create dialog that says you won and when ok is pressed, go back to map screen
 
             new VictoryDialog(game, Assets.getSkin()).show(game.getStage());
+            combatFinished = true;
         }
     }
     private void updateBarsAndTags(){

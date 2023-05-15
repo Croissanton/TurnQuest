@@ -287,7 +287,7 @@ public class Player extends Character {
         if(previousTime + TIME_BETWEEN_REFRESH < actualTime){
             previousTime = actualTime;
             //Refresh energy and login count
-            energy = 10;
+            energy = 5;
             loginCount = 0;
         }
     }
