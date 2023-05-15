@@ -15,16 +15,19 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.InformationDialog;
 import com.gdx.turnquest.entities.Player;
+import jdk.javadoc.internal.doclets.toolkit.taglets.snippet.Style;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class ShopScreen extends BaseScreen {
     private static final int CellWidth=100;
     private static final int CellHeight=80;
-    static Hashtable<String, Hashtable<String, String>> shopItems;
+    static HashMap<String, LinkedHashMap<String, String>> shopItems;
 
     public ShopScreen(final TurnQuest game) {
         super(game);
@@ -45,7 +48,7 @@ public class ShopScreen extends BaseScreen {
         TextButton backButton = createBackButton();
         rightTable.add(descriptionTable).fill().expand();
         rightTable.row();
-        rightTable.add(backButton).padBottom(100f);
+        rightTable.add(backButton).padBottom(100f).align(Align.bottom);
     }
 
     private void setRootTable(Table rootTable, Table firstTable, ScrollPane scrollPane, Table rightTable){
@@ -65,7 +68,7 @@ public class ShopScreen extends BaseScreen {
     private void setFirstRow(Table firstTable)
     {
         firstTable.defaults().pad(30).width(CellWidth).height(CellHeight);
-        firstTable.columnDefaults(0).align(Align.center).width(CellWidth);
+        firstTable.columnDefaults(0).align(Align.center).width(CellWidth*2);
         firstTable.columnDefaults(1).width(CellWidth);
         firstTable.columnDefaults(2).padRight((float) CellWidth / 2).width(CellWidth);
         firstTable.columnDefaults(3).padRight((float) CellWidth / 2).width(CellWidth);
@@ -109,7 +112,7 @@ public class ShopScreen extends BaseScreen {
     private void setItemTable(Table itemTable, Table descriptionTable)
     {
         itemTable.defaults().pad(30).width(CellWidth).height(CellHeight);
-        itemTable.columnDefaults(0).align(Align.center).width(CellWidth);
+        itemTable.columnDefaults(0).align(Align.center).width(CellWidth*2);
         itemTable.columnDefaults(1).width(CellWidth);
         itemTable.columnDefaults(2).width(CellWidth);
         itemTable.columnDefaults(3).padLeft(50).padRight((float) CellWidth / 2).width(CellWidth);
@@ -120,13 +123,13 @@ public class ShopScreen extends BaseScreen {
 
     private void addItems(Table itemTable, Table descriptionTable)
     {
-        for (Map.Entry<String, Hashtable<String, String>> set : shopItems.entrySet())
+        for (Map.Entry<String, LinkedHashMap<String, String>> set : shopItems.entrySet())
         {
-            String name = set.getKey();
+            String name = set.getValue().get("name");
+            String description = set.getValue().get("description");
+
             String price = set.getValue().get("price");
-            String attack = set.getValue().get("attack");
-            String defence = set.getValue().get("defence");
-            String imagePath = set.getValue().get("imagePath");
+
 
             // Create label for item price
 
@@ -137,7 +140,7 @@ public class ShopScreen extends BaseScreen {
             nameLabel.setFontScale(1.2f);
 
             // Create image button
-            ImageButton itemButton = createItemButton(name, price, attack, defence, imagePath, descriptionTable);
+            ImageButton itemButton = createItemButton(set, descriptionTable);
 
             // Create buy/sell buttons for item
             TextButton buyButton = createBuyButton(name, price, descriptionTable);
@@ -179,9 +182,16 @@ public class ShopScreen extends BaseScreen {
         return sellButton;
     }
 
-    private ImageButton createItemButton(String name, String price, String attack,
-                                         String defence, String imagePath, Table descriptionTable)
+    private ImageButton createItemButton(Map.Entry<String, LinkedHashMap<String, String>> set, Table descriptionTable)
     {
+        String name = set.getValue().get("name");
+        String description = set.getValue().get("description");
+
+        String price = set.getValue().get("value");
+//        String attack = set.getValue().get("attack");
+//        String defence = set.getValue().get("defence");
+        String imagePath = set.getValue().get("imagePath");
+
         // Load item texture
         Texture itemTexture = new Texture(Gdx.files.internal(imagePath));
 
@@ -196,30 +206,47 @@ public class ShopScreen extends BaseScreen {
         itemButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                showStats(name, price, attack, defence, descriptionTable);
+                showStats(name, set.getValue(), descriptionTable);
             }
         });
         return itemButton;
     }
 
-    private void showStats(String name, String price, String attack, String defence, Table descriptionTable)
+    private void showStats(String name, Map<String, String > stats, Table descriptionTable)
     {
         descriptionTable.clear();
         Label labelName = new Label(name, Assets.getSkin());
         labelName.setFontScale(2.5f);
+        labelName.setAlignment(Align.center);
         descriptionTable.add(labelName).align(Align.top).padTop(60f).fill().row();
+//        descriptionTable.debug();
+        for (Map.Entry<String, String> statistic: stats.entrySet()) {
+            if (!(statistic.getKey().equals("imagePath") || statistic.getKey().equals("name"))) {
+                Label priceLabel;
+                if (statistic.getKey().equals("description"))
+                    priceLabel = new Label(statistic.getValue(), Assets.getSkin());
+                else
+                    priceLabel = new Label(statistic.getKey() + " " + statistic.getValue(), Assets.getSkin());
 
-        Label priceLabel = new Label("Price " + price, Assets.getSkin());
-        priceLabel.setFontScale(1.7f);
-        descriptionTable.add(priceLabel).padTop(100f).row();
 
-        Label attackLabel = new Label("Attack " + attack, Assets.getSkin());
-        attackLabel.setFontScale(1.7f);
-        descriptionTable.add(attackLabel).padTop(30f).row();
+                priceLabel.setFontScale(1.3f);
+                descriptionTable.add(priceLabel).padTop(50f).row();
+            }
 
-        Label defenceLable = new Label("Defence " + defence, Assets.getSkin());
-        defenceLable.setFontScale(1.7f);
-        descriptionTable.add(defenceLable).padTop(30f).padBottom(100f);
+        }
+
+
+//        Label priceLabel = new Label("Price " + price, Assets.getSkin());
+//        priceLabel.setFontScale(1.7f);
+//        descriptionTable.add(priceLabel).padTop(100f).row();
+//
+//        Label attackLabel = new Label("Attack " + attack, Assets.getSkin());
+//        attackLabel.setFontScale(1.7f);
+//        descriptionTable.add(attackLabel).padTop(30f).row();
+//
+//        Label defenceLable = new Label("Defence " + defence, Assets.getSkin());
+//        defenceLable.setFontScale(1.7f);
+//        descriptionTable.add(defenceLable).padTop(30f).padBottom(100f);
     }
 
     private void buyItem(String name, String price)
@@ -265,7 +292,7 @@ public class ShopScreen extends BaseScreen {
 
     private void readShopItems()
     {
-        FileHandle file = Gdx.files.internal("../shop.json");
+        FileHandle file = Gdx.files.internal("../Data/items.json");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         JsonValue rootJson = new JsonReader().parse(file.readString());
@@ -277,16 +304,27 @@ public class ShopScreen extends BaseScreen {
 
     private void parseShopItems(JsonValue item)
     {
-        String name = item.name;
-        String price = item.getString("price");
-        String attack = item.getString("attack");
-        String defence = item.getString("defence");
-        String imagePath = item.getString("image_path");
-        Hashtable<String, String> stats = new Hashtable<>();
-        stats.put("attack", attack);
-        stats.put("defence", defence);
+        String name = item.getString("name");
+        String description = item.getString("description");
+        String price = item.getString("value");
+        String classType = item.getString("classType");
+        JsonValue statsToExtract = item.get("stats");
+        
+
+        String imagePath = item.getString("imagePath");
+        LinkedHashMap<String, String> stats = new LinkedHashMap<>();
+        stats.put("name", name);
+        stats.put("description", description);
         stats.put("price", price);
+        stats.put("classType", classType);
         stats.put("imagePath", imagePath);
+        JsonValue child = statsToExtract.child;
+
+        for (int i = 0; i < statsToExtract.size; i++) {
+
+            stats.put(child.name, statsToExtract.getString(child.name));
+            child = child.next;
+        }
         ShopScreen.shopItems.put(name, stats);
     }
 
@@ -295,7 +333,7 @@ public class ShopScreen extends BaseScreen {
     public Table createUIComponents() {
 
         // Load inventory
-        shopItems = new Hashtable<>();
+        shopItems = new HashMap<>();
         readShopItems();
 
         // Create description of the item table
