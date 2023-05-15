@@ -2,7 +2,10 @@ package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -16,6 +19,7 @@ import com.gdx.turnquest.dialogs.GameOverDialog;
 import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.AnimationHandler;
 import com.gdx.turnquest.utils.EnemyManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
@@ -50,6 +54,7 @@ public class CombatScreen extends BaseScreen {
     private ProgressBar playerMPBar;
     private ProgressBar enemyHPBar;
     private ProgressBar enemyMPBar;
+    private AnimationHandler animationHandler;
 
     public CombatScreen(final TurnQuest game, boolean boss) {
         super(game);
@@ -78,6 +83,7 @@ public class CombatScreen extends BaseScreen {
         attackButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                animationHandler.setCurrent("1_atk");
                 CombatLogic.attack(player, enemy);
                 evaluateCombat();
             }
@@ -118,10 +124,20 @@ public class CombatScreen extends BaseScreen {
     }
 
     private Sprite createPlayerSprite() {
-        playerSprite = new Sprite(playerTexture);
+        animationHandler = new AnimationHandler();
+        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/warrior.atlas"));
+        String A_IDLE = "idle";
+        String A_ATTACK = "1_atk";
+        String A_CRIT = "2_atk";
+        float FRAME_TIME = 1 / 15f;
+        animationHandler.add(A_IDLE, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_IDLE)));
+        animationHandler.add(A_ATTACK, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_ATTACK)));
+        animationHandler.add(A_CRIT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_CRIT)));
+        animationHandler.setCurrent(A_IDLE);
+/*        playerSprite = new Sprite(playerTexture);
         playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.79f); // Set the position of the player sprite
 //        playerSprite.setSize(200, 200); // Set the size of the player sprite
-        playerSprite.setScale(8);
+        playerSprite.setScale(8);*/
         return playerSprite;
     }
 
@@ -264,6 +280,12 @@ public class CombatScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
+        if(animationHandler.isFinished()){
+            animationHandler.setCurrent("idle");
+        }
+
+        TextureRegion frame = animationHandler.getFrame();
+
         playerHPLabel.setText("HP: " + player.getHP());
         playerMPLabel.setText("MP: " + player.getMP());
         enemyHPLabel.setText("HP: " + enemy.getHP());
@@ -275,8 +297,9 @@ public class CombatScreen extends BaseScreen {
         playerMPBar.setValue(player.getMP());
         enemyHPBar.setValue(enemy.getHP());
         enemyMPBar.setValue(enemy.getMP());
-        playerSprite.draw(game.getBatch());
+        //playerSprite.draw(game.getBatch());
         enemySprite.draw(game.getBatch());
+        game.getBatch().draw(frame, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.38f, frame.getRegionWidth() * 8f, frame.getRegionHeight() * 8f);
         game.getBatch().end();
 
         game.getStage().act();
