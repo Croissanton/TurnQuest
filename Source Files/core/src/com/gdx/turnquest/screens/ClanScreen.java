@@ -1,8 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,21 +9,33 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class ClanScreen implements Screen {
-    final TurnQuest game;
+public class ClanScreen extends BaseScreen {
 
     public ClanScreen(final TurnQuest game) {
-        this.game = game;
+        super(game);
+    }
 
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
+    @Override
+    public void show() {
+        Assets.loadFor(ClanScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
+        game.getStage().addActor(createUIComponents());
 
+        // apply
+        getViewport().apply();
+        super.show();
+    }
+
+    @Override
+    public Table createUIComponents() {
         // return button
-        TextButton bReturn = new TextButton("Return", game.getSkin());
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
 
         //create the table
         Table table = new Table();
@@ -34,23 +44,14 @@ public class ClanScreen implements Screen {
 
         // add return button to the table
         table.add(bReturn).bottom();
-
-        game.getStage().addActor(table);
-
         // return to GameScreen when pressed return button
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
-
-        // apply
-        getViewport().apply();
-    }
-
-    @Override
-    public void show() {Gdx.input.setInputProcessor(game.getStage());
+        return table;
     }
 
     @Override
@@ -61,42 +62,14 @@ public class ClanScreen implements Screen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
-        //game.getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
-        game.getFont().draw(game.getBatch(), game.getCurrentPlayer().getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
+        Assets.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
+        Assets.getFont().draw(game.getBatch(), game.getCurrentPlayer().getCharacterClass(), getVirtualWidth()*0.45f, getVirtualHeight()*.75f);
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
+        handleKeyboardInput();
     }
 }

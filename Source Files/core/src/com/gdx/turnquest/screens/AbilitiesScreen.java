@@ -1,8 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,13 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Player;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class AbilitiesScreen implements Screen {
-
-    final TurnQuest game;
+public class AbilitiesScreen extends BaseScreen {
 
     // set all buttons to not clicked, need to be global
     boolean clicked1 = false;
@@ -31,19 +28,19 @@ public class AbilitiesScreen implements Screen {
     static int times3 = 0;
     static int times4 = 0;
 
-    public AbilitiesScreen (final TurnQuest game) {
-        this.game = game;
+    public AbilitiesScreen(final TurnQuest game) {
+        super(game);
+    }
+
+    private Table createAbilitiesTable() {
         Player player = game.getCurrentPlayer();
+        int[] abilities = player.getAbilities();
 
-        // load player's abiities level
-        times1 = player.getNAb1();
-        times2 = player.getNAb2();
-        times3 = player.getNAb3();
-        times4 = player.getNAb4();
-
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
-        game.setStage(new Stage(getViewport()));
+        // load player's abilities level
+        times1 = abilities[0];
+        times2 = abilities[1];
+        times3 = abilities[2];
+        times4 = abilities[3];
 
         // Set the position of the label relative to the size of the stage
         // calculate where the labels will be
@@ -51,10 +48,10 @@ public class AbilitiesScreen implements Screen {
         float centerY = getVirtualHeight() * 0.65f;
 
         // tooltip labels that will be shown when hovering buttons when locked
-        Label tt1 = new Label("", game.getSkin());
-        Label tt2 = new Label("", game.getSkin());
-        Label tt3 = new Label("", game.getSkin());
-        Label tt4 = new Label("", game.getSkin());
+        Label tt1 = new Label("", Assets.getSkin());
+        Label tt2 = new Label("", Assets.getSkin());
+        Label tt3 = new Label("", Assets.getSkin());
+        Label tt4 = new Label("", Assets.getSkin());
 
         // set to not be shown while not  hovering
         tt1.setVisible(false);
@@ -69,7 +66,7 @@ public class AbilitiesScreen implements Screen {
         game.getStage().addActor(tt4);
 
         // abilities buttons
-        TextButton bAb1 = new TextButton("", game.getSkin());
+        TextButton bAb1 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("Pierce");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -78,7 +75,7 @@ public class AbilitiesScreen implements Screen {
             bAb1.setText("Critical");
         }
 
-        TextButton bAb2 = new TextButton("", game.getSkin());
+        TextButton bAb2 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb2.setText("Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -87,7 +84,7 @@ public class AbilitiesScreen implements Screen {
             bAb2.setText("Water Stab");
         }
 
-        TextButton bAb3 = new TextButton("", game.getSkin());
+        TextButton bAb3 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb3.setText("Fire Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -96,7 +93,7 @@ public class AbilitiesScreen implements Screen {
             bAb3.setText("Wave");
         }
 
-        TextButton bAb4 = new TextButton("", game.getSkin());
+        TextButton bAb4 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Fire Sword");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -149,8 +146,6 @@ public class AbilitiesScreen implements Screen {
 
         abilitiesTable.padTop(100f); // add some padding at the top
 
-        game.getStage().addActor(abilitiesTable);
-
         // buttons' listeners
         // listener of button one when hovered
         bAb1.addListener(new InputListener() {
@@ -193,7 +188,7 @@ public class AbilitiesScreen implements Screen {
                 bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked1 = true;
                 times1++;
-                player.setNAb1(times1);
+                player.increaseAbility(0);
             }
         });
 
@@ -238,7 +233,7 @@ public class AbilitiesScreen implements Screen {
                 bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked2 = true;
                 times2++;
-                player.setNAb2(times2);
+                player.increaseAbility(1);
             }
         });
 
@@ -250,7 +245,7 @@ public class AbilitiesScreen implements Screen {
                     if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                        tt3.setText("Already unlocked. It increase the damage 0.3% each upgrade, total: " + (times3 - 1) * 0.3 + "%.");
+                        tt3.setText("Already unlocked. It increase the damage 0.3% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
                         tt3.setText("Already unlocked. It increase the damage 0.5% each upgrade, total: " + (times3 - 1) * 0.5 + "%.");
                     }
@@ -283,7 +278,7 @@ public class AbilitiesScreen implements Screen {
                 bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked3 = true;
                 times3++;
-                player.setNAb3(times3);
+                player.increaseAbility(2);
             }
         });
 
@@ -328,43 +323,45 @@ public class AbilitiesScreen implements Screen {
                 bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
                 clicked4 = true;
                 times4++;
-                player.setNAb4(times4);
+                player.increaseAbility(3);
             }
         });
 
-        // table buttons
-        TextButton bReturn = new TextButton("Return", game.getSkin());
-        TextButton bLeftArrow = new TextButton("<-", game.getSkin());
-        TextButton bRightArrow = new TextButton("->", game.getSkin());
+        return abilitiesTable;
+    }
 
-        // table for return
-        Table table = new Table();
+    private Table createNavigationTable() {
+        // table buttons
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
+        TextButton bLeftArrow = new TextButton("<-", Assets.getSkin());
+        TextButton bRightArrow = new TextButton("->", Assets.getSkin());
+
+        // table for navigation
+        Table navigationTable = new Table();
         // add some padding and expand each cell
-        table.defaults().expand().pad(50);
-        table.setFillParent(true);
+        navigationTable.defaults().expand().pad(50);
+        navigationTable.setFillParent(true);
 
         // order the buttons of the table
-        table.add(bLeftArrow).left();
-        table.add();
-        table.add(bRightArrow).right();
-        table.row();
-        table.add();
-        table.add(bReturn).bottom();
-
-        game.getStage().addActor(table);
+        navigationTable.add(bLeftArrow).left();
+        navigationTable.add();
+        navigationTable.add(bRightArrow).right();
+        navigationTable.row();
+        navigationTable.add();
+        navigationTable.add(bReturn).bottom();
 
         // if an arrow is clicked, go to abilities screen
         bRightArrow.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new InventoryScreen(game));
+                game.pushScreen(new InventoryScreen(game));
             }
         });
 
         bLeftArrow.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new InventoryScreen(game));
+                game.pushScreen(new InventoryScreen(game));
             }
         });
 
@@ -372,17 +369,43 @@ public class AbilitiesScreen implements Screen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
 
-        getViewport().apply();
+        return navigationTable;
+    }
+
+    public Table createUIComponents() {
+        Table mainTable = new Table();
+        mainTable.setFillParent(true);
+
+        // Abilities table
+        Table abilitiesTable = createAbilitiesTable();
+        mainTable.add(abilitiesTable).padTop(100f).expandY().top().row();
+
+        // Navigation table
+        Table navigationTable = createNavigationTable();
+        mainTable.add(navigationTable).expandY().bottom();
+
+        return mainTable;
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(game.getStage());
+        Assets.loadFor(AbilitiesScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+
+        game.setStage(new Stage(getViewport()));
+
+        game.getStage().addActor(createAbilitiesTable());
+
+        game.getStage().addActor(createNavigationTable());
+        getViewport().apply();
+        super.show();
     }
+
 
     @Override
     public void render(float v) {
@@ -392,49 +415,13 @@ public class AbilitiesScreen implements Screen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
-        game.getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        Assets.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
+        handleKeyboardInput();
     }
-
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
-    }
-
-    public static int getTimes1() {return times1;}
-
-    public static int getTimes2() {return times2;}
-
-    public static int getTimes3() {return times3;}
-
-    public static int getTimes4() {return times4;}
 }

@@ -4,27 +4,24 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.logic.CombatLogic;
-import com.gdx.turnquest.utils.EnemyManager;
 import com.gdx.turnquest.screens.CombatScreen;
 
 public class AbilitiesDialog extends Dialog {
 
-    private final TurnQuest game;
-    private Runnable yesRunnable;
+    private final Runnable yesRunnable;
 
-    public AbilitiesDialog(String title, String message, Runnable yesRunnable, Skin skin, TurnQuest game) {
+    public AbilitiesDialog(String title, Runnable yesRunnable, Skin skin, TurnQuest game) {
         super(title, skin);
-        this.game = game;
         Player player = game.getCurrentPlayer();
-        Enemy enemy = new EnemyManager().getEnemy("enemy1_01");
         this.yesRunnable = yesRunnable;
 
         // buttons
         // abilities buttons
-        TextButton bAb1 = new TextButton("", game.getSkin());
+        TextButton bAb1 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb1.setText("Pierce");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -33,7 +30,7 @@ public class AbilitiesDialog extends Dialog {
             bAb1.setText("Critical");
         }
 
-        TextButton bAb2 = new TextButton("", game.getSkin());
+        TextButton bAb2 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb2.setText("Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -42,7 +39,7 @@ public class AbilitiesDialog extends Dialog {
             bAb2.setText("Water Stab");
         }
 
-        TextButton bAb3 = new TextButton("", game.getSkin());
+        TextButton bAb3 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb3.setText("Fire Spin");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
@@ -51,13 +48,30 @@ public class AbilitiesDialog extends Dialog {
             bAb3.setText("Wave");
         }
 
-        TextButton bAb4 = new TextButton("", game.getSkin());
+        TextButton bAb4 = new TextButton("", Assets.getSkin());
         if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Fire Sword");
         } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Ray");
         } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
             bAb4.setText("Tear Down");
+        }
+
+        // if ability is not unlocked, it will be shown locked
+        if (0 == player.getAbility(0)) {
+            bAb1.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        }
+
+        if (0 == player.getAbility(1)) {
+            bAb2.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        }
+
+        if (0 == player.getAbility(2)) {
+            bAb3.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        }
+
+        if (0 == player.getAbility(3)) {
+            bAb4.setColor(0.3f, 0.7f, 0.8f, 0.5f);
         }
 
         // return button
@@ -72,57 +86,50 @@ public class AbilitiesDialog extends Dialog {
 
         bAb1.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.pierceAttack(player, CombatScreen.getEnemy());
-                } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.rootAttack(player, CombatScreen.getEnemy());
-                } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.criticalAttack(player, CombatScreen.getEnemy());
+                // if ability is not unlocked, it will be locked
+                if (0 == player.getAbility(0)) {
+                    hide();
+                } else {
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 0, 5);
+                    hide();
                 }
-
-                hide();
             }
         });
 
         bAb2.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.spinAttack(player, CombatScreen.getEnemy());
-                } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.poisonAttack(player, CombatScreen.getEnemy());
-                } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.waterStabAttack(player, CombatScreen.getEnemy());
-                }
+                // if ability is not unlocked, it will be locked
+                if (0 == player.getAbility(1)) {
+                    hide();
+                } else {
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 1, 8);
 
-                hide();
+                    hide();
+                }
             }
         });
 
         bAb3.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.fireSpinAttack(player, CombatScreen.getEnemy());
-                } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.multipleAttack(player, CombatScreen.getEnemy());
-                } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.waveAttack(player, CombatScreen.getEnemy());
+                // if ability is not unlocked, it will be locked
+                if (0 == player.getAbility(2)) {
+                    hide();
+                } else {
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 2, 10);
+                    hide();
                 }
-
-                hide();
             }
         });
 
         bAb4.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                if ("Warrior".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.fireSwordAttack(player, CombatScreen.getEnemy());
-                } else if ("Archer".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.rayAttack(player, CombatScreen.getEnemy());
-                } else if ("Mage".equalsIgnoreCase(player.getCharacterClass())) {
-                    CombatLogic.tearDownAttack(player, CombatScreen.getEnemy());
+                // if ability is not unlocked, it will be locked
+                if (0 == player.getAbility(3)) {
+                    hide();
+                } else {
+                    CombatLogic.useAbility(player, CombatScreen.getEnemy(), 3, 15);
+                    hide();
                 }
-
-                hide();
             }
         });
 

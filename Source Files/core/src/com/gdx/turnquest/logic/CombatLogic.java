@@ -3,8 +3,6 @@ package com.gdx.turnquest.logic;
 import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
-import com.gdx.turnquest.entities.Ally;
-import com.gdx.turnquest.screens.AbilitiesScreen;
 
 public class CombatLogic {
     public static void attack(Character attacker, Character defender) {
@@ -16,221 +14,201 @@ public class CombatLogic {
         }
         else{
             damage = (attacker.getSTR() - defender.getDEF()/2);
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
+        dealDamage(defender, damage);
     }
 
     // abilities attacks
+    public static void useAbility(Player attacker, Character defender, int ability, int MPcost) {
+        if(attacker.getMP() < MPcost){
+            attack(attacker, defender); //Normal attack if not enough MP.
+            return;
+        }
+        attacker.setMP(attacker.getMP() - MPcost);
+        switch (attacker.getCharacterClass()) {
+            case "Warrior":
+                switch (ability) {
+                    case 0:
+                        dealDamage(defender, pierceAttack(attacker, defender));
+                        break;
+                    case 1:
+                        dealDamage(defender, spinAttack(attacker, defender));
+                        break;
+                    case 2:
+                        dealDamage(defender, fireSpinAttack(attacker, defender));
+                        break;
+                    case 3:
+                        dealDamage(defender, fireSwordAttack(attacker, defender));
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Archer":
+                switch (ability) {
+                    case 0:
+                        dealDamage(defender, rootAttack(attacker, defender));
+                        break;
+                    case 1:
+                        dealDamage(defender, poisonAttack(attacker, defender));
+                        break;
+                    case 2:
+                        dealDamage(defender, multipleAttack(attacker, defender));
+                        break;
+                    case 3:
+                        dealDamage(defender, rayAttack(attacker, defender));
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Mage":
+                switch (ability) {
+                    case 0:
+                        dealDamage(defender, criticalAttack(attacker, defender));
+                        break;
+                    case 1:
+                        dealDamage(defender, waterStabAttack(attacker, defender));
+                        break;
+                    case 2:
+                        dealDamage(defender, waveAttack(attacker, defender));
+                        break;
+                    case 3:
+                        dealDamage(defender, tearDownAttack(attacker, defender));
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
     // warrior abilities
-    public static void pierceAttack(Character attacker, Character defender) {
+    private static int pierceAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * AbilitiesScreen.getTimes1() * 0.05);
+            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * attacker.getAbility(0) * 0.05);
         }
         else{
-            damage = (int) (attacker.getSTR() + attacker.getSTR() * AbilitiesScreen.getTimes1() * 0.05);
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() + attacker.getSTR() * attacker.getAbility(0) * 0.05);
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 5);
+        return damage;
     }
 
-    public static void spinAttack(Character attacker, Character defender) {
+    private static int spinAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 - defender.getDEF()/2);
+            damage = (int) (attacker.getSTR() * 1.5 * 0.5 * 3 + attacker.getSTR() * attacker.getAbility(1) * 0.05 - defender.getDEF()/2);
         }
         else{
-            damage = (int) (attacker.getSTR() * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 - defender.getDEF()/2);
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() * 0.5 * 3 + attacker.getSTR() * attacker.getAbility(1) * 0.05 - defender.getDEF()/2);
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 8);
+        return damage;
     }
 
-    public static void fireSpinAttack(Character attacker, Character defender) {
+    private static int fireSpinAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 * 0.4 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes3() * 0.05 + attacker.getSTR() * 0.2 * 3 - defender.getDEF()/2);
+            damage = (int) (attacker.getSTR() * 1.5 * 0.4 * 3 + attacker.getSTR() * attacker.getAbility(2) * 0.05 + attacker.getSTR() * 0.2 * 3 - defender.getDEF()/2);
         }
         else {
-            damage = (int) (attacker.getSTR() * 0.4 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes3() * 0.05 + attacker.getSTR() * 0.2 * 3 - defender.getDEF()/2);
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() * 0.4 * 3 + attacker.getSTR() * attacker.getAbility(2) * 0.05 + attacker.getSTR() * 0.2 * 3 - defender.getDEF()/2);
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 10);
+        return damage;
     }
 
-    public static void fireSwordAttack(Character attacker, Character defender) {
+    private static int fireSwordAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 * 2 + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 + attacker.getSTR() * 0.2) - defender.getDEF()/2;
+            damage = (int) (attacker.getSTR() * 1.5 * 2 + attacker.getSTR() * attacker.getAbility(3) * 0.05 + attacker.getSTR() * 0.2) - defender.getDEF()/2;
         }
         else {
-            damage = (int) (attacker.getSTR() * 2 + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 + attacker.getSTR() * 0.2) - defender.getDEF()/2;
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() * 2 + attacker.getSTR() * attacker.getAbility(3) * 0.05 + attacker.getSTR() * 0.2) - defender.getDEF()/2;
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 15);
+        return damage;
     }
 
     // archer abilities
-    public static void rootAttack(Character attacker, Character defender) {
+    private static int rootAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * AbilitiesScreen.getTimes1() * 0.05)  - defender.getDEF()/2;
+            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * attacker.getAbility(0) * 0.05)  - defender.getDEF()/2;
         }
         else{
-            damage = (int) (attacker.getSTR() + attacker.getSTR() * AbilitiesScreen.getTimes1() * 0.05) - defender.getDEF()/2;
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() + attacker.getSTR() * attacker.getAbility(0) * 0.05) - defender.getDEF()/2;
         }
-
-        defender.setHP(defender.getHP() - damage);
-        defender.setDEF((int) (defender.getDEF() * 0.25));
-
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 5);
+        defender.setDEF((int) (defender.getDEF() * 0.75));
+        return damage;
     }
 
-    public static void poisonAttack(Character attacker, Character defender) {
+    private static int poisonAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
+            damage = (int) (attacker.getSTR() * 1.5 + attacker.getSTR() * attacker.getAbility(1) * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
         }
         else {
-            damage = (int) (attacker.getSTR() + attacker.getSTR() * AbilitiesScreen.getTimes2() * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() + attacker.getSTR() * attacker.getAbility(1) * 0.05 + attacker.getSTR() * 0.1 * 3) - defender.getDEF()/2;
         }
 
-        defender.setHP(defender.getHP() - damage);
         defender.setSTR((int) (defender.getSTR() * 0.9));
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 8);
+        return damage;
     }
 
-    public static void multipleAttack(Character attacker, Character defender) {
+    private static int multipleAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getSTR() * 1.5 * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes3() * 0.05 - defender.getDEF()/2);
+            damage = (int) (attacker.getSTR() * 1.5 * 0.5 * 3 + attacker.getSTR() * attacker.getAbility(2) * 0.05 - defender.getDEF()/2);
         }
         else{
-            damage = (int) (attacker.getSTR() * 0.5 * 3 + attacker.getSTR() * AbilitiesScreen.getTimes3() * 0.05 - defender.getDEF()/2);
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() * 0.5 * 3 + attacker.getSTR() * attacker.getAbility(2) * 0.05 - defender.getDEF()/2);
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 10);
+        return damage;
     }
 
-    public static void rayAttack(Character attacker, Character defender) {
+    private static int rayAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
-        if (critChance <= attacker.getLUK() + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 - defender.getLUK()/2) {
+        if (critChance <= attacker.getLUK() + attacker.getSTR() * attacker.getAbility(3) * 0.05 - defender.getLUK()/2f) {
             damage = (int) (attacker.getSTR() * 1.5 * 2.5) - defender.getDEF()/2;
         }
         else{
-            damage = (int) (attacker.getSTR() * 2.5 + attacker.getSTR() * AbilitiesScreen.getTimes4() * 0.05 - defender.getDEF()/2);
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getSTR() * 2.5 + attacker.getSTR() * attacker.getAbility(3) * 0.05 - defender.getDEF()/2);
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 15);
+        return damage;
     }
 
     // mage abilities
-    public static void criticalAttack(Character attacker, Character defender) {
+    private static int criticalAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int damage;
 
-        damage = (int) (attacker.getINT() * 1.5 + attacker.getINT() * AbilitiesScreen.getTimes1()) - defender.getDEF()/2;
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 5);
+        damage = (int) (attacker.getINT() * 1.5 + attacker.getINT() * attacker.getAbility(0) - defender.getDEF()/2);
+        return damage;
     }
 
-    public static void waterStabAttack(Character attacker, Character defender) {
+    private static int waterStabAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
 
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getINT() * 1.5 * 1.5 + attacker.getINT() * AbilitiesScreen.getTimes2() * 0.05 - defender.getDEF()/2);
+            damage = (int) (attacker.getINT() * 1.5 * 1.5 + attacker.getINT() * attacker.getAbility(1) * 0.05 - defender.getDEF()/2);
             // ice attack
             critChance = (int) (Math.random() * 100);
             if (critChance <= attacker.getLUK() - defender.getLUK()/1.5) {
@@ -241,51 +219,33 @@ public class CombatLogic {
             damage = (int) (attacker.getINT() * 1.5 - defender.getDEF()/2);
             // ice attack
             critChance = (int) (Math.random() * 100);
-            if (critChance <= attacker.getLUK() + attacker.getINT() * AbilitiesScreen.getTimes2() * 0.05 - defender.getLUK()/1.5) {
+            if (critChance <= attacker.getLUK() + attacker.getINT() * attacker.getAbility(1) * 0.05 - defender.getLUK()/1.5) {
                 damage += (int) (attacker.getINT() * 0.5);
             }
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 8);
+        return damage;
     }
 
-    public static void waveAttack(Character attacker, Character defender) {
+    private static int waveAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getINT() * 1.5 * 0.5 * 3 + attacker.getINT() * AbilitiesScreen.getTimes3() * 0.05 - defender.getDEF()/2);
+            damage = (int) (attacker.getINT() * 1.5 * 0.5 * 3 + attacker.getINT() * attacker.getAbility(2) * 0.05 - defender.getDEF()/2);
         }
         else{
-            damage = (int) (attacker.getINT() * 0.5 * 3 + attacker.getINT() * AbilitiesScreen.getTimes3() * 0.05 - defender.getDEF()/2);
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
-            }
+            damage = (int) (attacker.getINT() * 0.5 * 3 + attacker.getINT() * attacker.getAbility(2) * 0.05 - defender.getDEF()/2);
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 10);
+        return damage;
     }
 
-    public static void tearDownAttack(Character attacker, Character defender) {
+    private static int tearDownAttack(Player attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
 
         if (critChance <= attacker.getLUK() - defender.getLUK()/2) {
-            damage = (int) (attacker.getINT() * 1.5 * 2.0 + attacker.getINT() * AbilitiesScreen.getTimes3() * 0.05) - defender.getDEF()/2;
+            damage = (int) (attacker.getINT() * 1.5 * 2.0 + attacker.getINT() * attacker.getAbility(3) * 0.05) - defender.getDEF()/2;
             // ice attack
             critChance = (int) (Math.random() * 100);
             if (critChance <= attacker.getLUK() - defender.getLUK()/1.5) {
@@ -297,19 +257,10 @@ public class CombatLogic {
             // ice attack
             critChance = (int) (Math.random() * 100);
             if (critChance <= attacker.getLUK() - defender.getLUK()/1.5) {
-                damage += (int) (attacker.getINT() * 0.5 + attacker.getINT() * AbilitiesScreen.getTimes3() * 0.05 );
-            }
-            if(damage <= 0){
-                damage = 1; //Always do at least 1 damage
+                damage += (int) (attacker.getINT() * 0.5 + attacker.getINT() * attacker.getAbility(3) * 0.05 );
             }
         }
-
-        defender.setHP(defender.getHP() - damage);
-        if(defender.getHP() < 0){
-            defender.setHP(0);
-        }
-
-        attacker.setMP(attacker.getMP() - 15);
+        return damage;
     }
 
     public static void heal(Character healer, Character target) {
@@ -335,14 +286,27 @@ public class CombatLogic {
         //This may be further developed by creating an Item class and then doing, if item.usable(), then use item and add stats of the item to the character.
     }
 
-    public static boolean run(Character character, Enemy enemy) {
+    public static boolean run(Character character, Character enemy) {
         //generate random number based in SPD, between 0 and 100 (if luk is higher it increases)
         int escapeChance = (int) (Math.random() * 100);
-        if (escapeChance <= character.getSPD() - enemy.getSPD()/2) {
-            return true;
+        return escapeChance <= 20 + (character.getSPD() - enemy.getSPD() / 15);
+    }
+
+    public static void defeat(Player player, Enemy enemy) {
+        // YOU LOST :( Do whatever is necessary maybe game over screen or something.
+    }
+
+    public static void victory(Player player, Enemy enemy) {
+        increaseEXP(player, enemy.getExp());
+        player.addGold(enemy.getGold());
+    }
+    private static void dealDamage(Character defender, int damage){
+        if(damage <= 0){
+            damage = 1; //Always do at least 1 damage.
         }
-        else{
-            return false;
+        defender.setHP(defender.getHP() - damage);
+        if(defender.getHP() < 0){
+            defender.setHP(0);
         }
     }
 }

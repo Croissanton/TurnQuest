@@ -6,6 +6,8 @@
   </component>
   <component name="LibGDXGdxJsonFiles">
     <file url="file://$PROJECT_DIR$/Data/players.json" />
+    <file url="file://$PROJECT_DIR$/Data/players.json" />
+    <file url="file://$PROJECT_DIR$/Data/users.json" />
   </component>
   <component name="LibGDXNonGdxJsonFiles">
     <file url="file://$PROJECT_DIR$/Data/players.json" />

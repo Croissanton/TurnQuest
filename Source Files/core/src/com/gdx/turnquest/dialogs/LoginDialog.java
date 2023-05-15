@@ -9,20 +9,8 @@ import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.GameScreen;
 import com.gdx.turnquest.utils.PlayerManager;
 import com.gdx.turnquest.utils.UserManager;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
-//
-//
-//import java.io.FileReader;
-//import java.io.FileWriter;
-//import java.io.IOException;
-//
-//import java.time.format.DateTimeFormatter;
-//import java.text.SimpleDateFormat;
-//import java.time.LocalDateTime;
-//import java.util.Calendar;
-//import java.util.Date;
+
+import java.io.IOException;
 
 
 
@@ -33,7 +21,7 @@ public class LoginDialog extends Dialog {
     private final TextField passwordField;
     private final Label errorLabel;
     private final TurnQuest game;
-    private UserManager userManager = new UserManager();
+    private final UserManager userManager = new UserManager();
     private String username;
     private String password;
 
@@ -78,6 +66,14 @@ public class LoginDialog extends Dialog {
                 } else {
 
 //                    updateTimer(username, "login");
+                    PlayerManager playerManager;
+                    try {
+                        playerManager = new PlayerManager();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Player player = playerManager.getPlayer(username);
+                    player.checkRefresh();
 //                    if (!checkLoginCount(username)) {
 //                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
 
@@ -86,13 +82,8 @@ public class LoginDialog extends Dialog {
                         Player player = playerManager.getPlayer(username);
 
                         game.setCurrentPlayer(player);
-
-
-
-
                         hide();
-                        game.setScreen(new GameScreen(game));
-
+                        game.pushScreen(new GameScreen(game));
                     }
 
             }

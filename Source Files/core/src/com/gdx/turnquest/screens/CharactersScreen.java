@@ -1,8 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,15 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
-public class CharactersScreen implements Screen{
+public class CharactersScreen extends BaseScreen{
 
     private static final int FRAME_COLS = 17;
     private static final int FRAME_ROWS = 7;
     private static final float FRAME_DURATION = 0.1f;   //duration of each frame in seconds
-    final TurnQuest game;
 
     private Texture spriteSheet;
     private TextureRegion[] frames;
@@ -29,40 +27,39 @@ public class CharactersScreen implements Screen{
     private float stateTime;
 
     public CharactersScreen(final TurnQuest game) {
-        this.game = game;
+        super(game);
+    }
 
-        game.setBackgroundTexture(new Texture(Gdx.files.internal("Pixel art forest/Preview/Background.png")));
-
-        game.setStage(new Stage(getViewport()));
-
+    @Override
+    public Table createUIComponents() {
         // create the button
-        TextButton bReturn = new TextButton("Return", game.getSkin());
-
+        TextButton bReturn = new TextButton("Return", Assets.getSkin());
         // create the table
         Table table = new Table();
         table.defaults();
         table.setFillParent(true);
-
         // add button
         table.add(bReturn);
-        game.getStage().addActor(table);
-
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.popScreen();
             }
         });
-
-        getViewport().apply();
+        return table;
     }
 
-        @Override
+    @Override
     public void show() {
-        Gdx.input.setInputProcessor(game.getStage());
+        Assets.loadFor(AbilitiesScreen.class);
+        Assets.ASSET_MANAGER.finishLoading();
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+
+        game.setStage(new Stage(getViewport()));
+        game.getStage().addActor(createUIComponents());
 
         spriteSheet= new Texture(Gdx.files.internal("Necromancer_creativekind-Sheet.png"));
-          //attempt to resize texture
+        //attempt to resize texture
             /*int newWidth = 256; // new width in pixels
             int newHeight = 256; // new height in pixels
 
@@ -71,7 +68,6 @@ public class CharactersScreen implements Screen{
             Texture resizedTexture = new Texture(pixmap);
 
             spriteSheet=resizedTexture;*/
-
 
         int frameWidth=spriteSheet.getWidth() / FRAME_COLS;
         int frameHeight=spriteSheet.getHeight() / FRAME_ROWS;
@@ -87,6 +83,8 @@ public class CharactersScreen implements Screen{
             }
         }
         animation = new Animation<>(FRAME_DURATION, frames);
+        getViewport().apply();
+        super.show();
     }
 
     @Override
@@ -101,42 +99,16 @@ public class CharactersScreen implements Screen{
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 
         game.getBatch().begin();
-        game.getBatch().draw(game.getBackgroundTexture(), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
         game.getBatch().draw(currentFrame, getVirtualWidth()/3f, getVirtualHeight()/2f,currentFrame.getRegionWidth()*2,currentFrame.getRegionHeight()*2);
         //getFont().getData().setScale(4); //Changes font size.
-        game.getFont().draw(game.getBatch(), "The button `DOES!!!` work! :DDD", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
+        Assets.getFont().draw(game.getBatch(), "The button `DOES!!!` work! :DDD", getVirtualWidth()*0.35f, getVirtualHeight()*0.85f);
         game.getBatch().end();
 
         game.getStage().act();
         game.getStage().draw();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F11)) {
-            toggleFullscreen();
-        }
+        handleKeyboardInput();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        game.getStage().dispose();
-    }
 }

@@ -124,14 +124,19 @@ public class SignUpDialog extends Dialog {
                     }
                     Player player = new Player (username, characterClass);
                     //add the player to the database (json for now)
-                    PlayerManager playerManager = new PlayerManager();
+                    PlayerManager playerManager;
+                    try {
+                        playerManager = new PlayerManager();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     playerManager.addPlayer(player);
                     // set the player in the TurnQuest class
                     game.setCurrentPlayer(player);
                     // hide the sign up dialog and go to game screen
                     success = true;
                     hide();
-                    game.setScreen(new GameScreen(game));
+                    game.pushScreen(new GameScreen(game));
                 }
             }
         } else {
@@ -157,28 +162,5 @@ public class SignUpDialog extends Dialog {
     public float getPrefHeight() {
         // Set the preferred height of the dialog
         return 600f;
-    }
-
-    private boolean freeUsername(String username) {
-        boolean free = true;
-        try {
-            File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                free = false;
-                file.createNewFile();
-            } else {
-                //search the json dictionary for the username
-                JSONParser parser = new JSONParser();
-                JSONObject object = (JSONObject) parser.parse(new FileReader(FILE_PATH));
-                if (object.containsKey(username)) free = false;
-            }
-        } catch (IOException e) {
-            System.err.println("ERROR: no text written");
-            free = false;
-        } catch (ParseException e) {
-            System.err.print("ERROR: could not parse JSON file");
-            free = false;
-        }
-        return free;
     }
 }

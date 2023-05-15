@@ -2,6 +2,15 @@ package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
+import java.util.Arrays;
+
+/**
+ The Player class represents a playable character in the game. It extends the Character class and has additional fields
+ for character class, gold, experience points, level, and inventory. It also provides methods for managing the player's
+ inventory and game statistics, such as adding or removing items, setting or increasing gold, experience points, and level.
+ */
+
+
 public class Player extends Character {
 
     private String characterClass;
@@ -15,32 +24,29 @@ public class Player extends Character {
 
     private int[] equipmentStats = new int[7]; //The stats that the equipment gives.
 
-    private int nAb1;
+    private int[] abilities = new int[4];
 
-    private int nAb2;
+    private int energy;
 
-    private int nAb3;
+    private int loginCount;
 
-    private int nAb4;
+    private long previousTime;
 
-    private int gameEnergy;
-
-    private int loginEnergy;
-
-    private String gametimeZero;
-
-    private String logintimeZero;
-
-
-
-
+    /**
+     * Creates a default Player object with no parameters. The player's name is set to null.
+     */
 
     public Player() {
         super();
         this.playerName = null;
     }
 
-    //creating a default Player, acts a new player that just began the game
+    /**
+     * Creates a new Player object with a given player name. This constructor sets default values for the player's
+     * character class, gold, experience points, level, and inventory.
+     *
+     * @param playerName The name of the player.
+     */
     public Player(String playerName, String characterClass) {
         super();
         this.playerName = playerName;
@@ -50,12 +56,13 @@ public class Player extends Character {
         logintimeZero="17/04/2023 12:34:00";
         gametimeZero="17/04/2023 12:34:00";
         gold =300;
+        energy = 5;
+        previousTime = System.currentTimeMillis();
+        loginCount=1;
+        gold = 0;
         exp = 0;
         level = 1;
-        nAb1 = 0;
-        nAb2 = 0;
-        nAb3 = 0;
-        nAb4 = 0;
+        Arrays.fill(abilities, 0);
         inventory = new ObjectMap<>();
         inventory.put("Potion", 5);
         inventory.put("Ether", 5);
@@ -94,6 +101,13 @@ public class Player extends Character {
     public void setgameEnergy(){gameEnergy = 1;}
     //public void setloginEnergy(){loginEnergy = 1;}
 
+    /**
+     * Adds a given quantity of an item to the player's inventory. If the item is already in the inventory, its quantity
+     * is increased by the given amount. If the item is not in the inventory, it is added with the given quantity.
+     *
+     * @param item The name of the item to add to the inventory.
+     * @param quantity The quantity of the item to add.
+     */
     public void addItem(String item, int quantity) {
         if (inventory.containsKey(item)) {
             inventory.put(item, inventory.get(item) + quantity);
@@ -102,6 +116,15 @@ public class Player extends Character {
         }
     }
 
+    /**
+     * Removes a given quantity of an item from the player's inventory. If the item's quantity becomes 0, it is removed
+     * from the inventory entirely. If the item is not in the inventory or the quantity to remove is greater than the
+     * quantity in the inventory, the method returns -1 to indicate failure.
+     *
+     * @param item The name of the item to remove from the inventory.
+     * @param quantity The quantity of the item to remove.
+     * @return 0 if the removal was successful, -1 if the removal failed.
+     */
     public int removeItem(String item, int quantity) {
         if (inventory.containsKey(item)) {
             if (inventory.get(item) < quantity) {
@@ -114,42 +137,87 @@ public class Player extends Character {
         return -1;
     }
 
+    /**
+     * Returns the ObjectMap containing the player's inventory items and their quantities.
+     *
+     * @return The ObjectMap containing the player's inventory.
+     */
     public ObjectMap<String, Integer> getInventory() {
         return inventory;
     }
 
+    /**
+     * Returns the player's name.
+     *
+     * @return The player's name.
+     */
     public String getPlayerName() {
         return playerName;
     }
 
+    /**
+     * Returns the player's character class.
+     *
+     * @return The player's character class.
+     */
     public String getCharacterClass() {
         return characterClass;
     }
 
+    /**
+     * Adds a given amount of gold to the player's current gold.
+     *
+     * @param g The amount of gold to add.
+     */
     public void addGold(int g) {
         gold += g;
     }
 
+    /**
+     * Removes a given amount of gold from the player's current gold. If the player does not have enough gold, the method
+     * returns -1 to indicate failure.
+     *
+     * @param g The amount of gold to remove.
+     * @return 0 if the removal was successful, -1 if the removal failed.
+     */
     public int removeGold(int g) {
         if (gold < g) {
             return -1;
         }
         gold -= g;
         return 0;
-        // 0 means success, -1 means not enough gold.
     }
 
+    /**
+     * Returns the player's current gold.
+     *
+     * @return The player's current gold.
+     */
     public int getGold() {
         return gold;
     }
 
+    /**
+     * Sets the player's experience points to a given amount.
+     *
+     * @param e The amount of experience points to set.
+     */
     public void setExp(int e) {
         exp = e;
     }
 
+    /**
+     * Gets the player's current experience points.
+     * @return The player's current experience points.
+     */
+
     public int getExp() {
         return exp;
     }
+
+    /**
+     * Increases the player's level by a given amount.
+     */
 
     public void increaseLevel() {
         level += 1;
@@ -196,21 +264,31 @@ public class Player extends Character {
         // The stats of the unequipped item should be subtracted from equipmentStats and the stats of the equipped item should be added.
     }
 
+    /**
+     * Gets the player's current level.
+     * @return The player's current level.
+     */
     public int getLevel() {return level;}
 
     public int expNeeded() {
         return (int) (Math.pow(level, 1.5) * 100);
     }
 
-    public int getNAb1 () {return nAb1;}
-    public void setNAb1 (int n) {nAb1 = n;}
+    public int[] getAbilities () {return abilities;}
 
-    public int getNAb2 () {return nAb2;}
-    public void setNAb2 (int n) {nAb2 = n;}
+    public int getAbility (int ability) {return abilities[ability];}
 
-    public int getNAb3 () {return nAb3;}
-    public void setNAb3 (int n) {nAb3 = n;}
+    public void increaseAbility (int ability) {abilities[ability]++;}
 
-    public int getNAb4 () {return nAb4;}
-    public void setNAb4 (int n) {nAb4 = n;}
+    public void checkRefresh(){
+        long actualTime = System.currentTimeMillis();
+        long TIME_BETWEEN_REFRESH = 86400000; // A day in milliseconds.
+        //If a day has passed
+        if(previousTime + TIME_BETWEEN_REFRESH < actualTime){
+            previousTime = actualTime;
+            //Refresh energy and login count
+            energy = 10;
+            loginCount = 0;
+        }
+    }
 }

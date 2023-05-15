@@ -9,17 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.turnquest.TurnQuest;
 
 public class PreferencesDialog extends Dialog {
-    private Runnable yesRunnable;
 
-    public PreferencesDialog(String title, String message, Runnable yesRunnable, Skin skin) {
+    public PreferencesDialog(String title, String message, Skin skin, TurnQuest game) {
         super(title, skin);
-        this.yesRunnable = yesRunnable;
         text(message);
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
         final Slider sliderVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
 
-        final TextField tTest = new TextField(" VOLUME: "+ TurnQuest.getGeneralVolume(), skin);
+        final TextField tTest = new TextField("VOLUME: "+ TurnQuest.getGeneralVolume(), skin);
         tTest.setDisabled(true);
 
         // Set initial value of mainVolume slider
@@ -51,7 +49,7 @@ public class PreferencesDialog extends Dialog {
         sliderVolume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                TurnQuest.setGeneralVolume((int) sliderVolume.getValue());
+                game.setGeneralVolume((int) sliderVolume.getValue());
                 tTest.setText(" VOLUME: " + (int)sliderVolume.getValue());
             }
         });
@@ -59,10 +57,6 @@ public class PreferencesDialog extends Dialog {
 
     @Override
     protected void result(Object object) {
-        boolean result = (boolean) object;
-        if (result) {
-            yesRunnable.run();
-        }
         hide();
     }
 }

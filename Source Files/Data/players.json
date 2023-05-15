@@ -59,6 +59,33 @@
 	"inventory": {},
 	"playerName": "user123"
 },
+"atapuerca": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"gold": 50,
+	"exp": 50,
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "atapuerca",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684142579253
+},
 "user123435465u6": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"characterClass": "Archer",
@@ -179,9 +206,31 @@
 		"Old Quiver": 1
 	},
 	"playerName": "TESTUSER",
-	"loginEnergy": 1,
-	"gametimeZero": "17/04/2023 12:34:00",
-	"logintimeZero": "17/04/2023 12:34:00"
+	"loginCount": 1
+},
+"grege": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "grege",
+	"energy": 5,
+	"loginCount": 1
 },
 "klnstpr": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -241,19 +290,46 @@
 	},
 	"playerName": "Login"
 },
+"TestingSavings": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 3,
+		"STR": 11,
+		"DEF": 11,
+		"LUK": 6,
+		"MP": 60,
+		"HP": 300,
+		"SPD": 3
+	},
+	"characterClass": "Warrior",
+	"gold": 900,
+	"exp": 499,
+	"level": 4,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "TestingSavings",
+	"loginCount": 1
+},
 "Croissanton": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
-		"INT": 5,
-		"STR": 1,
-		"DEF": 1,
-		"LUK": 3,
-		"MP": 75,
-		"HP": 105,
-		"SPD": 3
+		"INT": 35,
+		"STR": 9,
+		"DEF": 9,
+		"LUK": 18,
+		"MP": 450,
+		"HP": 630,
+		"SPD": 18
 	},
 	"characterClass": "Mage",
-	"level": 1,
+	"gold": 42050,
+	"exp": 4748,
+	"level": 16,
 	"inventory": {
 		"Wooden Staff": 1,
 		"Silk Robe": 1,
@@ -261,6 +337,8 @@
 		"Ether": 5,
 		"Old Grimmorie": 1
 	},
-	"playerName": "Croissanton"
+	"playerName": "Croissanton",
+	"energy": 10,
+	"previousTime": 1684140126884
 }
 }
