@@ -6,6 +6,33 @@
 	"inventory": {},
 	"playerName": "user123"
 },
+"atapuerca": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"gold": 50,
+	"exp": 50,
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "atapuerca",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684142579253
+},
 "user123435465u6": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"characterClass": "Archer",
@@ -221,8 +248,8 @@
 		"SPD": 18
 	},
 	"characterClass": "Mage",
-	"gold": 41750,
-	"exp": 4448,
+	"gold": 42050,
+	"exp": 4748,
 	"level": 16,
 	"inventory": {
 		"Wooden Staff": 1,

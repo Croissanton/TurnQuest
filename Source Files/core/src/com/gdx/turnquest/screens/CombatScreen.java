@@ -119,9 +119,9 @@ public class CombatScreen extends BaseScreen {
 
     private Sprite createPlayerSprite() {
         playerSprite = new Sprite(playerTexture);
-        playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.7f); // Set the position of the player sprite
+        playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.79f); // Set the position of the player sprite
 //        playerSprite.setSize(200, 200); // Set the size of the player sprite
-        playerSprite.setScale(4);
+        playerSprite.setScale(8);
         return playerSprite;
     }
 

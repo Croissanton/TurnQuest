@@ -27,20 +27,19 @@ public class MapScreen extends BaseScreen {
         TextButton bBoss = new TextButton("Boss", Assets.getSkin());
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
 
-        final boolean[] boss = {false};
+        //final boolean[] boss = {false};
 
         bEnemy.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CombatScreen(game, boss[0]));
+                game.setScreen(new CombatScreen(game, false));
             }
         });
 
         bBoss.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                boss[0] = true;
-                game.setScreen(new CombatScreen(game, boss[0]));
+                game.setScreen(new CombatScreen(game, true));
             }
         });
 
