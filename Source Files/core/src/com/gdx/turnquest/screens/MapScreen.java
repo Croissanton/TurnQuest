@@ -32,14 +32,14 @@ public class MapScreen extends BaseScreen {
         bEnemy.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CombatScreen(game, false));
+                game.pushScreen(new CombatScreen(game));
             }
         });
 
         bBoss.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CombatScreen(game, true));
+                game.pushScreen(new CombatScreen(game));
             }
         });
 

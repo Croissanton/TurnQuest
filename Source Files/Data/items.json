@@ -131,7 +131,7 @@
     "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons12.png",
     "stats": {
       "ATK": 1,
-      "MAG": 4
+      "INT": 4
     }
   },
   "Old Grimmoire": {
@@ -142,7 +142,7 @@
     "classType": "Mage",
     "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons13.png",
     "stats": {
-      "MAG": 2
+      "INT": 2
     }
   },
   "Silk Robe": {
@@ -154,7 +154,7 @@
     "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons14.png",
     "stats": {
       "DEF": 1,
-      "MAG": 3
+      "INT": 3
     }
   }
 }

@@ -224,7 +224,7 @@ public class Player extends Character {
         calculateStats();
     }
 
-    private void calculateStats() {
+    public void calculateStats() {
         switch (characterClass){
             case "Warrior" :
                 setHP(100 + 50*level);

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
@@ -33,7 +34,6 @@ import static java.lang.Thread.sleep;
 public class CombatScreen extends BaseScreen {
     private Player player;
     private static Enemy enemy = null;
-    private Texture playerTexture;
     private Texture enemyTexture;
     private Sprite enemySprite;
     private Label playerHPLabel;
@@ -43,29 +43,21 @@ public class CombatScreen extends BaseScreen {
 
     private PlayerManager playerManager;
 
-    private int maxPlayerHP;
-    private int maxPlayerMP;
-    private int maxEnemyHP;
-    private int maxEnemyMP;
-    private boolean boss;
-
     private ProgressBar playerHPBar;
     private ProgressBar playerMPBar;
     private ProgressBar enemyHPBar;
     private ProgressBar enemyMPBar;
     private AnimationHandler animationHandler;
-    private String A_IDLE = "idle";
-    private String A_ATTACK = "1_atk";
-    private String A_CRIT = "2_atk";
-    private String A_HURT = "take_hit";
-    private String A_DEATH = "death";
-
+    private final String A_IDLE = "idle";
+    private final String A_ATTACK = "1_atk";
+    private final String A_CRIT = "2_atk";
+    private final String A_HURT = "take_hit";
+    private final String A_DEATH = "death";
     private boolean playerTurn = true;
     private boolean combatFinished = false;
 
-    public CombatScreen(final TurnQuest game, boolean boss) {
+    public CombatScreen(final TurnQuest game) {
         super(game);
-        this.boss = boss;
     }
 
     @Override
@@ -215,31 +207,19 @@ public class CombatScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
+        ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (boss) {
-            enemy = new EnemyManager().getEnemy("boss1");
-        } else {
-            enemy = new EnemyManager().getEnemy("enemy1_01");
-        }
-
-        maxPlayerHP = player.getHP();
-        maxPlayerMP = player.getMP();
-        maxEnemyHP = enemy.getHP();
-        maxEnemyMP = enemy.getMP();
-
+        enemy = new EnemyManager().getEnemy("enemy1_01");
+        ObjectMap<String, Integer> initialStatsEnemy = enemy.getStats();
 
         game.setStage(new Stage(getViewport()));
 
         // Load the enemy textures
-        if (boss) {
-            enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/03.png"));
-        } else {
             enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
-        }
 
         createPlayerAnimations();
 
@@ -248,21 +228,21 @@ public class CombatScreen extends BaseScreen {
         // Add the table to the stage
         game.getStage().addActor(createUIComponents());
 
-        playerHPLabel = new Label("HP: " + maxPlayerHP, Assets.getSkin());
-        playerMPLabel = new Label("MP: " + maxPlayerMP, Assets.getSkin());
-        enemyHPLabel = new Label("HP: " + maxEnemyHP, Assets.getSkin());
-        enemyMPLabel = new Label("MP: " + maxEnemyMP, Assets.getSkin());
+        playerHPLabel = new Label("HP: " + initialStatsPlayer.get("HP"), Assets.getSkin());
+        playerMPLabel = new Label("MP: " + initialStatsPlayer.get("MP"), Assets.getSkin());
+        enemyHPLabel = new Label("HP: " + initialStatsEnemy.get("HP"), Assets.getSkin());
+        enemyMPLabel = new Label("MP: " + initialStatsEnemy.get("MP"), Assets.getSkin());
 
         ProgressBar.ProgressBarStyle progressBarStyleHP = createProgressBarStyleHP();
         ProgressBar.ProgressBarStyle progressBarStyleMP = createProgressBarStyleMP();
 
-        playerHPBar = new ProgressBar(0, maxPlayerHP, 1, false, progressBarStyleHP);
+        playerHPBar = new ProgressBar(0, initialStatsPlayer.get("HP"), 1, false, progressBarStyleHP);
 
-        playerMPBar = new ProgressBar(0, maxPlayerMP, 1, false, progressBarStyleMP);
+        playerMPBar = new ProgressBar(0, initialStatsPlayer.get("MP"), 1, false, progressBarStyleMP);
 
-        enemyHPBar = new ProgressBar(0,maxEnemyHP, 1, false, progressBarStyleHP);
+        enemyHPBar = new ProgressBar(0, initialStatsEnemy.get("HP"), 1, false, progressBarStyleHP);
 
-        enemyMPBar = new ProgressBar(0, maxEnemyMP, 1, false, progressBarStyleMP);
+        enemyMPBar = new ProgressBar(0, initialStatsEnemy.get("MP"), 1, false, progressBarStyleMP);
 
 
         game.getStage().addActor(createPlayerTable());
@@ -290,7 +270,7 @@ public class CombatScreen extends BaseScreen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
 
-        if(animationHandler.isFinished() && !playerTurn){
+        if(animationHandler.isFinished() && !playerTurn && !combatFinished){
             try {
                 sleep(100);
             } catch (InterruptedException e) {
@@ -327,7 +307,6 @@ public class CombatScreen extends BaseScreen {
     @Override
     public void dispose() {
         game.getStage().dispose();
-        playerTexture.dispose();
         enemyTexture.dispose();
     }
 
@@ -344,6 +323,7 @@ public class CombatScreen extends BaseScreen {
 
     private void evaluateCombat(){
         if(player.getHP() <= 0){
+            combatFinished = true;
             CombatLogic.defeat(player, enemy);
             if(playerManager.savePlayer(player) == 0){
                 System.out.println("Player saved");
@@ -352,9 +332,9 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("Player not saved");
             }
             new GameOverDialog(game, Assets.getSkin()).show(game.getStage());
-            combatFinished = true;
         }
         else if(enemy.getHP() <= 0){
+            combatFinished = true;
             int level = player.getLevel();
             CombatLogic.victory(player, enemy);
             if(playerManager.savePlayer(player) == 0){
@@ -365,8 +345,7 @@ public class CombatScreen extends BaseScreen {
             }
             //create dialog that says you won and when ok is pressed, go back to map screen
 
-            new VictoryDialog(game, Assets.getSkin()).show(game.getStage());
-            combatFinished = true;
+            new VictoryDialog(game, Assets.getSkin(), level).show(game.getStage());
         }
     }
     private void updateBarsAndTags(){
