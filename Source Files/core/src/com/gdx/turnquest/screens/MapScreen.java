@@ -39,7 +39,7 @@ public class MapScreen extends BaseScreen {
         bBoss.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new CombatScreen(game));
+                game.pushScreen(new BossScreen(game));
             }
         });
 

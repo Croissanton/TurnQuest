@@ -85,6 +85,31 @@
 	"inventory": {},
 	"playerName": "user123435465u6"
 },
+"5645ty": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "5645ty",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684165421627
+},
 "guarrio": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -106,6 +131,58 @@
 		"Iron Sword": 1
 	},
 	"playerName": "guarrio"
+},
+"asdfsaaf": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "asdfsaaf",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684164943547
+},
+"ewrgwerg": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 144,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"gold": 50,
+	"exp": 50,
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "ewrgwerg",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684167295808
 },
 "asdf": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -150,6 +227,31 @@
 		"Old Quiver": 1
 	},
 	"playerName": "pepe"
+},
+"ferfg4": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "ferfg4",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684166997787
 },
 "player 123": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -234,6 +336,56 @@
 	"inventory": {},
 	"playerName": "player1"
 },
+"gewfgwe": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "gewfgwe",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684165596219
+},
+"gwegw34455g": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "gwegw34455g",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684165323251
+},
 "mage": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -256,6 +408,31 @@
 	},
 	"playerName": "mage"
 },
+"ataaaa": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "ataaaa",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684164888687
+},
 "Login": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -277,6 +454,31 @@
 		"Old Grimmorie": 1
 	},
 	"playerName": "Login"
+},
+"3y456g345g": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "3y456g345g",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684165516020
 },
 "TestingSavings": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -311,12 +513,12 @@
 		"DEF": 9,
 		"LUK": 18,
 		"MP": 450,
-		"HP": 617,
+		"HP": 616,
 		"SPD": 18
 	},
 	"characterClass": "Mage",
-	"gold": 42800,
-	"exp": 5498,
+	"gold": 42850,
+	"exp": 5548,
 	"level": 16,
 	"inventory": {
 		"Wooden Staff": 1,

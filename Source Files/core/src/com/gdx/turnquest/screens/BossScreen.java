@@ -18,6 +18,7 @@ import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
 import com.gdx.turnquest.dialogs.GameOverDialog;
 import com.gdx.turnquest.dialogs.VictoryDialog;
+import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.utils.AnimationHandler;
@@ -31,8 +32,9 @@ import java.io.IOException;
 import static com.gdx.turnquest.TurnQuest.*;
 import static java.lang.Thread.sleep;
 
-public class CombatScreen extends BaseScreen {
+public class BossScreen extends BaseScreen {
     private Player player;
+    private Player ally;
     private static Enemy enemy = null;
     private Texture enemyTexture;
     private Sprite enemySprite;
@@ -47,16 +49,22 @@ public class CombatScreen extends BaseScreen {
     private ProgressBar playerMPBar;
     private ProgressBar enemyHPBar;
     private ProgressBar enemyMPBar;
-    private AnimationHandler animationHandler;
+    private Label allyMPLabel;
+    private Label allyHPLabel;
+    private ProgressBar allyHPBar;
+    private ProgressBar allyMPBar;
+    private AnimationHandler animationHandlerPlayer;
+    private AnimationHandler animationHandlerAlly;
     private final String A_IDLE = "idle";
     private final String A_ATTACK = "1_atk";
     private final String A_CRIT = "2_atk";
     private final String A_HURT = "take_hit";
     private final String A_DEATH = "death";
-    private boolean playerTurn = true;
+    private int whoseTurn = 0; //0 means player, 1 means ally, 2 means enemy
     private boolean combatFinished = false;
+    private Character[] players;
 
-    public CombatScreen(final TurnQuest game) {
+    public BossScreen(final TurnQuest game) {
         super(game);
     }
 
@@ -82,13 +90,21 @@ public class CombatScreen extends BaseScreen {
         attackButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(playerTurn) {
-                    if(CombatLogic.attack(player, enemy) == 1){
-                        animationHandler.setCurrent(A_CRIT);
+                if(whoseTurn < 2) {
+                    if(whoseTurn == 0){
+                        if (CombatLogic.attack(player, enemy) == 1) {
+                            animationHandlerPlayer.setCurrent(A_CRIT);
+                        }
+                        else animationHandlerPlayer.setCurrent(A_ATTACK);
                     }
-                    else animationHandler.setCurrent(A_ATTACK);
+                    else if(whoseTurn == 1){
+                        if (CombatLogic.attack(ally, enemy) == 1) {
+                            animationHandlerAlly.setCurrent(A_CRIT);
+                        }
+                        else animationHandlerAlly.setCurrent(A_ATTACK);
+                    }
                     evaluateCombat();
-                    playerTurn = false;
+                    ++whoseTurn;
                 }
             }
         });
@@ -96,11 +112,12 @@ public class CombatScreen extends BaseScreen {
         abilitiesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(playerTurn) {
-                    showAbilitiesDialog();
+                if(whoseTurn < 2) {
+                    if(whoseTurn == 0) showAbilitiesDialog(player);
+                    else if(whoseTurn == 1) showAbilitiesDialog(ally);
                     //Fetch abilities and use them accordingly
                     evaluateCombat();
-                    playerTurn = false;
+                    ++whoseTurn;
                 }
             }
         });
@@ -108,13 +125,19 @@ public class CombatScreen extends BaseScreen {
         itemButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(playerTurn) {
+                if(whoseTurn < 2) {
+                    if(whoseTurn == 0){
+
+                    }
+                    else if(whoseTurn == 1){
+
+                    }
                     // Fetch inventory
                     // Display inventory
                     // Select item
                     // Use item with CombatLogic.useItem(player, itemID)
                     evaluateCombat();
-                    playerTurn = false;
+                    ++whoseTurn;
                 }
             }
         });
@@ -122,8 +145,12 @@ public class CombatScreen extends BaseScreen {
         runButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (playerTurn) {
-                    if (CombatLogic.run(player, enemy)) {
+                Player character = null;
+                if (whoseTurn < 2) {
+                    if (whoseTurn == 0) character = player;
+                    else if (whoseTurn == 1) character = ally;
+                    assert character != null;
+                    if (CombatLogic.run(character, enemy)) {
                         game.setMusic("intro.ogg");
                         game.popScreen();
                     }
@@ -135,8 +162,8 @@ public class CombatScreen extends BaseScreen {
         return optionsTable;
     }
 
-    private void createPlayerAnimations() {
-        animationHandler = new AnimationHandler();
+    private AnimationHandler createPlayerAnimations(Player player) {
+        AnimationHandler animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
             charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/warrior.atlas"));
@@ -153,6 +180,7 @@ public class CombatScreen extends BaseScreen {
         animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
         animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
         animationHandler.setCurrent(A_IDLE, true);
+        return animationHandler;
     }
 
     private Sprite createEnemySprite() {
@@ -189,6 +217,16 @@ public class CombatScreen extends BaseScreen {
         return playerTable;
     }
 
+    private Table createAllyTable() {
+        Table AllyTable = new Table(Assets.getSkin());
+        AllyTable.setPosition(getVirtualWidth() * 0.09f, getVirtualHeight() * 0.9f);
+        AllyTable.defaults().space(3f);
+        AllyTable.add(allyHPBar).width(300f).row();
+        AllyTable.add(allyMPBar).width(300f).row();
+
+        return AllyTable;
+    }
+
     private Table createEnemyTable() {
         Table enemyTable = new Table(Assets.getSkin());
         enemyTable.setPosition(getVirtualWidth() * 0.8f, getVirtualHeight() * 0.25f);
@@ -207,7 +245,14 @@ public class CombatScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
+        try {
+            ally = new PlayerManager().getPlayer("Croissanton"); // Provisionally I am your ally.
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        players = new Player[]{player, ally};
         ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
+        ObjectMap<String, Integer> initialStatsAlly = ally.getStats();
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
@@ -215,13 +260,16 @@ public class CombatScreen extends BaseScreen {
         }
         enemy = new EnemyManager().getEnemy("enemy1_01");
         ObjectMap<String, Integer> initialStatsEnemy = enemy.getStats();
+        animationHandlerPlayer = createPlayerAnimations(player);
+        animationHandlerAlly = createPlayerAnimations(ally);
 
         game.setStage(new Stage(getViewport()));
 
         // Load the enemy textures
-            enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
+        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/03.png"));
 
-        createPlayerAnimations();
+        createPlayerAnimations(player);
+        createPlayerAnimations(ally);
 
         enemySprite = createEnemySprite();
 
@@ -230,6 +278,10 @@ public class CombatScreen extends BaseScreen {
 
         playerHPLabel = new Label("HP: " + initialStatsPlayer.get("HP"), Assets.getSkin());
         playerMPLabel = new Label("MP: " + initialStatsPlayer.get("MP"), Assets.getSkin());
+
+        allyHPLabel = new Label("HP: " + initialStatsAlly.get("HP"), Assets.getSkin());
+        allyMPLabel = new Label("MP: " + initialStatsAlly.get("MP"), Assets.getSkin());
+
         enemyHPLabel = new Label("HP: " + initialStatsEnemy.get("HP"), Assets.getSkin());
         enemyMPLabel = new Label("MP: " + initialStatsEnemy.get("MP"), Assets.getSkin());
 
@@ -237,11 +289,12 @@ public class CombatScreen extends BaseScreen {
         ProgressBar.ProgressBarStyle progressBarStyleMP = createProgressBarStyleMP();
 
         playerHPBar = new ProgressBar(0, initialStatsPlayer.get("HP"), 1, false, progressBarStyleHP);
-
         playerMPBar = new ProgressBar(0, initialStatsPlayer.get("MP"), 1, false, progressBarStyleMP);
 
-        enemyHPBar = new ProgressBar(0, initialStatsEnemy.get("HP"), 1, false, progressBarStyleHP);
+        allyHPBar = new ProgressBar(0, initialStatsPlayer.get("HP"), 1, false, progressBarStyleHP);
+        allyMPBar = new ProgressBar(0, initialStatsPlayer.get("MP"), 1, false, progressBarStyleMP);
 
+        enemyHPBar = new ProgressBar(0, initialStatsEnemy.get("HP"), 1, false, progressBarStyleHP);
         enemyMPBar = new ProgressBar(0, initialStatsEnemy.get("MP"), 1, false, progressBarStyleMP);
 
 
@@ -250,6 +303,8 @@ public class CombatScreen extends BaseScreen {
         //Space these two out in the X axis (I didn't manage to do that, if you can, please do)
 
         game.getStage().addActor(createEnemyTable());
+
+        game.getStage().addActor(createAllyTable());
 
         //create the table
         Table table = new Table();
@@ -270,31 +325,39 @@ public class CombatScreen extends BaseScreen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
 
-        if(animationHandler.isFinished() && !playerTurn && !combatFinished){
+        if(animationHandlerPlayer.isFinished() && whoseTurn == 2 && !combatFinished){
             try {
                 sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            CombatLogic.attack(enemy, player);
-            playerTurn = true;
+            CombatLogic.bossAttack(enemy, players);
+            whoseTurn = 0;
 
-            if(player.getHP() == 0) animationHandler.setCurrent(A_DEATH);
+            if(player.getHP() == 0) animationHandlerPlayer.setCurrent(A_DEATH);
+            else animationHandlerPlayer.setCurrent(A_HURT);
 
-            else animationHandler.setCurrent(A_HURT);
+            if (ally.getHP() == 0) animationHandlerAlly.setCurrent(A_DEATH);
+            else animationHandlerAlly.setCurrent(A_HURT);
+
             if(!combatFinished) evaluateCombat();
         }
-        if(animationHandler.isFinished() && player.getHP() != 0) {
-            animationHandler.setCurrent(A_IDLE, true);
+        if(animationHandlerPlayer.isFinished() && player.getHP() != 0) {
+            animationHandlerPlayer.setCurrent(A_IDLE, true);
+        }
+        if(animationHandlerAlly.isFinished() && ally.getHP() != 0) {
+            animationHandlerAlly.setCurrent(A_IDLE, true);
         }
 
         updateBarsAndTags();
-        TextureRegion frame = animationHandler.getFrame();
+        TextureRegion framePlayer = animationHandlerPlayer.getFrame();
+        TextureRegion frameAlly = animationHandlerAlly.getFrame();
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         enemySprite.draw(game.getBatch());
-        game.getBatch().draw(frame, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.38f, frame.getRegionWidth() * 8f, frame.getRegionHeight() * 8f);
+        game.getBatch().draw(framePlayer, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.38f, framePlayer.getRegionWidth() * 8f, framePlayer.getRegionHeight() * 8f);
+        game.getBatch().draw(frameAlly, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.575f, framePlayer.getRegionWidth() * 6f, framePlayer.getRegionHeight() * 6f);
         game.getBatch().end();
 
         game.getStage().act();
@@ -310,19 +373,15 @@ public class CombatScreen extends BaseScreen {
         enemyTexture.dispose();
     }
 
-    private void showAbilitiesDialog() {
+    private void showAbilitiesDialog(Player player){
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
             // Handle abilities here
         }, Assets.getSkin(), player);
         dialog.show(game.getStage());
     }
 
-    public static Enemy getEnemy() {
-        return enemy;
-    }
-
     private void evaluateCombat(){
-        if(player.getHP() <= 0){
+        if(player.getHP() <= 0 && ally.getHP() <= 0){
             combatFinished = true;
             CombatLogic.defeat(player, enemy);
             if(playerManager.savePlayer(player) == 0){
@@ -351,10 +410,15 @@ public class CombatScreen extends BaseScreen {
     private void updateBarsAndTags(){
         playerHPLabel.setText("HP: " + player.getHP());
         playerMPLabel.setText("MP: " + player.getMP());
+        allyHPLabel.setText("MP: " + ally.getHP());
+        allyMPLabel.setText("MP: " + ally.getMP());
         enemyHPLabel.setText("HP: " + enemy.getHP());
         enemyMPLabel.setText("MP: " + enemy.getMP());
+
         playerHPBar.setValue(player.getHP());
         playerMPBar.setValue(player.getMP());
+        allyHPBar.setValue(ally.getHP());
+        allyMPBar.setValue(ally.getMP());
         enemyHPBar.setValue(enemy.getHP());
         enemyMPBar.setValue(enemy.getMP());
     }

@@ -14,9 +14,8 @@ public class AbilitiesDialog extends Dialog {
 
     private final Runnable yesRunnable;
 
-    public AbilitiesDialog(String title, Runnable yesRunnable, Skin skin, TurnQuest game) {
+    public AbilitiesDialog(String title, Runnable yesRunnable, Skin skin, Player player) {
         super(title, skin);
-        Player player = game.getCurrentPlayer();
         this.yesRunnable = yesRunnable;
 
         // buttons

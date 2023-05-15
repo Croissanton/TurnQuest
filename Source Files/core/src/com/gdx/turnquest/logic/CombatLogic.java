@@ -20,6 +20,13 @@ public class CombatLogic {
         return critChance <= attacker.getLUK() - defender.getLUK()/2 ? 1 : 0;
     }
 
+    public static void bossAttack(Character attacker, Character[] defenders) {
+        //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
+        for(Character defender: defenders){
+            attack(attacker, defender);
+        }
+    }
+
     // abilities attacks
     public static void useAbility(Player attacker, Character defender, int ability, int MPcost) {
         if(attacker.getMP() < MPcost){
