@@ -2,7 +2,10 @@ package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -16,6 +19,7 @@ import com.gdx.turnquest.dialogs.GameOverDialog;
 import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.AnimationHandler;
 import com.gdx.turnquest.utils.EnemyManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
@@ -50,6 +54,14 @@ public class CombatScreen extends BaseScreen {
     private ProgressBar playerMPBar;
     private ProgressBar enemyHPBar;
     private ProgressBar enemyMPBar;
+    private AnimationHandler animationHandler;
+    private String A_IDLE = "idle";
+    private String A_ATTACK = "1_atk";
+    private String A_CRIT = "2_atk";
+    private String A_HURT = "take_hit";
+    private String A_DEATH = "death";
+
+    private boolean playerTurn = true;
 
     public CombatScreen(final TurnQuest game, boolean boss) {
         super(game);
@@ -78,39 +90,51 @@ public class CombatScreen extends BaseScreen {
         attackButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                CombatLogic.attack(player, enemy);
-                evaluateCombat();
+                if(playerTurn) {
+                    animationHandler.setCurrent(A_ATTACK);
+                    CombatLogic.attack(player, enemy);
+                    evaluateCombat();
+                    playerTurn = false;
+                }
             }
         });
 
         abilitiesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showAbilitiesDialog();
-                //Fetch abilities and use them accordingly
-                evaluateCombat();
+                if(playerTurn) {
+                    showAbilitiesDialog();
+                    //Fetch abilities and use them accordingly
+                    evaluateCombat();
+                    playerTurn = false;
+                }
             }
         });
 
         itemButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Fetch inventory
-                // Display inventory
-                // Select item
-                // Use item with CombatLogic.useItem(player, itemID)
-                evaluateCombat();
+                if(playerTurn) {
+                    // Fetch inventory
+                    // Display inventory
+                    // Select item
+                    // Use item with CombatLogic.useItem(player, itemID)
+                    evaluateCombat();
+                    playerTurn = false;
+                }
             }
         });
 
         runButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (CombatLogic.run(player, enemy)) {
-                    dispose();
-                    game.popScreen();
+                if (playerTurn) {
+                    if (CombatLogic.run(player, enemy)) {
+                        game.setMusic("intro.ogg");
+                        game.popScreen();
+                    }
+                    evaluateCombat();
                 }
-                evaluateCombat();
             }
         });
 
@@ -118,10 +142,27 @@ public class CombatScreen extends BaseScreen {
     }
 
     private Sprite createPlayerSprite() {
-        playerSprite = new Sprite(playerTexture);
+        animationHandler = new AnimationHandler();
+        TextureAtlas charset = null;
+        if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/warrior.atlas"));
+        } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/archer.atlas"));
+        } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/mage.atlas"));
+        }
+        float FRAME_TIME = 1 / 10f;
+        assert charset != null;
+        animationHandler.add(A_IDLE, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_IDLE)));
+        animationHandler.add(A_ATTACK, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_ATTACK)));
+        animationHandler.add(A_CRIT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_CRIT)));
+        animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
+        animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
+        animationHandler.setCurrent(A_IDLE, true);
+/*        playerSprite = new Sprite(playerTexture);
         playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.79f); // Set the position of the player sprite
 //        playerSprite.setSize(200, 200); // Set the size of the player sprite
-        playerSprite.setScale(8);
+        playerSprite.setScale(8);*/
         return playerSprite;
     }
 
@@ -197,7 +238,6 @@ public class CombatScreen extends BaseScreen {
         game.setStage(new Stage(getViewport()));
 
         // Load the player and enemy textures
-        playerTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/01.png"));
         Texture warriorTexture = new Texture(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/png/fire_knight/01_idle/idle_1.png"));
         Texture archerTexture = new Texture(Gdx.files.internal("Elementals_Leaf_ranger_Free_v1.0/animations/PNG/1_atk/1_atk_1.png"));
         Texture mageTexture = new Texture(Gdx.files.internal("Elementals_water_priestess_FREE_v1.1/png/01_idle/idle_1.png"));
@@ -264,6 +304,22 @@ public class CombatScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
+        if(animationHandler.isFinished() && !playerTurn){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            CombatLogic.attack(enemy, player);
+            animationHandler.setCurrent(A_HURT);
+            playerTurn = true;
+        }
+        if(animationHandler.isFinished()) animationHandler.setCurrent(A_IDLE, true);
+
+
+
+        TextureRegion frame = animationHandler.getFrame();
+
         playerHPLabel.setText("HP: " + player.getHP());
         playerMPLabel.setText("MP: " + player.getMP());
         enemyHPLabel.setText("HP: " + enemy.getHP());
@@ -275,8 +331,9 @@ public class CombatScreen extends BaseScreen {
         playerMPBar.setValue(player.getMP());
         enemyHPBar.setValue(enemy.getHP());
         enemyMPBar.setValue(enemy.getMP());
-        playerSprite.draw(game.getBatch());
+        //playerSprite.draw(game.getBatch());
         enemySprite.draw(game.getBatch());
+        game.getBatch().draw(frame, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.38f, frame.getRegionWidth() * 8f, frame.getRegionHeight() * 8f);
         game.getBatch().end();
 
         game.getStage().act();
