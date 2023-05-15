@@ -325,7 +325,7 @@ public class BossScreen extends BaseScreen {
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
 
-        if(animationHandlerPlayer.isFinished() && whoseTurn == 2 && !combatFinished){
+        if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished() && whoseTurn == 2 && !combatFinished){
             try {
                 sleep(100);
             } catch (InterruptedException e) {
