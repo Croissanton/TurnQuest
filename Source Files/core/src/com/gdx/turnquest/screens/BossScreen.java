@@ -55,9 +55,6 @@ public class BossScreen extends BaseScreen {
     private ProgressBar allyMPBar;
     private AnimationHandler animationHandlerPlayer;
     private AnimationHandler animationHandlerAlly;
-    private Animation<TextureRegion> selectionArrow;
-
-    private float elapsed_time = 0;
     private final String A_IDLE = "idle";
     private final String A_ATTACK = "1_atk";
     private final String A_CRIT = "2_atk";
@@ -169,11 +166,11 @@ public class BossScreen extends BaseScreen {
         AnimationHandler animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/warrior.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/warrior.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/archer.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/archer.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/mage.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/mage.atlas"));
         }
         float FRAME_TIME = 1 / 10f;
         assert charset != null;
@@ -261,12 +258,10 @@ public class BossScreen extends BaseScreen {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        enemy = new EnemyManager().getEnemy("boss1");
+        enemy = new EnemyManager().getEnemy("enemy1_01");
         ObjectMap<String, Integer> initialStatsEnemy = enemy.getStats();
         animationHandlerPlayer = createPlayerAnimations(player);
         animationHandlerAlly = createPlayerAnimations(ally);
-        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/selection_arrow.atlas"));
-        selectionArrow = new Animation<TextureRegion>(1 / 10f, charset.findRegions("selection_arrow"));
 
         game.setStage(new Stage(getViewport()));
 
@@ -364,16 +359,11 @@ public class BossScreen extends BaseScreen {
         TextureRegion framePlayer = animationHandlerPlayer.getFrame();
         TextureRegion frameAlly = animationHandlerAlly.getFrame();
 
-        elapsed_time += delta;
-        TextureRegion currentFrame = selectionArrow.getKeyFrame(elapsed_time, true);
-
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         enemySprite.draw(game.getBatch());
         game.getBatch().draw(framePlayer, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.38f, framePlayer.getRegionWidth() * 8f, framePlayer.getRegionHeight() * 8f);
         game.getBatch().draw(frameAlly, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.575f, framePlayer.getRegionWidth() * 6f, framePlayer.getRegionHeight() * 6f);
-        if(whoseTurn == 0) game.getBatch().draw(currentFrame, getVirtualWidth()*0.12f, getVirtualHeight() * 0.48f, framePlayer.getRegionWidth() * 0.5f, framePlayer.getRegionHeight());
-        else if(whoseTurn == 1) game.getBatch().draw(currentFrame, 10, getVirtualHeight() * 0.65f, framePlayer.getRegionWidth()*0.5f * 0.75f, framePlayer.getRegionHeight() * 0.75f);
         game.getBatch().end();
 
         game.getStage().act();
