@@ -51,10 +51,10 @@ public class Player extends Character {
         super();
         this.playerName = playerName;
         this.characterClass = characterClass;
-        gameEnergy=5;
-        loginEnergy=1;
-        logintimeZero="17/04/2023 12:34:00";
-        gametimeZero="17/04/2023 12:34:00";
+        //gameEnergy=5;
+        //loginEnergy=1;
+        //logintimeZero="17/04/2023 12:34:00";
+        //gametimeZero="17/04/2023 12:34:00";
         gold =300;
         energy = 5;
         previousTime = System.currentTimeMillis();
@@ -98,7 +98,7 @@ public class Player extends Character {
                 break;
         }
     }
-    public void setgameEnergy(){gameEnergy = 1;}
+    //public void setgameEnergy(){gameEnergy = 1;}
     //public void setloginEnergy(){loginEnergy = 1;}
 
     /**
