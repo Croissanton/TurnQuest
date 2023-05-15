@@ -19,11 +19,7 @@
 		"Bow": 1,
 		"Old Quiver": 1
 	},
-	"playerName": "EnergyTest",
-	"gameEnergy": 5,
-	"loginEnergy": 1,
-	"gametimeZero": "17/04/2023 12:34:00",
-	"logintimeZero": "17/04/2023 12:34:00"
+	"playerName": "EnergyTest"
 },
 "asdf1": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -46,11 +42,7 @@
 		"Leather Armor": 1,
 		"Iron Sword": 1
 	},
-	"playerName": "asdf1",
-	"gameEnergy": 5,
-	"loginEnergy": 1,
-	"gametimeZero": "17/04/2023 12:34:00",
-	"logintimeZero": "17/04/2023 12:34:00"
+	"playerName": "asdf1"
 },
 "user123": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -135,11 +127,7 @@
 		"Leather Armor": 1,
 		"Iron Sword": 1
 	},
-	"playerName": "asdf",
-	"gameEnergy": 5,
-	"loginEnergy": 1,
-	"gametimeZero": "17/04/2023 12:34:00",
-	"logintimeZero": "17/04/2023 12:34:00"
+	"playerName": "asdf"
 },
 "pepe": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -327,8 +315,8 @@
 		"SPD": 18
 	},
 	"characterClass": "Mage",
-	"gold": 42300,
-	"exp": 4998,
+	"gold": 42400,
+	"exp": 5098,
 	"level": 16,
 	"inventory": {
 		"Wooden Staff": 1,

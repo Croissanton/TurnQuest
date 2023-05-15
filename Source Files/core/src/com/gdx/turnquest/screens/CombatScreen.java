@@ -125,11 +125,19 @@ public class CombatScreen extends BaseScreen {
 
     private Sprite createPlayerSprite() {
         animationHandler = new AnimationHandler();
-        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/warrior.atlas"));
+        TextureAtlas charset = null;
+        if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/warrior.atlas"));
+        } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/archer.atlas"));
+        } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
+            charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/mage.atlas"));
+        }
         String A_IDLE = "idle";
         String A_ATTACK = "1_atk";
         String A_CRIT = "2_atk";
-        float FRAME_TIME = 1 / 15f;
+        float FRAME_TIME = 1 / 10f;
+        assert charset != null;
         animationHandler.add(A_IDLE, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_IDLE)));
         animationHandler.add(A_ATTACK, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_ATTACK)));
         animationHandler.add(A_CRIT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_CRIT)));
@@ -213,7 +221,6 @@ public class CombatScreen extends BaseScreen {
         game.setStage(new Stage(getViewport()));
 
         // Load the player and enemy textures
-        playerTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/01.png"));
         Texture warriorTexture = new Texture(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/png/fire_knight/01_idle/idle_1.png"));
         Texture archerTexture = new Texture(Gdx.files.internal("Elementals_Leaf_ranger_Free_v1.0/animations/PNG/1_atk/1_atk_1.png"));
         Texture mageTexture = new Texture(Gdx.files.internal("Elementals_water_priestess_FREE_v1.1/png/01_idle/idle_1.png"));

@@ -78,8 +78,7 @@ public class LoginDialog extends Dialog {
 //                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
 
                         // If the credentials are valid, proceed with the login process
-                        PlayerManager playerManager = new PlayerManager();
-                        Player player = playerManager.getPlayer(username);
+                        player = playerManager.getPlayer(username);
 
                         game.setCurrentPlayer(player);
                         hide();
