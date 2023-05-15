@@ -296,8 +296,8 @@ public class BossScreen extends BaseScreen {
         playerHPBar = new ProgressBar(0, initialStatsPlayer.get("HP"), 1, false, progressBarStyleHP);
         playerMPBar = new ProgressBar(0, initialStatsPlayer.get("MP"), 1, false, progressBarStyleMP);
 
-        allyHPBar = new ProgressBar(0, initialStatsPlayer.get("HP"), 1, false, progressBarStyleHP);
-        allyMPBar = new ProgressBar(0, initialStatsPlayer.get("MP"), 1, false, progressBarStyleMP);
+        allyHPBar = new ProgressBar(0, initialStatsAlly.get("HP"), 1, false, progressBarStyleHP);
+        allyMPBar = new ProgressBar(0, initialStatsAlly.get("MP"), 1, false, progressBarStyleMP);
 
         enemyHPBar = new ProgressBar(0, initialStatsEnemy.get("HP"), 1, false, progressBarStyleHP);
         enemyMPBar = new ProgressBar(0, initialStatsEnemy.get("MP"), 1, false, progressBarStyleMP);
@@ -352,6 +352,12 @@ public class BossScreen extends BaseScreen {
         }
         if(animationHandlerAlly.isFinished() && ally.getHP() != 0) {
             animationHandlerAlly.setCurrent(A_IDLE, true);
+        }
+        if(player.getHP() == 0 && whoseTurn == 0){
+            whoseTurn = 1;
+        }
+        if(ally.getHP() == 0 && whoseTurn == 1){
+            whoseTurn = 2;
         }
 
         updateBarsAndTags();
