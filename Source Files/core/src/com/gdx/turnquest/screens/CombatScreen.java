@@ -35,7 +35,6 @@ public class CombatScreen extends BaseScreen {
     private static Enemy enemy = null;
     private Texture playerTexture;
     private Texture enemyTexture;
-    private Sprite playerSprite;
     private Sprite enemySprite;
     private Label playerHPLabel;
     private Label playerMPLabel;
@@ -91,8 +90,10 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(playerTurn) {
-                    animationHandler.setCurrent(A_ATTACK);
-                    CombatLogic.attack(player, enemy);
+                    if(CombatLogic.attack(player, enemy) == 1){
+                        animationHandler.setCurrent(A_CRIT);
+                    }
+                    else animationHandler.setCurrent(A_ATTACK);
                     evaluateCombat();
                     playerTurn = false;
                 }
@@ -141,7 +142,7 @@ public class CombatScreen extends BaseScreen {
         return optionsTable;
     }
 
-    private Sprite createPlayerSprite() {
+    private void createPlayerAnimations() {
         animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
@@ -159,11 +160,6 @@ public class CombatScreen extends BaseScreen {
         animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
         animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
         animationHandler.setCurrent(A_IDLE, true);
-/*        playerSprite = new Sprite(playerTexture);
-        playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.79f); // Set the position of the player sprite
-//        playerSprite.setSize(200, 200); // Set the size of the player sprite
-        playerSprite.setScale(8);*/
-        return playerSprite;
     }
 
     private Sprite createEnemySprite() {
@@ -256,7 +252,7 @@ public class CombatScreen extends BaseScreen {
             enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
         }
 
-        playerSprite = createPlayerSprite();
+        createPlayerAnimations();
 
         enemySprite = createEnemySprite();
 
@@ -331,7 +327,6 @@ public class CombatScreen extends BaseScreen {
         playerMPBar.setValue(player.getMP());
         enemyHPBar.setValue(enemy.getHP());
         enemyMPBar.setValue(enemy.getMP());
-        //playerSprite.draw(game.getBatch());
         enemySprite.draw(game.getBatch());
         game.getBatch().draw(frame, -getVirtualWidth()*0.355f, getVirtualHeight() * 0.38f, frame.getRegionWidth() * 8f, frame.getRegionHeight() * 8f);
         game.getBatch().end();

@@ -5,7 +5,7 @@ import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 
 public class CombatLogic {
-    public static void attack(Character attacker, Character defender) {
+    public static int attack(Character attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
         int critChance = (int) (Math.random() * 100);
         int damage;
@@ -16,6 +16,8 @@ public class CombatLogic {
             damage = (attacker.getSTR() - defender.getDEF()/2);
         }
         dealDamage(defender, damage);
+        //Return 1 if critical hit, 0 if not.
+        return critChance <= attacker.getLUK() - defender.getLUK()/2 ? 1 : 0;
     }
 
     // abilities attacks
