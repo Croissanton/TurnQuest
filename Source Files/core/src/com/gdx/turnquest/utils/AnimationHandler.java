@@ -23,7 +23,7 @@ public class AnimationHandler {
         assert (animations.containsKey(name)) : "No such animation " + name;
         current = name;
         timer = 0;
-        looping = true;
+        looping = false;
     }
 
     public void setCurrent(String name, boolean looping){

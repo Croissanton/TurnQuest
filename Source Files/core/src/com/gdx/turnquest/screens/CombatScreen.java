@@ -55,6 +55,13 @@ public class CombatScreen extends BaseScreen {
     private ProgressBar enemyHPBar;
     private ProgressBar enemyMPBar;
     private AnimationHandler animationHandler;
+    private String A_IDLE = "idle";
+    private String A_ATTACK = "1_atk";
+    private String A_CRIT = "2_atk";
+    private String A_HURT = "take_hit";
+    private String A_DEATH = "death";
+
+    private boolean playerTurn = true;
 
     public CombatScreen(final TurnQuest game, boolean boss) {
         super(game);
@@ -83,40 +90,51 @@ public class CombatScreen extends BaseScreen {
         attackButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                animationHandler.setCurrent("1_atk");
-                CombatLogic.attack(player, enemy);
-                evaluateCombat();
+                if(playerTurn) {
+                    animationHandler.setCurrent(A_ATTACK);
+                    CombatLogic.attack(player, enemy);
+                    evaluateCombat();
+                    playerTurn = false;
+                }
             }
         });
 
         abilitiesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showAbilitiesDialog();
-                //Fetch abilities and use them accordingly
-                evaluateCombat();
+                if(playerTurn) {
+                    showAbilitiesDialog();
+                    //Fetch abilities and use them accordingly
+                    evaluateCombat();
+                    playerTurn = false;
+                }
             }
         });
 
         itemButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Fetch inventory
-                // Display inventory
-                // Select item
-                // Use item with CombatLogic.useItem(player, itemID)
-                evaluateCombat();
+                if(playerTurn) {
+                    // Fetch inventory
+                    // Display inventory
+                    // Select item
+                    // Use item with CombatLogic.useItem(player, itemID)
+                    evaluateCombat();
+                    playerTurn = false;
+                }
             }
         });
 
         runButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (CombatLogic.run(player, enemy)) {
-                    dispose();
-                    game.popScreen();
+                if (playerTurn) {
+                    if (CombatLogic.run(player, enemy)) {
+                        game.setMusic("intro.ogg");
+                        game.popScreen();
+                    }
+                    evaluateCombat();
                 }
-                evaluateCombat();
             }
         });
 
@@ -133,15 +151,14 @@ public class CombatScreen extends BaseScreen {
         } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
             charset = new TextureAtlas(Gdx.files.internal("Elementals_fire_knight_FREE_v1.1/animations/mage.atlas"));
         }
-        String A_IDLE = "idle";
-        String A_ATTACK = "1_atk";
-        String A_CRIT = "2_atk";
         float FRAME_TIME = 1 / 10f;
         assert charset != null;
         animationHandler.add(A_IDLE, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_IDLE)));
         animationHandler.add(A_ATTACK, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_ATTACK)));
         animationHandler.add(A_CRIT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_CRIT)));
-        animationHandler.setCurrent(A_IDLE);
+        animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
+        animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
+        animationHandler.setCurrent(A_IDLE, true);
 /*        playerSprite = new Sprite(playerTexture);
         playerSprite.setPosition(getVirtualWidth() * 0.18f, getVirtualHeight() * 0.79f); // Set the position of the player sprite
 //        playerSprite.setSize(200, 200); // Set the size of the player sprite
@@ -287,9 +304,19 @@ public class CombatScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        if(animationHandler.isFinished()){
-            animationHandler.setCurrent("idle");
+        if(animationHandler.isFinished() && !playerTurn){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            CombatLogic.attack(enemy, player);
+            animationHandler.setCurrent(A_HURT);
+            playerTurn = true;
         }
+        if(animationHandler.isFinished()) animationHandler.setCurrent(A_IDLE, true);
+
+
 
         TextureRegion frame = animationHandler.getFrame();
 
