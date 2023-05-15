@@ -45,11 +45,11 @@ public class Player extends Character {
         super();
         this.playerName = playerName;
         this.characterClass = characterClass;
-        gameEnergy=0;
+        gameEnergy=5;
         loginEnergy=1;
         logintimeZero="17/04/2023 12:34:00";
         gametimeZero="17/04/2023 12:34:00";
-        gold = 0;
+        gold =300;
         exp = 0;
         level = 1;
         nAb1 = 0;
@@ -91,6 +91,8 @@ public class Player extends Character {
                 break;
         }
     }
+    public void setgameEnergy(){gameEnergy = 1;}
+    //public void setloginEnergy(){loginEnergy = 1;}
 
     public void addItem(String item, int quantity) {
         if (inventory.containsKey(item)) {

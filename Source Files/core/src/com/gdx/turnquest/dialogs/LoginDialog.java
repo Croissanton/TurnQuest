@@ -9,20 +9,20 @@ import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.GameScreen;
 import com.gdx.turnquest.utils.PlayerManager;
 import com.gdx.turnquest.utils.UserManager;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import java.time.format.DateTimeFormatter;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
+//import org.json.simple.parser.ParseException;
+//
+//
+//import java.io.FileReader;
+//import java.io.FileWriter;
+//import java.io.IOException;
+//
+//import java.time.format.DateTimeFormatter;
+//import java.text.SimpleDateFormat;
+//import java.time.LocalDateTime;
+//import java.util.Calendar;
+//import java.util.Date;
 
 
 
@@ -76,6 +76,7 @@ public class LoginDialog extends Dialog {
                     // If the credentials are not valid, display an error message
                     errorLabel.setText("Invalid username or password.");
                 } else {
+
 //                    updateTimer(username, "login");
 //                    if (!checkLoginCount(username)) {
 //                        errorLabel.setText("No logins left");/*TODO: Dialog goes back to main screen without user interaction, fix this */
@@ -83,9 +84,15 @@ public class LoginDialog extends Dialog {
                         // If the credentials are valid, proceed with the login process
                         PlayerManager playerManager = new PlayerManager();
                         Player player = playerManager.getPlayer(username);
+
                         game.setCurrentPlayer(player);
+
+
+
+
                         hide();
                         game.setScreen(new GameScreen(game));
+
                     }
 
             }
