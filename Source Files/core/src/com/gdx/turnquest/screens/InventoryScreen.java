@@ -135,31 +135,32 @@ public class InventoryScreen extends BaseScreen {
             // Parse the JSON string using JsonReader
             JsonReader jsonReader = new JsonReader();
             JsonValue root = jsonReader.parse(jsonString);
+            System.out.println(jsonString);
+
             int cont =1;
 
-            //iterate through the inventory and print out the items
             for (ObjectMap.Entry<String, Integer> entry : inventory.entries()) {
-                System.out.println(entry.key + " " + entry.value);
+                String itemName = entry.key;
+                int qty = entry.value;
+                System.out.println("Item Name: " + itemName + ": " + qty);
+                System.out.println("Inside ITEMS "+root.get(itemName)+" \n"+root.get(itemName)+" "+root.child.get("imagePath"));
+
 
                 if(cont>=3){
                     table.row();
                     cont=1;
                 }
 
-                // Get the "item" object from the JSON
-                JsonValue itemIterated = root.get(entry.key);
 
                 Table descriptionTable = new Table();
-                ImageButton itemButton = createItemButton(itemIterated.getString("name"),
-                        itemIterated.getString("value"),
-                        itemIterated.getString("type"),
-                        itemIterated.getString("type"),
-                        itemIterated.getString("imagePath"),
+                ImageButton itemButton = createItemButton(String.valueOf(root.get(itemName)),
+                        String.valueOf(root.child.get("value")),
+                        String.valueOf(root.child.get("type")),
+                        String.valueOf(root.child.get("type")),
+                        String.valueOf(root.child.getString("imagePath")),
                         descriptionTable);
                 table.add(itemButton);
                 cont++;
-
-
 
             }
             return table;
