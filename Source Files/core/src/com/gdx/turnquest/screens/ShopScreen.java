@@ -54,7 +54,7 @@ public class ShopScreen extends BaseScreen {
 
         rootTable.setFillParent(true);
         rootTable.add(firstTable).left().padLeft(200f);
-        Label statsText  = new Label("Statistics", Assets.getSkin());
+        Label statsText  = new Label("GOLD: "+game.getCurrentPlayer().getGold()+"c.", Assets.getSkin());
         statsText.setFontScale(2.4f);
         rootTable.add(statsText).expandX().align(Align.center).colspan(5);
         rootTable.row();
