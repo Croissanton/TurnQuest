@@ -1,7 +1,9 @@
 package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gdx.turnquest.utils.PlayerManager;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -305,6 +307,22 @@ public class Player extends Character {
             //Refresh energy and login count
             energy = 5;
             loginCount = 0;
+            try {
+                new PlayerManager().savePlayer(this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+    }
+    public int getEnergy(){
+        checkRefresh();
+        return energy;
+    }
+    public void decreaseEnergy(){
+        energy--;
+    }
+    public int getLoginCount(){
+        checkRefresh();
+        return loginCount;
     }
 }

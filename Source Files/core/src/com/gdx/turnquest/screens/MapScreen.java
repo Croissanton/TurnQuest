@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -28,18 +29,27 @@ public class MapScreen extends BaseScreen {
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
 
         //final boolean[] boss = {false};
-
+        if(game.getCurrentPlayer().getEnergy() == 0){
+            bEnemy.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+            bBoss.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+        }
         bEnemy.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new CombatScreen(game));
+                if(game.getCurrentPlayer().getEnergy() != 0){
+                    game.getCurrentPlayer().decreaseEnergy();
+                    game.pushScreen(new CombatScreen(game));
+                }
             }
         });
 
         bBoss.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new BossScreen(game));
+                if(game.getCurrentPlayer().getEnergy() != 0){
+                    game.getCurrentPlayer().decreaseEnergy();
+                    game.pushScreen(new BossScreen(game));
+                }
             }
         });
 
