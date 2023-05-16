@@ -51,30 +51,20 @@ public class InventoryScreen extends BaseScreen {
         TextButton bRightArrow = new TextButton("->", Assets.getSkin());
         TextButton bInventory = new TextButton("Inventory", Assets.getSkin());
 
-        // table for return
-        Table table = new Table();
-        // add some padding and expand each cell
-        table.defaults().expand().pad(50);
-        table.setFillParent(true);
+        Table mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
 
-        table.add(inventoryLabel).colspan(3).padBottom(40);
-        table.row();
+        //top row table
+        Table topRowTable = new Table();
+        mainTable.add(topRowTable).expandX().fillX().top().row();
 
-        // order the buttons of the table
-        table.row().pad(50,20,50,20);
-
-        table.add(ReadPlayerInventory());
-        table.row();
-        table.add(bLeftArrow).left();
-        table.add();
-        table.add(bRightArrow).right();
-        table.row();
-        table.add();
-        table.add(bReturn).center().bottom();
-        table.add(bInventory).right().center();
-
-
-
+        //add buttons
+        topRowTable.add(bLeftArrow).left();
+        topRowTable.add(bReturn).expandX();
+        topRowTable.add(bRightArrow).right();
+        mainTable.add(ReadPlayerInventory()).expandX().fillX();
+        Gdx.input.setInputProcessor(stage);
         // if an arrow is clicked, go to abilities screen
         bRightArrow.addListener(new ClickListener() {
             @Override
@@ -104,7 +94,7 @@ public class InventoryScreen extends BaseScreen {
                 ReadPlayerInventory();
             }
         });
-        return table;
+        return mainTable;
     }
 
     @Override
