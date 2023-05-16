@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,6 +28,9 @@ public class ShopScreen extends BaseScreen {
     private static final int CellWidth=100;
     private static final int CellHeight=80;
     static HashMap<String, LinkedHashMap<String, String>> shopItems;
+    private Label statsText;
+    private float elapsed_time;
+    private Animation<TextureRegion> goldCoin;
 
     public ShopScreen(final TurnQuest game) {
         super(game);
@@ -54,7 +59,7 @@ public class ShopScreen extends BaseScreen {
 
         rootTable.setFillParent(true);
         rootTable.add(firstTable).left().padLeft(200f);
-        Label statsText  = new Label("GOLD: "+game.getCurrentPlayer().getGold()+"c.", Assets.getSkin());
+        statsText  = new Label("      "+game.getCurrentPlayer().getGold()+"c.", Assets.getSkin());
         statsText.setFontScale(2.4f);
         rootTable.add(statsText).expandX().align(Align.center).colspan(5);
         rootTable.row();
@@ -333,6 +338,10 @@ public class ShopScreen extends BaseScreen {
         // Create root table that combains all the tables
         Table rootTable = new Table(Assets.getSkin());
         setRootTable(rootTable, firstTable, scrollPane, rightTable);
+
+        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/gold_coin.atlas"));
+        goldCoin = new Animation<TextureRegion>(1/9f, charset.getRegions());
+
         return rootTable;
     }
 
@@ -351,8 +360,13 @@ public class ShopScreen extends BaseScreen {
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1);
 
+        statsText.setText(("      " + game.getCurrentPlayer().getGold()+"c."));
+        elapsed_time += delta;
+        TextureRegion currentFrame = goldCoin.getKeyFrame(elapsed_time, true);
+
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(currentFrame, getVirtualWidth()*0.73f, getVirtualHeight() * 0.885f, currentFrame.getRegionWidth()*3.5f, currentFrame.getRegionHeight()*3.5f);
         game.getBatch().end();
         game.getStage().act();
         game.getStage().draw();
