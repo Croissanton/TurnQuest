@@ -51,6 +51,31 @@
 	"inventory": {},
 	"playerName": "user123"
 },
+"ethwrth": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "ethwrth",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684231683899
+},
 "atapuerca": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -311,6 +336,32 @@
 	"energy": 5,
 	"previousTime": 1684167788944
 },
+"ergwergwerg": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "ergwergwerg",
+	"clanName": "Croisdfkjdsfkj",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684231764598
+},
 "player 123": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -379,6 +430,31 @@
 	"playerName": "grege",
 	"energy": 5,
 	"loginCount": 1
+},
+"gwbg": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "gwbg",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684231599211
 },
 "klnstpr": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -587,7 +663,7 @@
 	},
 	"playerName": "Croissanton",
 	"abilities": [ 1, 1, 1, 1 ],
-	"energy": 10,
-	"previousTime": 1684140126884
+	"energy": 5,
+	"previousTime": 1684231453158
 }
 }

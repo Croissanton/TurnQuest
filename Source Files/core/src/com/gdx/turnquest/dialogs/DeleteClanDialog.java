@@ -7,13 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.utils.ClanManager;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
 public class DeleteClanDialog extends Dialog {
 
     private final TurnQuest game;
-    private String clanName;
     private final ClanManager clanManager = new ClanManager();
     private final Label errorLabel;
     private final Player player;
@@ -41,8 +43,14 @@ public class DeleteClanDialog extends Dialog {
             if (!hasInternetConnection()) {
                 errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
+                clanManager.removeClan(player.getClanName());
                 player.setClanName("");
-                clanManager.removeClan(clanName);
+                try {
+                    new PlayerManager().savePlayer(player);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                super.hide();
             }
         }
         else super.hide();
@@ -51,7 +59,7 @@ public class DeleteClanDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid or the cancel button is clicked
-        if (clanName == null) {
+        if (player.getClanName() == null) {
             super.hide();
         }
     }

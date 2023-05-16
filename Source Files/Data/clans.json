@@ -1,6 +1,13 @@
 {
-Apocalisis: {
+Croisdfkjdsfkj: {
 	class: com.gdx.turnquest.entities.Clan
-	name: Apocalisis
+	name: Croisdfkjdsfkj
+	members: {
+		class: java.util.LinkedList
+		items: [
+			ergwergwerg
+		]
+	}
+	leader: ergwergwerg
 }
 }

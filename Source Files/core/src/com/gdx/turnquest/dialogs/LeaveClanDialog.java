@@ -9,6 +9,9 @@ import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.ClanScreen;
 import com.gdx.turnquest.utils.ClanManager;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
@@ -23,8 +26,9 @@ public class LeaveClanDialog extends Dialog {
     public LeaveClanDialog(String title, String message, Skin skin, TurnQuest game) {
         super(title, skin);
         this.game = game;
-        text(message);
         player = game.getCurrentPlayer();
+        clanName = player.getClanName();
+        text(message);
 
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
@@ -46,7 +50,16 @@ public class LeaveClanDialog extends Dialog {
                 if (clanManager.checkClanName(clanName)) {
                     errorLabel.setText("Invalid clan name.");
                 } else {
+                    Clan clan = clanManager.getClan(clanName);
+                    clan.removeMember(player.getPlayerName());
                     player.setClanName("");
+                    if(clan.getMembers().size() == 0) clanManager.removeClan(clanName);
+                    try {
+                        new PlayerManager().savePlayer(player);
+                        clanManager.save(clan);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
                     hide();
                     game.pushScreen(new ClanScreen(game));

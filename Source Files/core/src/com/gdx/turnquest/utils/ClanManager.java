@@ -8,6 +8,9 @@ import com.gdx.turnquest.entities.Clan;
 
 import java.io.IOException;
 
+import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+import static java.lang.Thread.sleep;
+
 /**
  This class represents a clan manager that stores and manages clan data.
  It utilizes a JSON file to store and retrieve clan data.
@@ -95,5 +98,23 @@ public class ClanManager {
         }
         clansData.remove(clanName);
         file.writeString(json.prettyPrint(clansData), false);
+    }
+
+    public int save(Clan clan) {
+        int cont = 0;
+        while(!hasInternetConnection()) {
+            if(cont == 5){
+                return -1; // ERROR, COULD NOT SAVE, SHOULD TREAT THIS.
+            }
+            try {
+                sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ++cont;
+        }
+        removeClan(clan.getName());
+        addClan(clan);
+        return 0;
     }
 }

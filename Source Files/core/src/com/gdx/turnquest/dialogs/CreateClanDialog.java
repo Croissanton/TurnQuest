@@ -9,6 +9,9 @@ import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.ClanScreen;
 import com.gdx.turnquest.utils.ClanManager;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
@@ -57,10 +60,14 @@ public class CreateClanDialog extends Dialog {
                     // If the name exists, show an error
                     errorLabel.setText("Invalid clan name.");
                 } else {
-                    Clan clan = new Clan(clanName);
+                    Clan clan = new Clan(clanName, player.getPlayerName());
                     clanManager.addClan(clan);
                     player.setClanName(clanName);
-
+                    try {
+                        new PlayerManager().savePlayer(player);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     hide();
                     game.pushScreen(new ClanScreen(game));
                 }
