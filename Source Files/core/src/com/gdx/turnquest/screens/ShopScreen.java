@@ -106,6 +106,7 @@ public class ShopScreen extends BaseScreen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.setMusic("intro.ogg");
                 game.popScreen();
             }
         });
@@ -244,7 +245,8 @@ public class ShopScreen extends BaseScreen {
         else
         {
             player.addItem(name, 1);
-            shopInformationDialog("Congratulation", "Item successfully bought");
+            playSfx("coinsplash.ogg");
+            shopInformationDialog("Congratulations", "Item successfully bought");
         }
 
     }
@@ -261,7 +263,8 @@ public class ShopScreen extends BaseScreen {
         else
         {
             player.addGold(priceInt);
-            shopInformationDialog("Congratulation", "Item successfully sold");
+            playSfx("coinsplash.ogg");
+            shopInformationDialog("Congratulations", "Item successfully sold");
         }
 
     }
@@ -349,9 +352,10 @@ public class ShopScreen extends BaseScreen {
     public void show() {
         Assets.loadFor(ShopScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.SHOP_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
+        game.setMusic("shop.mp3");
         getViewport().apply();
         super.show();
     }
@@ -365,7 +369,7 @@ public class ShopScreen extends BaseScreen {
         TextureRegion currentFrame = goldCoin.getKeyFrame(elapsed_time, true);
 
         game.getBatch().begin();
-        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.SHOP_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
         game.getBatch().draw(currentFrame, getVirtualWidth()*0.73f, getVirtualHeight() * 0.885f, currentFrame.getRegionWidth()*3.5f, currentFrame.getRegionHeight()*3.5f);
         game.getBatch().end();
         game.getStage().act();

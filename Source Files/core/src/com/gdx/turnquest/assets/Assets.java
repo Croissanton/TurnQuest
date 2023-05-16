@@ -17,6 +17,7 @@ public class Assets {
     public static final String FOREST_BACKGROUND_PNG = "Pixel art forest/Preview/Background.png";
 
     public static final String SKIN_PIXTHULHU_UI_JSON = "pixthulhu/skin/pixthulhu-ui.json";
+    public static final String SHOP_BACKGROUND_PNG = "backgrounds/shop.png";
 
     public static BitmapFont titleFont;
 
@@ -38,7 +39,7 @@ public class Assets {
         } else if (screenClass == MainMenuScreen.class) {
             ASSET_MANAGER.load(FOREST_BACKGROUND_PNG, Texture.class);
         } else if (screenClass == ShopScreen.class) {
-            ASSET_MANAGER.load(FOREST_BACKGROUND_PNG, Texture.class);
+            ASSET_MANAGER.load(SHOP_BACKGROUND_PNG, Texture.class);
         } else {
             throw new IllegalArgumentException("Screen class not recognized.");
         }
