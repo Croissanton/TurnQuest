@@ -83,6 +83,8 @@ public class CombatScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if(playerTurn) {
                     animationHandler.setCurrent(A_ATTACK);
+                    playSfx("hit.ogg");
+                    CombatLogic.attack(player, enemy);
                     playerTurn = false;
                 }
             }
@@ -199,7 +201,7 @@ public class CombatScreen extends BaseScreen {
         Assets.loadFor(CombatScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-        game.setMusic("boss1.ogg");
+        game.setMusic("battle.ogg");
         player = game.getCurrentPlayer();
         ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
         try {
@@ -263,16 +265,23 @@ public class CombatScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        if(animationHandler.isFinished()){
+        if(animationHandler.isFinished()) {
             updateBarsAndTags();
-            if(!combatFinished) evaluateCombat();
+            if (!combatFinished) evaluateCombat();
+            if(player.getHP() != 0) {
+                animationHandler.setCurrent(A_IDLE, true);
+            }
+        }
 
-            if(!playerTurn && !combatFinished){
+            if(!playerTurn && !combatFinished && animationHandler.isFinished()){
+                updateBarsAndTags();
+                if (!combatFinished) evaluateCombat();
                 try {
                     sleep(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                playSfx("hurt.ogg");
                 CombatLogic.attack(enemy, player);
                 playerTurn = true;
 
@@ -281,10 +290,6 @@ public class CombatScreen extends BaseScreen {
                 else animationHandler.setCurrent(A_HURT);
 
             }
-            if(player.getHP() != 0) {
-                animationHandler.setCurrent(A_IDLE, true);
-            }
-        }
 
         TextureRegion frame = animationHandler.getFrame();
 

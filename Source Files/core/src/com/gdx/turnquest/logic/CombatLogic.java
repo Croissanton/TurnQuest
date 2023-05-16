@@ -4,6 +4,8 @@ import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 
+import static com.gdx.turnquest.TurnQuest.playSfx;
+
 public class CombatLogic {
     public static int attack(Character attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)

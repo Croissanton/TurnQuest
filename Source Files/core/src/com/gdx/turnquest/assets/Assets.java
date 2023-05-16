@@ -14,7 +14,7 @@ import com.gdx.turnquest.screens.*;
 public class Assets {
     public static final AssetManager ASSET_MANAGER = new AssetManager();
 
-    public static final String FOREST_BACKGROUND_PNG = "Pixel art forest/Preview/Background.png";
+    public static final String FOREST_BACKGROUND_PNG = "backgrounds/forest.png";
 
     public static final String SKIN_PIXTHULHU_UI_JSON = "pixthulhu/skin/pixthulhu-ui.json";
     public static final String SHOP_BACKGROUND_PNG = "backgrounds/shop.png";

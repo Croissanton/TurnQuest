@@ -95,10 +95,12 @@ public class BossScreen extends BaseScreen {
                 if(whoseTurn < 2) {
                     if(whoseTurn == 0){
                         animationHandlerPlayer.setCurrent(A_ATTACK);
+                        playSfx("hit.ogg");
                         CombatLogic.attack(player, enemy);
                     }
                     else if(whoseTurn == 1){
                         animationHandlerAlly.setCurrent(A_ATTACK);
+                        playSfx("hit.ogg");
                         CombatLogic.attack(ally, enemy);
                     }
                     ++whoseTurn;
@@ -322,12 +324,18 @@ public class BossScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
+        if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished()) {
+            updateBarsAndTags();
+            if(!combatFinished) evaluateCombat();
+        }
+
         if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished() && whoseTurn == 2 && !combatFinished){
             try {
                 sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            playSfx("hit.ogg");
             CombatLogic.bossAttack(enemy, players);
             whoseTurn = 0;
 
@@ -351,10 +359,6 @@ public class BossScreen extends BaseScreen {
         // If the ally is dead, only the player attacks
         if(ally.getHP() == 0 && whoseTurn == 1){
             whoseTurn = 2;
-        }
-        if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished()) {
-            updateBarsAndTags();
-            if(!combatFinished) evaluateCombat();
         }
 
         TextureRegion framePlayer = animationHandlerPlayer.getFrame();
