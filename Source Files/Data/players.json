@@ -646,13 +646,13 @@
 		"STR": 10,
 		"DEF": 10,
 		"LUK": 21,
-		"MP": 510,
-		"HP": 735,
+		"MP": 525,
+		"HP": 733,
 		"SPD": 21
 	},
 	"characterClass": "Mage",
-	"gold": 52350,
-	"exp": 1003,
+	"gold": 52700,
+	"exp": 1353,
 	"level": 19,
 	"inventory": {
 		"Wooden Staff": 1,
@@ -665,6 +665,6 @@
 	"clanName": "TestClan",
 	"abilities": [ 1, 1, 1, 1 ],
 	"energy": 5,
-	"previousTime": 1684231453158
+	"previousTime": 1684251841868
 }
 }

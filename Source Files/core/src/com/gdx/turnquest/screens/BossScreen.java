@@ -314,6 +314,7 @@ public class BossScreen extends BaseScreen {
         game.getStage().addActor(table);
         // apply
         getViewport().apply();
+
         super.show();
     }
 

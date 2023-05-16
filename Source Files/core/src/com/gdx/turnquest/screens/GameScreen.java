@@ -1,6 +1,7 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -135,7 +136,9 @@ public class GameScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(new Texture("images/energy.png"), getVirtualWidth() * 0.40f, getVirtualHeight() * 0.8f, getVirtualWidth() * 0.05f , getVirtualHeight() * 0.1f);
         Assets.getFont().draw(game.getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
+        Assets.getTitleFont().draw(game.getBatch(), "     (" + game.getCurrentPlayer().getEnergy() + "/5)", getVirtualWidth() * 0.3f, getVirtualWidth() * 0.5f);
         game.getBatch().end();
 
         game.getStage().act();
