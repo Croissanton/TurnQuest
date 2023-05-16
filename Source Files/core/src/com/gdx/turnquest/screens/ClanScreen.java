@@ -77,7 +77,7 @@ public class ClanScreen extends BaseScreen {
         });
 
         // join or leave clan button
-        bCreateOrDelete.addListener(new ClickListener() {
+        bJoinOrLeave.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // if the player is in a clan, change join clan to leave clan

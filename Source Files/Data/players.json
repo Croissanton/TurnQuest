@@ -662,6 +662,7 @@
 		"Old Grimmorie": 1
 	},
 	"playerName": "Croissanton",
+	"clanName": "TestClan",
 	"abilities": [ 1, 1, 1, 1 ],
 	"energy": 5,
 	"previousTime": 1684231453158

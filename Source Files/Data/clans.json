@@ -1,13 +1,13 @@
 {
-Croisdfkjdsfkj: {
-	class: com.gdx.turnquest.entities.Clan
-	name: Croisdfkjdsfkj
-	members: {
-		class: java.util.LinkedList
-		items: [
-			ergwergwerg
+"TestClan": {
+	"class": "com.gdx.turnquest.entities.Clan",
+	"name": "TestClan",
+	"members": {
+		"class": "java.util.LinkedList",
+		"items": [
+			"Croissanton"
 		]
-	}
-	leader: ergwergwerg
+	},
+	"leader": "Croissanton"
 }
 }

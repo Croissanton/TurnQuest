@@ -18,7 +18,6 @@ import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 public class LeaveClanDialog extends Dialog {
 
     private final TurnQuest game;
-    private String clanName;
     private final ClanManager clanManager = new ClanManager();
     private final Label errorLabel;
     private final Player player;
@@ -27,7 +26,6 @@ public class LeaveClanDialog extends Dialog {
         super(title, skin);
         this.game = game;
         player = game.getCurrentPlayer();
-        clanName = player.getClanName();
         text(message);
 
         errorLabel = new Label("", skin);
@@ -47,13 +45,13 @@ public class LeaveClanDialog extends Dialog {
             if (!hasInternetConnection()) {
                 errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
-                if (clanManager.checkClanName(clanName)) {
+                if (!clanManager.checkClanName(player.getClanName())) {
                     errorLabel.setText("Invalid clan name.");
                 } else {
-                    Clan clan = clanManager.getClan(clanName);
+                    Clan clan = clanManager.getClan(player.getClanName());
                     clan.removeMember(player.getPlayerName());
+                    if(clan.getMembers().size() == 0) clanManager.removeClan(player.getClanName());
                     player.setClanName("");
-                    if(clan.getMembers().size() == 0) clanManager.removeClan(clanName);
                     try {
                         new PlayerManager().savePlayer(player);
                         clanManager.save(clan);
@@ -62,7 +60,7 @@ public class LeaveClanDialog extends Dialog {
                     }
 
                     hide();
-                    game.pushScreen(new ClanScreen(game));
+                    game.popScreen();
                 }
             }
         }
@@ -72,7 +70,7 @@ public class LeaveClanDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid or the cancel button is clicked
-        if (clanName == null) {
+        if (clanManager.checkClanName(player.getClanName())) {
             super.hide();
         }
     }

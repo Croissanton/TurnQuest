@@ -70,7 +70,7 @@ public class JoinClanDialog extends Dialog {
                         throw new RuntimeException(e);
                     }
                     hide();
-                    game.pushScreen(new ClanScreen(game));
+                    game.popScreen();
                 }
             }
         }
@@ -80,7 +80,7 @@ public class JoinClanDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid or the cancel button is clicked
-        if (clanName != null) {
+        if (clanName != null && clanManager.checkClanName(clanName)) {
             super.hide();
         }
     }

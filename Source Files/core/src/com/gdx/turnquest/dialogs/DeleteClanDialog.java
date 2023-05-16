@@ -51,6 +51,7 @@ public class DeleteClanDialog extends Dialog {
                     throw new RuntimeException(e);
                 }
                 super.hide();
+                game.popScreen();
             }
         }
         else super.hide();

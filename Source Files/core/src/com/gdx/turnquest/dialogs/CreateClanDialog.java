@@ -60,8 +60,7 @@ public class CreateClanDialog extends Dialog {
                     // If the name exists, show an error
                     errorLabel.setText("Invalid clan name.");
                 } else {
-                    Clan clan = new Clan(clanName, player.getPlayerName());
-                    clanManager.addClan(clan);
+                    clanManager.addClan(new Clan(clanName, player.getPlayerName()));
                     player.setClanName(clanName);
                     try {
                         new PlayerManager().savePlayer(player);
@@ -69,7 +68,7 @@ public class CreateClanDialog extends Dialog {
                         throw new RuntimeException(e);
                     }
                     hide();
-                    game.pushScreen(new ClanScreen(game));
+                    game.popScreen();
                 }
             }
         }
