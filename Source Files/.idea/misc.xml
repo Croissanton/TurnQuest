@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="LibGDXSkins">
-    <file url="file://$PROJECT_DIR$/Glassy_UI_Skin/glassyui/glassy-ui.json" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="temurin-18" project-jdk-type="JavaSDK" />
+  <component name="LibGDXGdxJsonFiles">
+    <file url="file://$PROJECT_DIR$/Data/players.json" />
+    <file url="file://$PROJECT_DIR$/Data/users.json" />
+  </component>
+  <component name="LibGDXNonGdxJsonFiles">
+    <file url="file://$PROJECT_DIR$/Data/players.json" />
+  </component>
+  <component name="LibGDXSkins">
+    <file url="file://$PROJECT_DIR$/assets/pixthulhu/skin/pixthulhu-ui.json" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="temurin-18" project-jdk-type="JavaSDK" />
 </project>

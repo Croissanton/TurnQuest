@@ -9,7 +9,6 @@ buildscript {
         google()
     }
     dependencies {
-        
 
     }
 }
@@ -36,6 +35,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
+        maven { url "https://repo.clojars.org/"}
     }
 }
 
@@ -57,11 +57,13 @@ project(":core") {
 
 
     dependencies {
+        implementation "kryonet:kryonet:2.21"
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
         api "com.badlogicgames.ashley:ashley:$ashleyVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "com.kotcrab.vis:vis-ui:1.4.11"
+        api "com.googlecode.json-simple:json-simple:1.1.1"
     }
 }
