@@ -61,12 +61,15 @@ public class InventoryScreen extends BaseScreen {
         table.row();
 
         // order the buttons of the table
+        table.row().pad(50,20,50,20);
+
+        table.add(ReadPlayerInventory());
+        table.row();
         table.add(bLeftArrow).left();
         table.add();
         table.add(bRightArrow).right();
         table.row();
         table.add();
-        table.add(ReadPlayerInventory());
         table.add(bReturn).center().bottom();
         table.add(bInventory).right().center();
 
