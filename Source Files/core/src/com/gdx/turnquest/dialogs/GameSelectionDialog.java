@@ -14,8 +14,8 @@ public class GameSelectionDialog extends Dialog {
         this.game = game;
         this.yesRunnable = yesRunnable;
         text(message);
-        button("Yes", true);
-        button("No", false);
+        button("Sign up", true);
+        button("Log in", false);
     }
 
     @Override

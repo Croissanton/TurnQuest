@@ -2,15 +2,21 @@ package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -32,9 +38,10 @@ public class AbilitiesScreen extends BaseScreen {
         super(game);
     }
 
-    private Table createAbilitiesTable() {
+    private Table createAbilitiesTable() throws IOException {
         Player player = game.getCurrentPlayer();
         int[] abilities = player.getAbilities();
+        PlayerManager playerManager = new PlayerManager();
 
         // load player's abilities level
         times1 = abilities[0];
@@ -184,11 +191,15 @@ public class AbilitiesScreen extends BaseScreen {
         bAb1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // unlocked
-                bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
-                clicked1 = true;
-                times1++;
-                player.increaseAbility(0);
+                if (player.getAbilityPoints() > 0) {
+                    // unlocked
+                    bAb1.setColor(0.3f, 0.7f, 0.8f, 1);
+                    clicked1 = true;
+                    times1++;
+                    player.increaseAbility(0);
+                    player.decreaseAbilityPoints();
+                    playerManager.savePlayer(player);
+                }
             }
         });
 
@@ -229,11 +240,15 @@ public class AbilitiesScreen extends BaseScreen {
         bAb2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // unlocked
-                bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
-                clicked2 = true;
-                times2++;
-                player.increaseAbility(1);
+                if (player.getAbilityPoints() > 0) {
+                    // unlocked
+                    bAb2.setColor(0.3f, 0.7f, 0.8f, 1);
+                    clicked2 = true;
+                    times2++;
+                    player.increaseAbility(1);
+                    player.decreaseAbilityPoints();
+                    playerManager.savePlayer(player);
+                }
             }
         });
 
@@ -274,11 +289,15 @@ public class AbilitiesScreen extends BaseScreen {
         bAb3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // unlocked
-                bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
-                clicked3 = true;
-                times3++;
-                player.increaseAbility(2);
+                if (player.getAbilityPoints() > 0) {
+                    // unlocked
+                    bAb3.setColor(0.3f, 0.7f, 0.8f, 1);
+                    clicked3 = true;
+                    times3++;
+                    player.increaseAbility(2);
+                    player.decreaseAbilityPoints();
+                    playerManager.savePlayer(player);
+                }
             }
         });
 
@@ -319,11 +338,15 @@ public class AbilitiesScreen extends BaseScreen {
         bAb4.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // unlocked
-                bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
-                clicked4 = true;
-                times4++;
-                player.increaseAbility(3);
+                if (player.getAbilityPoints() > 0) {
+                    // unlocked
+                    bAb4.setColor(0.3f, 0.7f, 0.8f, 1);
+                    clicked4 = true;
+                    times4++;
+                    player.increaseAbility(3);
+                    player.decreaseAbilityPoints();
+                    playerManager.savePlayer(player);
+                }
             }
         });
 
@@ -333,37 +356,25 @@ public class AbilitiesScreen extends BaseScreen {
     private Table createNavigationTable() {
         // table buttons
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
-        TextButton bLeftArrow = new TextButton("<-", Assets.getSkin());
-        TextButton bRightArrow = new TextButton("->", Assets.getSkin());
 
         // table for navigation
         Table navigationTable = new Table();
         // add some padding and expand each cell
-        navigationTable.defaults().expand().pad(50);
+        navigationTable.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         navigationTable.setFillParent(true);
 
+        BitmapFont font = Assets.getSubtitleFont();
+        Label.LabelStyle style = new Label.LabelStyle(Assets.getSkin().get(Label.LabelStyle.class));
+        style.font = font;
+        Label title = new Label("Abilities", style);
+        title.setFontScale(1.5f);
+        title.setAlignment(Align.center);
+
+        navigationTable.row().expandY();
+        navigationTable.add(title).expandY();
         // order the buttons of the table
-        navigationTable.add(bLeftArrow).left();
-        navigationTable.add();
-        navigationTable.add(bRightArrow).right();
         navigationTable.row();
-        navigationTable.add();
-        navigationTable.add(bReturn).bottom();
-
-        // if an arrow is clicked, go to abilities screen
-        bRightArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new InventoryScreen(game));
-            }
-        });
-
-        bLeftArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new InventoryScreen(game));
-            }
-        });
+        navigationTable.add(bReturn).bottom().center();
 
         // return to GameScreen when pressed return button
         bReturn.addListener(new ClickListener() {
@@ -381,7 +392,12 @@ public class AbilitiesScreen extends BaseScreen {
         mainTable.setFillParent(true);
 
         // Abilities table
-        Table abilitiesTable = createAbilitiesTable();
+        Table abilitiesTable = null;
+        try {
+            abilitiesTable = createAbilitiesTable();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         mainTable.add(abilitiesTable).padTop(100f).expandY().top().row();
 
         // Navigation table
@@ -399,7 +415,11 @@ public class AbilitiesScreen extends BaseScreen {
 
         game.setStage(new Stage(getViewport()));
 
-        game.getStage().addActor(createAbilitiesTable());
+        try {
+            game.getStage().addActor(createAbilitiesTable());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         game.getStage().addActor(createNavigationTable());
         getViewport().apply();
@@ -416,7 +436,6 @@ public class AbilitiesScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
-        Assets.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
         game.getBatch().end();
 
         game.getStage().act();

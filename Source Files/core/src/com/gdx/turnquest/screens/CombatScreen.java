@@ -17,10 +17,11 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
 import com.gdx.turnquest.dialogs.GameOverDialog;
+import com.gdx.turnquest.dialogs.UseItemDialog;
 import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
-import com.gdx.turnquest.utils.AnimationHandler;
+import com.gdx.turnquest.animations.AnimationHandler;
 import com.gdx.turnquest.utils.EnemyManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
@@ -54,6 +55,7 @@ public class CombatScreen extends BaseScreen {
     private final String A_DEATH = "death";
     private boolean playerTurn = true;
     private boolean combatFinished = false;
+    private static ObjectMap<String, Integer> initialStatsPlayer;
 
     public CombatScreen(final TurnQuest game) {
         super(game);
@@ -83,6 +85,8 @@ public class CombatScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if(playerTurn) {
                     animationHandler.setCurrent(A_ATTACK);
+                    playSfx("hit.ogg");
+                    CombatLogic.attack(player, enemy);
                     playerTurn = false;
                 }
             }
@@ -102,11 +106,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(playerTurn) {
-                    // Fetch inventory
-                    // Display inventory
-                    // Select item
-                    // Use item with CombatLogic.useItem(player, itemID)
-                    playerTurn = false;
+                    showUseItemDialog();
                 }
             }
         });
@@ -116,6 +116,7 @@ public class CombatScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if (playerTurn) {
                     if (CombatLogic.run(player, enemy)) {
+                        game.getCurrentPlayer().calculateStats();
                         game.setMusic("intro.ogg");
                         game.popScreen();
                     }
@@ -130,11 +131,11 @@ public class CombatScreen extends BaseScreen {
         animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/warrior.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/warrior/warrior.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/archer.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/archer/archer.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/mage.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/mage/mage.atlas"));
         }
         float FRAME_TIME = 1 / 10f;
         assert charset != null;
@@ -147,6 +148,10 @@ public class CombatScreen extends BaseScreen {
         animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
         animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
         animationHandler.setCurrent(A_IDLE, true);
+    }
+
+    private void createEnemyAnimations() {
+
     }
 
     private Sprite createEnemySprite() {
@@ -199,9 +204,10 @@ public class CombatScreen extends BaseScreen {
         Assets.loadFor(CombatScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
-        game.setMusic("boss1.ogg");
+        game.setMusic("battle.ogg");
         player = game.getCurrentPlayer();
-        ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
+        initialStatsPlayer = new ObjectMap<>();
+        initialStatsPlayer.putAll(player.getStats());
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
@@ -213,11 +219,13 @@ public class CombatScreen extends BaseScreen {
         game.setStage(new Stage(getViewport()));
 
         // Load the enemy textures
-            enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
+        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
 
         createPlayerAnimations();
 
         enemySprite = createEnemySprite();
+
+        createEnemyAnimations();
 
         // Add the table to the stage
         game.getStage().addActor(createUIComponents());
@@ -253,6 +261,7 @@ public class CombatScreen extends BaseScreen {
         game.getStage().addActor(table);
         // apply
         getViewport().apply();
+
         super.show();
     }
 
@@ -263,16 +272,23 @@ public class CombatScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
-        if(animationHandler.isFinished()){
+        if(animationHandler.isFinished()) {
             updateBarsAndTags();
-            if(!combatFinished) evaluateCombat();
+            if (!combatFinished) evaluateCombat();
+            if(player.getHP() != 0) {
+                animationHandler.setCurrent(A_IDLE, true);
+            }
+        }
 
-            if(!playerTurn && !combatFinished){
+            if(!playerTurn && !combatFinished && animationHandler.isFinished()){
+                updateBarsAndTags();
+                if (!combatFinished) evaluateCombat();
                 try {
                     sleep(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                playSfx("hurt.ogg");
                 CombatLogic.attack(enemy, player);
                 playerTurn = true;
 
@@ -281,10 +297,6 @@ public class CombatScreen extends BaseScreen {
                 else animationHandler.setCurrent(A_HURT);
 
             }
-            if(player.getHP() != 0) {
-                animationHandler.setCurrent(A_IDLE, true);
-            }
-        }
 
         TextureRegion frame = animationHandler.getFrame();
 
@@ -314,16 +326,23 @@ public class CombatScreen extends BaseScreen {
         dialog.show(game.getStage());
     }
 
+    private void showUseItemDialog() {
+        UseItemDialog dialog = new UseItemDialog("Inventory", ()->{
+            if(player.getHP() > initialStatsPlayer.get("HP")) {
+                player.setHP(initialStatsPlayer.get("HP"));
+            }
+            if(player.getMP() > initialStatsPlayer.get("MP")) {
+                player.setMP(initialStatsPlayer.get("MP"));
+            }
+            playerTurn = false;
+        }, Assets.getSkin(), game, player);
+        dialog.show(game.getStage());
+    }
+
     private void evaluateCombat(){
         if(player.getHP() <= 0){
             combatFinished = true;
             CombatLogic.defeat(player, enemy);
-            if(playerManager.savePlayer(player) == 0){
-                System.out.println("Player saved");
-            }
-            else{
-                System.out.println("Player not saved");
-            }
             new GameOverDialog(game, Assets.getSkin()).show(game.getStage());
         }
         else if(enemy.getHP() <= 0){

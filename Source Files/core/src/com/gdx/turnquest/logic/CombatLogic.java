@@ -29,10 +29,6 @@ public class CombatLogic {
 
     // abilities attacks
     public static void useAbility(Player attacker, Character defender, int ability, int MPcost) {
-        if(attacker.getMP() < MPcost){
-            attack(attacker, defender); //Normal attack if not enough MP.
-            return;
-        }
         attacker.setMP(attacker.getMP() - MPcost);
         switch (attacker.getCharacterClass()) {
             case "Warrior":
@@ -286,12 +282,26 @@ public class CombatLogic {
         }
     }
     public static void useItem(Character character, String item) {
-//        if (item.equals("Potion")) {
-//            character.setHP(character.getHP() + 50);
-//        }
-//        if (item.equals("Ether")) {
-//            character.setMP(character.getMP() + 50);
-//        }
+        switch (item){
+            case "Potion":
+                character.setHP(character.getHP() + 50);
+                break;
+            case "Potion +":
+                character.setHP(character.getHP() + 100);
+                break;
+            case "Potion ++":
+                character.setHP(character.getHP() + 9999);
+                break;
+            case "Ether":
+                character.setMP(character.getMP() + 50);
+                break;
+            case "Ether +":
+                character.setMP(character.getMP() + 100);
+                break;
+            case "Ether ++":
+                character.setMP(character.getMP() + 9999);
+                break;
+        }
         //This may be further developed by creating an Item class and then doing, if item.usable(), then use item and add stats of the item to the character.
     }
 

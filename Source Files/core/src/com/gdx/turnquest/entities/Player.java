@@ -1,7 +1,9 @@
 package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.gdx.turnquest.utils.PlayerManager;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -39,6 +41,8 @@ public class Player extends Character {
 
     private long previousTime;
 
+    private int abilityPoints;
+
     /**
      * Creates a default Player object with no parameters. The player's name is set to null.
      */
@@ -69,12 +73,14 @@ public class Player extends Character {
         gold = 0;
         exp = 0;
         level = 1;
+        abilityPoints = 0;
         Arrays.fill(abilities, 0);
         inventory = new ObjectMap<>();
         inventory.put("Potion", 5);
         inventory.put("Ether", 5);
         //TODO: add character class handling -> setting stats according to the class given.
         calculateStats();
+
         switch (characterClass){
             case "Warrior" :
                 inventory.put("Iron Sword", 1);
@@ -228,6 +234,9 @@ public class Player extends Character {
 
     public void increaseLevel() {
         level += 1;
+        if (level % 5 == 0) {
+            abilityPoints++;
+        }
         calculateStats();
     }
 
@@ -305,6 +314,39 @@ public class Player extends Character {
             //Refresh energy and login count
             energy = 5;
             loginCount = 0;
+            try {
+                new PlayerManager().savePlayer(this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+    }
+    public int getEnergy(){
+        checkRefresh();
+        return energy;
+    }
+    public void decreaseEnergy(){
+        energy--;
+    }
+    public int getLoginCount(){
+        checkRefresh();
+        return loginCount;
+    }
+
+    public int getAbilityPoints () {
+        return abilityPoints;
+    }
+
+    public void decreaseAbilityPoints () {
+        abilityPoints--;
+    }
+
+    public boolean checkItem(String item) {
+        for(String i : inventory.keys()) {
+            if(i.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

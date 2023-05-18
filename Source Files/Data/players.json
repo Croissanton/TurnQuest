@@ -51,6 +51,31 @@
 	"inventory": {},
 	"playerName": "user123"
 },
+"ethwrth": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "ethwrth",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684231683899
+},
 "atapuerca": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
@@ -140,24 +165,58 @@
 "guarrio": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
-		"INT": 1,
-		"STR": 5,
-		"DEF": 5,
-		"LUK": 3,
-		"MP": 30,
-		"HP": 150,
-		"SPD": 1
+		"INT": 3,
+		"STR": 11,
+		"DEF": 11,
+		"LUK": 6,
+		"MP": 60,
+		"HP": 222,
+		"SPD": 3
 	},
 	"characterClass": "Warrior",
-	"level": 1,
+	"gold": 650,
+	"exp": 299,
+	"level": 4,
 	"inventory": {
 		"Iron Shield": 1,
 		"Potion": 5,
 		"Ether": 5,
 		"Leather Armor": 1,
-		"Iron Sword": 1
+		"Iron Sword": 1,
+		"Bow": 1
 	},
-	"playerName": "guarrio"
+	"playerName": "guarrio",
+	"clanName": "guarrioClan",
+	"energy": 5,
+	"previousTime": 1684401961578
+},
+"TestArcher": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "TestArcher",
+	"clanName": "TestClan",
+	"abilities": [ 1, 1, 0, 0 ],
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684443777705,
+	"abilityPoints": 10
 },
 "rwthjrth": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -288,18 +347,18 @@
 "pepe": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
-		"INT": 1,
-		"STR": 3,
-		"DEF": 1,
-		"LUK": 5,
-		"MP": 45,
-		"HP": 116,
-		"SPD": 5
+		"INT": 4,
+		"STR": 8,
+		"DEF": 4,
+		"LUK": 15,
+		"MP": 90,
+		"HP": 300,
+		"SPD": 15
 	},
 	"characterClass": "Archer",
-	"gold": 50,
-	"exp": 50,
-	"level": 1,
+	"gold": 2100,
+	"exp": 1281,
+	"level": 6,
 	"inventory": {
 		"Potion": 5,
 		"Ether": 5,
@@ -308,8 +367,61 @@
 		"Old Quiver": 1
 	},
 	"playerName": "pepe",
+	"abilities": [ 0, 0, 0, 1 ],
+	"previousTime": 1684412397096
+},
+"ergwergwerg": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
+	"characterClass": "Archer",
+	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "ergwergwerg",
+	"clanName": "Croisdfkjdsfkj",
 	"energy": 5,
-	"previousTime": 1684167788944
+	"loginCount": 1,
+	"previousTime": 1684231764598
+},
+"TestMage": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 5,
+		"STR": 1,
+		"DEF": 1,
+		"LUK": 3,
+		"MP": 75,
+		"HP": 105,
+		"SPD": 3
+	},
+	"characterClass": "Mage",
+	"level": 1,
+	"inventory": {
+		"Wooden Staff": 1,
+		"Silk Robe": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Old Grimmorie": 1
+	},
+	"playerName": "TestMage",
+	"clanName": "TestClan",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684443839252,
+	"abilityPoints": 10
 },
 "player 123": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -380,12 +492,78 @@
 	"energy": 5,
 	"loginCount": 1
 },
-"klnstpr": {
+"gwbg": {
 	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 3,
+		"DEF": 1,
+		"LUK": 5,
+		"MP": 45,
+		"HP": 120,
+		"SPD": 5
+	},
 	"characterClass": "Archer",
 	"level": 1,
+	"inventory": {
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Bow": 1,
+		"Old Quiver": 1
+	},
+	"playerName": "gwbg",
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684231599211
+},
+"TestWarrior": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 1,
+		"STR": 5,
+		"DEF": 5,
+		"LUK": 3,
+		"MP": 30,
+		"HP": 150,
+		"SPD": 1
+	},
+	"characterClass": "Warrior",
+	"level": 1,
+	"inventory": {
+		"Iron Shield": 1,
+		"Potion": 5,
+		"Ether": 5,
+		"Leather Armor": 1,
+		"Iron Sword": 1
+	},
+	"playerName": "TestWarrior",
+	"clanName": "TestClan",
+	"abilities": [ 1, 1, 1, 1 ],
+	"energy": 5,
+	"loginCount": 1,
+	"previousTime": 1684443733952,
+	"abilityPoints": 10
+},
+"klnstpr": {
+	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 4,
+		"STR": 8,
+		"DEF": 4,
+		"LUK": 15,
+		"MP": 120,
+		"HP": 320,
+		"SPD": 15
+	},
+	"characterClass": "Archer",
+	"gold": 1550,
+	"exp": 231,
+	"level": 6,
 	"inventory": {},
-	"playerName": "klnstpr"
+	"playerName": "klnstpr",
+	"energy": 3,
+	"previousTime": 1684359153022
 },
 "player1": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -464,7 +642,9 @@
 		"Ether": 5,
 		"Old Grimmorie": 1
 	},
-	"playerName": "mage"
+	"playerName": "mage",
+	"energy": 5,
+	"previousTime": 1684431488130
 },
 "ataaaa": {
 	"class": "com.gdx.turnquest.entities.Player",
@@ -575,19 +755,20 @@
 		"SPD": 21
 	},
 	"characterClass": "Mage",
-	"gold": 51700,
-	"exp": 353,
+	"gold": 23450,
+	"exp": 4603,
 	"level": 19,
 	"inventory": {
 		"Wooden Staff": 1,
 		"Silk Robe": 1,
-		"Potion": 5,
-		"Ether": 5,
-		"Old Grimmorie": 1
+		"Ether +": 1,
+		"Potion": 0,
+		"Old Grimmorie": 1,
+		"Mana Potion ++": 0
 	},
 	"playerName": "Croissanton",
 	"abilities": [ 1, 1, 1, 1 ],
-	"energy": 10,
-	"previousTime": 1684140126884
+	"energy": 5,
+	"previousTime": 1684426071424
 }
 }

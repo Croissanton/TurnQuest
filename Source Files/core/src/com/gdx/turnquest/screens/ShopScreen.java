@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,8 +17,10 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.InformationDialog;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.PlayerManager;
 
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -26,6 +30,18 @@ public class ShopScreen extends BaseScreen {
     private static final int CellWidth=100;
     private static final int CellHeight=80;
     static HashMap<String, LinkedHashMap<String, String>> shopItems;
+    private Label statsText;
+    private float elapsed_time;
+    private Animation<TextureRegion> goldCoin;
+    private final PlayerManager playerManager;
+
+    {
+        try {
+            playerManager = new PlayerManager();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public ShopScreen(final TurnQuest game) {
         super(game);
@@ -54,7 +70,7 @@ public class ShopScreen extends BaseScreen {
 
         rootTable.setFillParent(true);
         rootTable.add(firstTable).left().padLeft(200f);
-        Label statsText  = new Label("GOLD: "+game.getCurrentPlayer().getGold()+"c.", Assets.getSkin());
+        statsText  = new Label("      "+game.getCurrentPlayer().getGold()+"c.", Assets.getSkin());
         statsText.setFontScale(2.4f);
         rootTable.add(statsText).expandX().align(Align.center).colspan(5);
         rootTable.row();
@@ -101,6 +117,7 @@ public class ShopScreen extends BaseScreen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.setMusic("intro.ogg");
                 game.popScreen();
             }
         });
@@ -239,7 +256,9 @@ public class ShopScreen extends BaseScreen {
         else
         {
             player.addItem(name, 1);
-            shopInformationDialog("Congratulation", "Item successfully bought");
+            playSfx("coinsplash.ogg");
+            playerManager.savePlayer(player);
+            shopInformationDialog("Congratulations", "Item successfully bought");
         }
 
     }
@@ -256,7 +275,9 @@ public class ShopScreen extends BaseScreen {
         else
         {
             player.addGold(priceInt);
-            shopInformationDialog("Congratulation", "Item successfully sold");
+            playSfx("coinsplash.ogg");
+            playerManager.savePlayer(player);
+            shopInformationDialog("Congratulations", "Item successfully sold");
         }
 
     }
@@ -333,6 +354,10 @@ public class ShopScreen extends BaseScreen {
         // Create root table that combains all the tables
         Table rootTable = new Table(Assets.getSkin());
         setRootTable(rootTable, firstTable, scrollPane, rightTable);
+
+        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/gold_coin/gold_coin.atlas"));
+        goldCoin = new Animation<TextureRegion>(1/9f, charset.getRegions());
+
         return rootTable;
     }
 
@@ -340,9 +365,10 @@ public class ShopScreen extends BaseScreen {
     public void show() {
         Assets.loadFor(ShopScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
+        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.SHOP_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
+        game.setMusic("shop.mp3");
         getViewport().apply();
         super.show();
     }
@@ -351,8 +377,13 @@ public class ShopScreen extends BaseScreen {
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1);
 
+        statsText.setText(("      " + game.getCurrentPlayer().getGold()+"c."));
+        elapsed_time += delta;
+        TextureRegion currentFrame = goldCoin.getKeyFrame(elapsed_time, true);
+
         game.getBatch().begin();
-        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.SHOP_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(currentFrame, getVirtualWidth()*0.73f, getVirtualHeight() * 0.885f, currentFrame.getRegionWidth()*3.5f, currentFrame.getRegionHeight()*3.5f);
         game.getBatch().end();
         game.getStage().act();
         game.getStage().draw();

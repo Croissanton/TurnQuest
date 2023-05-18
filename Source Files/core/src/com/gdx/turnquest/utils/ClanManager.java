@@ -3,10 +3,14 @@ package com.gdx.turnquest.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.turnquest.entities.Clan;
 
 import java.io.IOException;
+
+import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
+import static java.lang.Thread.sleep;
 
 /**
  This class represents a clan manager that stores and manages clan data.
@@ -15,7 +19,7 @@ import java.io.IOException;
  */
 
 public class ClanManager {
-    private final ObjectMap<String, Clan> clansData;
+    private ObjectMap<String, Clan> clansData;
     private static final String CLANS_PATH = "../Data/clans.json";
     private final FileHandle file = Gdx.files.local(CLANS_PATH);
     private final Json json = new Json();
@@ -28,15 +32,16 @@ public class ClanManager {
      */
 
     public ClanManager() {
-        if(file.exists()) {
-            clansData = json.fromJson(ObjectMap.class, file.readString());
-        } else {
-            try {
-                file.file().createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+        json.setOutputType(JsonWriter.OutputType.json);
+        try {
+            if(!file.file().createNewFile()) {
+                clansData = json.fromJson(ObjectMap.class, file.readString());
+                if(clansData == null) clansData = new ObjectMap<>();
+            } else {
+                clansData = new ObjectMap<>();
             }
-            clansData = new ObjectMap<>();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -49,7 +54,7 @@ public class ClanManager {
      */
 
     public void addClan(Clan clan) {
-        if (clansData.containsKey(clan.getName())) {
+        if (checkClanName(clan.getName())) {
             throw new IllegalArgumentException("Clan already exists.");
         }
         clansData.put(clan.getName(), clan);
@@ -65,7 +70,7 @@ public class ClanManager {
      */
 
     public boolean checkClanName(String clanName) {
-        return clansData.containsKey(clanName);
+        return clansData != null && clansData.containsKey(clanName);
     }
 
     /**
@@ -77,7 +82,7 @@ public class ClanManager {
      */
 
     public Clan getClan(String clanName) {
-        if (!clansData.containsKey(clanName)) {
+        if (!checkClanName(clanName)) {
             throw new IllegalArgumentException("Clan does not exist.");
         }
         return clansData.get(clanName);
@@ -90,10 +95,28 @@ public class ClanManager {
      * @throws IllegalArgumentException If clan data for the given name does not exist.
      */
     public void removeClan(String clanName) {
-        if (!clansData.containsKey(clanName)) {
+        if (!checkClanName(clanName)) {
             throw new IllegalArgumentException("Clan does not exist.");
         }
         clansData.remove(clanName);
         file.writeString(json.prettyPrint(clansData), false);
+    }
+
+    public int save(Clan clan) {
+        int cont = 0;
+        while(!hasInternetConnection()) {
+            if(cont == 5){
+                return -1; // ERROR, COULD NOT SAVE, SHOULD TREAT THIS.
+            }
+            try {
+                sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ++cont;
+        }
+        removeClan(clan.getName());
+        addClan(clan);
+        return 0;
     }
 }

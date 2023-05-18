@@ -1,15 +1,23 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -22,12 +30,37 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         Assets.loadFor(GameScreen.class);
+        Assets.loadCharacterPortrait(game.getCurrentPlayer().getCharacterClass());
         Assets.ASSET_MANAGER.finishLoading();
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
         getViewport().apply();
         super.show();
     }
+
+    private ImageButton bPlayerScreen () {
+        //playerscreen button
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(Assets.getSkin().get(TextButton.TextButtonStyle.class));
+        Texture characterPortrait = Assets.getCharacterPortrait(game.getCurrentPlayer().getCharacterClass());
+        style.imageUp = new TextureRegionDrawable(new TextureRegion(characterPortrait));
+
+        float buttonSize = getVirtualWidth() * 0.10f;
+        ImageButton bPlayerScreen = new ImageButton(style);
+        bPlayerScreen.setSize(buttonSize, buttonSize);
+
+        bPlayerScreen.getImageCell().expand().fill().center();
+        bPlayerScreen.getImage().setScaling(Scaling.fit);
+
+        bPlayerScreen.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.pushScreen(new PlayerScreen(game));
+            }
+        });
+        return bPlayerScreen;
+    }
+
 
     public Table createUIComponents() {
         // create the table
@@ -41,11 +74,19 @@ public class GameScreen extends BaseScreen {
 
         // add another column
         table.add();
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(Assets.getSkin().get(TextButton.TextButtonStyle.class));
+        Texture characterPortrait = Assets.getCharacterPortrait(game.getCurrentPlayer().getCharacterClass());
+        style.imageUp = new TextureRegionDrawable(new TextureRegion(characterPortrait));
 
-        // inventory button
-        TextButton bInventory = new TextButton("Inventory", Assets.getSkin());
-        table.add(bInventory).left();
+        float buttonSize = getVirtualWidth() * 0.10f;
+        ImageButton bPlayerScreen = new ImageButton(style);
+        bPlayerScreen.setSize(buttonSize, buttonSize);
+        bPlayerScreen.getImageCell().expand().fill().center();
+        bPlayerScreen.getImage().setScaling(Scaling.fit);
 
+        table.defaults(); // Reset the table's default cell settings
+        table.add(bPlayerScreen).size(buttonSize, buttonSize).left(); // Set the cell size specifically for the ImageButton
+        table.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         // add another row
         table.row();
 
@@ -74,11 +115,8 @@ public class GameScreen extends BaseScreen {
         TextButton bShop = new TextButton("Shop", Assets.getSkin());
         table.add(bShop).left();
 
-        // table padding
-        table.padTop(20);
-        table.padBottom(20);
-        table.padLeft(20);
-        table.padRight(20);
+
+        table.pad(20);
 
         bPlay.addListener(new ClickListener() {
             @Override
@@ -88,12 +126,13 @@ public class GameScreen extends BaseScreen {
             }
         });
 
-        bInventory.addListener(new ClickListener() {
+        bPlayerScreen.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new InventoryScreen(game));
+                game.pushScreen(new PlayerScreen(game));
             }
         });
+
 
         bClan.addListener(new ClickListener() {
             @Override
@@ -135,7 +174,9 @@ public class GameScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(new Texture("images/energy.png"), getVirtualWidth() * 0.40f, getVirtualHeight() * 0.8f, getVirtualWidth() * 0.05f , getVirtualHeight() * 0.1f);
         Assets.getFont().draw(game.getBatch(), "Game Menu", getVirtualWidth() * 0.42f, getVirtualWidth() * 0.77f);
+        Assets.getTitleFont().draw(game.getBatch(), "     (" + game.getCurrentPlayer().getEnergy() + "/5)", getVirtualWidth() * 0.3f, getVirtualWidth() * 0.5f);
         game.getBatch().end();
 
         game.getStage().act();
@@ -146,7 +187,14 @@ public class GameScreen extends BaseScreen {
 
     private void showQuitConfirmationDialog() {
         ConfirmationDialog dialog = new ConfirmationDialog("Quit", "Are you sure you want to return to main menu? \n" +
-                "You will have to enter your credentials again.", game::popScreen, Assets.getSkin());
+                "You will have to enter your credentials again.", ()->{
+            try {
+                new PlayerManager().savePlayer(game.getCurrentPlayer());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            game.popScreen();
+        }, Assets.getSkin());
         dialog.setColor(Color.LIGHT_GRAY);
         dialog.show(game.getStage());
     }

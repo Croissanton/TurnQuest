@@ -1,6 +1,6 @@
 {
-  "Health Potion": {
-    "name": "Health Potion",
+  "Potion": {
+    "name": "Potion",
     "description": "A potion that restores some health",
     "value": 50,
     "type": "CONSUMABLE",
@@ -10,8 +10,8 @@
       "HP": 50
     }
   },
-  "Health Potion +": {
-    "name": "Health Potion +",
+  "Potion +": {
+    "name": "Potion +",
     "description": "A potion that restores more health",
     "value": 500,
     "type": "CONSUMABLE",
@@ -21,8 +21,8 @@
       "HP": 200
     }
   },
-  "Health Potion ++": {
-    "name": "Health Potion ++",
+  "Potion ++": {
+    "name": "Potion ++",
     "description": "A potion that restores full health",
     "value": 10000,
     "type": "CONSUMABLE",
@@ -32,8 +32,8 @@
       "HP": 9999
     }
   },
-  "Mana Potion": {
-    "name": "Mana Potion",
+  "Ether": {
+    "name": "Ether",
     "description": "A potion that restores some mana",
     "value": 50,
     "type": "CONSUMABLE",
@@ -43,19 +43,19 @@
       "MP": 50
     }
   },
-  "Mana Potion +": {
-    "name": "Mana Potion +",
-    "description": "A potion that restores more mana",
-    "value": 500,
+  "Ether +": {
+    "name": "Ether +",
+    "description": "A magical item that restores some mana",
+    "value": 100,
     "type": "CONSUMABLE",
     "classType": "All",
-    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons5.png",
+    "imagePath": "items/Icons_no_background/rings_and_necklaces/rpg_icons4.png",
     "stats": {
-      "MP": 200
+      "MP": 100
     }
   },
-  "Mana Potion ++": {
-    "name": "Mana Potion ++",
+  "Ether ++": {
+    "name": "Ether ++",
     "description": "A potion that restores full mana",
     "value": 10000,
     "type": "CONSUMABLE",

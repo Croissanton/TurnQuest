@@ -9,6 +9,9 @@ import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.ClanScreen;
 import com.gdx.turnquest.utils.ClanManager;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
@@ -29,7 +32,7 @@ public class JoinClanDialog extends Dialog {
 
         getContentTable().defaults().expand().pad(10);
         getContentTable().add("Clan name:");
-        getContentTable().add(clanNameField).width(400);
+        getContentTable().add(clanNameField).width(400).row();
 
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
@@ -55,12 +58,19 @@ public class JoinClanDialog extends Dialog {
             } else {
                 if (!clanManager.checkClanName(clanName)) {
                     // If the name exists, show an error
-                    errorLabel.setText("Invalid clan name.");
+                    errorLabel.setText("Invalid clan name, it does not exist.");
                 } else {
+                    Clan clan = clanManager.getClan(clanName);
                     player.setClanName(clanName);
-
+                    clan.addMember(player.getPlayerName());
+                    try {
+                        new PlayerManager().savePlayer(player);
+                        clanManager.save(clan);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     hide();
-                    game.pushScreen(new ClanScreen(game));
+                    game.popScreen();
                 }
             }
         }
@@ -70,7 +80,7 @@ public class JoinClanDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid or the cancel button is clicked
-        if (clanName != null) {
+        if (clanName != null && clanManager.checkClanName(clanName)) {
             super.hide();
         }
     }

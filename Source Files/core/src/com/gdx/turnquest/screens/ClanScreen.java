@@ -11,15 +11,21 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.*;
+import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.ClanManager;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class ClanScreen extends BaseScreen {
-
     public ClanScreen(final TurnQuest game) {
         super(game);
     }
+
+    boolean leader = true;
+    Player player = game.getCurrentPlayer();
+    ClanManager clanManager = new ClanManager();
+    Clan clan = null;
 
     @Override
     public void show() {
@@ -29,6 +35,7 @@ public class ClanScreen extends BaseScreen {
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
 
+
         // apply
         getViewport().apply();
         super.show();
@@ -37,6 +44,12 @@ public class ClanScreen extends BaseScreen {
     @Override
     public Table createUIComponents() {
         Player player = game.getCurrentPlayer();
+
+        // search for the clan
+        if (!player.getClanName().isEmpty()) {
+            // search for the clan
+            clan = clanManager.getClan(player.getClanName());
+        }
 
         // create or delete clan button
         TextButton bCreateOrDelete = new TextButton("Create Clan", Assets.getSkin());
@@ -51,17 +64,24 @@ public class ClanScreen extends BaseScreen {
         if (!player.getClanName().isEmpty()) {
             bCreateOrDelete.setText("Delete Clan");
             bJoinOrLeave.setText("Leave Clan");
+
+            // if player is not the leader of the clan, he/she cannot delete it
+            if (!clan.getLeader().equalsIgnoreCase(player.getPlayerName())) {
+                bCreateOrDelete.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+                leader = false;
+            }
         }
 
-        //create the table
-        Table table = new Table();
-        table.defaults();
+
+        // create the table
+        Table table = new Table(Assets.getSkin());
+        table.defaults().expand().size(getVirtualWidth() * 0.15f, getVirtualHeight() * .10f);
         table.setFillParent(true);
 
         // add buttons to the table
         table.add(bCreateOrDelete).row();
         table.add(bJoinOrLeave).row();
-        table.add(bReturn).bottom();
+        table.add(bReturn).row();
 
         // create or delete clan button
         bCreateOrDelete.addListener(new ClickListener() {
@@ -69,7 +89,11 @@ public class ClanScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 // if the player is in a clan, change create clan to delete clan
                 if (!player.getClanName().isEmpty()) {
-                    showDeleteClanDialog();
+                    if (leader) {
+                        showDeleteClanDialog();
+                    } else {
+                        hide();
+                    }
                 } else {
                     showCreateClanDialog();
                 }
@@ -77,7 +101,7 @@ public class ClanScreen extends BaseScreen {
         });
 
         // join or leave clan button
-        bCreateOrDelete.addListener(new ClickListener() {
+        bJoinOrLeave.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // if the player is in a clan, change join clan to leave clan
@@ -110,8 +134,14 @@ public class ClanScreen extends BaseScreen {
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         Assets.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
+        if (!player.getClanName().isEmpty()) {
+            Assets.getSubtitleFont().draw(game.getBatch(), "Members of " + clan.getName() + ":", getVirtualWidth() * 0.7f, getVirtualHeight() * 0.7f);
+            // add the name of the members
+            for (int i = 0; i < clan.getMembers().size(); i++) {
+                Assets.getSubtitleFont().draw(game.getBatch(), clan.getMembers().get(i), getVirtualWidth() * 0.7f, getVirtualHeight() * (0.65f - 0.05f * i));
+            }
+        }
         game.getBatch().end();
-
         game.getStage().act();
         game.getStage().draw();
 
@@ -134,7 +164,7 @@ public class ClanScreen extends BaseScreen {
     }
 
     private void showLeaveClanDialog() {
-        LeaveClanDialog dialog = new LeaveClanDialog("Clan Leaving", "Are you sure you want to leave the clan", Assets.getSkin(), game);
+        LeaveClanDialog dialog = new LeaveClanDialog("Clan Leaving", "Are you sure you want to leave the clan?", Assets.getSkin(), game);
         dialog.show(game.getStage());
     }
 }

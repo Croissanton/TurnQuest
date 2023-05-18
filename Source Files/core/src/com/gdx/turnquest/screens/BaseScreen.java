@@ -34,6 +34,14 @@ public abstract class BaseScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F5)) {
             refreshScreen();
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            if(getGeneralVolume() == 0){
+                game.setGeneralVolume(50);
+            }else {
+                game.setGeneralVolume(0);
+            }
+        }
+
     }
 
     /**

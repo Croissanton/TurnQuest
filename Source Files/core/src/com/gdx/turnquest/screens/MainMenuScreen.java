@@ -48,6 +48,7 @@ public class MainMenuScreen extends BaseScreen {
         });
 
         Table table = new Table();
+        table.defaults().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         table.setFillParent(true);
         table.add(bStart).center().padBottom(50f).row();
         table.add(bOptions).center().padBottom(50f).row();
@@ -96,7 +97,7 @@ public class MainMenuScreen extends BaseScreen {
     }
 
     private void showGameSelectionDialog() {
-        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", () -> {
+        GameSelectionDialog dialog = new GameSelectionDialog("", "What would you like to do?", () -> {
             // Handle login here
         }, Assets.getSkin(), game);
         dialog.show(game.getStage());

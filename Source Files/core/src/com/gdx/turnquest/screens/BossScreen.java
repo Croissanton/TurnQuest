@@ -17,11 +17,12 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
 import com.gdx.turnquest.dialogs.GameOverDialog;
+import com.gdx.turnquest.dialogs.UseItemDialog;
 import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
-import com.gdx.turnquest.utils.AnimationHandler;
+import com.gdx.turnquest.animations.AnimationHandler;
 import com.gdx.turnquest.utils.EnemyManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
@@ -34,7 +35,7 @@ import static java.lang.Thread.sleep;
 
 public class BossScreen extends BaseScreen {
     private Player player;
-    private Player ally;
+    private final Player ally;
     private static Enemy enemy = null;
     private Texture enemyTexture;
     private Sprite enemySprite;
@@ -65,9 +66,12 @@ public class BossScreen extends BaseScreen {
     private int whoseTurn = 0; //0 means player, 1 means ally, 2 means enemy
     private boolean combatFinished = false;
     private Character[] players;
+    private ObjectMap<String, Integer> initialStatsPlayer;
+    private ObjectMap<String, Integer> initialStatsAlly;
 
-    public BossScreen(final TurnQuest game) {
+    public BossScreen(final TurnQuest game, Player ally) {
         super(game);
+        this.ally = ally;
     }
 
     @Override
@@ -95,10 +99,12 @@ public class BossScreen extends BaseScreen {
                 if(whoseTurn < 2) {
                     if(whoseTurn == 0){
                         animationHandlerPlayer.setCurrent(A_ATTACK);
+                        playSfx("hit.ogg");
                         CombatLogic.attack(player, enemy);
                     }
                     else if(whoseTurn == 1){
                         animationHandlerAlly.setCurrent(A_ATTACK);
+                        playSfx("hit.ogg");
                         CombatLogic.attack(ally, enemy);
                     }
                     ++whoseTurn;
@@ -122,16 +128,15 @@ public class BossScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if(whoseTurn < 2) {
                     if(whoseTurn == 0){
-
+                        showUseItemDialog(player);
                     }
                     else if(whoseTurn == 1){
-
+                        showUseItemDialog(ally);
                     }
                     // Fetch inventory
                     // Display inventory
                     // Select item
                     // Use item with CombatLogic.useItem(player, itemID)
-                    ++whoseTurn;
                 }
             }
         });
@@ -145,6 +150,7 @@ public class BossScreen extends BaseScreen {
                     else if (whoseTurn == 1) character = ally;
                     assert character != null;
                     if (CombatLogic.run(character, enemy)) {
+                        game.getCurrentPlayer().calculateStats();
                         game.setMusic("intro.ogg");
                         game.popScreen();
                     }
@@ -159,11 +165,11 @@ public class BossScreen extends BaseScreen {
         AnimationHandler animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/warrior.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/warrior/warrior.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/archer.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/archer/archer.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/mage.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/mage/mage.atlas"));
         }
         float FRAME_TIME = 1 / 10f;
         assert charset != null;
@@ -241,14 +247,11 @@ public class BossScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
-        try {
-            ally = new PlayerManager().getPlayer("Croissanton"); // Provisionally I am your ally.
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         players = new Player[]{player, ally};
-        ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
-        ObjectMap<String, Integer> initialStatsAlly = ally.getStats();
+        initialStatsPlayer = new ObjectMap<>();
+        initialStatsPlayer.putAll(player.getStats());
+        initialStatsAlly = new ObjectMap<>();
+        initialStatsAlly.putAll(ally.getStats());
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
@@ -258,7 +261,7 @@ public class BossScreen extends BaseScreen {
         ObjectMap<String, Integer> initialStatsEnemy = enemy.getStats();
         animationHandlerPlayer = createPlayerAnimations(player);
         animationHandlerAlly = createPlayerAnimations(ally);
-        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/selection_arrow.atlas"));
+        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/selection_arrow/selection_arrow.atlas"));
         selectionArrow = new Animation<TextureRegion>(1 / 10f, charset.findRegions("selection_arrow"));
 
         game.setStage(new Stage(getViewport()));
@@ -312,6 +315,7 @@ public class BossScreen extends BaseScreen {
         game.getStage().addActor(table);
         // apply
         getViewport().apply();
+
         super.show();
     }
 
@@ -322,12 +326,18 @@ public class BossScreen extends BaseScreen {
         getCamera().update();
         game.getBatch().setProjectionMatrix(getCamera().combined);
 
+        if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished()) {
+            updateBarsAndTags();
+            if(!combatFinished) evaluateCombat();
+        }
+
         if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished() && whoseTurn == 2 && !combatFinished){
             try {
                 sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            playSfx("hit.ogg");
             CombatLogic.bossAttack(enemy, players);
             whoseTurn = 0;
 
@@ -351,10 +361,6 @@ public class BossScreen extends BaseScreen {
         // If the ally is dead, only the player attacks
         if(ally.getHP() == 0 && whoseTurn == 1){
             whoseTurn = 2;
-        }
-        if(animationHandlerPlayer.isFinished() && animationHandlerAlly.isFinished()) {
-            updateBarsAndTags();
-            if(!combatFinished) evaluateCombat();
         }
 
         TextureRegion framePlayer = animationHandlerPlayer.getFrame();
@@ -391,17 +397,27 @@ public class BossScreen extends BaseScreen {
         }, Assets.getSkin(), player, animationHandler, enemy);
         dialog.show(game.getStage());
     }
+    private void showUseItemDialog(Player p) {
+        ObjectMap<String,Integer> stats;
+        if (p.equals(player)) stats = initialStatsPlayer;
+        else stats = initialStatsAlly;
+        //You can only use your items.
+        UseItemDialog dialog = new UseItemDialog("Inventory", ()->{
+            if(p.getHP() > stats.get("HP")) {
+                p.setHP(stats.get("HP"));
+            }
+            if(p.getMP() > stats.get("MP")) {
+                p.setMP(stats.get("MP"));
+            }
+            ++whoseTurn;
+        }, Assets.getSkin(), game, p);
+        dialog.show(game.getStage());
+    }
 
     private void evaluateCombat(){
         if(player.getHP() <= 0 && ally.getHP() <= 0){
             combatFinished = true;
             CombatLogic.defeat(player, enemy);
-            if(playerManager.savePlayer(player) == 0){
-                System.out.println("Player saved");
-            }
-            else{
-                System.out.println("Player not saved");
-            }
             new GameOverDialog(game, Assets.getSkin()).show(game.getStage());
         }
         else if(enemy.getHP() <= 0){

@@ -9,13 +9,15 @@ import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.ClanScreen;
 import com.gdx.turnquest.utils.ClanManager;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
 public class LeaveClanDialog extends Dialog {
 
     private final TurnQuest game;
-    private String clanName;
     private final ClanManager clanManager = new ClanManager();
     private final Label errorLabel;
     private final Player player;
@@ -23,8 +25,8 @@ public class LeaveClanDialog extends Dialog {
     public LeaveClanDialog(String title, String message, Skin skin, TurnQuest game) {
         super(title, skin);
         this.game = game;
-        text(message);
         player = game.getCurrentPlayer();
+        text(message);
 
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
@@ -43,13 +45,22 @@ public class LeaveClanDialog extends Dialog {
             if (!hasInternetConnection()) {
                 errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
-                if (clanManager.checkClanName(clanName)) {
+                if (!clanManager.checkClanName(player.getClanName())) {
                     errorLabel.setText("Invalid clan name.");
                 } else {
+                    Clan clan = clanManager.getClan(player.getClanName());
+                    clan.removeMember(player.getPlayerName());
+                    if(clan.getMembers().size() == 0) clanManager.removeClan(player.getClanName());
                     player.setClanName("");
+                    try {
+                        new PlayerManager().savePlayer(player);
+                        clanManager.save(clan);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
                     hide();
-                    game.pushScreen(new ClanScreen(game));
+                    game.popScreen();
                 }
             }
         }
@@ -59,7 +70,7 @@ public class LeaveClanDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid or the cancel button is clicked
-        if (clanName == null) {
+        if (clanManager.checkClanName(player.getClanName())) {
             super.hide();
         }
     }

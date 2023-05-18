@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
+import com.gdx.turnquest.utils.PlayerManager;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -30,6 +33,11 @@ public class VictoryDialog extends Dialog {
         }
         else {
             game.getCurrentPlayer().calculateStats();
+            try {
+                new PlayerManager().savePlayer(game.getCurrentPlayer());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             game.setMusic("intro.ogg");
             game.popScreen();
         }

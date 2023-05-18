@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.screens.BossScreen;
+import com.gdx.turnquest.screens.ClanScreen;
 import com.gdx.turnquest.utils.ClanManager;
 import com.gdx.turnquest.utils.PlayerManager;
 
@@ -14,30 +16,31 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
-public class CreateClanDialog extends Dialog {
+public class SelectAllyDialog extends Dialog {
 
     private final TurnQuest game;
-    private final TextField clanNameField;
-    private String clanName;
+    private final TextField allyNameField;
+    private String allyName;
+    private final PlayerManager playerManager = new PlayerManager();
     private final ClanManager clanManager = new ClanManager();
     private final Label errorLabel;
     private final Player player;
 
-    public CreateClanDialog(String title, Skin skin, TurnQuest game) {
+    public SelectAllyDialog(String title, String text, Skin skin, TurnQuest game) throws IOException {
         super(title, skin);
         this.game = game;
-        this.clanNameField = new TextField("", skin);
+        this.allyNameField = new TextField("", skin);
         player = game.getCurrentPlayer();
 
         getContentTable().defaults().expand().pad(10);
-        getContentTable().add("Clan name:");
-        getContentTable().add(clanNameField).width(400).row();
+        getContentTable().add("Ally name:");
+        getContentTable().add(allyNameField).width(400).row();
 
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
         getContentTable().add(errorLabel).colspan(2);
 
-        button("Create", true);
+        button("Select", true);
         button("Cancel", false);
     }
 
@@ -48,29 +51,26 @@ public class CreateClanDialog extends Dialog {
 
         if (result) {
             // Check credentials
-            clanName = clanNameField.getText();
+            allyName = allyNameField.getText();
 
             // If correct, change screen
             // Check if the credentials are valid
             if (!hasInternetConnection()) {
                 errorLabel.setText("Connection Error: Could not connect to the server.");
             } else {
-                if (clanManager.checkClanName(clanName)) {
-                    // If the name exists, show an error
-                    errorLabel.setText("Invalid clan name, it already exists.");
-                } else if (clanName.length() < 4) {
-                    // If the name is shorter than 4, show an error
-                    errorLabel.setText("Invalid clan name, it is too short.");
+                if (!playerManager.checkPlayerName(allyName)) {
+                    // If the name does not exist, show an error
+                    errorLabel.setText("Invalid player name, it does not exist.");
                 } else {
-                    clanManager.addClan(new Clan(clanName, player.getPlayerName()));
-                    player.setClanName(clanName);
-                    try {
-                        new PlayerManager().savePlayer(player);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    Player ally = playerManager.getPlayer(allyName);
+                    if (!player.getClanName().equalsIgnoreCase(ally.getClanName())) {
+                        errorLabel.setText("Error: Player not in your clan.");
+                    } else {
+                        game.getCurrentPlayer().decreaseEnergy();
+                        game.pushScreen(new BossScreen(game, ally));
                     }
+
                     hide();
-                    game.popScreen();
                 }
             }
         }
@@ -79,8 +79,13 @@ public class CreateClanDialog extends Dialog {
 
     @Override
     public void hide() {
-        // Only hide the dialog if the credentials are valid
-        if (clanName != null && clanName.length() > 3 && !clanManager.checkClanName(clanName)) {
+        Player ally = null;
+        if (playerManager.checkPlayerName(allyName)) {
+            ally = playerManager.getPlayer(allyName);
+        }
+
+        // Only hide the dialog if the credentials are valid or the cancel button is clicked
+        if (ally != null && player.getClanName().equalsIgnoreCase(ally.getClanName())) {
             super.hide();
         }
     }

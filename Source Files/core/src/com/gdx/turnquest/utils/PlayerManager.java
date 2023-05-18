@@ -25,7 +25,7 @@ public class PlayerManager {
     private static final String PLAYERS_PATH = "../Data/players.json";
     private final FileHandle file = Gdx.files.local(PLAYERS_PATH);
     private final Json json = new Json();
-    private final ObjectMap<String, Player> playersData;
+    private ObjectMap<String, Player> playersData;
 
     /**
      * Constructs a PlayerManager object. It initializes the file handle and the JSON object
@@ -38,6 +38,7 @@ public class PlayerManager {
         json.setOutputType(JsonWriter.OutputType.json);
         if(!file.file().createNewFile()) {
             playersData = json.fromJson(ObjectMap.class, Player.class, file.readString());
+            if(playersData == null) playersData = new ObjectMap<>();
         } else {
             playersData = new ObjectMap<>();
         }
@@ -111,5 +112,9 @@ public class PlayerManager {
         }
         playersData.remove(username);
         file.writeString(json.prettyPrint(playersData), false);
+    }
+
+    public boolean checkPlayerName(String playerName) {
+        return playersData != null && playerName != null && playersData.containsKey(playerName);
     }
 }
