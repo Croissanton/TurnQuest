@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
@@ -35,40 +34,12 @@ public class ClanScreen extends BaseScreen {
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
-        game.getStage().addActor(tableForMembers());
         game.getStage().addActor(createUIComponents());
 
 
         // apply
         getViewport().apply();
         super.show();
-    }
-
-    private Table tableForMembers() {
-        // search for the clan
-        if (!player.getClanName().isEmpty()) {
-            // search for the clan
-            clan = clanManager.getClan(player.getClanName());
-        }
-
-        // table for the members of the clan
-        Table membersTable = new Table(Assets.getSkin());
-        membersTable.defaults();
-        membersTable.setFillParent(true);
-
-        // if the player is in a clan, change create clan to delete clan and join clan to leave clan
-        if (!player.getClanName().isEmpty()) {
-            //membersTable.setPosition(TurnQuest.getVirtualWidth() * 0.6f, TurnQuest.getVirtualHeight() * 0.8f);
-
-            // add the name of the members
-            for (String member : clan.getMembers()) {
-                System.out.println(member);
-                Label label = new Label(member, Assets.getSkin());
-                // Create a label with the provided text
-                membersTable.add(label).expand().row(); // Add the label to the table with padding
-            }
-        }
-        return membersTable;
     }
 
     @Override
@@ -164,6 +135,13 @@ public class ClanScreen extends BaseScreen {
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         Assets.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
+        if (!player.getClanName().isEmpty()) {
+            Assets.getFont().draw(game.getBatch(), "Members of " + clan.getName() + ":", getVirtualWidth() * 0.7f, getVirtualHeight() * 0.7f);
+            // add the name of the members
+            for (int i = 0; i < clan.getMembers().size(); i++) {
+                Assets.getFont().draw(game.getBatch(), clan.getMembers().get(i), getVirtualWidth() * 0.7f, getVirtualHeight() * (0.65f - 0.05f * i));
+            }
+        }
         game.getBatch().end();
 
         game.getStage().act();
