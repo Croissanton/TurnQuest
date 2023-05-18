@@ -459,10 +459,23 @@
 },
 "klnstpr": {
 	"class": "com.gdx.turnquest.entities.Player",
+	"stats": {
+		"INT": 4,
+		"STR": 8,
+		"DEF": 4,
+		"LUK": 15,
+		"MP": 120,
+		"HP": 320,
+		"SPD": 15
+	},
 	"characterClass": "Archer",
-	"level": 1,
+	"gold": 1550,
+	"exp": 231,
+	"level": 6,
 	"inventory": {},
-	"playerName": "klnstpr"
+	"playerName": "klnstpr",
+	"energy": 3,
+	"previousTime": 1684359153022
 },
 "player1": {
 	"class": "com.gdx.turnquest.entities.Player",

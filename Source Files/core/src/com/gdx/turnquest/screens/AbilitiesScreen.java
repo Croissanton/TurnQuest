@@ -2,11 +2,14 @@ package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
@@ -353,37 +356,25 @@ public class AbilitiesScreen extends BaseScreen {
     private Table createNavigationTable() {
         // table buttons
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
-        TextButton bLeftArrow = new TextButton("<-", Assets.getSkin());
-        TextButton bRightArrow = new TextButton("->", Assets.getSkin());
 
         // table for navigation
         Table navigationTable = new Table();
         // add some padding and expand each cell
-        navigationTable.defaults().expand().pad(50);
+        navigationTable.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         navigationTable.setFillParent(true);
 
+        BitmapFont font = Assets.getSubtitleFont();
+        Label.LabelStyle style = new Label.LabelStyle(Assets.getSkin().get(Label.LabelStyle.class));
+        style.font = font;
+        Label title = new Label("Abilities", style);
+        title.setFontScale(1.5f);
+        title.setAlignment(Align.center);
+
+        navigationTable.row().expandY();
+        navigationTable.add(title).expandY();
         // order the buttons of the table
-        navigationTable.add(bLeftArrow).left();
-        navigationTable.add();
-        navigationTable.add(bRightArrow).right();
         navigationTable.row();
-        navigationTable.add();
-        navigationTable.add(bReturn).bottom();
-
-        // if an arrow is clicked, go to abilities screen
-        bRightArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new InventoryScreen(game));
-            }
-        });
-
-        bLeftArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new InventoryScreen(game));
-            }
-        });
+        navigationTable.add(bReturn).bottom().center();
 
         // return to GameScreen when pressed return button
         bReturn.addListener(new ClickListener() {
@@ -445,7 +436,6 @@ public class AbilitiesScreen extends BaseScreen {
 
         game.getBatch().begin();
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
-        Assets.getFont().draw(game.getBatch(), "Abilities", getVirtualWidth() * 0.45f, getVirtualHeight() * 0.85f);
         game.getBatch().end();
 
         game.getStage().act();

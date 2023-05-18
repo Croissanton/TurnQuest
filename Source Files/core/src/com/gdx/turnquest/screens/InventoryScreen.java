@@ -2,6 +2,7 @@ package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -17,8 +18,8 @@ import static com.gdx.turnquest.TurnQuest.*;
 public class InventoryScreen extends BaseScreen {
     private ObjectMap<String, Integer> inventory = new ObjectMap<>();
     private Player player;
-    private static final int CELL_WIDTH =100;
-    private static final int CELL_HEIGHT =80;
+    private static final int CELL_WIDTH = 100;
+    private static final int CELL_HEIGHT = 80;
 
     public InventoryScreen(final TurnQuest game) {
         super(game);
@@ -42,43 +43,27 @@ public class InventoryScreen extends BaseScreen {
 
     @Override
     public Table createUIComponents() {
-        Label inventoryLabel = new Label("Inventory", Assets.getSkin());
-        inventoryLabel.setFontScale(2f);
+        BitmapFont font = Assets.getSubtitleFont();
+        Label.LabelStyle style = new Label.LabelStyle(Assets.getSkin().get(Label.LabelStyle.class));
+        style.font = font;
+        Label inventoryLabel = new Label("Inventory", style);
+        inventoryLabel.setFontScale(1.5f);
+        inventoryLabel.setAlignment(Align.center);
 
         // table buttons
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
-        TextButton bLeftArrow = new TextButton("<-", Assets.getSkin());
-        TextButton bRightArrow = new TextButton("->", Assets.getSkin());
         TextButton bInventory = new TextButton("Inventory", Assets.getSkin());
 
         Table mainTable = new Table();
+        mainTable.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         mainTable.setFillParent(true);
-        stage.addActor(mainTable);
+        mainTable.add(inventoryLabel).pad(20).row();
+        mainTable.add(bReturn).pad(20).bottom().row();
 
-        //top row table
-        Table topRowTable = new Table();
-        mainTable.add(topRowTable).expandX().fillX().top().row();
 
         //add buttons
-        topRowTable.add(bLeftArrow).left();
-        topRowTable.add(bReturn).expandX();
-        topRowTable.add(bRightArrow).right();
         mainTable.add(ReadPlayerInventory()).expandX().fillX();
-        Gdx.input.setInputProcessor(stage);
-        // if an arrow is clicked, go to abilities screen
-        bRightArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new AbilitiesScreen(game));
-            }
-        });
-
-        bLeftArrow.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new AbilitiesScreen(game));
-            }
-        });
+        mainTable.debug();
 
         // return to GameScreen when pressed return button
         bReturn.addListener(new ClickListener() {

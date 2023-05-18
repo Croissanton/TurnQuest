@@ -76,13 +76,13 @@ public class ClanScreen extends BaseScreen {
 
         // create the table
         Table table = new Table(Assets.getSkin());
-        table.defaults();
+        table.defaults().expand().size(getVirtualWidth() * 0.15f, getVirtualHeight() * .10f);
         table.setFillParent(true);
 
         // add buttons to the table
         table.add(bCreateOrDelete).row();
         table.add(bJoinOrLeave).row();
-        table.add(bReturn).bottom();
+        table.add(bReturn).row();
 
         // create or delete clan button
         bCreateOrDelete.addListener(new ClickListener() {

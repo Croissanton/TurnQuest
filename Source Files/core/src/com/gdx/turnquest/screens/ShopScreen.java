@@ -342,7 +342,7 @@ public class ShopScreen extends BaseScreen {
         Table rootTable = new Table(Assets.getSkin());
         setRootTable(rootTable, firstTable, scrollPane, rightTable);
 
-        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/gold_coin.atlas"));
+        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/gold_coin/gold_coin.atlas"));
         goldCoin = new Animation<TextureRegion>(1/9f, charset.getRegions());
 
         return rootTable;
