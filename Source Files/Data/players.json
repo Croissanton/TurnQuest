@@ -663,13 +663,13 @@
 		"STR": 10,
 		"DEF": 10,
 		"LUK": 21,
-		"MP": 525,
-		"HP": 733,
+		"MP": 517,
+		"HP": 712,
 		"SPD": 21
 	},
 	"characterClass": "Mage",
-	"gold": 52700,
-	"exp": 1353,
+	"gold": 54300,
+	"exp": 4453,
 	"level": 19,
 	"inventory": {
 		"Wooden Staff": 1,
@@ -681,7 +681,7 @@
 	"playerName": "Croissanton",
 	"clanName": "TestClan",
 	"abilities": [ 1, 1, 1, 1 ],
-	"energy": 5,
+	"energy": 3,
 	"previousTime": 1684426071424
 }
 }

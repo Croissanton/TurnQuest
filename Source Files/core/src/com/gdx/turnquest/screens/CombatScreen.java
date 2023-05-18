@@ -118,6 +118,7 @@ public class CombatScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if (playerTurn) {
                     if (CombatLogic.run(player, enemy)) {
+                        game.getCurrentPlayer().calculateStats();
                         game.setMusic("intro.ogg");
                         game.popScreen();
                     }
@@ -330,12 +331,6 @@ public class CombatScreen extends BaseScreen {
         if(player.getHP() <= 0){
             combatFinished = true;
             CombatLogic.defeat(player, enemy);
-            if(playerManager.savePlayer(player) == 0){
-                System.out.println("Player saved");
-            }
-            else{
-                System.out.println("Player not saved");
-            }
             new GameOverDialog(game, Assets.getSkin()).show(game.getStage());
         }
         else if(enemy.getHP() <= 0){

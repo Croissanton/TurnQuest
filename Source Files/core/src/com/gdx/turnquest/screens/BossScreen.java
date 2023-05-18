@@ -148,6 +148,7 @@ public class BossScreen extends BaseScreen {
                     else if (whoseTurn == 1) character = ally;
                     assert character != null;
                     if (CombatLogic.run(character, enemy)) {
+                        game.getCurrentPlayer().calculateStats();
                         game.setMusic("intro.ogg");
                         game.popScreen();
                     }
@@ -397,12 +398,6 @@ public class BossScreen extends BaseScreen {
         if(player.getHP() <= 0 && ally.getHP() <= 0){
             combatFinished = true;
             CombatLogic.defeat(player, enemy);
-            if(playerManager.savePlayer(player) == 0){
-                System.out.println("Player saved");
-            }
-            else{
-                System.out.println("Player not saved");
-            }
             new GameOverDialog(game, Assets.getSkin()).show(game.getStage());
         }
         else if(enemy.getHP() <= 0){

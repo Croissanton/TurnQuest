@@ -4,8 +4,6 @@ import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 
-import static com.gdx.turnquest.TurnQuest.playSfx;
-
 public class CombatLogic {
     public static int attack(Character attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
@@ -288,12 +286,26 @@ public class CombatLogic {
         }
     }
     public static void useItem(Character character, String item) {
-//        if (item.equals("Potion")) {
-//            character.setHP(character.getHP() + 50);
-//        }
-//        if (item.equals("Ether")) {
-//            character.setMP(character.getMP() + 50);
-//        }
+        switch (item){
+            case "Potion":
+                character.setHP(character.getHP() + 50);
+                break;
+            case "Potion+":
+                character.setHP(character.getHP() + 100);
+                break;
+            case "Potion++":
+                character.setHP(character.getHP() + 9999);
+                break;
+            case "Ether":
+                character.setMP(character.getMP() + 50);
+                break;
+            case "Ether+":
+                character.setMP(character.getMP() + 100);
+                break;
+            case "Ether++":
+                character.setMP(character.getMP() + 9999);
+                break;
+        }
         //This may be further developed by creating an Item class and then doing, if item.usable(), then use item and add stats of the item to the character.
     }
 
