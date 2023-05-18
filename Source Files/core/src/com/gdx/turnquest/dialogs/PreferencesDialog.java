@@ -14,6 +14,7 @@ public class PreferencesDialog extends Dialog {
         super(title, skin);
         text(message);
         final CheckBox fullscreen = new CheckBox("Fullscreen",skin);
+        final CheckBox mute = new CheckBox("Mute",skin);
         final Slider sliderVolume = new Slider(0,100,1,false,skin);
         TextButton bBack = new TextButton("Back", skin);
 
@@ -27,11 +28,14 @@ public class PreferencesDialog extends Dialog {
         fullscreen.setChecked(Gdx.graphics.isFullscreen());
 
         getContentTable().defaults().pad(10);
-        getContentTable().add(fullscreen).width(400);
+        getContentTable().row();
+        getContentTable().add(fullscreen).left().padLeft(30);
         getContentTable().row();
         getContentTable().add(sliderVolume).width(400);
-        getContentTable().add(bBack).width(200);
         getContentTable().add(tTest).width(235);
+        getContentTable().add(mute).width(200);
+        getContentTable().row();
+        getContentTable().add(bBack).center().width(400).colspan(3);
 
         fullscreen.addListener(new ChangeListener() {
             @Override
@@ -53,7 +57,24 @@ public class PreferencesDialog extends Dialog {
                 tTest.setText(" VOLUME: " + (int)sliderVolume.getValue());
             }
         });
+
+        mute.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                if(mute.isChecked()){
+                    game.setGeneralVolume(0);
+                    sliderVolume.setValue(0);
+                    tTest.setText(" VOLUME: " + (int)sliderVolume.getValue());
+                }
+                else{
+                    game.setGeneralVolume(50);
+                    sliderVolume.setValue(50);
+                    tTest.setText(" VOLUME: " + (int)sliderVolume.getValue());
+                }
+            }
+        });
     }
+
 
     @Override
     protected void result(Object object) {

@@ -48,6 +48,7 @@ public class MainMenuScreen extends BaseScreen {
         });
 
         Table table = new Table();
+        table.defaults().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         table.setFillParent(true);
         table.add(bStart).center().padBottom(50f).row();
         table.add(bOptions).center().padBottom(50f).row();

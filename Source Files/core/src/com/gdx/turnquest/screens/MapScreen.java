@@ -69,6 +69,7 @@ public class MapScreen extends BaseScreen {
         });
 
         Table table = new Table();
+        table.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         table.setFillParent(true);
         table.add(bEnemy).center().padBottom(50f).row();
         table.add(bBoss).center().padBottom(50f).row();

@@ -162,11 +162,11 @@ public class BossScreen extends BaseScreen {
         AnimationHandler animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/warrior.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/warrior/warrior.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/archer.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/archer/archer.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/mage.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/mage/mage.atlas"));
         }
         float FRAME_TIME = 1 / 10f;
         assert charset != null;
@@ -256,7 +256,7 @@ public class BossScreen extends BaseScreen {
         ObjectMap<String, Integer> initialStatsEnemy = enemy.getStats();
         animationHandlerPlayer = createPlayerAnimations(player);
         animationHandlerAlly = createPlayerAnimations(ally);
-        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/selection_arrow.atlas"));
+        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("animations/selection_arrow/selection_arrow.atlas"));
         selectionArrow = new Animation<TextureRegion>(1 / 10f, charset.findRegions("selection_arrow"));
 
         game.setStage(new Stage(getViewport()));

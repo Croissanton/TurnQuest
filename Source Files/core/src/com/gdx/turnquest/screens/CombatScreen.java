@@ -132,11 +132,11 @@ public class CombatScreen extends BaseScreen {
         animationHandler = new AnimationHandler();
         TextureAtlas charset = null;
         if (player.getCharacterClass().equalsIgnoreCase("warrior")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/warrior.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/warrior/warrior.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("archer")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/archer.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/archer/archer.atlas"));
         } else if (player.getCharacterClass().equalsIgnoreCase("mage")) {
-            charset = new TextureAtlas(Gdx.files.internal("animations/mage.atlas"));
+            charset = new TextureAtlas(Gdx.files.internal("animations/mage/mage.atlas"));
         }
         float FRAME_TIME = 1 / 10f;
         assert charset != null;
@@ -149,6 +149,10 @@ public class CombatScreen extends BaseScreen {
         animationHandler.add(A_HURT, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_HURT)));
         animationHandler.add(A_DEATH, new Animation<TextureRegion>(FRAME_TIME, charset.findRegions(A_DEATH)));
         animationHandler.setCurrent(A_IDLE, true);
+    }
+
+    private void createEnemyAnimations() {
+
     }
 
     private Sprite createEnemySprite() {
@@ -215,11 +219,13 @@ public class CombatScreen extends BaseScreen {
         game.setStage(new Stage(getViewport()));
 
         // Load the enemy textures
-            enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
+        enemyTexture = new Texture(Gdx.files.internal("enemies/Fantasy Battlers - Free/x2 size/02.png"));
 
         createPlayerAnimations();
 
         enemySprite = createEnemySprite();
+
+        createEnemyAnimations();
 
         // Add the table to the stage
         game.getStage().addActor(createUIComponents());
