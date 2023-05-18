@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
@@ -42,6 +44,12 @@ public class ClanScreen extends BaseScreen {
         Player player = game.getCurrentPlayer();
         ClanManager clanManager = new ClanManager();
 
+        Clan clan = null;
+        if (!player.getClanName().isEmpty()) {
+            // search for the clan
+            clan = clanManager.getClan(player.getClanName());
+        }
+
         // create or delete clan button
         TextButton bCreateOrDelete = new TextButton("Create Clan", Assets.getSkin());
 
@@ -56,17 +64,27 @@ public class ClanScreen extends BaseScreen {
             bCreateOrDelete.setText("Delete Clan");
             bJoinOrLeave.setText("Leave Clan");
 
-            // search for the clan
-            Clan clan = clanManager.getClan(player.getClanName());
 
             // if player is not the leader of the clan, he/she cannot delete it
             if (!clan.getLeader().equalsIgnoreCase(player.getPlayerName())) {
                 bCreateOrDelete.setColor(0.3f, 0.7f, 0.8f, 0.5f);
                 leader = false;
             }
+
+            // table for the members of the clan
+            Table membersTable = new Table();
+            membersTable.setPosition(TurnQuest.getVirtualWidth() * 0.6f, TurnQuest.getVirtualHeight() * 0.8f, Align.center);
+            membersTable.setFillParent(true);
+
+            // add the name of the members
+            for (String member : clan.getMembers()) {
+                Label label = new Label(member, Assets.getSkin()); // Create a label with the provided text
+                membersTable.add(label).pad(10).row(); // Add the label to the table with padding
+            }
         }
 
-        //create the table
+
+        // create the table
         Table table = new Table();
         table.defaults();
         table.setFillParent(true);

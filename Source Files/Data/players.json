@@ -313,18 +313,18 @@
 "pepe": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
-		"INT": 3,
-		"STR": 7,
-		"DEF": 3,
-		"LUK": 13,
-		"MP": 105,
-		"HP": 280,
-		"SPD": 13
+		"INT": 4,
+		"STR": 8,
+		"DEF": 4,
+		"LUK": 15,
+		"MP": 90,
+		"HP": 300,
+		"SPD": 15
 	},
 	"characterClass": "Archer",
-	"gold": 1100,
-	"exp": 399,
-	"level": 5,
+	"gold": 2100,
+	"exp": 1281,
+	"level": 6,
 	"inventory": {
 		"Potion": 5,
 		"Ether": 5,
@@ -333,8 +333,8 @@
 		"Old Quiver": 1
 	},
 	"playerName": "pepe",
+	"clanName": "TestClan",
 	"abilities": [ 0, 0, 0, 1 ],
-	"energy": 2,
 	"previousTime": 1684412397096
 },
 "ergwergwerg": {
