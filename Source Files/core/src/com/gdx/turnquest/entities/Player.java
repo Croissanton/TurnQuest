@@ -339,4 +339,13 @@ public class Player extends Character {
     public void decreaseAbilityPoints () {
         abilityPoints--;
     }
+
+    public boolean checkItem(String item) {
+        for(String i : inventory.keys()) {
+            if(i.equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
