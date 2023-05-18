@@ -1,15 +1,13 @@
 {
-"TestClan": {
+"guarrioClan": {
 	"class": "com.gdx.turnquest.entities.Clan",
-	"name": "TestClan",
+	"name": "guarrioClan",
 	"members": {
 		"class": "java.util.LinkedList",
 		"items": [
-			"Croissanton",
-			"pepe",
-			"mage"
+			"guarrio"
 		]
 	},
-	"leader": "Croissanton"
+	"leader": "guarrio"
 }
 }

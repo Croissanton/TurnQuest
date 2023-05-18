@@ -165,24 +165,30 @@
 "guarrio": {
 	"class": "com.gdx.turnquest.entities.Player",
 	"stats": {
-		"INT": 1,
-		"STR": 5,
-		"DEF": 5,
-		"LUK": 3,
-		"MP": 30,
-		"HP": 150,
-		"SPD": 1
+		"INT": 3,
+		"STR": 11,
+		"DEF": 11,
+		"LUK": 6,
+		"MP": 60,
+		"HP": 222,
+		"SPD": 3
 	},
 	"characterClass": "Warrior",
-	"level": 1,
+	"gold": 650,
+	"exp": 299,
+	"level": 4,
 	"inventory": {
 		"Iron Shield": 1,
 		"Potion": 5,
 		"Ether": 5,
 		"Leather Armor": 1,
-		"Iron Sword": 1
+		"Iron Sword": 1,
+		"Bow": 1
 	},
-	"playerName": "guarrio"
+	"playerName": "guarrio",
+	"clanName": "guarrioClan",
+	"energy": 5,
+	"previousTime": 1684401961578
 },
 "rwthjrth": {
 	"class": "com.gdx.turnquest.entities.Player",
