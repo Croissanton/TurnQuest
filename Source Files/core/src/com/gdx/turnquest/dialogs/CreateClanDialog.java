@@ -81,7 +81,7 @@ public class CreateClanDialog extends Dialog {
     @Override
     public void hide() {
         // Only hide the dialog if the credentials are valid
-        if (clanName != null && clanName.length() > 3) {
+        if (clanName != null && clanName.length() > 3 && !clanManager.checkClanName(clanName)) {
             super.hide();
         }
     }

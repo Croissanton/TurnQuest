@@ -143,7 +143,6 @@ public class ClanScreen extends BaseScreen {
             }
         }
         game.getBatch().end();
-
         game.getStage().act();
         game.getStage().draw();
 
