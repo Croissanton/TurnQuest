@@ -32,7 +32,7 @@ public class JoinClanDialog extends Dialog {
 
         getContentTable().defaults().expand().pad(10);
         getContentTable().add("Clan name:");
-        getContentTable().add(clanNameField).width(400);
+        getContentTable().add(clanNameField).width(400).row();
 
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
