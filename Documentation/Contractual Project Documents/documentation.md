@@ -21,12 +21,14 @@ The design of the game consist of fifth modules.
 - Desktop
 - Assets
 - Data
+- Tests
 
 
 ## Core
 
 This module contains barely all the source code of the game. Consist of eight sub-modules and the main game class.
 
+- Animations
 - Assets
 - Dialogs
 - Entities
@@ -37,12 +39,19 @@ This module contains barely all the source code of the game. Consist of eight su
 - Utils
 - TurnQuest - the main class
 
+### Animations
+
+This module is responsible for managing animations in the game. It consists of a one class which main function is storing animations in the java Map.
+
+#### Classes
+
+- AnimationManager
 
 ### Assets
 
 This module is made of one class  - Assets, that is a singleton class that provides access to the AssetManager and contains constants for all assets used in the game. One of the main function of this class is choosing appropriate background texture for the used screen class.
 
-#### Classes
+##### Classes
 
 - Assets
 
@@ -54,9 +63,26 @@ This module containing all the dialog classes in the game. Dialogs are the poppi
 
 - AbilitiesDialog
 	- Shows on the screen abilities of the players character in the CombatScreen.
+	- Based on the payer's character class chooses appropriate abilities. 
 	- Includes some combat logic.
 - ConfirmationDialog
 	- Used to confirm changing the screen to another.
+- CreateClanDialog
+	- Responsible for creating a new clan with help of ClanManager class.
+	- Checks all the necessary condition for creating a clan.
+- DeleteClanDialog
+	- Responsible for deleting a clan with help of the ClanManager class.
+- JoinClanDialog
+	- Responsible for joining a clan with help of the ClanManager class.
+- LeaveClanDialog
+	- Responsible for joining a clan with help of the ClanManager class.
+	- Checks all the necessary conditions that need to be fulfilled to join the chosen clan.
+- LevelUpDialog
+	- Show on the screen information about achieving a new level.
+- GameOverDialog
+	- Shows on the screen the information about a lost fight.
+- VictoryDialog
+	- Shows on the screen the information about a won fight.
 - GameSelectionDialog
 	- Used in the MenuScreen to choose either the player wants to create a new account or sign up to continue the saved game state on his account.
 - InformationDialog
@@ -74,19 +100,19 @@ This module containing all the dialog classes in the game. Dialogs are the poppi
 
 ### Entities
 
-This module contains entities used in the game - Player, player's allies, enemies and items. Classes that contains logic of the given entity and the state in which it is in a given moment.
+This module contains entities used in the game - player, enemies and items. Classes that contains logic of the given entity and the state in which it is in a given moment.
 
 
-#### Classes
+##### Classes
 
 - Character
-	- The base class for the Player, Enemy and Ally classes.
+	- The base class for the Player and Enemy classes.
 	- Consist of stats of the entity and appropriate getters and setters.
 - Player
 	- Inherits from the Character class.
 	- Object of this class is created always after logging in or signing up.
 	- It contains the player stats and the necessary logic.
-- Ally
+	- On the base of chosen character class sets up the player's inventory and stats. 
 - Clan
 	- Used to group players - team up players.
 	- Contains a list of players names.
@@ -102,7 +128,7 @@ This module contains entities used in the game - Player, player's allies, enemie
 
 This module contains classes responsible for the game more advanced logic such as combat system.
 
-##### Classes
+#### Classes
 
 
 - CombatLogic
@@ -110,6 +136,7 @@ This module contains classes responsible for the game more advanced logic such a
 	- Contains methods responsible for players and enemies attacks.
 	- Allows to choose appropriate ability for the particular player's character class.
 	- Manage choosing different types of attacks.
+	- Invokes animation changes by the AnimationHandler class.
 
 
 ### Screens
@@ -124,10 +151,10 @@ This module containing all the classes linked with displaying the game on the sc
 	- Used to partially implement methods provided by the Screen interface form the libgdx.
 - MainMenuScreen
 	- Displays the screen which is the first screen to see in the game.
-	- Contains options of quitting the game or logging in.
+	- Contains options of quitting the game or logging in.trail
 - GameScreen
 	- The main screen with game options to choose.
-	- From this screen it's possible to navigate to the MapScreen, InventoryScreen, ShopScreen or opening PreferencesDialog
+	- From this screen it's possible to navigate to the MapScreen, InventoryScreen, ShopScreen or opening PreferencesDialog.
 - ShopScreen
 	- Shows items available to buy or sell in the shop.
 	- Implements functionality of buying or selling items.
@@ -141,12 +168,15 @@ This module containing all the classes linked with displaying the game on the sc
 	- Handles combat logic by the class CombatLogic.
 - ClanScreen
 	- Shows the information associated with clans in the game and particularly player's clan.
-- CharacterScreen
-	- ----
 - BossScreen
 	- Similarly to the CombatScreen shows the combat stage, however it shows the boss fight stage - which is meant to be harder to the player than the normal combat.
 	- Handles animations by class AnimationHandler.
 	- Handles combat logic by class CombatLogic.
+- AbilitiesScreen
+	- Shows on the screen abilities available in the game.
+	- Manages logic of the abilities.
+	- Marks which abilities are already available for a player.
+	- Manages unlocking abilities by a player.
 
 ### Utils
 
@@ -194,3 +224,8 @@ This module contains assets needed by the game such as fonts, images and music.
 ## Data
 
 This module contains json files in which state of the game is saved.
+
+
+## Tests
+
+This module contains tests made for the game logic. The tests mainly focus on the combat logic and validation of player's credentials. The framework used for testing is **junit**.
