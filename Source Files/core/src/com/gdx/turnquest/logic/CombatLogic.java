@@ -29,10 +29,6 @@ public class CombatLogic {
 
     // abilities attacks
     public static void useAbility(Player attacker, Character defender, int ability, int MPcost) {
-        if(attacker.getMP() < MPcost){
-            attack(attacker, defender); //Normal attack if not enough MP.
-            return;
-        }
         attacker.setMP(attacker.getMP() - MPcost);
         switch (attacker.getCharacterClass()) {
             case "Warrior":

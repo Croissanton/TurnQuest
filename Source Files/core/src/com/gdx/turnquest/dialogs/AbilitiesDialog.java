@@ -13,7 +13,7 @@ public class AbilitiesDialog extends Dialog {
 
     private final Runnable yesRunnable;
 
-    public AbilitiesDialog(String title, Runnable yesRunnable, Skin skin, Player player , AnimationHandler animationHandler, Enemy enemy) {
+    public AbilitiesDialog(String title, Runnable yesRunnable, Skin skin, Player player, AnimationHandler animationHandler, Enemy enemy) {
         super(title, skin);
         this.yesRunnable = yesRunnable;
 
@@ -56,19 +56,19 @@ public class AbilitiesDialog extends Dialog {
         }
 
         // if ability is not unlocked, it will be shown locked
-        if (0 == player.getAbility(0)) {
+        if (0 == player.getAbility(0) || player.getMP() < 5) {
             bAb1.setColor(0.3f, 0.7f, 0.8f, 0.5f);
         }
 
-        if (0 == player.getAbility(1)) {
+        if (0 == player.getAbility(1) || player.getMP() < 8) {
             bAb2.setColor(0.3f, 0.7f, 0.8f, 0.5f);
         }
 
-        if (0 == player.getAbility(2)) {
+        if (0 == player.getAbility(2) || player.getMP() < 10) {
             bAb3.setColor(0.3f, 0.7f, 0.8f, 0.5f);
         }
 
-        if (0 == player.getAbility(3)) {
+        if (0 == player.getAbility(3) || player.getMP() < 15) {
             bAb4.setColor(0.3f, 0.7f, 0.8f, 0.5f);
         }
 
@@ -82,11 +82,11 @@ public class AbilitiesDialog extends Dialog {
         getContentTable().add(bAb4).row();
         getContentTable().add(bReturn);
 
-        bAb1.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
+        bAb1.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
                 // if ability is not unlocked, it will be locked
-                if (0 == player.getAbility(0)) {
-                    hide();
+                if (0 == player.getAbility(0) || player.getMP() < 5) {
+                    //Play error sound
                 } else {
                     CombatLogic.useAbility(player, enemy, 0, 5);
                     animationHandler.setCurrent("air_atk");
@@ -95,11 +95,11 @@ public class AbilitiesDialog extends Dialog {
             }
         });
 
-        bAb2.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
+        bAb2.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
                 // if ability is not unlocked, it will be locked
-                if (0 == player.getAbility(1)) {
-                    hide();
+                if (0 == player.getAbility(1) || player.getMP() < 8) {
+                    //Play error sound
                 } else {
                     CombatLogic.useAbility(player, enemy, 1, 8);
                     animationHandler.setCurrent("2_atk");
@@ -109,11 +109,11 @@ public class AbilitiesDialog extends Dialog {
             }
         });
 
-        bAb3.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
+        bAb3.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
                 // if ability is not unlocked, it will be locked
-                if (0 == player.getAbility(2)) {
-                    hide();
+                if (0 == player.getAbility(2) || player.getMP() < 10) {
+                    //play error sound
                 } else {
                     CombatLogic.useAbility(player, enemy, 2, 10);
                     animationHandler.setCurrent("3_atk");
@@ -122,11 +122,11 @@ public class AbilitiesDialog extends Dialog {
             }
         });
 
-        bAb4.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
+        bAb4.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
                 // if ability is not unlocked, it will be locked
-                if (0 == player.getAbility(3)) {
-                    hide();
+                if (0 == player.getAbility(3) || player.getMP() < 15) {
+                    //play error sound
                 } else {
                     CombatLogic.useAbility(player, enemy, 3, 15);
                     animationHandler.setCurrent("sp_atk");
@@ -136,8 +136,8 @@ public class AbilitiesDialog extends Dialog {
             }
         });
 
-        bReturn.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
+        bReturn.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
                 result(false);
                 hide();
             }
