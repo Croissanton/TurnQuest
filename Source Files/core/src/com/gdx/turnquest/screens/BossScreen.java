@@ -128,16 +128,15 @@ public class BossScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if(whoseTurn < 2) {
                     if(whoseTurn == 0){
-
+                        showUseItemDialog(player);
                     }
                     else if(whoseTurn == 1){
-
+                        showUseItemDialog(ally);
                     }
                     // Fetch inventory
                     // Display inventory
                     // Select item
                     // Use item with CombatLogic.useItem(player, itemID)
-                    ++whoseTurn;
                 }
             }
         });
@@ -249,8 +248,10 @@ public class BossScreen extends BaseScreen {
         game.setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
         players = new Player[]{player, ally};
-        initialStatsPlayer = player.getStats();
-        initialStatsAlly = ally.getStats();
+        initialStatsPlayer = new ObjectMap<>();
+        initialStatsPlayer.putAll(player.getStats());
+        initialStatsAlly = new ObjectMap<>();
+        initialStatsAlly.putAll(ally.getStats());
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
@@ -400,7 +401,7 @@ public class BossScreen extends BaseScreen {
         ObjectMap<String,Integer> stats;
         if (p.equals(player)) stats = initialStatsPlayer;
         else stats = initialStatsAlly;
-        //You can use ally's items, but they will not be removed from the ally's inventory (although they will be removed from the player's inventory)
+        //You can only use your items.
         UseItemDialog dialog = new UseItemDialog("Inventory", ()->{
             if(p.getHP() > stats.get("HP")) {
                 p.setHP(stats.get("HP"));

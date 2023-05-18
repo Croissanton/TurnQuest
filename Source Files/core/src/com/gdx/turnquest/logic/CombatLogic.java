@@ -290,19 +290,19 @@ public class CombatLogic {
             case "Potion":
                 character.setHP(character.getHP() + 50);
                 break;
-            case "Potion+":
+            case "Potion +":
                 character.setHP(character.getHP() + 100);
                 break;
-            case "Potion++":
+            case "Potion ++":
                 character.setHP(character.getHP() + 9999);
                 break;
             case "Ether":
                 character.setMP(character.getMP() + 50);
                 break;
-            case "Ether+":
+            case "Ether +":
                 character.setMP(character.getMP() + 100);
                 break;
-            case "Ether++":
+            case "Ether ++":
                 character.setMP(character.getMP() + 9999);
                 break;
         }

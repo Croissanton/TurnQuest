@@ -80,6 +80,7 @@ public class Player extends Character {
         inventory.put("Ether", 5);
         //TODO: add character class handling -> setting stats according to the class given.
         calculateStats();
+
         switch (characterClass){
             case "Warrior" :
                 inventory.put("Iron Sword", 1);

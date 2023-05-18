@@ -55,7 +55,7 @@ public class CombatScreen extends BaseScreen {
     private final String A_DEATH = "death";
     private boolean playerTurn = true;
     private boolean combatFinished = false;
-    private ObjectMap<String, Integer> initialStatsPlayer;
+    private static ObjectMap<String, Integer> initialStatsPlayer;
 
     public CombatScreen(final TurnQuest game) {
         super(game);
@@ -206,7 +206,8 @@ public class CombatScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setMusic("battle.ogg");
         player = game.getCurrentPlayer();
-        initialStatsPlayer = player.getStats();
+        initialStatsPlayer = new ObjectMap<>();
+        initialStatsPlayer.putAll(player.getStats());
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
@@ -329,11 +330,9 @@ public class CombatScreen extends BaseScreen {
         UseItemDialog dialog = new UseItemDialog("Inventory", ()->{
             if(player.getHP() > initialStatsPlayer.get("HP")) {
                 player.setHP(initialStatsPlayer.get("HP"));
-                System.out.println("HP: " + player.getHP());
             }
             if(player.getMP() > initialStatsPlayer.get("MP")) {
                 player.setMP(initialStatsPlayer.get("MP"));
-                System.out.println("MP: " + player.getMP());
             }
             playerTurn = false;
         }, Assets.getSkin(), game, player);

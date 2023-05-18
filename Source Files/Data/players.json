@@ -668,21 +668,21 @@
 		"SPD": 21
 	},
 	"characterClass": "Mage",
-	"gold": 24350,
-	"exp": 4503,
+	"gold": 23450,
+	"exp": 4603,
 	"level": 19,
 	"inventory": {
 		"Wooden Staff": 1,
 		"Silk Robe": 1,
-		"Ether ++": 2,
-		"Ether": 1,
+		"Ether +": 1,
+		"Potion": 0,
 		"Old Grimmorie": 1,
 		"Mana Potion ++": 0
 	},
 	"playerName": "Croissanton",
 	"clanName": "TestClan",
 	"abilities": [ 1, 1, 1, 1 ],
-	"energy": 2,
+	"energy": 5,
 	"previousTime": 1684426071424
 }
 }
