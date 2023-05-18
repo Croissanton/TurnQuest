@@ -79,6 +79,9 @@ public class InventoryScreen extends BaseScreen {
         nameLabel.setFontScale(1.6f);
         firstTable.add(nameLabel);
 
+        Label emptyLabel = new Label("", Assets.getSkin());
+        firstTable.add(emptyLabel);
+
         Label priceLabel = new Label("Price", Assets.getSkin());
         priceLabel.setFontScale(1.6f);
         firstTable.add(priceLabel);
@@ -86,6 +89,8 @@ public class InventoryScreen extends BaseScreen {
         Label quantityLabel = new Label("Quantity", Assets.getSkin());
         quantityLabel.setFontScale(1.6f);
         firstTable.add(quantityLabel);
+
+        firstTable.add(emptyLabel);
     }
 
     public TextButton createBackButton()
@@ -135,14 +140,14 @@ public class InventoryScreen extends BaseScreen {
                 ImageButton itemButton = createItemButton(set, descriptionTable);
 
                 // Create sell buttons for item
-                TextButton sellButton = createSellButton(name, price);
+                //TextButton sellButton = createSellButton(name, price);
 
                 // Add item components to the item table
                 itemTable.add(nameLabel);
                 itemTable.add(itemButton);
                 itemTable.add(priceLabel);
                 itemTable.add(quantityLabel);
-                itemTable.add(sellButton);
+                //itemTable.add(sellButton);
                 itemTable.row();
             }
         }
