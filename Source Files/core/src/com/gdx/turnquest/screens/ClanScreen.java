@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -136,10 +135,10 @@ public class ClanScreen extends BaseScreen {
         game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, TurnQuest.getVirtualWidth(), TurnQuest.getVirtualHeight());
         Assets.getFont().draw(game.getBatch(), "Clan", getVirtualWidth()*.48f, getVirtualHeight()*.85f);
         if (!player.getClanName().isEmpty()) {
-            Assets.getFont().draw(game.getBatch(), "Members of " + clan.getName() + ":", getVirtualWidth() * 0.7f, getVirtualHeight() * 0.7f);
+            Assets.getSubtitleFont().draw(game.getBatch(), "Members of " + clan.getName() + ":", getVirtualWidth() * 0.7f, getVirtualHeight() * 0.7f);
             // add the name of the members
             for (int i = 0; i < clan.getMembers().size(); i++) {
-                Assets.getFont().draw(game.getBatch(), clan.getMembers().get(i), getVirtualWidth() * 0.7f, getVirtualHeight() * (0.65f - 0.05f * i));
+                Assets.getSubtitleFont().draw(game.getBatch(), clan.getMembers().get(i), getVirtualWidth() * 0.7f, getVirtualHeight() * (0.65f - 0.05f * i));
             }
         }
         game.getBatch().end();
@@ -165,7 +164,7 @@ public class ClanScreen extends BaseScreen {
     }
 
     private void showLeaveClanDialog() {
-        LeaveClanDialog dialog = new LeaveClanDialog("Clan Leaving", "Are you sure you want to leave the clan", Assets.getSkin(), game);
+        LeaveClanDialog dialog = new LeaveClanDialog("Clan Leaving", "Are you sure you want to leave the clan?", Assets.getSkin(), game);
         dialog.show(game.getStage());
     }
 }

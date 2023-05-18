@@ -9,5 +9,18 @@
 		]
 	},
 	"leader": "guarrio"
+},
+"TestClan": {
+	"class": "com.gdx.turnquest.entities.Clan",
+	"name": "TestClan",
+	"members": {
+		"class": "java.util.LinkedList",
+		"items": [
+			"TestWarrior",
+			"TestArcher",
+			"TestMage"
+		]
+	},
+	"leader": "TestWarrior"
 }
 }

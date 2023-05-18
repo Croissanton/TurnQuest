@@ -97,7 +97,7 @@ public class MainMenuScreen extends BaseScreen {
     }
 
     private void showGameSelectionDialog() {
-        GameSelectionDialog dialog = new GameSelectionDialog("Game Selection", "Do you want to create a new character?", () -> {
+        GameSelectionDialog dialog = new GameSelectionDialog("", "What would you like to do?", () -> {
             // Handle login here
         }, Assets.getSkin(), game);
         dialog.show(game.getStage());
