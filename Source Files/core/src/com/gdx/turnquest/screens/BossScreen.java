@@ -17,6 +17,7 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
 import com.gdx.turnquest.dialogs.GameOverDialog;
+import com.gdx.turnquest.dialogs.UseItemDialog;
 import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
@@ -34,7 +35,7 @@ import static java.lang.Thread.sleep;
 
 public class BossScreen extends BaseScreen {
     private Player player;
-    private Player ally;
+    private final Player ally;
     private static Enemy enemy = null;
     private Texture enemyTexture;
     private Sprite enemySprite;
@@ -65,6 +66,8 @@ public class BossScreen extends BaseScreen {
     private int whoseTurn = 0; //0 means player, 1 means ally, 2 means enemy
     private boolean combatFinished = false;
     private Character[] players;
+    private ObjectMap<String, Integer> initialStatsPlayer;
+    private ObjectMap<String, Integer> initialStatsAlly;
 
     public BossScreen(final TurnQuest game, Player ally) {
         super(game);
@@ -125,16 +128,15 @@ public class BossScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 if(whoseTurn < 2) {
                     if(whoseTurn == 0){
-
+                        showUseItemDialog(player);
                     }
                     else if(whoseTurn == 1){
-
+                        showUseItemDialog(ally);
                     }
                     // Fetch inventory
                     // Display inventory
                     // Select item
                     // Use item with CombatLogic.useItem(player, itemID)
-                    ++whoseTurn;
                 }
             }
         });
@@ -246,8 +248,10 @@ public class BossScreen extends BaseScreen {
         game.setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
         players = new Player[]{player, ally};
-        ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
-        ObjectMap<String, Integer> initialStatsAlly = ally.getStats();
+        initialStatsPlayer = new ObjectMap<>();
+        initialStatsPlayer.putAll(player.getStats());
+        initialStatsAlly = new ObjectMap<>();
+        initialStatsAlly.putAll(ally.getStats());
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
@@ -391,6 +395,22 @@ public class BossScreen extends BaseScreen {
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
             ++whoseTurn;
         }, Assets.getSkin(), player, animationHandler, enemy);
+        dialog.show(game.getStage());
+    }
+    private void showUseItemDialog(Player p) {
+        ObjectMap<String,Integer> stats;
+        if (p.equals(player)) stats = initialStatsPlayer;
+        else stats = initialStatsAlly;
+        //You can only use your items.
+        UseItemDialog dialog = new UseItemDialog("Inventory", ()->{
+            if(p.getHP() > stats.get("HP")) {
+                p.setHP(stats.get("HP"));
+            }
+            if(p.getMP() > stats.get("MP")) {
+                p.setMP(stats.get("MP"));
+            }
+            ++whoseTurn;
+        }, Assets.getSkin(), game, p);
         dialog.show(game.getStage());
     }
 

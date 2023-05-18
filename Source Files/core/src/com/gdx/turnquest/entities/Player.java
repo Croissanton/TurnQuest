@@ -80,6 +80,7 @@ public class Player extends Character {
         inventory.put("Ether", 5);
         //TODO: add character class handling -> setting stats according to the class given.
         calculateStats();
+
         switch (characterClass){
             case "Warrior" :
                 inventory.put("Iron Sword", 1);
@@ -338,5 +339,14 @@ public class Player extends Character {
 
     public void decreaseAbilityPoints () {
         abilityPoints--;
+    }
+
+    public boolean checkItem(String item) {
+        for(String i : inventory.keys()) {
+            if(i.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

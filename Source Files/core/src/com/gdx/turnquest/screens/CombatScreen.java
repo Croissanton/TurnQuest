@@ -17,6 +17,7 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.AbilitiesDialog;
 import com.gdx.turnquest.dialogs.GameOverDialog;
+import com.gdx.turnquest.dialogs.UseItemDialog;
 import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
@@ -54,6 +55,7 @@ public class CombatScreen extends BaseScreen {
     private final String A_DEATH = "death";
     private boolean playerTurn = true;
     private boolean combatFinished = false;
+    private static ObjectMap<String, Integer> initialStatsPlayer;
 
     public CombatScreen(final TurnQuest game) {
         super(game);
@@ -104,11 +106,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(playerTurn) {
-                    // Fetch inventory
-                    // Display inventory
-                    // Select item
-                    // Use item with CombatLogic.useItem(player, itemID)
-                    playerTurn = false;
+                    showUseItemDialog();
                 }
             }
         });
@@ -208,7 +206,8 @@ public class CombatScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setMusic("battle.ogg");
         player = game.getCurrentPlayer();
-        ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
+        initialStatsPlayer = new ObjectMap<>();
+        initialStatsPlayer.putAll(player.getStats());
         try {
             playerManager = new PlayerManager();
         } catch (IOException e) {
@@ -324,6 +323,19 @@ public class CombatScreen extends BaseScreen {
         AbilitiesDialog dialog = new AbilitiesDialog("", () -> {
             playerTurn = false;
         }, Assets.getSkin(), player, animationHandler, enemy);
+        dialog.show(game.getStage());
+    }
+
+    private void showUseItemDialog() {
+        UseItemDialog dialog = new UseItemDialog("Inventory", ()->{
+            if(player.getHP() > initialStatsPlayer.get("HP")) {
+                player.setHP(initialStatsPlayer.get("HP"));
+            }
+            if(player.getMP() > initialStatsPlayer.get("MP")) {
+                player.setMP(initialStatsPlayer.get("MP"));
+            }
+            playerTurn = false;
+        }, Assets.getSkin(), game, player);
         dialog.show(game.getStage());
     }
 

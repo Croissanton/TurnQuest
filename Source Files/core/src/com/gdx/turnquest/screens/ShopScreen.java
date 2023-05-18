@@ -17,8 +17,10 @@ import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.InformationDialog;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.PlayerManager;
 
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -31,6 +33,15 @@ public class ShopScreen extends BaseScreen {
     private Label statsText;
     private float elapsed_time;
     private Animation<TextureRegion> goldCoin;
+    private final PlayerManager playerManager;
+
+    {
+        try {
+            playerManager = new PlayerManager();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public ShopScreen(final TurnQuest game) {
         super(game);
@@ -246,6 +257,7 @@ public class ShopScreen extends BaseScreen {
         {
             player.addItem(name, 1);
             playSfx("coinsplash.ogg");
+            playerManager.savePlayer(player);
             shopInformationDialog("Congratulations", "Item successfully bought");
         }
 
@@ -264,6 +276,7 @@ public class ShopScreen extends BaseScreen {
         {
             player.addGold(priceInt);
             playSfx("coinsplash.ogg");
+            playerManager.savePlayer(player);
             shopInformationDialog("Congratulations", "Item successfully sold");
         }
 
