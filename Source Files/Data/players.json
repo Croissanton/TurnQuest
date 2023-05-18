@@ -333,7 +333,7 @@
 		"Old Quiver": 1
 	},
 	"playerName": "pepe",
-	"clanName": "TeamPepe",
+	"clanName": "TestClan",
 	"abilities": [ 0, 0, 0, 1 ],
 	"previousTime": 1684412397096
 },
@@ -541,7 +541,10 @@
 		"Ether": 5,
 		"Old Grimmorie": 1
 	},
-	"playerName": "mage"
+	"playerName": "mage",
+	"clanName": "TestClan",
+	"energy": 5,
+	"previousTime": 1684431488130
 },
 "ataaaa": {
 	"class": "com.gdx.turnquest.entities.Player",

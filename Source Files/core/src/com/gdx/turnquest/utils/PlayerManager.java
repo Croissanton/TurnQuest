@@ -113,4 +113,8 @@ public class PlayerManager {
         playersData.remove(username);
         file.writeString(json.prettyPrint(playersData), false);
     }
+
+    public boolean checkPlayerName(String playerName) {
+        return playersData != null && playersData.containsKey(playerName);
+    }
 }

@@ -1,22 +1,13 @@
 {
-"TeamPepe": {
-	"class": "com.gdx.turnquest.entities.Clan",
-	"name": "TeamPepe",
-	"members": {
-		"class": "java.util.LinkedList",
-		"items": [
-			"pepe"
-		]
-	},
-	"leader": "pepe"
-},
 "TestClan": {
 	"class": "com.gdx.turnquest.entities.Clan",
 	"name": "TestClan",
 	"members": {
 		"class": "java.util.LinkedList",
 		"items": [
-			"Croissanton"
+			"Croissanton",
+			"pepe",
+			"mage"
 		]
 	},
 	"leader": "Croissanton"

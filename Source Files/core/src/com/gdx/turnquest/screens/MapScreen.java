@@ -1,6 +1,7 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
+import com.gdx.turnquest.dialogs.ConfirmationDialog;
+import com.gdx.turnquest.dialogs.SelectAllyDialog;
+
+import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 import static com.gdx.turnquest.TurnQuest.getVirtualHeight;
@@ -47,8 +52,11 @@ public class MapScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(game.getCurrentPlayer().getEnergy() != 0){
-                    game.getCurrentPlayer().decreaseEnergy();
-                    game.pushScreen(new BossScreen(game));
+                    try {
+                        showSelectAllyDialog();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
@@ -103,5 +111,11 @@ public class MapScreen extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
+    }
+
+    private void showSelectAllyDialog () throws IOException {
+        SelectAllyDialog dialog = new SelectAllyDialog("Ally selection", "Search the name of an ally of your clan", Assets.getSkin(), game);
+        dialog.setColor(Color.LIGHT_GRAY);
+        dialog.show(game.getStage());
     }
 }

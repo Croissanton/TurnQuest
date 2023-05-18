@@ -66,8 +66,9 @@ public class BossScreen extends BaseScreen {
     private boolean combatFinished = false;
     private Character[] players;
 
-    public BossScreen(final TurnQuest game) {
+    public BossScreen(final TurnQuest game, Player ally) {
         super(game);
+        this.ally = ally;
     }
 
     @Override
@@ -243,11 +244,6 @@ public class BossScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setMusic("boss1.ogg");
         player = game.getCurrentPlayer();
-        try {
-            ally = new PlayerManager().getPlayer("Croissanton"); // Provisionally I am your ally.
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         players = new Player[]{player, ally};
         ObjectMap<String, Integer> initialStatsPlayer = player.getStats();
         ObjectMap<String, Integer> initialStatsAlly = ally.getStats();
