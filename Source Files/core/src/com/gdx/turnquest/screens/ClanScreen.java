@@ -35,15 +35,16 @@ public class ClanScreen extends BaseScreen {
         Assets.ASSET_MANAGER.finishLoading();
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
-        game.getStage().addActor(createUIComponents());
         game.getStage().addActor(tableForMembers());
+        game.getStage().addActor(createUIComponents());
+
 
         // apply
         getViewport().apply();
         super.show();
     }
 
-    public Table tableForMembers() {
+    private Table tableForMembers() {
         // search for the clan
         if (!player.getClanName().isEmpty()) {
             // search for the clan
@@ -51,20 +52,22 @@ public class ClanScreen extends BaseScreen {
         }
 
         // table for the members of the clan
-        Table membersTable = new Table();
+        Table membersTable = new Table(Assets.getSkin());
+        membersTable.defaults();
+        membersTable.setFillParent(true);
 
         // if the player is in a clan, change create clan to delete clan and join clan to leave clan
         if (!player.getClanName().isEmpty()) {
-            membersTable.setPosition(TurnQuest.getVirtualWidth() * 0.6f, TurnQuest.getVirtualHeight() * 0.8f);
-            membersTable.setFillParent(true);
+            //membersTable.setPosition(TurnQuest.getVirtualWidth() * 0.6f, TurnQuest.getVirtualHeight() * 0.8f);
 
             // add the name of the members
             for (String member : clan.getMembers()) {
-                Label label = new Label(member, Assets.getSkin()); // Create a label with the provided text
-                membersTable.add(label).row(); // Add the label to the table with padding
+                System.out.println(member);
+                Label label = new Label(member, Assets.getSkin());
+                // Create a label with the provided text
+                membersTable.add(label).expand().row(); // Add the label to the table with padding
             }
         }
-
         return membersTable;
     }
 
@@ -101,7 +104,7 @@ public class ClanScreen extends BaseScreen {
 
 
         // create the table
-        Table table = new Table();
+        Table table = new Table(Assets.getSkin());
         table.defaults();
         table.setFillParent(true);
 

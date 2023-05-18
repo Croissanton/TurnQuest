@@ -5,7 +5,12 @@
 	"members": {
 		"class": "java.util.LinkedList",
 		"items": [
-			"Croissanton"
+			"Croissanton",
+			"TestMember",
+			"TestMember2",
+			"TestMember3",
+			"TestMember4",
+			"TestMember5"
 		]
 	},
 	"leader": "Croissanton"
