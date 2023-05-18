@@ -41,6 +41,8 @@ public class Player extends Character {
 
     private long previousTime;
 
+    private int abilityPoints;
+
     /**
      * Creates a default Player object with no parameters. The player's name is set to null.
      */
@@ -71,6 +73,7 @@ public class Player extends Character {
         gold = 0;
         exp = 0;
         level = 1;
+        abilityPoints = 0;
         Arrays.fill(abilities, 0);
         inventory = new ObjectMap<>();
         inventory.put("Potion", 5);
@@ -230,6 +233,9 @@ public class Player extends Character {
 
     public void increaseLevel() {
         level += 1;
+        if (level % 5 == 0) {
+            abilityPoints++;
+        }
         calculateStats();
     }
 
@@ -324,5 +330,13 @@ public class Player extends Character {
     public int getLoginCount(){
         checkRefresh();
         return loginCount;
+    }
+
+    public int getAbilityPoints () {
+        return abilityPoints;
+    }
+
+    public void decreaseAbilityPoints () {
+        abilityPoints--;
     }
 }
