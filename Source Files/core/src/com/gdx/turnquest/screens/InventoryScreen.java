@@ -1,7 +1,6 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -80,19 +79,13 @@ public class InventoryScreen extends BaseScreen {
         nameLabel.setFontScale(1.6f);
         firstTable.add(nameLabel);
 
-        Label imageLable = new Label("Image", Assets.getSkin());
-        imageLable.setFontScale(1.6f);
-        firstTable.add(imageLable);
-
         Label priceLabel = new Label("Price", Assets.getSkin());
         priceLabel.setFontScale(1.6f);
-        priceLabel.setAlignment(Align.center);
         firstTable.add(priceLabel);
 
-        Label sellLabel = new Label("Sell", Assets.getSkin());
-        sellLabel.setFontScale(1.4f);
-        sellLabel.setAlignment(Align.center);
-        firstTable.add(sellLabel);
+        Label quantityLabel = new Label("Quantity", Assets.getSkin());
+        quantityLabel.setFontScale(1.6f);
+        firstTable.add(quantityLabel);
     }
 
     public TextButton createBackButton()
@@ -123,34 +116,38 @@ public class InventoryScreen extends BaseScreen {
     {
         for (Map.Entry<String, LinkedHashMap<String, String>> set : inventoryItems.entrySet())
         {
-            String name = set.getValue().get("name");
-            String description = set.getValue().get("description");
+            if(game.getCurrentPlayer().getInventory().containsKey(set.getKey())) {
+                String name = set.getValue().get("name");
+                String price = set.getValue().get("value");
+                int quantity = game.getCurrentPlayer().getInventory().get(set.getKey());
 
-            String price = set.getValue().get("value");
 
+                // Create label for item price
+                Label priceLabel = new Label(price, Assets.getSkin());
+                priceLabel.setAlignment(Align.center);
+                priceLabel.setFontScale(1.2f);
+                Label nameLabel = new Label(name, Assets.getSkin());
+                nameLabel.setFontScale(1.2f);
+                Label quantityLabel = new Label(String.valueOf(quantity), Assets.getSkin());
+                quantityLabel.setFontScale(1.2f);
 
-            // Create label for item price
-            Label priceLabel = new Label(price, Assets.getSkin());
-            priceLabel.setAlignment(Align.center);
-            priceLabel.setFontScale(1.2f);
-            Label nameLabel = new Label(name, Assets.getSkin());
-            nameLabel.setFontScale(1.2f);
+                // Create image button
+                ImageButton itemButton = createItemButton(set, descriptionTable);
 
-            // Create image button
-            ImageButton itemButton = createItemButton(set, descriptionTable);
+                // Create sell buttons for item
+                TextButton sellButton = createSellButton(name, price);
 
-            // Create sell buttons for item
-            TextButton sellButton = createSellButton(name, price, descriptionTable);
-
-            // Add item components to the item table
-            itemTable.add(nameLabel);
-            itemTable.add(itemButton);
-            itemTable.add(priceLabel);
-            itemTable.add(sellButton);
-            itemTable.row();
+                // Add item components to the item table
+                itemTable.add(nameLabel);
+                itemTable.add(itemButton);
+                itemTable.add(priceLabel);
+                itemTable.add(quantityLabel);
+                itemTable.add(sellButton);
+                itemTable.row();
+            }
         }
     }
-    private TextButton createSellButton(String name, String price, Table descriptionTable)
+    private TextButton createSellButton(String name, String price)
     {
         TextButton sellButton = new TextButton("Sell", Assets.getSkin());
 
