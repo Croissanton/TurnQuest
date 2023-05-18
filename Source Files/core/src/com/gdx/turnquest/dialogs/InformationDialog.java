@@ -6,8 +6,6 @@ import com.badlogic.gdx.utils.Align;
 
 public class InformationDialog extends Dialog {
 
-    private Runnable yesRunnable;
-
     public InformationDialog(String title, String message, Skin skin) {
         super(title, skin);
         getTitleLabel().setFontScale(1.6f);

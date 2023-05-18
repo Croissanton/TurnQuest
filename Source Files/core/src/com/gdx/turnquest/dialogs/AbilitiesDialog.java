@@ -7,8 +7,7 @@ import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.logic.CombatLogic;
-import com.gdx.turnquest.screens.CombatScreen;
-import com.gdx.turnquest.utils.AnimationHandler;
+import com.gdx.turnquest.animations.AnimationHandler;
 
 public class AbilitiesDialog extends Dialog {
 

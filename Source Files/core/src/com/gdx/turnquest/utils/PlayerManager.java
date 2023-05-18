@@ -115,6 +115,6 @@ public class PlayerManager {
     }
 
     public boolean checkPlayerName(String playerName) {
-        return playersData != null && playersData.containsKey(playerName);
+        return playersData != null && playerName != null && playersData.containsKey(playerName);
     }
 }

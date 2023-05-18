@@ -85,7 +85,7 @@ public class SelectAllyDialog extends Dialog {
         }
 
         // Only hide the dialog if the credentials are valid or the cancel button is clicked
-        if (allyName != null && playerManager.checkPlayerName(allyName) && player.getClanName().equalsIgnoreCase(ally.getClanName())) {
+        if (ally != null && player.getClanName().equalsIgnoreCase(ally.getClanName())) {
             super.hide();
         }
     }

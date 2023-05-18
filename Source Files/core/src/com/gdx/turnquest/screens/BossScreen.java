@@ -21,7 +21,7 @@ import com.gdx.turnquest.dialogs.VictoryDialog;
 import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
-import com.gdx.turnquest.utils.AnimationHandler;
+import com.gdx.turnquest.animations.AnimationHandler;
 import com.gdx.turnquest.utils.EnemyManager;
 
 import com.gdx.turnquest.logic.CombatLogic;
