@@ -12,8 +12,4 @@
 	},
 	"leader": "Croissanton"
 }
-clan1: {
-	class: com.gdx.turnquest.entities.Clan
-	name: clan1
-}
 }
