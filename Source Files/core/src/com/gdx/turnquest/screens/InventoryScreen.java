@@ -321,7 +321,7 @@ public class InventoryScreen extends BaseScreen {
     public void show() {
         Assets.loadFor(InventoryScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(Assets.getBackgroundTexture(Assets.INVENTORY_BACKGROUND_PNG));
+        Assets.setBackgroundTexture(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG));
 
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
@@ -338,7 +338,7 @@ public class InventoryScreen extends BaseScreen {
         TextureRegion currentFrame = goldCoin.getKeyFrame(elapsed_time, true);
 
         game.getBatch().begin();
-        game.getBatch().draw(Assets.getBackgroundTexture(Assets.INVENTORY_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.FOREST_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
         game.getBatch().draw(currentFrame, getVirtualWidth()*0.70f, getVirtualHeight() * 0.885f, currentFrame.getRegionWidth()*3.5f, currentFrame.getRegionHeight()*3.5f);
         game.getBatch().end();
         game.getStage().act();
