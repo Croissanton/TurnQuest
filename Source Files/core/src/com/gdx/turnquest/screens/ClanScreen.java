@@ -11,11 +11,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.dialogs.*;
+import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
+import com.gdx.turnquest.utils.ClanManager;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class ClanScreen extends BaseScreen {
+    boolean leader = true;
 
     public ClanScreen(final TurnQuest game) {
         super(game);
@@ -37,6 +40,7 @@ public class ClanScreen extends BaseScreen {
     @Override
     public Table createUIComponents() {
         Player player = game.getCurrentPlayer();
+        ClanManager clanManager = new ClanManager();
 
         // create or delete clan button
         TextButton bCreateOrDelete = new TextButton("Create Clan", Assets.getSkin());
@@ -51,6 +55,15 @@ public class ClanScreen extends BaseScreen {
         if (!player.getClanName().isEmpty()) {
             bCreateOrDelete.setText("Delete Clan");
             bJoinOrLeave.setText("Leave Clan");
+
+            // search for the clan
+            Clan clan = clanManager.getClan(player.getClanName());
+
+            // if player is not the leader of the clan, he/she cannot delete it
+            if (!clan.getLeader().equalsIgnoreCase(player.getPlayerName())) {
+                bCreateOrDelete.setColor(0.3f, 0.7f, 0.8f, 0.5f);
+                leader = false;
+            }
         }
 
         //create the table
@@ -69,7 +82,11 @@ public class ClanScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 // if the player is in a clan, change create clan to delete clan
                 if (!player.getClanName().isEmpty()) {
-                    showDeleteClanDialog();
+                    if (leader) {
+                        showDeleteClanDialog();
+                    } else {
+                        hide();
+                    }
                 } else {
                     showCreateClanDialog();
                 }

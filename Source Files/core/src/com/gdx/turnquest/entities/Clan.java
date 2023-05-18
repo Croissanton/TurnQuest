@@ -40,4 +40,8 @@ public class Clan {
     public void removeMember (String playerName) {
         members.remove(playerName);
     }
+
+    public String getLeader () {
+        return leader;
+    }
 }
