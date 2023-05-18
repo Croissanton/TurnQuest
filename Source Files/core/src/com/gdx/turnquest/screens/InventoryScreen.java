@@ -89,11 +89,6 @@ public class InventoryScreen extends BaseScreen {
         priceLabel.setAlignment(Align.center);
         firstTable.add(priceLabel);
 
-        Label buyLabel = new Label("Buy", Assets.getSkin());
-        buyLabel.setFontScale(1.6f);
-        buyLabel.setAlignment(Align.center);
-        firstTable.add(buyLabel);
-
         Label sellLabel = new Label("Sell", Assets.getSkin());
         sellLabel.setFontScale(1.4f);
         sellLabel.setAlignment(Align.center);
@@ -106,7 +101,6 @@ public class InventoryScreen extends BaseScreen {
         bReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setMusic("intro.ogg");
                 game.popScreen();
             }
         });
@@ -145,33 +139,17 @@ public class InventoryScreen extends BaseScreen {
             // Create image button
             ImageButton itemButton = createItemButton(set, descriptionTable);
 
-            // Create buy/sell buttons for item
-            TextButton buyButton = createBuyButton(name, price, descriptionTable);
+            // Create sell buttons for item
             TextButton sellButton = createSellButton(name, price, descriptionTable);
 
             // Add item components to the item table
             itemTable.add(nameLabel);
             itemTable.add(itemButton);
             itemTable.add(priceLabel);
-            itemTable.add(buyButton);
             itemTable.add(sellButton);
             itemTable.row();
         }
     }
-
-    private TextButton createBuyButton(String name, String price, Table descriptionTable)
-    {
-        TextButton buyButton = new TextButton("Buy", Assets.getSkin());
-
-        buyButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                buyItem(name, price);
-            }
-        });
-        return buyButton;
-    }
-
     private TextButton createSellButton(String name, String price, Table descriptionTable)
     {
         TextButton sellButton = new TextButton("Sell", Assets.getSkin());
@@ -231,24 +209,6 @@ public class InventoryScreen extends BaseScreen {
                 descriptionTable.add(priceLabel).padTop(50f).row();
             }
         }
-    }
-
-    private void buyItem(String name, String price)
-    {
-        Player player = game.getCurrentPlayer();
-        int priceInt = Integer.parseInt(price);
-
-        if (player.removeGold(priceInt) < 0)
-        {
-            shopInformationDialog("Error", "Not enough gold to buy this item");
-        }
-        else
-        {
-            player.addItem(name, 1);
-            playSfx("coinsplash.ogg");
-            shopInformationDialog("Congratulations", "Item successfully bought");
-        }
-
     }
 
     private void sellItem(String name, String price)
@@ -361,10 +321,10 @@ public class InventoryScreen extends BaseScreen {
     public void show() {
         Assets.loadFor(InventoryScreen.class);
         Assets.ASSET_MANAGER.finishLoading();
-        Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.SHOP_BACKGROUND_PNG)));
+        Assets.setBackgroundTexture(Assets.getBackgroundTexture(Assets.INVENTORY_BACKGROUND_PNG));
+
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
-        game.setMusic("shop.mp3");
         getViewport().apply();
         super.show();
     }
@@ -378,8 +338,8 @@ public class InventoryScreen extends BaseScreen {
         TextureRegion currentFrame = goldCoin.getKeyFrame(elapsed_time, true);
 
         game.getBatch().begin();
-        //game.getBatch().draw(Assets.getBackgroundTexture(Assets.SHOP_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
-        game.getBatch().draw(currentFrame, getVirtualWidth()*0.73f, getVirtualHeight() * 0.885f, currentFrame.getRegionWidth()*3.5f, currentFrame.getRegionHeight()*3.5f);
+        game.getBatch().draw(Assets.getBackgroundTexture(Assets.INVENTORY_BACKGROUND_PNG), 0, 0, getVirtualWidth(), getVirtualHeight());
+        game.getBatch().draw(currentFrame, getVirtualWidth()*0.70f, getVirtualHeight() * 0.885f, currentFrame.getRegionWidth()*3.5f, currentFrame.getRegionHeight()*3.5f);
         game.getBatch().end();
         game.getStage().act();
         game.getStage().draw();

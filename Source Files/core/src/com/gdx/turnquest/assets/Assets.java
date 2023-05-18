@@ -14,6 +14,7 @@ public class Assets {
     public static final AssetManager ASSET_MANAGER = new AssetManager();
 
     public static final String FOREST_BACKGROUND_PNG = "backgrounds/forest.png";
+    public static final String INVENTORY_BACKGROUND_PNG = "backgrounds/inventory.png";
     public static final String ARCHER_IDLE_PNG = "animations/archer/archer_idle.png";
     public static final String ARCHER_PORTRAIT_PNG = "animations/archer/archer_portrait.png";
     public static final String WARRIOR_IDLE_PNG = "animations/warrior/warrior_idle.png";
