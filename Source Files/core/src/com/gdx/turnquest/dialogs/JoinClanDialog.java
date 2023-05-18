@@ -58,7 +58,7 @@ public class JoinClanDialog extends Dialog {
             } else {
                 if (!clanManager.checkClanName(clanName)) {
                     // If the name exists, show an error
-                    errorLabel.setText("Invalid clan name.");
+                    errorLabel.setText("Invalid clan name, it does not exist.");
                 } else {
                     Clan clan = clanManager.getClan(clanName);
                     player.setClanName(clanName);

@@ -20,11 +20,14 @@ import com.gdx.turnquest.utils.ClanManager;
 import static com.gdx.turnquest.TurnQuest.*;
 
 public class ClanScreen extends BaseScreen {
-    boolean leader = true;
-
     public ClanScreen(final TurnQuest game) {
         super(game);
     }
+
+    boolean leader = true;
+    Player player = game.getCurrentPlayer();
+    ClanManager clanManager = new ClanManager();
+    Clan clan = null;
 
     @Override
     public void show() {
@@ -33,18 +36,43 @@ public class ClanScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
+        game.getStage().addActor(tableForMembers());
 
         // apply
         getViewport().apply();
         super.show();
     }
 
+    public Table tableForMembers() {
+        // search for the clan
+        if (!player.getClanName().isEmpty()) {
+            // search for the clan
+            clan = clanManager.getClan(player.getClanName());
+        }
+
+        // table for the members of the clan
+        Table membersTable = new Table();
+
+        // if the player is in a clan, change create clan to delete clan and join clan to leave clan
+        if (!player.getClanName().isEmpty()) {
+            membersTable.setPosition(TurnQuest.getVirtualWidth() * 0.6f, TurnQuest.getVirtualHeight() * 0.8f);
+            membersTable.setFillParent(true);
+
+            // add the name of the members
+            for (String member : clan.getMembers()) {
+                Label label = new Label(member, Assets.getSkin()); // Create a label with the provided text
+                membersTable.add(label).row(); // Add the label to the table with padding
+            }
+        }
+
+        return membersTable;
+    }
+
     @Override
     public Table createUIComponents() {
         Player player = game.getCurrentPlayer();
-        ClanManager clanManager = new ClanManager();
 
-        Clan clan = null;
+        // search for the clan
         if (!player.getClanName().isEmpty()) {
             // search for the clan
             clan = clanManager.getClan(player.getClanName());
@@ -64,22 +92,10 @@ public class ClanScreen extends BaseScreen {
             bCreateOrDelete.setText("Delete Clan");
             bJoinOrLeave.setText("Leave Clan");
 
-
             // if player is not the leader of the clan, he/she cannot delete it
             if (!clan.getLeader().equalsIgnoreCase(player.getPlayerName())) {
                 bCreateOrDelete.setColor(0.3f, 0.7f, 0.8f, 0.5f);
                 leader = false;
-            }
-
-            // table for the members of the clan
-            Table membersTable = new Table();
-            membersTable.setPosition(TurnQuest.getVirtualWidth() * 0.6f, TurnQuest.getVirtualHeight() * 0.8f, Align.center);
-            membersTable.setFillParent(true);
-
-            // add the name of the members
-            for (String member : clan.getMembers()) {
-                Label label = new Label(member, Assets.getSkin()); // Create a label with the provided text
-                membersTable.add(label).pad(10).row(); // Add the label to the table with padding
             }
         }
 

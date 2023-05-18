@@ -32,7 +32,7 @@ public class CreateClanDialog extends Dialog {
 
         getContentTable().defaults().expand().pad(10);
         getContentTable().add("Clan name:");
-        getContentTable().add(clanNameField).width(400);
+        getContentTable().add(clanNameField).width(400).row();
 
         errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // set the color to red
@@ -58,7 +58,10 @@ public class CreateClanDialog extends Dialog {
             } else {
                 if (clanManager.checkClanName(clanName)) {
                     // If the name exists, show an error
-                    errorLabel.setText("Invalid clan name.");
+                    errorLabel.setText("Invalid clan name, it already exists.");
+                } else if (clanName.length() < 4) {
+                    // If the name is shorter than 4, show an error
+                    errorLabel.setText("Invalid clan name, it is too short.");
                 } else {
                     clanManager.addClan(new Clan(clanName, player.getPlayerName()));
                     player.setClanName(clanName);
@@ -77,8 +80,8 @@ public class CreateClanDialog extends Dialog {
 
     @Override
     public void hide() {
-        // Only hide the dialog if the credentials are valid or the cancel button is clicked
-        if (clanName != null) {
+        // Only hide the dialog if the credentials are valid
+        if (clanName != null && clanName.length() > 3) {
             super.hide();
         }
     }
