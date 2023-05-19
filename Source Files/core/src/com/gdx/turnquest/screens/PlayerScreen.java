@@ -1,20 +1,28 @@
 package com.gdx.turnquest.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Player;
+
+import java.util.Objects;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
@@ -54,17 +62,25 @@ public class PlayerScreen extends BaseScreen {
 
         // Player clan label
         String playerClan = player.getClanName();
-        if (playerClan == null) {
-            playerClan = "None";
+        if (Objects.equals(playerClan, "")) {
+            playerClan = "not in a clan!";
         }
         playerClanLabel = new Label("Clan: " + playerClan, Assets.getSkin());
         playerClanLabel.setFontScale(1.5f);
+        playerClanLabel.setAlignment(Align.center);
         // Character sprite
         Texture characterTexture = Assets.getCharacterTexture(player.getCharacterClass());
-        characterImage = new Image(characterTexture);
-        characterImage.setScaling(Scaling.fit);
-        characterImage.setScale(4f);
-        characterImage.setAlign(Align.center);
+        float cutOffTopRatio = 0.5f; // The ratio of the image height you want to remove from the top
+        float cutOffSideRatio = 0.4f; // The ratio of the image width you want to remove from the sides
+        float sourceX = characterTexture.getWidth() * cutOffSideRatio;
+        float sourceWidth = characterTexture.getWidth() * (1 - cutOffSideRatio - cutOffSideRatio);
+        float sourceY = characterTexture.getHeight() * cutOffTopRatio;
+        float sourceHeight = characterTexture.getHeight() * (1 - cutOffTopRatio);
+        TextureRegion characterRegion = new TextureRegion(characterTexture, (int) sourceX, (int) sourceY, (int) sourceWidth, (int) sourceHeight);
+        characterImage = new Image(characterRegion);
+        float originalWidth = characterImage.getWidth() * (1-cutOffSideRatio - cutOffSideRatio);
+        float originalHeight = characterImage.getHeight() * (1-cutOffTopRatio);
+        characterImage.setBounds(0, 0, originalWidth, originalHeight);
         Actor characterActor = characterImage;
 
         // Level and XP progress bar
@@ -78,6 +94,7 @@ public class PlayerScreen extends BaseScreen {
         // Player stat label
         playerStatLabel = new Label("", Assets.getSkin());
         playerStatLabel.setFontScale(1.2f);
+        playerStatLabel.setAlignment(Align.center);
         updatePlayerStatLabel();
 
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
@@ -105,7 +122,6 @@ public class PlayerScreen extends BaseScreen {
             }
         });
         table.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
-        table.debug();
         // Table layout
         table.row();
         table.add(playerNameLabel).pad(20).center().colspan(3);
@@ -121,19 +137,18 @@ public class PlayerScreen extends BaseScreen {
         table.row();
 
         Table characterTable = new Table();
-        characterTable.add(characterClassNameLabel).pad(20).center().row();
-        characterTable.add(characterActor).pad(20).center().row();
-        table.add(characterTable).pad(20).center();
+        characterTable.add(characterActor).pad(20).fill().expand().height(Value.percentHeight(0.8f, characterTable)).row();
+        characterTable.add(characterClassNameLabel).pad(20).center().height(Value.percentHeight(0.2f, characterTable)).row();
+        table.add(characterTable).expandY().fillY().center().height(Value.percentHeight(0.5f, table));
 
-        Table statsTable = new Table();
-        statsTable.add(playerStatLabel).pad(20).center().row();
-        table.add(statsTable).pad(20).center();
+        table.add(playerStatLabel).expandY().fillY().center().height(Value.percentHeight(0.5f, table));
 
         Table clanTable = new Table();
         clanTable.add(playerClanLabel).pad(20).center().row();
-        table.add(clanTable).pad(20).center();
+        table.add(clanTable).expandY().fillY().center();
 
         table.row();
+        table.defaults().expand().size(getVirtualWidth() *0.15f, getVirtualHeight() *.10f);
         table.add(bReturn).pad(20).center().colspan(3);
 
         return table;
