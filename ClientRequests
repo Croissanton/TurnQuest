@@ -1,0 +1,6 @@
+Client Requests for final submission
+
+- Main request is to revise the coherence between the documentation and the system
+-	Second request is to complete the code documentation with Javadoc comments including
+	authorship. Please note that you can add multiple @author tags in a class  starting 
+  with the main contributor, and adding additional ones in order of contribution size 
