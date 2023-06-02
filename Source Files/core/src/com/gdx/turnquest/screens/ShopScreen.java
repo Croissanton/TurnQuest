@@ -104,7 +104,7 @@ public class ShopScreen extends BaseScreen {
     }
 
     /**
-     * A method that set the lavels for the item table.
+     * A method that set the labels for the item table.
      * @param firstTable
      */
     private void setFirstRow(Table firstTable)
@@ -140,7 +140,7 @@ public class ShopScreen extends BaseScreen {
     }
 
     /**
-     * A method that creates back button. Bakc button is used to come back to the
+     * A method that creates back button. Back button is used to come back to the
      * previous screen. It sets listener - ClickedListener();
      * @return
      */
@@ -159,6 +159,7 @@ public class ShopScreen extends BaseScreen {
 
     /**
      * A method that sets parameters of the table that holds the items.
+     * Length, height, padding.
      * @param itemTable
      * @param descriptionTable
      */
@@ -289,7 +290,8 @@ public class ShopScreen extends BaseScreen {
     }
 
     /**
-     * A method that shows statistics of the selected item.
+     * A method that shows statistics of the selected item. It is called after the click event
+     * at the picture button.
      * @param name
      * @param stats
      * @param descriptionTable
@@ -380,6 +382,7 @@ public class ShopScreen extends BaseScreen {
 
     /**
      * A method that reads json file and encapsulte it into json values.
+     * It uses Json and JsonValue classes to handle files.
      */
     private void readShopItems()
     {
