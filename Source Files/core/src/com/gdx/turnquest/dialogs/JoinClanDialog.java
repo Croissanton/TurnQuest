@@ -15,6 +15,14 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
+/**
+ * A class to modify the json file to join a clan that already exists:
+ * join a clan,
+ * if the name does not exists, show an error.
+ *
+ * @author Pablo
+ * @author Cristian
+ */
 public class JoinClanDialog extends Dialog {
 
     private final TurnQuest game;

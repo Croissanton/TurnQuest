@@ -15,6 +15,13 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
+/**
+ * A class to modify the json file to leave a clan:
+ * leave the clan that you are already in.
+ *
+ * @author Pablo
+ * @author Cristian
+ */
 public class LeaveClanDialog extends Dialog {
 
     private final TurnQuest game;

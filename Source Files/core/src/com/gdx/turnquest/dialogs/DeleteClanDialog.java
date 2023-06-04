@@ -13,6 +13,13 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
+/**
+ * A class to modify the json file to delete a clan:
+ * delete the clan that you are already in if you are the leader.
+ *
+ * @author Pablo
+ * @author Cristian
+ */
 public class DeleteClanDialog extends Dialog {
 
     private final TurnQuest game;

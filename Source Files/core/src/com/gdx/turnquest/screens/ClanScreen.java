@@ -17,6 +17,18 @@ import com.gdx.turnquest.utils.ClanManager;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * A class that is responsible for showing the clan and its information:
+ * create a clan,
+ * join a clan,
+ * leave a clan,
+ * delete a clan
+ * and see the name of the members in the clan.
+ *
+ * @author Pablo
+ * @author Klnstprx
+ * @author Cristian
+ */
 public class ClanScreen extends BaseScreen {
     public ClanScreen(final TurnQuest game) {
         super(game);
