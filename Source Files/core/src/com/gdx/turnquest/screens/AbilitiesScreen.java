@@ -3,7 +3,6 @@ package com.gdx.turnquest.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,6 +18,18 @@ import com.gdx.turnquest.utils.PlayerManager;
 import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
+
+/**
+ * A class for the abilities:
+ * create abilities for the player,
+ * manage ability points,
+ * information about the abilities,
+ * upgrade abilities and show level,
+ * load and store level of each ability.
+ *
+ * @author Pablo
+ * @author klnstprx
+ */
 
 public class AbilitiesScreen extends BaseScreen {
 
@@ -38,6 +49,10 @@ public class AbilitiesScreen extends BaseScreen {
         super(game);
     }
 
+    /**
+     * A method that creates a table to show the abilities and informatio about them depending on the class of the player.
+     * @return the abilities table
+     */
     private Table createAbilitiesTable() throws IOException {
         Player player = game.getCurrentPlayer();
         int[] abilities = player.getAbilities();
@@ -353,6 +368,10 @@ public class AbilitiesScreen extends BaseScreen {
         return abilitiesTable;
     }
 
+    /**
+     * A method that creates a table that creates the buttons to move through the abilities screen and game screen.
+     * @return the table with the buttons to navigate
+     */
     private Table createNavigationTable() {
         // table buttons
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
@@ -387,6 +406,10 @@ public class AbilitiesScreen extends BaseScreen {
         return navigationTable;
     }
 
+    /**
+     * A method that is in charge of set both the abilities and the navigation tables and creates the main table with both tables.
+     * @return the main table
+     */
     public Table createUIComponents() {
         Table mainTable = new Table();
         mainTable.setFillParent(true);
@@ -407,6 +430,9 @@ public class AbilitiesScreen extends BaseScreen {
         return mainTable;
     }
 
+    /**
+     * A method that load and set the assets and actors.
+     */
     @Override
     public void show() {
         Assets.loadFor(AbilitiesScreen.class);
@@ -426,7 +452,10 @@ public class AbilitiesScreen extends BaseScreen {
         super.show();
     }
 
-
+    /**
+     * A method that is used to render all the set components on the screen.
+     * @param v The time in seconds since the last render.
+     */
     @Override
     public void render(float v) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1); // You can also write a color here, this is the background.
