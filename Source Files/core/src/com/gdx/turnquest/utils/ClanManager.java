@@ -13,9 +13,13 @@ import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 import static java.lang.Thread.sleep;
 
 /**
- This class represents a clan manager that stores and manages clan data.
- It utilizes a JSON file to store and retrieve clan data.
- This class provides functionality for adding a new clan and checking if a clan exists.
+ * This class represents a clan manager that stores and manages clan data.
+ * It utilizes a JSON file to store and retrieve clan data.
+ * This class provides functionality for adding a new clan and checking if a clan exists.
+ * It also provides functionality for deleting a clan.
+ *
+ * @author Pablo
+ * @author Cristian
  */
 
 public class ClanManager {

@@ -30,8 +30,9 @@ import static com.gdx.turnquest.TurnQuest.*;
  * - loads items used in a shop from the json file,
  * - manages buying and selling item by the player.
  *
- * @author mjakom2
- * @author mikzb
+ * @author Michal
+ * @author Mikolaj
+ * @author Cristian
  */
 public class ShopScreen extends BaseScreen {
     private static final int CellWidth=100;
@@ -54,11 +55,6 @@ public class ShopScreen extends BaseScreen {
     public ShopScreen(final TurnQuest game) {
         super(game);
     }
-
-    /**
-     * A method that table that will later be used from the items descriptions.
-     * @param descriptionTable
-     */
     private void setDescriptionLabel(Table descriptionTable)
     {
         // Create stats description table
@@ -69,11 +65,6 @@ public class ShopScreen extends BaseScreen {
         descriptionTable.add(label).width(450f).top();
     }
 
-    /**
-     * A method that sets a table that holds "right part" of the screen - not itmes and its labels.
-     * @param rightTable
-     * @param descriptionTable
-     */
     private void setRightTable(Table rightTable, Table descriptionTable)
     {
         TextButton backButton = createBackButton();
@@ -82,13 +73,6 @@ public class ShopScreen extends BaseScreen {
         rightTable.add(backButton).padBottom(100f).align(Align.bottom);
     }
 
-    /**
-     * A method that set the main table of the screen.
-     * @param rootTable
-     * @param firstTable
-     * @param scrollPane
-     * @param rightTable
-     */
     private void setRootTable(Table rootTable, Table firstTable, ScrollPane scrollPane, Table rightTable){
         rootTable.row();
 
@@ -103,10 +87,6 @@ public class ShopScreen extends BaseScreen {
 
     }
 
-    /**
-     * A method that set the labels for the item table.
-     * @param firstTable
-     */
     private void setFirstRow(Table firstTable)
     {
         firstTable.defaults().pad(30).width(CellWidth).height(CellHeight);
@@ -139,11 +119,6 @@ public class ShopScreen extends BaseScreen {
         firstTable.add(sellLabel);
     }
 
-    /**
-     * A method that creates back button. Back button is used to come back to the
-     * previous screen. It sets listener - ClickedListener();
-     * @return
-     */
     public TextButton createBackButton()
     {
         TextButton bReturn = new TextButton("Return", Assets.getSkin());
@@ -157,12 +132,6 @@ public class ShopScreen extends BaseScreen {
         return bReturn;
     }
 
-    /**
-     * A method that sets parameters of the table that holds the items.
-     * Length, height, padding.
-     * @param itemTable
-     * @param descriptionTable
-     */
     private void setItemTable(Table itemTable, Table descriptionTable)
     {
         itemTable.defaults().pad(30).width(CellWidth).height(CellHeight);
@@ -175,12 +144,6 @@ public class ShopScreen extends BaseScreen {
         addItems(itemTable, descriptionTable);
     }
 
-    /**
-     * A method that adds items extraxted from the json file to the table
-     * managed by scrollpane.
-     * @param itemTable
-     * @param descriptionTable
-     */
     private void addItems(Table itemTable, Table descriptionTable)
     {
         for (Map.Entry<String, LinkedHashMap<String, String>> set : shopItems.entrySet())
@@ -215,14 +178,6 @@ public class ShopScreen extends BaseScreen {
         }
     }
 
-    /**
-     * A method that create and sets behaviour of the buy button.
-     * Sets a listener for the buy button - ClickListener.
-     * @param name
-     * @param price
-     * @param descriptionTable
-     * @return
-     */
     private TextButton createBuyButton(String name, String price, Table descriptionTable)
     {
         TextButton buyButton = new TextButton("Buy", Assets.getSkin());
@@ -236,14 +191,6 @@ public class ShopScreen extends BaseScreen {
         return buyButton;
     }
 
-    /**
-     * A method that create and sets behaviour of the sell button.
-     * Sets a listener for the sell button - ClickListener.
-     * @param name
-     * @param price
-     * @param descriptionTable
-     * @return
-     */
     private TextButton createSellButton(String name, String price, Table descriptionTable)
     {
         TextButton sellButton = new TextButton("Sell", Assets.getSkin());
@@ -257,13 +204,6 @@ public class ShopScreen extends BaseScreen {
         return sellButton;
     }
 
-    /**
-     * A method that creates "item button" - a texture that shows
-     * item's stats after being clicked.
-     * @param set
-     * @param descriptionTable
-     * @return
-     */
     private ImageButton createItemButton(Map.Entry<String, LinkedHashMap<String, String>> set, Table descriptionTable)
     {
         String name = set.getValue().get("name");
@@ -289,13 +229,6 @@ public class ShopScreen extends BaseScreen {
         return itemButton;
     }
 
-    /**
-     * A method that shows statistics of the selected item. It is called after the click event
-     * at the picture button.
-     * @param name
-     * @param stats
-     * @param descriptionTable
-     */
     private void showStats(String name, Map<String, String > stats, Table descriptionTable)
     {
         descriptionTable.clear();
@@ -319,12 +252,6 @@ public class ShopScreen extends BaseScreen {
         }
     }
 
-    /**
-     * A method that is called when player wants to buy an item. It involves calling
-     * Player class methods to get player's gold and add item to the player's inventory.
-     * @param name
-     * @param price
-     */
     private void buyItem(String name, String price)
     {
         Player player = game.getCurrentPlayer();
@@ -344,11 +271,6 @@ public class ShopScreen extends BaseScreen {
 
     }
 
-    /**
-     * A method that is called when player wants to sell an item. It calls Player class method removeItem().
-     * @param name
-     * @param price
-     */
     private void sellItem(String name, String price)
     {
         Player player = game.getCurrentPlayer();
@@ -368,11 +290,6 @@ public class ShopScreen extends BaseScreen {
 
     }
 
-    /**
-     * A method that shows on the screen dialog with appropriate message.
-     * @param title
-     * @param message
-     */
     private void shopInformationDialog(String title, String message)
     {
         InformationDialog dialog = new InformationDialog(title, message, Assets.getSkin());
@@ -380,10 +297,6 @@ public class ShopScreen extends BaseScreen {
         dialog.show(game.getStage());
     }
 
-    /**
-     * A method that reads json file and encapsulte it into json values.
-     * It uses Json and JsonValue classes to handle files.
-     */
     private void readShopItems()
     {
         FileHandle file = Gdx.files.internal("../Data/items.json");
@@ -396,10 +309,6 @@ public class ShopScreen extends BaseScreen {
         }
     }
 
-    /**
-     * A method that parses shop items from the json value to the shopItems map.
-     * @param item
-     */
     private void parseShopItems(JsonValue item)
     {
         LinkedHashMap<String, String> stats = new LinkedHashMap<>();
@@ -421,12 +330,6 @@ public class ShopScreen extends BaseScreen {
         ShopScreen.shopItems.put(stats.get("name"), stats);
     }
 
-
-    /**
-     * Method that sets UI components layout in hte screen.
-     * It creates shop items list in a scrollpane.
-     * @return
-     */
     @Override
     public Table createUIComponents() {
 

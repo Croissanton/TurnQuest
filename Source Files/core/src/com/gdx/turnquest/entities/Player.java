@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- The Player class represents a playable character in the game. It extends the Character class and has additional fields
- for character class, gold, experience points, level, and inventory. It also provides methods for managing the player's
- inventory and game statistics, such as adding or removing items, setting or increasing gold, experience points, and level.
+ * The Player class represents a playable character in the game. It extends the Character class and has additional fields
+ * for character class, gold, experience points, level, and inventory. It also provides methods for managing the player's
+ * inventory and game statistics, such as adding or removing items, setting or increasing gold, experience points, and level.
+ *
+ * @author Cristian
  */
 
 
@@ -62,10 +64,6 @@ public class Player extends Character {
         super();
         this.playerName = playerName;
         this.characterClass = characterClass;
-        //gameEnergy=5;
-        //loginEnergy=1;
-        //logintimeZero="17/04/2023 12:34:00";
-        //gametimeZero="17/04/2023 12:34:00";
         gold =300;
         energy = 5;
         previousTime = System.currentTimeMillis();
@@ -78,7 +76,6 @@ public class Player extends Character {
         inventory = new ObjectMap<>();
         inventory.put("Potion", 5);
         inventory.put("Ether", 5);
-        //TODO: add character class handling -> setting stats according to the class given.
         calculateStats();
 
         switch (characterClass){

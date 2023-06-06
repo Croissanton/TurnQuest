@@ -11,6 +11,16 @@ import com.gdx.turnquest.logic.CombatLogic;
 
 import com.gdx.turnquest.entities.Character;
 
+/**
+ * This class tests the CombatLogic class.
+ * It tests the attack and useAbility methods.
+ * It tests the damage calculation and the critical hit calculation.
+ * It tests the damage calculation for abilities.
+ * It tests the damage calculation for abilities with no MP.
+ * It also tests the limit of the damage calculation.
+ *
+ * @author Cristian
+ */
 public class CombatLogicTest {
     private Character player;
     private Character enemy;

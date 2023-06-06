@@ -8,13 +8,23 @@ import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.GameScreen;
 import com.gdx.turnquest.utils.PlayerManager;
 import com.gdx.turnquest.utils.UserManager;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 
 import static com.gdx.turnquest.TurnQuest.*;
+
+/**
+ * This class is responsible for showing a sign up dialog.
+ * It asks for a username and password.
+ * Then it checks if the credentials are correct.
+ * If they are, it creates a new user and player.
+ * If not, it shows an error message.
+ * It also asks for a character class.
+ *
+ * @author Pablo
+ * @author Ignacy
+ * @author Cristian
+ */
 
 public class SignUpDialog extends Dialog {
     private final TextField usernameField;

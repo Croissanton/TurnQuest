@@ -21,6 +21,15 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * This class is responsible for showing different options to the player.
+ * There are buttons that allow the player to go to the player screen,
+ * the inventory screen, the map screen, the shop screen or return to the main menu.
+ * It also shows the player's character portrait and the energy.
+ * 
+ * @author Pablo
+ * @author Ignacy
+ */
 public class GameScreen extends BaseScreen {
 
     public GameScreen(final TurnQuest game) {

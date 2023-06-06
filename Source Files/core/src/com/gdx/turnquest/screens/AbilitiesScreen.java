@@ -28,7 +28,7 @@ import static com.gdx.turnquest.TurnQuest.*;
  * load and store level of each ability.
  *
  * @author Pablo
- * @author Klnstprx
+ * @author Ignacy
  */
 public class AbilitiesScreen extends BaseScreen {
 

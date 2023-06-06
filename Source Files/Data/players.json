@@ -755,8 +755,8 @@
 		"SPD": 21
 	},
 	"characterClass": "Mage",
-	"gold": 23450,
-	"exp": 4603,
+	"gold": 23500,
+	"exp": 4653,
 	"level": 19,
 	"inventory": {
 		"Wooden Staff": 1,
@@ -768,7 +768,7 @@
 	},
 	"playerName": "Croissanton",
 	"abilities": [ 1, 1, 1, 1 ],
-	"energy": 5,
-	"previousTime": 1684426071424
+	"energy": 4,
+	"previousTime": 1686063402584
 }
 }

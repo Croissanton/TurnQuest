@@ -26,6 +26,14 @@ import java.util.Objects;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * This class is the player screen.
+ * It shows the player's name, character class, clan, level and experience.
+ * It also shows the character's animated sprite.
+ * It also shows a button to go back to the main menu.
+ *
+ * @author Ignacy
+ */
 public class PlayerScreen extends BaseScreen {
 
     private Player player;

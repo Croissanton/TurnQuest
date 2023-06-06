@@ -4,6 +4,17 @@ import com.gdx.turnquest.entities.Character;
 import com.gdx.turnquest.entities.Enemy;
 import com.gdx.turnquest.entities.Player;
 
+/**
+ * This class contains the logic for the combat system.
+ * It contains the methods to calculate the damage dealt by the characters with normal attacks.
+ * This method can also be called by the enemies.
+ * It also contains the methods to calculate the damage dealt by the abilities.
+ * The method bossAttack is used by the boss to attack all the players.
+ * This class is used in the CombatScreen and BossScreen classes.
+ *
+ * @author Cristian
+ * @author Pablo
+ */
 public class CombatLogic {
     public static int attack(Character attacker, Character defender) {
         //generate random number based in LUK, between 0 and 100 (if luk is higher it increases)
@@ -266,11 +277,6 @@ public class CombatLogic {
             }
         }
         return damage;
-    }
-
-    public static void heal(Character healer, Character target) {
-        int heal = healer.getINT();
-        target.setHP(target.getHP() + heal);
     }
 
     public static void increaseEXP(Player player, int exp) {

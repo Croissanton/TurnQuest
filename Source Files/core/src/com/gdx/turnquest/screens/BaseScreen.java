@@ -10,6 +10,13 @@ import com.gdx.turnquest.assets.Assets;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * This class serves as a base for all screens.
+ * It contains the basic methods that all screens should have.
+ *
+ * @author Ignacy
+ */
+
 public abstract class BaseScreen implements Screen {
 
     protected final TurnQuest game;

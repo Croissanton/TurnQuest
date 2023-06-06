@@ -8,6 +8,11 @@ import com.gdx.turnquest.utils.PlayerManager;
 
 import java.io.IOException;
 
+/**
+ * A class that is responsible for showing a gameover dialog when a battle is lost.
+ *
+ * @author Cristian
+ */
 public class GameOverDialog extends Dialog {
 
     private final TurnQuest game;

@@ -2,6 +2,23 @@ package com.gdx.turnquest.entities;
 
 import com.badlogic.gdx.utils.ObjectMap;
 
+/**
+ * This class represents a character in the game.
+ * A character has a set of stats that are used to determine the outcome of battles.
+ * The stats are: HP, MP, STR, DEF, SPD, INT, LUK.
+ * HP: Health Points - The amount of damage a character can take before dying.
+ * MP: Mana Points - The amount of magic a character can use before running out.
+ * STR: Strength - The amount of physical damage a character can deal.
+ * DEF: Defense - The amount of physical damage a character can resist.
+ * SPD: Speed - The amount of speed a character has in battle.
+ * INT: Intelligence - The amount of magic damage a character can deal.
+ * LUK: Luck - The amount of luck a character has in battle.
+ * This class provides methods to get and set the stats.
+ * This class is parent to the Player and Enemy class.
+ *
+ * @author Cristian
+ *
+ */
 
 public class Character {
     private ObjectMap<String, Integer> stats = new ObjectMap<>();

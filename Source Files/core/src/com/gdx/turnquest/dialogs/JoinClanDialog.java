@@ -18,7 +18,7 @@ import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 /**
  * A class to modify the json file to join a clan that already exists:
  * join a clan,
- * if the name does not exists, show an error.
+ * if the name does not exist, show an error.
  *
  * @author Pablo
  * @author Cristian

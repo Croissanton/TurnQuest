@@ -7,6 +7,13 @@ import com.gdx.turnquest.entities.Enemy;
 
 import java.io.IOException;
 
+/**
+ * This class represents an enemy manager that stores and manages enemy data.
+ * It utilizes a JSON file to store and retrieve enemy data.
+ * This class provides functionality for getting an enemy if it exists.
+ *
+ * @author Cristian
+ */
 public class EnemyManager {
     private static final String ENEMIES_PATH = "../Data/enemies.json";
     private final FileHandle file = Gdx.files.local(ENEMIES_PATH);

@@ -33,6 +33,16 @@ import java.io.IOException;
 import static com.gdx.turnquest.TurnQuest.*;
 import static java.lang.Thread.sleep;
 
+/**
+ * This class shows the boss screen, where the player and an ally fight a boss.
+ * The boss is a special enemy that has more health and more powerful attacks.
+ * The boss attacks both the player and the ally at the same time.
+ * It is necessary for the player to have an ally in order to fight the boss.
+ * This screen is similar to the CombatScreen.
+ *
+ * @author Cristian
+ * @author Pablo
+ */
 public class BossScreen extends BaseScreen {
     private Player player;
     private final Player ally;

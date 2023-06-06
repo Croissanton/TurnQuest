@@ -24,6 +24,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Stack;
 
+/**
+ * This class is the main class of the game.
+ * It extends the Game class from libGDX.
+ * It is responsible for managing the screens of the game.
+ * It also contains some methods that can be used from any class.
+ *
+ * @author Ignacy
+ * @author Cristian
+ */
 public class TurnQuest extends Game {
 
 	private final Stack<Screen> screenStack = new Stack<>();

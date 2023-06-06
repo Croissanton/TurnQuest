@@ -16,6 +16,18 @@ import com.gdx.turnquest.dialogs.ConfirmationDialog;
 import com.gdx.turnquest.dialogs.GameSelectionDialog;
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * This is the main menu screen.
+ * It is the first screen that is shown when the game starts.
+ * It contains buttons to start the game, show the options dialog and quit the game.
+ * It also shows the game logo.
+ * When starting the game, the player is asked to either log in or sign up.
+ *
+ * @author Cristian
+ * @author Pablo
+ * @author Ignacy
+ * @author Mikolaj
+ */
 public class MainMenuScreen extends BaseScreen {
 
     public MainMenuScreen(final TurnQuest game) {

@@ -23,6 +23,15 @@ import java.util.*;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * This class is responsible for displaying the inventory of the player.
+ * It shows the items that the player has collected and the gold that he has.
+ * It also shows the statistics of the items.
+ * The player can click on the item to see the statistics.
+ * 
+ * @author Mikolaj
+ * @author Cristian
+ */
 public class InventoryScreen extends BaseScreen {
     private static final int CellWidth=100;
     private static final int CellHeight=80;

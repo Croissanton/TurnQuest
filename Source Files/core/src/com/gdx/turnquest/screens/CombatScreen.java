@@ -32,6 +32,19 @@ import java.io.IOException;
 import static com.gdx.turnquest.TurnQuest.*;
 import static java.lang.Thread.sleep;
 
+/**
+ * This class shows the combat screen.
+ * The combat screen is shown when the player clicks on an enemy in the map screen.
+ * It has 4 buttons, "Attack", "Item", "Ability" and "Run".
+ * The "Attack" button allows the player to attack the enemy.
+ * The "Item" button allows the player to use an item.
+ * The "Ability" button allows the player to use an ability.
+ * The "Run" button allows the player to run away from the enemy.
+ * The combat screen also shows the player and enemy stats.
+ * @author Cristian
+ * @author Pablo
+ * @author Ignacy
+ */
 public class CombatScreen extends BaseScreen {
     private Player player;
     private static Enemy enemy = null;

@@ -45,7 +45,8 @@ This module is responsible for managing animations in the game. It consists of a
 
 #### Classes
 
-- AnimationManager
+- AnimationHandler
+	-Responsible for handling more animations, it should be used when more than one animation is required in the screen.
 
 ### Assets
 
@@ -120,9 +121,6 @@ This module contains entities used in the game - player, enemies and items. Clas
 	- Inherits form the Character.
 	- Represents enemies met by the player in the stages.
 	- It contains enemy stats.
-- Item
-	- The class representing a specific item. Items can be stored either in the shop or in the player's inventory.
-	- It contains item stats.
 
 ### Logic
 
@@ -136,7 +134,6 @@ This module contains classes responsible for the game more advanced logic such a
 	- Contains methods responsible for players and enemies attacks.
 	- Allows to choose appropriate ability for the particular player's character class.
 	- Manage choosing different types of attacks.
-	- Invokes animation changes by the AnimationHandler class.
 
 
 ### Screens
@@ -195,9 +192,6 @@ This module is responsible for managing data stored in the game.
 - PlayerManager
 	 - A class responsible for managing player's data in the game.
 	- Reads the player's data that are stored in a json file.
-- ItemManager
-	 - A class responsible for managing items' data in the game.
-	- Reads the items' data that are stored in a json file.
 - UserManager
 	- A class responsible for managing authentication data in the game.
 	- Through this class user is added to the database, user's authentication is checked.
@@ -228,4 +222,9 @@ This module contains json files in which state of the game is saved.
 
 ## Tests
 
-This module contains tests made for the game logic. The tests mainly focus on the combat logic and validation of player's credentials. The framework used for testing is **junit**.
+This module contains tests made for the game logic. The tests mainly focus on the combat logic and validation of player's credentials. The framework used for testing is **junit** and **mockito**.
+- CombatLogicTest
+	- Tests the CombatLogic class by checking the limits of the combat such as having no HP, no STR or no MP.
+- UsersTest
+	- Tests that the users are correctly stored into the json.
+	- Also tests what happens when trying to create an existing user.

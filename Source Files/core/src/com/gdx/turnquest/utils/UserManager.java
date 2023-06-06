@@ -20,11 +20,12 @@ import java.util.Base64;
 
 
 /**
-
- This class represents a user manager that stores and manages user data for authentication.
- It utilizes a JSON file to store and retrieve user data.
- This class provides functionality for adding a new user, checking if a user exists, and authenticating a user.
- Passwords are hashed for security purposes using the SHA-256 algorithm.
+ * This class represents a user manager that stores and manages user data for authentication.
+ * It utilizes a JSON file to store and retrieve user data.
+ * This class provides functionality for adding a new user, checking if a user exists, and authenticating a user.
+ * Passwords are hashed for security purposes using the SHA-256 algorithm.
+ *
+ * @author Ignacy
  */
 
 public class UserManager {
