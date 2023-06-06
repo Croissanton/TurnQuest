@@ -1,5 +1,7 @@
 package com.gdx.turnquest.entities;
 
+import com.gdx.turnquest.utils.ClanManager;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,6 +50,15 @@ public class Clan {
 
     public void removeMember (String playerName) {
         members.remove(playerName);
+        ClanManager clanManager = new ClanManager();
+        clanManager.save(this);
+        if(members.size() == 0) {
+            clanManager.removeClan(name);
+        }
+        else
+        if (playerName.equals(leader)) {
+            leader = members.get(0);
+        }
     }
 
     public String getLeader () {

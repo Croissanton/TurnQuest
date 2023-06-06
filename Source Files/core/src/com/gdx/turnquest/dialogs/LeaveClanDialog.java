@@ -57,11 +57,9 @@ public class LeaveClanDialog extends Dialog {
                 } else {
                     Clan clan = clanManager.getClan(player.getClanName());
                     clan.removeMember(player.getPlayerName());
-                    if(clan.getMembers().size() == 0) clanManager.removeClan(player.getClanName());
                     player.setClanName("");
                     try {
                         new PlayerManager().savePlayer(player);
-                        clanManager.save(clan);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
