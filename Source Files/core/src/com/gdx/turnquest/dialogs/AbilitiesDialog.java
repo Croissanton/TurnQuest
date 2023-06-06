@@ -9,6 +9,14 @@ import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.logic.CombatLogic;
 import com.gdx.turnquest.animations.AnimationHandler;
 
+/**
+ * A class for showing the abilities while in combat, so you can use them to attack the enemies:
+ * see the abilities in combat,
+ * select an ability to attack.
+ *
+ * @author Pablo
+ * @author Cristian
+ */
 public class AbilitiesDialog extends Dialog {
 
     private final Runnable yesRunnable;

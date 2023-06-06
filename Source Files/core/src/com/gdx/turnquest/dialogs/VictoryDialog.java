@@ -11,6 +11,13 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * This class is responsible for showing a victory dialog.
+ * It shows a message indicating that the player has won the combat.
+ * It also shows a level up dialog if the player has leveled up.
+ *
+ * @author Cristian
+ */
 public class VictoryDialog extends Dialog {
 
     private final TurnQuest game;

@@ -1,6 +1,15 @@
 package com.gdx.turnquest.entities;
 
-import com.badlogic.gdx.utils.ObjectMap;
+/**
+ * This class represents an enemy in the game.
+ * An enemy is a character that the player can fight.
+ * An enemy has a set of stats that are used to determine the outcome of battles.
+ * The stats are: HP, MP, STR, DEF, SPD, INT, LUK. Same as in Character
+ * This class provides methods to get the stats.
+ * This class is a child of the Character class.
+ *
+ * @author Cristian
+ */
 
 public class Enemy extends Character {
     private final int exp;

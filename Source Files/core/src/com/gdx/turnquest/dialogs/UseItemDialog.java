@@ -13,6 +13,14 @@ import com.gdx.turnquest.animations.AnimationHandler;
 
 import java.util.Arrays;
 
+/**
+ * This class shows a dialog that allows the player to use an item in combat.
+ * The dialog is shown when the player clicks on the "Item" button in combat.
+ * This class is used in the CombatScreen and BossScreen classes.
+ *
+ * @author Cristian
+ */
+
 public class UseItemDialog extends Dialog {
 
     private final Runnable yesRunnable;

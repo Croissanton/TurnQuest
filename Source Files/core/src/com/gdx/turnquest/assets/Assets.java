@@ -40,8 +40,6 @@ public class Assets {
             ASSET_MANAGER.load(FOREST_BACKGROUND_PNG, Texture.class);
         } else if (screenClass == AbilitiesScreen.class) {
             ASSET_MANAGER.load(FOREST_BACKGROUND_PNG, Texture.class);
-        } else if (screenClass == CharactersScreen.class) {
-            ASSET_MANAGER.load(FOREST_BACKGROUND_PNG, Texture.class);
         } else if (screenClass == ClanScreen.class) {
             ASSET_MANAGER.load(FOREST_BACKGROUND_PNG, Texture.class);
         } else if (screenClass == CombatScreen.class) {

@@ -11,6 +11,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * This class tests the UserManager class.
+ * It tests the checkUsername method.
+ * It tests the addUser method when adding a new user and when adding an existing user.
+ *
+ * @author Cristian
+ */
 public class UsersTest {
     private UserManager mockedManager;
 

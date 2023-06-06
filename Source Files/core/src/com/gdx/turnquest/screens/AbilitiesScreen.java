@@ -3,7 +3,6 @@ package com.gdx.turnquest.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -20,6 +19,17 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * A class for the abilities:
+ * create abilities for the player,
+ * manage ability points,
+ * information about the abilities,
+ * upgrade abilities and show level,
+ * load and store level of each ability.
+ *
+ * @author Pablo
+ * @author Ignacy
+ */
 public class AbilitiesScreen extends BaseScreen {
 
     // set all buttons to not clicked, need to be global
@@ -38,6 +48,10 @@ public class AbilitiesScreen extends BaseScreen {
         super(game);
     }
 
+    /**
+     * A method that creates a table to show the abilities and informatio about them depending on the class of the player.
+     * @return the abilities table
+     */
     private Table createAbilitiesTable() throws IOException {
         Player player = game.getCurrentPlayer();
         int[] abilities = player.getAbilities();
@@ -425,7 +439,6 @@ public class AbilitiesScreen extends BaseScreen {
         getViewport().apply();
         super.show();
     }
-
 
     @Override
     public void render(float v) {

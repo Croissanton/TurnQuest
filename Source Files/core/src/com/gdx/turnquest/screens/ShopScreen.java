@@ -22,10 +22,18 @@ import com.gdx.turnquest.utils.PlayerManager;
 
 import java.io.IOException;
 import java.util.*;
-
-
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * A class responsible for shop screen action:
+ * - sets shop sreen layout,
+ * - loads items used in a shop from the json file,
+ * - manages buying and selling item by the player.
+ *
+ * @author Michal
+ * @author Mikolaj
+ * @author Cristian
+ */
 public class ShopScreen extends BaseScreen {
     private static final int CellWidth=100;
     private static final int CellHeight=80;
@@ -43,11 +51,11 @@ public class ShopScreen extends BaseScreen {
         }
     }
 
+
     public ShopScreen(final TurnQuest game) {
         super(game);
     }
-
-        private void setDescriptionLabel(Table descriptionTable)
+    private void setDescriptionLabel(Table descriptionTable)
     {
         // Create stats description table
         Label label = new Label("Click on the image to show statistics of the item", Assets.getSkin());
@@ -322,7 +330,6 @@ public class ShopScreen extends BaseScreen {
         ShopScreen.shopItems.put(stats.get("name"), stats);
     }
 
-
     @Override
     public Table createUIComponents() {
 
@@ -373,6 +380,11 @@ public class ShopScreen extends BaseScreen {
         super.show();
     }
 
+
+    /**
+     * A method that is used to render all the set components on the screen.
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0.3f, 0.7f, 0.8f, 1);

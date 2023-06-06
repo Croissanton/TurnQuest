@@ -14,6 +14,15 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
+/**
+ * A class to modify the json file to create a new clan:
+ * create a clan,
+ * if the name already exists, show an error,
+ * if the name is invalid (shorter than 4 characters), show an error.
+ *
+ * @author Pablo
+ * @author Cristian
+ */
 public class CreateClanDialog extends Dialog {
 
     private final TurnQuest game;

@@ -11,14 +11,12 @@ import static java.lang.Thread.sleep;
 
 /**
  *
- The PlayerManager class manages the data of players in the game. It stores and retrieves
- player data to/from a JSON file. It uses LibGDX's file handling and JSON utilities to manage
- the data. This class provides methods to add, retrieve, and remove player data from the
- JSON file.
- @see com.badlogic.gdx.Gdx
- @see com.badlogic.gdx.files.FileHandle
- @see com.badlogic.gdx.utils.Json
- @see com.gdx.turnquest.entities.Player
+ * The PlayerManager class manages the data of players in the game. It stores and retrieves
+ * player data to/from a JSON file. It uses LibGDX's file handling and JSON utilities to manage
+ * the data. This class provides methods to add, retrieve, and remove player data from the
+ * JSON file.
+ *
+ * @author Ignacy
  */
 
 public class PlayerManager {

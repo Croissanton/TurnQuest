@@ -6,8 +6,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class AnimationHandler {
+/**
+ * This class allows the handling of animations.
+ * It should be used when more than one animation is needed.
+ *
+ * @author Cristian
+ */
 
+public class AnimationHandler {
 
     private float timer = 0;
     private boolean looping = true;

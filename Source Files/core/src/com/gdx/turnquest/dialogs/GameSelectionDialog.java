@@ -3,6 +3,13 @@ package com.gdx.turnquest.dialogs;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.gdx.turnquest.TurnQuest;
 
+/**
+ * A class that is responsible for showing a dialog
+ * that lets the player choose between sign up or log in.
+ *
+ * @author Pablo
+ */
+
 public class GameSelectionDialog extends Dialog {
 
     private final TurnQuest game;

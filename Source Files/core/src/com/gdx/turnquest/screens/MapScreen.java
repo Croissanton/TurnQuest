@@ -20,6 +20,14 @@ import java.io.IOException;
 import static com.gdx.turnquest.TurnQuest.*;
 import static com.gdx.turnquest.TurnQuest.getVirtualHeight;
 
+/**
+ * This class is the map screen.
+ * It shows two buttons. One to fight an enemy and one to fight a boss.
+ * If the player has no energy, the buttons are disabled.
+ * 
+ * @author Pablo
+ * @author Cristian
+ */
 public class MapScreen extends BaseScreen {
 
     public MapScreen(final TurnQuest game) {

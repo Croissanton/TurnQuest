@@ -4,6 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * A class that shows a simple dialog with information.
+ *
+ * @author Michal
+ */
+
 public class InformationDialog extends Dialog {
 
     public InformationDialog(String title, String message, Skin skin) {

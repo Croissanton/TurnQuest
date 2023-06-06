@@ -16,6 +16,16 @@ import java.io.IOException;
 
 import static com.gdx.turnquest.TurnQuest.hasInternetConnection;
 
+/**
+ * This class is responsible for showing a dialog to select an ally.
+ * It reads the name of the ally from the text field.
+ * It checks if the ally exists and if the player is in the same clan.
+ * If so, they can battle together.
+ * If not, it shows an error.
+ * This class is used in the BossScreen.
+ *
+ * @author Pablo
+ */
 public class SelectAllyDialog extends Dialog {
 
     private final TurnQuest game;

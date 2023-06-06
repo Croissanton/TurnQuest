@@ -6,6 +6,13 @@ import com.gdx.turnquest.TurnQuest;
 
 import static com.gdx.turnquest.TurnQuest.*;
 
+/**
+ * A class that shows a level up dialog
+ * indicating the new level of the player.
+ * This dialog is shown when the player levels up after a battle.
+ *
+ * @author Cristian
+ */
 public class LevelUpDialog extends Dialog {
 
     private final TurnQuest game;

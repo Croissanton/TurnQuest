@@ -7,7 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.turnquest.TurnQuest;
-
+/**
+ * This class shows the preferences' dialog.
+ * There you can set the music and sfx volume and turn on/off fullscreen.
+ *
+ * @author Mikolaj
+ */
 public class PreferencesDialog extends Dialog {
 
     public PreferencesDialog(String title, String message, Skin skin, TurnQuest game) {
