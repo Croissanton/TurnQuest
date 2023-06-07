@@ -1,6 +1,6 @@
-import java.nio.file.Paths
-
 buildscript {
+
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -42,6 +42,7 @@ allprojects {
 project(":desktop") {
     apply plugin: "java-library"
 
+
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
@@ -53,15 +54,9 @@ project(":desktop") {
 
 project(":core") {
     apply plugin: "java-library"
-    apply plugin: "java"
-    apply plugin: "application"
 
-    application {
-        mainClassName = "com.gdx.turnquest.DesktopLauncher"
-    }
 
     dependencies {
-        implementation "kryonet:kryonet:2.21"
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
@@ -69,66 +64,5 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "com.kotcrab.vis:vis-ui:1.4.11"
         api "com.googlecode.json-simple:json-simple:1.1.1"
-    }
-
-    jar {
-        manifest {
-            attributes 'Main-Class': 'com.gdx.turnquest.DesktopLauncher'
-        }
-        from {
-            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-        }.exclude 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
-        duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    }
-
-    task createJPackage(type: Exec, dependsOn: 'jar') {
-        doFirst {
-            println 'Running jpackage...'
-        }
-
-        def jarName = project.name + '-' + project.version
-        def jdkPath = System.getenv("JAVA_HOME") ? Paths.get(System.getenv("JAVA_HOME")).toAbsolutePath().normalize() : null
-        def jpackagePath = jdkPath ? jdkPath.resolve("jpackage") : "jpackage"
-
-        def inputDir = "${buildDir}${File.separator}libs"
-        def outputDir = "${buildDir}${File.separator}jpackage"
-
-        if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-            commandLine "cmd", "/c"
-        } else {
-            commandLine "sh", "-c"
-        }
-
-        def commands = [
-                jpackagePath,
-                '--input', inputDir,
-                '--main-jar', "${jarName}.jar",
-                '--main-class', application.mainClassName,
-                '--name', "${appName}",
-                '--dest', outputDir,
-                '--type', 'msi'
-        ]
-
-        String osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
-        if (osName.contains('windows')) {
-//            commands << '--icon'
-//            commands << "${project.projectDir}/logo.ico"
-        } else if (osName.contains('linux')) {
-//            commands << '--icon'
-//            commands << "${project.projectDir}/logo.png"
-        } else if (osName.contains('mac')) {
-//            commands << '--icon'
-//            commands << "${project.projectDir}/logo.icns"
-            commands << '--java-options'
-            commands << "-XstartOnFirstThread"
-        }
-        commandLine = commands
-
-        standardOutput = System.out
-        errorOutput = System.err
-
-        doLast {
-            println "jpackage finished. App image created at $outputDir${File.separator}$jarName}"
-        }
     }
 }
