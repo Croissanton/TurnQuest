@@ -78,6 +78,8 @@ public class MainMenuScreen extends BaseScreen {
         if(game.getMusic() == null) game.setMusic("intro.ogg");
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
+        //add a tutorial button to the top left of the screen
+        game.getStage().addActor(tutorialButton("mainmenu"));
         getViewport().apply();
         super.show();
     }
