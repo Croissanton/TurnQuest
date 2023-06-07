@@ -97,6 +97,9 @@ This module containing all the dialog classes in the game. Dialogs are the poppi
 	- Used while signing up to the game.
 	- Here the player can choose which character he/she wants to be in the game.
 	- Includes some logic connected to signing up to the game.
+- TutorialDialog
+	- Displays a dialog with a tutorial depending on the string provided in the parameter. 
+	- Current tutorials: mainmenu, combat, boss, abilities, inventory, clan, shop, player, game, clan
 
 
 ### Entities
