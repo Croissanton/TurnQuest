@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gdx.turnquest.dialogs.PreferencesDialog;
+import com.gdx.turnquest.dialogs.TutorialDialog;
 import com.gdx.turnquest.entities.Clan;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.BaseScreen;
@@ -202,6 +203,12 @@ public class TurnQuest extends Game {
 
 	public void showPreferencesDialog() {
 		PreferencesDialog dialog = new PreferencesDialog("Options", "", Assets.getSkin(), this);
+		dialog.setColor(Color.LIGHT_GRAY);
+		dialog.show(getStage());
+	}
+
+	public void showTutorialDialog(String tutorial) {
+		TutorialDialog dialog = new TutorialDialog("Tutorial", Assets.getSkin(), tutorial);
 		dialog.setColor(Color.LIGHT_GRAY);
 		dialog.show(getStage());
 	}

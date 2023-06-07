@@ -3,8 +3,11 @@ package com.gdx.turnquest.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gdx.turnquest.TurnQuest;
 import com.gdx.turnquest.assets.Assets;
 
@@ -50,6 +53,21 @@ public abstract class BaseScreen implements Screen {
         }
 
     }
+
+    protected TextButton tutorialButton (String tutorial) {
+        //add a tutorial button to the top left of the screen
+        TextButton tutorialButton = new TextButton("?", Assets.getSkin());
+        int padding = 20;
+        tutorialButton.setPosition(padding, getVirtualHeight() - tutorialButton.getHeight()-padding);
+        tutorialButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.showTutorialDialog(tutorial);
+            }
+        });
+        return tutorialButton;
+    }
+
 
     /**
      * Called when a screen becomes the current screen for a game.

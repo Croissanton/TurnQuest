@@ -94,6 +94,8 @@ public class MapScreen extends BaseScreen {
 
 
         game.getStage().addActor(createUIComponents());
+        //add a tutorial button to the top left of the screen
+        game.getStage().addActor(tutorialButton("map"));
 
         getViewport().apply();
         super.show();

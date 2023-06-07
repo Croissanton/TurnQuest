@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.gdx.turnquest.TurnQuest;
+import com.gdx.turnquest.assets.Assets;
 import com.gdx.turnquest.entities.Player;
 import com.gdx.turnquest.screens.GameScreen;
 import com.gdx.turnquest.utils.PlayerManager;
@@ -49,6 +50,17 @@ public class SignUpDialog extends Dialog {
         Warrior = new CheckBox("Warrior", skin);
         Archer = new CheckBox("Archer", skin);
         Mage = new CheckBox("Mage", skin);
+
+        //create tooltips
+        Tooltip<Label> warriorTooltip = new Tooltip<>(new Label("Warrior is a melee class.\nSurvivability is its prime characteristic.", Assets.getSkin()));
+        warriorTooltip.setInstant(true);
+        Tooltip<Label> archerTooltip = new Tooltip<>(new Label("Archer is a ranged class that uses bows and arrows.\nArchers are fast and are prone to be lucky.", Assets.getSkin()));
+        archerTooltip.setInstant(true);
+        Tooltip<Label> mageTooltip = new Tooltip<>(new Label("Mage is a magic class that casts spells.\nIts mana and intelligence stats are the highest of all classes. ", Assets.getSkin()));
+        mageTooltip.setInstant(true);
+        Warrior.addListener(warriorTooltip);
+        Archer.addListener(archerTooltip);
+        Mage.addListener(mageTooltip);
 
         // table
         getContentTable().defaults().expand().pad(10);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -436,6 +437,8 @@ public class AbilitiesScreen extends BaseScreen {
         }
 
         game.getStage().addActor(createNavigationTable());
+        //add a tutorial button to the top left of the screen
+        game.getStage().addActor(tutorialButton("abilities"));
         getViewport().apply();
         super.show();
     }
