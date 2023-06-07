@@ -5,6 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.gdx.turnquest.assets.Assets;
 
+
+/**
+ * This class is responsible for showing a tutorial dialog.
+ * It shows a tutorial for each screen in our game.
+ *
+ * @author Ignacy
+ */
+
 public class TutorialDialog extends Dialog {
 
 
