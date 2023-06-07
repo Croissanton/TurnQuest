@@ -46,8 +46,8 @@ public class ClanScreen extends BaseScreen {
         Assets.setBackgroundTexture(new Texture(Gdx.files.internal(Assets.FOREST_BACKGROUND_PNG)));
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
-
-
+        //add a tutorial button to the top left of the screen
+        game.getStage().addActor(tutorialButton("clan"));
         // apply
         getViewport().apply();
         super.show();

@@ -336,6 +336,8 @@ public class InventoryScreen extends BaseScreen {
 
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
+        //add a tutorial button to the top left of the screen
+        game.getStage().addActor(tutorialButton("inventory"));
         getViewport().apply();
         super.show();
     }

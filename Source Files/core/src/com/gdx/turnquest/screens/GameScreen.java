@@ -43,33 +43,11 @@ public class GameScreen extends BaseScreen {
         Assets.ASSET_MANAGER.finishLoading();
         game.setStage(new Stage(getViewport()));
         game.getStage().addActor(createUIComponents());
+        //add a tutorial button to the top left of the screen
+        game.getStage().addActor(tutorialButton("game"));
         getViewport().apply();
         super.show();
     }
-
-    private ImageButton bPlayerScreen () {
-        //playerscreen button
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(Assets.getSkin().get(TextButton.TextButtonStyle.class));
-        Texture characterPortrait = Assets.getCharacterPortrait(game.getCurrentPlayer().getCharacterClass());
-        style.imageUp = new TextureRegionDrawable(new TextureRegion(characterPortrait));
-
-        float buttonSize = getVirtualWidth() * 0.10f;
-        ImageButton bPlayerScreen = new ImageButton(style);
-        bPlayerScreen.setSize(buttonSize, buttonSize);
-
-        bPlayerScreen.getImageCell().expand().fill().center();
-        bPlayerScreen.getImage().setScaling(Scaling.fit);
-
-        bPlayerScreen.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.pushScreen(new PlayerScreen(game));
-            }
-        });
-        return bPlayerScreen;
-    }
-
 
     public Table createUIComponents() {
         // create the table

@@ -272,6 +272,8 @@ public class CombatScreen extends BaseScreen {
         table.setFillParent(true);
 
         game.getStage().addActor(table);
+        //add a tutorial button to the top left of the screen
+        game.getStage().addActor(tutorialButton("combat"));
         // apply
         getViewport().apply();
 
