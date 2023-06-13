@@ -1,0 +1,11 @@
+Two people, A and B sign up in the game choosing an username, password and class.
+After the system checks that their username and passwords are valid for a register, they get started.
+In this moment, they have 5 energy, so A decides to take on an "Enemy battle". A wins and gets some xp (and some gold) so he levels up.
+Now, A has 4 energy and B has 5, A creates a clan and B joins him. With this they can take on a "Boss battle" together.
+They lose the battle, so they gain no xp or gold but their energy still decreases by one.
+Since A won an "Enemy battle" previously he can go to the shop and buy an item, he decides to buy a health potion and sell an ether (mana potion).
+After this A plays some more battles until his energy depletes. He is now level 5, so he can level up an ability to use in battle.
+The next day, A can use his ability in battle, since the energy refills after 24 hours from the last refill (sign up in this case, which is considered the first refill).
+A decides to leave the clan, so now B is the leader of the clan.
+After this, B also leaves the clan, which deletes the clan since it would be empty.
+
