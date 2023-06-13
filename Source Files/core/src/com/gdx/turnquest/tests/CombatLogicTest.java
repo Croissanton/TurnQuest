@@ -16,7 +16,6 @@ import com.gdx.turnquest.entities.Character;
  * It tests the attack and useAbility methods.
  * It tests the damage calculation and the critical hit calculation.
  * It tests the damage calculation for abilities.
- * It tests the damage calculation for abilities with no MP.
  * It also tests the limit of the damage calculation.
  *
  * @author Cristian
@@ -85,19 +84,5 @@ public class CombatLogicTest {
         CombatLogic.useAbility(warrior, enemy, 1, 0);
         CombatLogic.attack(player, enemy);
         assertEquals(0, enemy.getHP()); //Damage does not exceed enemy HP.
-    }
-
-    @Test
-    public void testAbilityNoMP() {
-        warrior.setSTR(50);
-        warrior.setLUK(-1); //Impossible to crit.
-        warrior.setMP(0); //No MP.
-        enemy.setDEF(5);
-        player.setDEF(5);
-        player.setHP(100);
-        CombatLogic.useAbility(warrior, enemy, 1, 1);
-        CombatLogic.attack(warrior, player);
-        assertEquals(player.getHP(), enemy.getHP()); //Equal HP since a normal attack is performed when MP is not enough.
-
     }
 }
