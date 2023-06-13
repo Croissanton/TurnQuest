@@ -1,0 +1,11 @@
+- Energy system
+- Combat system
+- Level-up system
+- Shop and gold system
+- Cooperative gameplay
+- SFX and music
+
+- Synchronization of savefiles
+- Encryption of savefiles
+- Internet connection
+- Clear and minimalistic UI
