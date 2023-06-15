@@ -31,6 +31,7 @@ import static com.gdx.turnquest.TurnQuest.*;
  * 
  * @author Mikolaj
  * @author Cristian
+ * @author Lydia
  */
 public class InventoryScreen extends BaseScreen {
     private static final int CellWidth=100;
